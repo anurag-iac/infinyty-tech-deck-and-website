@@ -351,11 +351,38 @@
       .light-theme .slide-2, .light-theme .slide-4, .light-theme .slide-6, .light-theme .slide-8, .light-theme .slide-10 { background: #f8fafc !important; }
       .light-theme .slide-11 { background: #ffffff !important; }
 
-      .gradient-text { color: #4FC8FF !important; -webkit-text-fill-color: #4FC8FF !important; }
-      .light-theme .gradient-text { color: #0072F4 !important; -webkit-text-fill-color: #0072F4 !important; }
-      
-      .stat-num, .case-metric, .why-num { color: #4FC8FF !important; -webkit-text-fill-color: #4FC8FF !important; }
-      .light-theme .stat-num, .light-theme .case-metric, .light-theme .why-num { color: #0072F4 !important; -webkit-text-fill-color: #0072F4 !important; }
+      /* ─── FIX 1: Remove background gradient clip from all gradient-coloured elements.
+           Chromium PDF renders a visible border around the -webkit-background-clip:text
+           clipping region. Setting background:none eliminates this completely. ─── */
+      .gradient-text {
+        background: none !important; background-image: none !important;
+        color: #4FC8FF !important; -webkit-text-fill-color: #4FC8FF !important;
+        text-decoration: none !important;
+      }
+      .light-theme .gradient-text {
+        color: #0072F4 !important; -webkit-text-fill-color: #0072F4 !important;
+      }
+      .stat-num, .case-metric, .why-num {
+        background: none !important; background-image: none !important;
+        color: #4FC8FF !important; -webkit-text-fill-color: #4FC8FF !important;
+      }
+      .light-theme .stat-num, .light-theme .case-metric, .light-theme .why-num {
+        color: #0072F4 !important; -webkit-text-fill-color: #0072F4 !important;
+      }
+
+      /* ─── FIX 2: Remove flex separator line artifact in case-cards and why-cards.
+           justify-content:space-between causes a faint render artifact in Chromium PDF
+           at the gap between flex children. Switch to flex-start + margin-top:auto. ─── */
+      .case-card {
+        justify-content: flex-start !important;
+      }
+      .case-metric {
+        margin-top: auto !important;
+        padding-top: 0.75rem !important;
+      }
+      .why-card {
+        align-items: flex-start !important;
+      }
 
       .stat-card, .service-card, .case-card, .team-card, .why-card, .industry-pill, .cta-box { border: 1px solid rgba(79,200,255,0.3) !important; }
       .light-theme .stat-card, .light-theme .service-card, .light-theme .case-card, .light-theme .team-card, .light-theme .why-card, .light-theme .industry-pill, .light-theme .cta-box { border: 1px solid rgba(0,114,244,0.15) !important; }
