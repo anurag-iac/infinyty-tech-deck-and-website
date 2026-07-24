@@ -21,20 +21,17 @@
       </text>
     </g>
     
-    <!-- Tagline (Aligned left with text logo, bold, tighter spacing) -->
-    <text x="175" y="130" class="tagline-text" font-size="22" font-weight="700" fill="#94a3b8" letter-spacing="0.01em">
+    <!-- Tagline (Aligned left with text logo, bold Space Grotesk font, tighter spacing) -->
+    <text x="175" y="130" class="tagline-text" font-size="22" font-weight="700" fill="#94a3b8" letter-spacing="-0.01em">
       Driving Excellence with Data &amp; AI
     </text>
   </g>
 
   <defs>
     <style type="text/css">
-      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=Inter:wght@700&amp;display=swap');
-      .logo-text {
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;display=swap');
+      .logo-text, .tagline-text {
         font-family: 'Space Grotesk', -apple-system, sans-serif;
-      }
-      .tagline-text {
-        font-family: 'Inter', -apple-system, sans-serif;
       }
     </style>
     <linearGradient id="logoGrad" x1="14" y1="20" x2="38" y2="20" gradientUnits="userSpaceOnUse">
