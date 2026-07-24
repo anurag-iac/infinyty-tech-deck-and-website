@@ -17,6 +17,17 @@ interface AnalysisDisplayProps {
 
 const COLOR_PALETTE = ['#2563eb', '#10b981', '#8b5cf6', '#f59e0b', '#06b6d4', '#ec4899', '#f97316'];
 
+const renderFormattedText = (text: string) => {
+  if (!text) return null;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index} className="font-bold text-slate-900 dark:text-white">{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+};
+
 export const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({
   analysis
 }) => {
@@ -215,7 +226,7 @@ ${analysis.recommendations.map(r => `• ${r.title}: ${r.desc}`).join('\n')}
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
           </button>
         </div>
-        <p>{analysis.summary}</p>
+        <p>{renderFormattedText(analysis.summary)}</p>
       </div>
 
       {/* KPI Cards Grid */}
@@ -349,7 +360,7 @@ ${analysis.recommendations.map(r => `• ${r.title}: ${r.desc}`).join('\n')}
             {analysis.keyFindings.map((finding, idx) => (
               <li key={idx} className="flex items-start gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0"></span>
-                <span>{finding}</span>
+                <span>{renderFormattedText(finding)}</span>
               </li>
             ))}
           </ul>
@@ -365,13 +376,13 @@ ${analysis.recommendations.map(r => `• ${r.title}: ${r.desc}`).join('\n')}
             {analysis.recommendations.map((rec, idx) => (
               <div key={idx} className="p-2 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/40">
                 <div className="flex items-center justify-between font-semibold text-slate-900 dark:text-white mb-0.5 text-[11px]">
-                  <span>{rec.title}</span>
+                  <span>{renderFormattedText(rec.title)}</span>
                   <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200 font-bold">
                     {rec.priority}
                   </span>
                 </div>
                 <p className="text-slate-600 dark:text-slate-300 text-[10px] leading-relaxed">
-                  {rec.desc}
+                  {renderFormattedText(rec.desc)}
                 </p>
               </div>
             ))}

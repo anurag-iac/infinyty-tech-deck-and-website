@@ -34,7 +34,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <h1 className="font-bold text-slate-900 dark:text-white text-base tracking-tight">
-                AI Business Intelligence Assistant
+                BI Bot
               </h1>
             </div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">

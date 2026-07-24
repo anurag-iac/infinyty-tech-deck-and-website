@@ -51,7 +51,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ activeQuestion }) 
           id: 'welcome-1',
           sender: 'assistant',
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          content: "Welcome! I'm your AI Business Intelligence Assistant. I've indexed `sample_business_data.xlsx` containing 10,000 order transactions across 2,000 customers and 500 products.\n\nAsk me any business question in plain English, or select one of the suggested analysis queries below to get instant interactive charts, KPIs, and AI recommendations."
+          content: "Welcome! I'm your BI Bot. I've indexed 10,000 order transactions across 2,000 customers and 500 products.\n\nSelect a query from the Question Library sidebar to get instant interactive charts, KPIs, and AI recommendations."
         }
       ]);
     }
@@ -177,7 +177,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ activeQuestion }) 
               {/* Header inside bubble */}
               <div className="flex items-center justify-between gap-3 text-[10px] opacity-70">
                 <span className="font-semibold">
-                  {msg.sender === 'user' ? 'You' : 'AI Business Intelligence Assistant'}
+                  {msg.sender === 'user' ? 'You' : 'BI Bot'}
                 </span>
                 <span>{msg.timestamp}</span>
               </div>
