@@ -3,7 +3,7 @@
   <rect width="1200" height="630" fill="#020714"/>
   
   <!-- Centered Logo Group (Horizontal logo scaled up) -->
-  <g transform="translate(402, 271) scale(2.2)">
+  <g transform="translate(195, 225) scale(4.5)">
     <!-- Wave Icon -->
     <g transform="translate(4, 2)">
       <path d="M10 18C10 12 15 11 18 15.5C21 20 26 25 30 20C34 15 29 10 25 14.5C21 19 16 25 12 21C9.5 18.5 9.5 12.5 15 11" 
