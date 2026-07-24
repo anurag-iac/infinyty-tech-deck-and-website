@@ -128,7 +128,7 @@ export const QuestionLibrary: React.FC<QuestionLibraryProps> = ({
       </div>
 
       {/* Question Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+      <div className="grid grid-cols-1 gap-3.5">
         {filteredQuestions.map((question) => {
           const isActive = activeQuestionId === question.id;
 

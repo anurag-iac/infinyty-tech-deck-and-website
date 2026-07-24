@@ -128,7 +128,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ activeQuestion }) 
         )
       );
       setIsAnalyzing(false);
-    }, 700);
+    }, Math.floor(Math.random() * 2000) + 3000);
   };
 
   const handleClearChat = () => {
