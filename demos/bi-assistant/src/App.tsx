@@ -36,7 +36,7 @@ export default function App() {
         {viewMode === 'assistant' && (
           <>
             {/* Sidebar: Curated Prompt Library */}
-            <aside className="w-80 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-y-auto hidden md:block shrink-0">
+            <aside className="w-[380px] lg:w-[420px] border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-y-auto hidden md:block shrink-0">
               <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                 <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">Question Library</h3>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Click any query below to run automated ledger analysis</p>

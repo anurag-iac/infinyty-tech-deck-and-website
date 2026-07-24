@@ -247,19 +247,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ activeQuestion }) 
           <div className="relative flex-1">
             <input
               type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask a business question (e.g., 'What are our top revenue products in Q3?')..."
-              disabled={isAnalyzing}
-              className="w-full px-4 py-3 pl-4 pr-10 rounded-xl bg-slate-100 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all disabled:opacity-50"
+              value=""
+              readOnly
+              disabled
+              placeholder="Select a question from the Question Library sidebar to analyze..."
+              className="w-full px-4 py-3 pl-4 pr-10 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-500 dark:text-slate-400 placeholder-slate-400 dark:placeholder-slate-500 cursor-not-allowed transition-all"
             />
           </div>
 
           <button
             type="submit"
-            disabled={!inputValue.trim() || isAnalyzing}
-            className="p-3 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white transition-all shrink-0 flex items-center justify-center shadow-xs"
-            title="Send Question"
+            disabled={true}
+            className="p-3 rounded-xl bg-slate-300 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed transition-all shrink-0 flex items-center justify-center"
+            title="Custom input disabled in Demo Mode"
           >
             <Send className="w-4 h-4" />
           </button>

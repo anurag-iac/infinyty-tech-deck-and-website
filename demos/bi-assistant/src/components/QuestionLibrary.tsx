@@ -127,8 +127,8 @@ export const QuestionLibrary: React.FC<QuestionLibraryProps> = ({
 
       </div>
 
-      {/* Question Cards Grid */}
-      <div className="grid grid-cols-1 gap-3.5">
+      {/* Question Cards List */}
+      <div className="grid grid-cols-1 gap-2">
         {filteredQuestions.map((question) => {
           const isActive = activeQuestionId === question.id;
 
@@ -136,48 +136,41 @@ export const QuestionLibrary: React.FC<QuestionLibraryProps> = ({
             <div
               key={question.id}
               onClick={() => onSelectQuestion(question)}
-              className={`group relative p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+              className={`group relative p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2.5 ${
                 isActive
-                  ? 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-500 shadow-md ring-2 ring-blue-500/20'
-                  : 'bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 shadow-sm hover:shadow-md'
+                  ? 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-500 shadow-xs ring-1 ring-blue-500/20'
+                  : 'bg-white dark:bg-slate-800/80 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-600 shadow-2xs'
               }`}
             >
-              <div>
-                {/* Header row with Icon & Badge */}
-                <div className="flex items-center justify-between mb-2.5">
-                  <div className={`p-2 rounded-xl transition-colors ${
-                    isActive 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white'
-                  }`}>
-                    {renderIcon(question.icon, 'w-4 h-4')}
-                  </div>
-
-                  {question.badge && (
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
-                      {question.badge}
-                    </span>
-                  )}
+              <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                <div className={`p-2 rounded-lg shrink-0 transition-colors ${
+                  isActive 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white'
+                }`}>
+                  {renderIcon(question.icon, 'w-3.5 h-3.5')}
                 </div>
 
-                {/* Question Text */}
-                <h3 className="font-semibold text-slate-900 dark:text-white text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
-                  {question.text}
-                </h3>
-
-                {/* Description */}
-                {question.description && (
-                  <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-3">
-                    {question.description}
-                  </p>
-                )}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <h3 className="font-semibold text-slate-900 dark:text-white text-xs leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {question.text}
+                    </h3>
+                    {question.badge && (
+                      <span className="px-1.5 py-0.2 rounded-full text-[9px] font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 shrink-0">
+                        {question.badge}
+                      </span>
+                    )}
+                  </div>
+                  {question.description && (
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                      {question.description}
+                    </p>
+                  )}
+                </div>
               </div>
 
-              {/* Footer action trigger */}
-              <div className="pt-2 border-t border-slate-100 dark:border-slate-700/50 flex items-center justify-between text-xs font-medium text-blue-600 dark:text-blue-400">
-                <span>Analyze Dataset</span>
-                <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
-              </div>
+              <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all shrink-0" />
             </div>
           );
         })}
