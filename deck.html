@@ -162,6 +162,7 @@
       color: var(--primary);
     }
 
+    /* ── DECK LOGO — smaller on mobile ── */
     .deck-logo { position: fixed; top: 1.25rem; left: 1.5rem; display: flex; align-items: center; gap: 10px; z-index: 1000; text-decoration: none; }
     .deck-logo svg { height: 28px; width: auto; }
     .deck-logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
@@ -236,8 +237,6 @@
     .why-card > div { display: flex; flex-direction: column; justify-content: center; }
     .why-card p {
       font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin: 0;
-      /* Force exactly 3 lines block height to ensure perfect card alignment */
-      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
     }
     .why-num { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; flex-shrink: 0; padding-top: 2px; }
     .why-icon {
@@ -274,8 +273,57 @@
     .light-theme #key-hint { color: rgba(15,23,42,0.4); }
     @keyframes fadeHint { to { opacity: 0; } }
     
-    @media (max-width: 768px) { .service-grid, .case-grid { grid-template-columns: 1fr 1fr; } .team-grid { grid-template-columns: 1fr; } .why-grid { grid-template-columns: 1fr; } .slide { padding: 3rem 1.5rem 5rem; } }
-    @media (max-width: 540px) { .service-grid, .case-grid { grid-template-columns: 1fr; } .stats-row { gap: 0.75rem; } .stat-card { padding: 1.25rem; } }
+    /* ── MOBILE RESPONSIVE ── */
+    @media (max-width: 768px) {
+      /* Allow slides to scroll vertically on mobile so nothing is cut off */
+      html, body { overflow: hidden; }
+      .slide {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        /* Top padding clears the fixed logo bar; bottom padding clears the bottom bar */
+        padding: 5rem 1.25rem 6rem !important;
+        align-items: center;
+      }
+      /* Shrink the top logo on mobile */
+      .deck-logo { top: 0.75rem; left: 1rem; gap: 7px; }
+      .deck-logo svg { height: 20px; }
+      .deck-logo-text { font-size: 0.85rem; }
+      /* Shrink theme toggle */
+      #theme-toggle { top: 0.75rem; right: 1rem; width: 34px; height: 34px; }
+      /* Grids */
+      .service-grid, .case-grid { grid-template-columns: 1fr 1fr; }
+      .team-grid, .why-grid { grid-template-columns: 1fr; }
+      /* Stats — horizontal scroll friendly */
+      .stats-row { flex-direction: column; gap: 0.6rem; align-items: stretch; }
+      .stat-card { min-width: unset; max-width: unset; padding: 1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; }
+      .stat-num { font-size: 1.8rem !important; margin-bottom: 0; }
+      .stat-label { font-size: 0.72rem; }
+      /* CTA contact row — stack on mobile */
+      .cta-contact-row { flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+      .cta-box { padding: 1.5rem 1.25rem; }
+      /* Industry pills */
+      .industry-grid { gap: 0.5rem; }
+      .industry-pill { font-size: 0.8rem; padding: 0.65rem 1rem; }
+      /* Key hint irrelevant on touch devices */
+      #key-hint { display: none !important; }
+    }
+    @media (max-width: 540px) {
+      .service-grid, .case-grid { grid-template-columns: 1fr; }
+      .slide-h1 { font-size: clamp(2rem, 9vw, 3rem) !important; }
+      .slide-h2 { font-size: clamp(1.5rem, 7vw, 2.5rem) !important; }
+      .slide-sub { font-size: 0.88rem !important; }
+      .wave-logo { width: 52px; height: 46px; margin-bottom: 1rem; }
+      .badge { font-size: 0.68rem; margin-bottom: 0.85rem; }
+      .why-card { padding: 1rem; gap: 0.75rem; }
+      .why-num { font-size: 1.5rem; }
+      .why-icon { width: 36px; height: 36px; }
+      .team-card { padding: 1.25rem; }
+      .team-card h4 { font-size: 1rem; }
+      .service-card { padding: 1rem; }
+      .service-card h4 { font-size: 0.88rem; }
+      .highlight-line { font-size: 0.88rem !important; }
+    }
 
     /* ── PRINT / PDF STYLES ── */
     @media print {
