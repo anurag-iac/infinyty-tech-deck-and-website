@@ -67,62 +67,51 @@ export const QuestionLibrary: React.FC<QuestionLibraryProps> = ({
     <div className="space-y-6">
       
       {/* Search and Category Filter Bar */}
-      <div className="bg-white dark:bg-slate-800/90 rounded-2xl p-4 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+      <div className="bg-white dark:bg-slate-800/90 rounded-xl p-3 border border-slate-200 dark:border-slate-700 shadow-2xs space-y-2.5">
         
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="relative w-full sm:w-80">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+        <div className="flex flex-col sm:flex-row items-center gap-2">
+          {/* Search Input */}
+          <div className="relative flex-1 w-full">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Filter business questions..."
+              placeholder="Search queries..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              className="w-full pl-9 pr-3 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
             />
           </div>
 
-          <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-            Showing <span className="font-bold text-slate-900 dark:text-white">{filteredQuestions.length}</span> curated questions
+          {/* Category Dropdown Select */}
+          <div className="relative w-full sm:w-44 shrink-0">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value as QuestionCategory | 'all')}
+              className="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer"
+            >
+              <option value="all">All Categories ({CURATED_QUESTIONS.length})</option>
+              {CATEGORY_METADATA.map((cat) => {
+                const count = CURATED_QUESTIONS.filter(q => q.category === cat.id).length;
+                return (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.label} ({count})
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
-          <button
-            onClick={() => setSelectedCategory('all')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-              selectedCategory === 'all'
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'bg-slate-100 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
-            }`}
-          >
-            All Questions ({CURATED_QUESTIONS.length})
-          </button>
-
-          {CATEGORY_METADATA.map((cat) => {
-            const count = CURATED_QUESTIONS.filter(q => q.category === cat.id).length;
-            const isSelected = selectedCategory === cat.id;
-
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id as QuestionCategory)}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                  isSelected
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-slate-100 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
-                }`}
-              >
-                {renderIcon(cat.icon, 'w-3.5 h-3.5')}
-                <span>{cat.label}</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${
-                  isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
-                }`}>
-                  {count}
-                </span>
-              </button>
-            );
-          })}
+        <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between px-0.5">
+          <span>Showing <strong className="text-slate-800 dark:text-slate-200">{filteredQuestions.length}</strong> questions</span>
+          {selectedCategory !== 'all' && (
+            <button
+              onClick={() => setSelectedCategory('all')}
+              className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+            >
+              Clear Filter
+            </button>
+          )}
         </div>
 
       </div>
