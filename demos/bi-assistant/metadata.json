@@ -1,0 +1,6 @@
+{
+  "name": "AI Business Intelligence Assistant",
+  "description": "Ask business questions in plain English and receive instant analytics, interactive charts, data tables, and actionable AI business recommendations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
