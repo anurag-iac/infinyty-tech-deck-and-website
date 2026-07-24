@@ -3,7 +3,7 @@
   <rect width="1584" height="396" fill="#020714"/>
   
   <!-- Center-Right Logo & Tagline Group (Centered perfectly in right half) -->
-  <g transform="translate(790, 110)">
+  <g transform="translate(765, 110)">
     <!-- Horizontal Logo (Icon + Text) -->
     <g transform="translate(0, 0)">
       <!-- Wave Icon (scaled to match text height) -->
@@ -21,15 +21,15 @@
       </text>
     </g>
     
-    <!-- Tagline (Perfectly aligned at the logo center-point) -->
-    <text x="255" y="160" text-anchor="middle" class="tagline-text" font-size="24" font-weight="400" fill="#94a3b8" letter-spacing="0.02em">
+    <!-- Tagline (Aligned left with text logo, bold, tighter spacing) -->
+    <text x="175" y="130" class="tagline-text" font-size="22" font-weight="700" fill="#94a3b8" letter-spacing="0.01em">
       Driving Excellence with Data &amp; AI
     </text>
   </g>
 
   <defs>
     <style type="text/css">
-      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=Inter:wght@400&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=Inter:wght@700&amp;display=swap');
       .logo-text {
         font-family: 'Space Grotesk', -apple-system, sans-serif;
       }
