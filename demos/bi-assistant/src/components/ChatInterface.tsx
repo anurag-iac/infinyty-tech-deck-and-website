@@ -39,12 +39,19 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ activeQuestion }) 
     return () => clearTimeout(timer);
   }, [messages, isAnalyzing]);
 
-  // Listen to external triggers from Question Library sidebar
+  // Listen to external triggers from Question Library sidebar / Dashboard AI Deep Dive
+  const lastFiredTimeRef = useRef<number>(0);
   useEffect(() => {
-    if (activeQuestion) {
+    if (!activeQuestion) return;
+    // Deduplicate: skip if we already fired for this exact timestamp
+    if (activeQuestion.time === lastFiredTimeRef.current) return;
+    lastFiredTimeRef.current = activeQuestion.time;
+    // Small buffer to ensure component is fully painted before firing
+    const t = setTimeout(() => {
       handleSendQuestion(activeQuestion.text, activeQuestion.id);
-    }
-  }, [activeQuestion]);
+    }, 50);
+    return () => clearTimeout(t);
+  }, [activeQuestion?.time]);
 
   // Initial welcome message
   useEffect(() => {

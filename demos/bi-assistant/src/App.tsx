@@ -24,8 +24,13 @@ export default function App() {
   const handleDashboardAskQuestion = (qId: string) => {
     const found = CURATED_QUESTIONS.find(q => q.id === qId);
     const text = found ? found.text : "Show detailed business performance analysis";
-    setActiveQuestion({ text, id: qId || 'q1', time: Date.now() });
+    // Switch view FIRST so ChatInterface mounts, THEN fire the question
+    // after a short delay to avoid the race condition where useEffect
+    // runs before the component tree is ready.
     setViewMode('assistant');
+    setTimeout(() => {
+      setActiveQuestion({ text, id: qId || 'q1', time: Date.now() });
+    }, 120);
   };
 
   return (
