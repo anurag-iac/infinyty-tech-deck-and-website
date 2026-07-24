@@ -244,7 +244,8 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
 
         {/* KPI 9 */}
         <div 
-          onClick={() => onAskQuestion('sales-revenue-by-region')}
+          onClick={() => onAskQuestion('reg-best-performing')}
+          title="Ask BI Bot: Best performing region."
           className="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-blue-400 transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between text-slate-500 mb-1">
@@ -260,6 +261,7 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         {/* KPI 10 */}
         <div 
           onClick={() => onAskQuestion('sales-category-sales')}
+          title="Ask BI Bot: Show category-wise sales."
           className="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-purple-400 transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between text-slate-500 mb-1">
@@ -274,7 +276,8 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
 
         {/* KPI 11 */}
         <div 
-          onClick={() => onAskQuestion('sales-total')}
+          onClick={() => onAskQuestion('reg-compare-all')}
+          title="Ask BI Bot: Compare all regions."
           className="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-emerald-400 transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between text-slate-500 mb-1">
@@ -289,7 +292,8 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
 
         {/* KPI 12 */}
         <div 
-          onClick={() => onAskQuestion('sales-monthly-trend')}
+          onClick={() => onAskQuestion('sales-quarterly-compare')}
+          title="Ask BI Bot: Compare sales by quarter."
           className="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-amber-400 transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between text-slate-500 mb-1">

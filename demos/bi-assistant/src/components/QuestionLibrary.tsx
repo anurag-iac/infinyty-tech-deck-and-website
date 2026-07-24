@@ -56,6 +56,14 @@ export const QuestionLibrary: React.FC<QuestionLibraryProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<QuestionCategory | 'all'>('all');
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Auto-reset category filter when an external question trigger arrives (e.g. from Dashboard)
+  React.useEffect(() => {
+    if (activeQuestionId) {
+      setSelectedCategory('all');
+      setSearchTerm('');
+    }
+  }, [activeQuestionId]);
+
   const filteredQuestions = CURATED_QUESTIONS.filter(q => {
     const matchesCategory = selectedCategory === 'all' || q.category === selectedCategory;
     const matchesSearch = q.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
