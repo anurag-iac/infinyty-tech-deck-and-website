@@ -312,15 +312,21 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Chart 1: Monthly Revenue & Profit Trend */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+        <div 
+          onClick={() => onAskQuestion('sales-monthly-trend')}
+          title="Click to deep dive into: Show monthly sales trends."
+          className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-blue-500 dark:hover:border-blue-400 transition-all cursor-pointer group space-y-3"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">Monthly Sales & Profit Velocity</h3>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                Monthly Sales & Profit Velocity
+              </h3>
               <p className="text-xs text-slate-500">24-month continuous performance trajectory</p>
             </div>
             <button
-              onClick={() => onAskQuestion('sales-monthly-trend')}
-              className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+              type="button"
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all flex items-center gap-1 shrink-0"
             >
               <span>AI Deep Dive</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -341,15 +347,21 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         </div>
 
         {/* Chart 2: Revenue by Category */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+        <div 
+          onClick={() => onAskQuestion('sales-category-sales')}
+          title="Click to deep dive into: Show category-wise sales."
+          className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-purple-500 dark:hover:border-purple-400 transition-all cursor-pointer group space-y-3"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">Revenue by Product Category</h3>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                Revenue by Product Category
+              </h3>
               <p className="text-xs text-slate-500">Cumulative sales breakdown across divisions</p>
             </div>
             <button
-              onClick={() => onAskQuestion('sales-category-sales')}
-              className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+              type="button"
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-all flex items-center gap-1 shrink-0"
             >
               <span>AI Deep Dive</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -368,15 +380,21 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         </div>
 
         {/* Chart 3: Revenue by Region */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+        <div 
+          onClick={() => onAskQuestion('sales-revenue-by-region')}
+          title="Click to deep dive into: Show revenue by region."
+          className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-cyan-500 dark:hover:border-cyan-400 transition-all cursor-pointer group space-y-3"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">Global Regional Distribution</h3>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                Global Regional Distribution
+              </h3>
               <p className="text-xs text-slate-500">Sales volume across 5 operating territories</p>
             </div>
             <button
-              onClick={() => onAskQuestion('sales-revenue-by-region')}
-              className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+              type="button"
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 group-hover:bg-cyan-600 group-hover:text-white transition-all flex items-center gap-1 shrink-0"
             >
               <span>AI Deep Dive</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -406,15 +424,21 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({
         </div>
 
         {/* Chart 4: Top 10 Customers */}
-        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+        <div 
+          onClick={() => onAskQuestion('cust-top10')}
+          title="Click to deep dive into: Who are the top 10 customers?"
+          className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm hover:border-emerald-500 dark:hover:border-emerald-400 transition-all cursor-pointer group space-y-3"
+        >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">Top Enterprise Clients</h3>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                Top Enterprise Clients
+              </h3>
               <p className="text-xs text-slate-500">Highest grossing corporate customer accounts</p>
             </div>
             <button
-              onClick={() => onAskQuestion('cust-top10')}
-              className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+              type="button"
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition-all flex items-center gap-1 shrink-0"
             >
               <span>AI Deep Dive</span>
               <ArrowRight className="w-3.5 h-3.5" />
