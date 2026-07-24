@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChatHeader } from './components/ChatHeader';
 import { ChatInterface } from './components/ChatInterface';
+import { QuestionLibrary } from './components/QuestionLibrary';
 import { OverviewDashboard } from './components/OverviewDashboard';
 import { DatasetInspector } from './components/DatasetInspector';
 import { ViewMode } from './types';
@@ -8,6 +9,7 @@ import { ViewMode } from './types';
 export default function App() {
   const [viewMode, setViewMode] = useState<ViewMode>('assistant');
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const [activeQuestion, setActiveQuestion] = useState<{ text: string; id: string; time: number } | null>(null);
 
   // Sync dark class on document element
   useEffect(() => {
@@ -30,9 +32,28 @@ export default function App() {
       />
 
       {/* Main Body */}
-      <main className="flex-1 overflow-hidden relative flex flex-col">
+      <main className="flex-1 overflow-hidden relative flex flex-row">
         {viewMode === 'assistant' && (
-          <ChatInterface />
+          <>
+            {/* Sidebar: Curated Prompt Library */}
+            <aside className="w-80 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-y-auto hidden md:block shrink-0">
+              <div className="p-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">Question Library</h3>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Click any query below to run automated ledger analysis</p>
+              </div>
+              <div className="p-4">
+                <QuestionLibrary
+                  onSelectQuestion={(q) => setActiveQuestion({ text: q.text, id: q.id, time: Date.now() })}
+                  activeQuestionId={activeQuestion?.id}
+                />
+              </div>
+            </aside>
+
+            {/* Chat Feed Panel */}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <ChatInterface activeQuestion={activeQuestion} />
+            </div>
+          </>
         )}
 
         {viewMode === 'dashboard' && (

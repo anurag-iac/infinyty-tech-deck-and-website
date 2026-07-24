@@ -17,7 +17,11 @@ interface ChatMessage {
   isLoading?: boolean;
 }
 
-export const ChatInterface: React.FC = () => {
+interface ChatInterfaceProps {
+  activeQuestion?: { text: string; id: string; time: number } | null;
+}
+
+export const ChatInterface: React.FC<ChatInterfaceProps> = ({ activeQuestion }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -31,6 +35,13 @@ export const ChatInterface: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages, isAnalyzing]);
+
+  // Listen to external triggers from Question Library sidebar
+  useEffect(() => {
+    if (activeQuestion) {
+      handleSendQuestion(activeQuestion.text, activeQuestion.id);
+    }
+  }, [activeQuestion]);
 
   // Initial welcome message
   useEffect(() => {
