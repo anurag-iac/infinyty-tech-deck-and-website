@@ -33,7 +33,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ activeQuestion }) 
   };
 
   useEffect(() => {
-    scrollToBottom();
+    const timer = setTimeout(() => {
+      scrollToBottom();
+    }, 150);
+    return () => clearTimeout(timer);
   }, [messages, isAnalyzing]);
 
   // Listen to external triggers from Question Library sidebar
