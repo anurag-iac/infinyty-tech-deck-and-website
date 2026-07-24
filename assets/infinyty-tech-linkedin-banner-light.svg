@@ -2,8 +2,8 @@
   <!-- Solid Light Background -->
   <rect width="1584" height="396" fill="#ffffff"/>
   
-  <!-- Center-Right Logo & Tagline Group -->
-  <g transform="translate(680, 110)">
+  <!-- Center-Right Logo & Tagline Group (Centered perfectly in right half) -->
+  <g transform="translate(790, 110)">
     <!-- Horizontal Logo (Icon + Text) -->
     <g transform="translate(0, 0)">
       <!-- Wave Icon (scaled to match text height) -->
@@ -21,8 +21,8 @@
       </text>
     </g>
     
-    <!-- Tagline (Solid color, no gradient) -->
-    <text x="310" y="160" text-anchor="middle" class="tagline-text" font-size="24" font-weight="400" fill="#475569" letter-spacing="0.02em">
+    <!-- Tagline (Perfectly aligned at the logo center-point) -->
+    <text x="255" y="160" text-anchor="middle" class="tagline-text" font-size="24" font-weight="400" fill="#475569" letter-spacing="0.02em">
       Driving Excellence with Data &amp; AI
     </text>
   </g>
