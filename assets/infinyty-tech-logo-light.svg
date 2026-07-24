@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" fill="none">
+  <defs>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;display=swap');
+      .logo-text {
+        font-family: 'Space Grotesk', -apple-system, sans-serif;
+      }
+    </style>
+    <linearGradient id="logoGrad" x1="14" y1="20" x2="38" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0072F4"/>
+      <stop offset="100%" stop-color="#4FC8FF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Wave Icon -->
+  <g transform="translate(4, 2)">
+    <path d="M10 18C10 12 15 11 18 15.5C21 20 26 25 30 20C34 15 29 10 25 14.5C21 19 16 25 12 21C9.5 18.5 9.5 12.5 15 11" 
+          stroke="url(#logoGrad)" 
+          stroke-width="2.8" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Text Logo -->
+  <text x="50" y="25" class="logo-text" font-size="16" fill="#0f172a" letter-spacing="-0.01em">
+    <tspan font-weight="400">infi</tspan><tspan font-weight="700" fill="#0072F4">nyty</tspan><tspan font-weight="400" fill="#64748b">.tech</tspan>
+  </text>
+</svg>
