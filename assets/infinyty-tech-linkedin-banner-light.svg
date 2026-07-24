@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" width="1584" height="396" fill="none">
+  <!-- Solid Light Background -->
+  <rect width="1584" height="396" fill="#ffffff"/>
+  
+  <!-- Center-Right Logo & Tagline Group -->
+  <g transform="translate(680, 110)">
+    <!-- Horizontal Logo (Icon + Text) -->
+    <g transform="translate(0, 0)">
+      <!-- Wave Icon (scaled to match text height) -->
+      <g transform="translate(0, 0) scale(3.5)">
+        <path d="M10 18C10 12 15 11 18 15.5C21 20 26 25 30 20C34 15 29 10 25 14.5C21 19 16 25 12 21C9.5 18.5 9.5 12.5 15 11" 
+              stroke="url(#logoGrad)" 
+              stroke-width="2.8" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"/>
+      </g>
+      
+      <!-- Text Logo -->
+      <text x="175" y="80" class="logo-text" font-size="56" fill="#0f172a" letter-spacing="-0.01em">
+        <tspan font-weight="400">infi</tspan><tspan font-weight="700" fill="#0072F4">nyty</tspan><tspan font-weight="400" fill="#64748b">.tech</tspan>
+      </text>
+    </g>
+    
+    <!-- Tagline (Solid color, no gradient) -->
+    <text x="310" y="160" text-anchor="middle" class="tagline-text" font-size="24" font-weight="400" fill="#475569" letter-spacing="0.02em">
+      Driving Excellence with Data &amp; AI
+    </text>
+  </g>
+
+  <defs>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&amp;family=Inter:wght@400&amp;display=swap');
+      .logo-text {
+        font-family: 'Space Grotesk', -apple-system, sans-serif;
+      }
+      .tagline-text {
+        font-family: 'Inter', -apple-system, sans-serif;
+      }
+    </style>
+    <linearGradient id="logoGrad" x1="14" y1="20" x2="38" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0072F4"/>
+      <stop offset="100%" stop-color="#4FC8FF"/>
+    </linearGradient>
+  </defs>
+</svg>
