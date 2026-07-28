@@ -43,14 +43,14 @@
       flex-shrink: 0;
       cursor: pointer;
     }
-    .demo-desktop-shell img {
+    .demo-desktop-shell img, .demo-desktop-shell video {
       width: 100%;
       border-radius: 16px;
       box-shadow: 0 24px 60px rgba(0,0,0,0.18), 0 0 0 4px var(--card-bg), 0 0 0 6px var(--border);
       display: block;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .demo-desktop-shell:hover img {
+    .demo-desktop-shell:hover img, .demo-desktop-shell:hover video {
       transform: translateY(-6px) scale(1.01);
       box-shadow: 0 36px 72px rgba(0,0,0,0.22), 0 0 0 4px var(--card-bg), 0 0 0 6px var(--border);
     }
@@ -222,11 +222,17 @@
     </div>
 
     <div style="display: flex; gap: 4rem; align-items: center; flex-wrap: wrap; justify-content: center; margin-bottom: 6rem;">
-      <div style="flex: 1; min-width: 280px; max-width: 540px;">
-        <video controls poster="assets/form-generator-poster.svg" style="width: 100%; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow); display: block; outline: none; background: #000;">
+      <div class="demo-desktop-shell" onclick="window.open('https://peopleverse-bd1l.onrender.com','_blank')" title="Click to open demo" style="flex: 1; min-width: 280px; max-width: 540px; margin: 0;">
+        <video controls poster="assets/form-generator-poster.svg" style="background: #000;">
           <source src="assets/form-generator-demo.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
+        <div class="demo-launch-overlay">
+          <span class="demo-launch-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Launch Demo
+          </span>
+        </div>
       </div>
 
       <div style="flex: 1; min-width: 280px; max-width: 520px; display: flex; flex-direction: column; gap: 1.75rem;">
@@ -253,6 +259,12 @@
             <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Custom Cultural Alignment</span>
           </div>
         </div>
+        <div>
+          <a href="https://peopleverse-bd1l.onrender.com" target="_blank" class="btn-primary demo-open-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open Live Demo
+          </a>
+        </div>
       </div>
     </div>
 
@@ -264,8 +276,8 @@
     </div>
 
     <div style="display: flex; gap: 4rem; align-items: center; flex-wrap: wrap; justify-content: center; margin-bottom: 6rem;">
-      <div style="flex: 1; min-width: 280px; max-width: 540px;">
-        <video controls poster="assets/report-generator-poster.svg" style="width: 100%; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow); display: block; outline: none; background: #000;">
+      <div class="demo-desktop-shell" title="Watch Demo Video" style="flex: 1; min-width: 280px; max-width: 540px; margin: 0;">
+        <video controls poster="assets/report-generator-poster.svg" style="background: #000; position: relative; z-index: 2;">
           <source src="assets/report-generator-demo.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
