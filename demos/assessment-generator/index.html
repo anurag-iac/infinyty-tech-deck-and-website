@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment Generator - Demo</title>
+  <style>
+    /* Base background matching the diagonal split */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(110deg, #f4f7f9 45%, #1a56db 45%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* The main form card */
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 550px;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      box-sizing: border-box;
+    }
+
+    /* Header with Infinyty Tech logo */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .company-logo {
+      height: 62px; /* Scales your logo.png perfectly */
+      width: auto;
+    }
+
+    .logout {
+      color: #3182ce;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    /* Form title */
+    h2 {
+      text-align: center;
+      color: #1a202c;
+      font-size: 22px;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    /* Form inputs */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #4a5568;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus, select:focus {
+      border-color: #3182ce;
+    }
+
+    /* File inputs styling */
+    .file-input-wrapper {
+      display: flex;
+      align-items: center;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      padding: 6px;
+    }
+
+    input[type="file"] {
+      font-size: 13px;
+    }
+
+    /* Primary Button */
+    .submit-btn {
+      width: 100%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+
+    .submit-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .submit-btn:disabled {
+      background: #93c5fd;
+      cursor: not-allowed;
+    }
+
+    /* Success State Hidden by Default */
+    #success-state {
+      display: none;
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .check-icon {
+      width: 60px;
+      height: 60px;
+      background: #10b981;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin: 0 auto 20px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    
+    <!-- Updated Header with your Logo -->
+    <div class="header">
+      <img src="logo.png" alt="Infinyty Tech" class="company-logo">
+      <a href="#" class="logout">Logout</a>
+    </div>
+
+    <!-- Active Form State -->
+    <div id="form-state">
+      <h2>AI Assessment Generator</h2>
+      
+      <form id="demo-form">
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" required>
+        </div>
+
+        <div class="form-group">
+          <label>HR Contact Email(s)</label>
+          <input type="text" placeholder="Use commas to separate multiple emails" required>
+        </div>
+
+        <div class="form-group">
+          <label>Industry / Domain</label>
+          <input type="text" required>
+        </div>
+
+        <div class="form-group">
+          <label>Position</label>
+          <input type="text" required>
+        </div>
+
+        <div class="form-group">
+          <label>Position Level</label>
+          <select>
+            <option>Entry-Level</option>
+            <option>Mid-Level</option>
+            <option>Senior-Level</option>
+            <option>Executive</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Job Description (Document)</label>
+          <div class="file-input-wrapper">
+            <input type="file" accept=".pdf,.doc,.docx">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Culture Card (Excel)</label>
+          <div class="file-input-wrapper">
+            <input type="file" accept=".xls,.xlsx">
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="generate-btn">Generate Candidate Assessment</button>
+      </form>
+    </div>
+
+    <!-- Success State (Shown after clicking submit) -->
+    <div id="success-state">
+      <div class="check-icon">&#10003;</div>
+      <h2 style="margin-bottom: 10px;">Assessment Generated!</h2>
+      <p style="color: #4a5568; font-size: 15px; line-height: 1.5;">
+        The AI has successfully processed the job description and culture card. <br><br>
+        The automated Google Form links have been dispatched to the HR contact emails provided.
+      </p>
+      <button class="submit-btn" onclick="resetDemo()" style="margin-top: 30px; width: auto; padding: 10px 30px;">Run Another Demo</button>
+    </div>
+
+  </div>
+
+  <script>
+    // FAKE BACKEND LOGIC FOR DEMO PURPOSES
+    document.getElementById('demo-form').addEventListener('submit', function(e) {
+      e.preventDefault(); // Stop the form from actually refreshing the page
+      
+      const btn = document.getElementById('generate-btn');
+      
+      // Fake a loading state
+      btn.innerText = "Analyzing & Generating... Please wait";
+      btn.disabled = true;
+
+      // Wait 2.5 seconds, then show the success screen
+      setTimeout(() => {
+        document.getElementById('form-state').style.display = 'none';
+        document.getElementById('success-state').style.display = 'block';
+      }, 2500);
+    });
+
+    // Reset the demo to try it again
+    function resetDemo() {
+      document.getElementById('demo-form').reset();
+      
+      const btn = document.getElementById('generate-btn');
+      btn.innerText = "Generate Candidate Assessment";
+      btn.disabled = false;
+
+      document.getElementById('success-state').style.display = 'none';
+      document.getElementById('form-state').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
