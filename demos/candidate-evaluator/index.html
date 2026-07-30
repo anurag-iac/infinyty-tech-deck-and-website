@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Evaluator - Infinyty Tech</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(110deg, #f4f7f9 45%, #1a56db 45%);
+      --card-bg: #ffffff;
+      --text-main: #1a202c;
+      --text-muted: #4a5568;
+      --input-bg: #ffffff;
+      --input-border: #cbd5e0;
+      --section-bg: #f8fafc;
+      --primary-blue: #2563eb;
+      --success-green: #10b981;
+    }
+
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-gradient); min-height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    .card {
+      background: var(--card-bg); width: 100%; max-width: 950px;
+      max-height: 92vh; overflow-y: auto; padding: 40px;
+      border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      box-sizing: border-box; color: var(--text-main);
+    }
+    
+    .card::-webkit-scrollbar { width: 8px; }
+    .card::-webkit-scrollbar-thumb { background: var(--input-border); border-radius: 4px; }
+
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+    .company-logo { height: 32px; width: auto; }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+
+    h2 { text-align: center; font-size: 22px; margin-bottom: 30px; font-weight: 600; }
+
+    .form-row { display: flex; gap: 20px; margin-bottom: 18px; }
+    .form-group { flex: 1; }
+    label { display: block; font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px; }
+    
+    input[type="text"], select {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--input-border);
+      background-color: var(--input-bg); color: var(--text-main);
+      border-radius: 6px; font-size: 14px; box-sizing: border-box; outline: none;
+    }
+
+    .submit-btn {
+      width: 100%; background: var(--primary-blue); color: white; border: none;
+      padding: 14px; font-size: 15px; font-weight: 600; border-radius: 6px;
+      cursor: pointer; margin-top: 10px; transition: background 0.2s;
+    }
+    .submit-btn:hover { background: #1d4ed8; }
+
+    /* Processing Terminal */
+    #loading-state { display: none; text-align: center; padding: 30px 0; }
+    .terminal-box {
+      background: #0f172a; color: #38bdf8; font-family: 'Courier New', Courier, monospace;
+      padding: 20px; border-radius: 8px; text-align: left; font-size: 13px;
+      height: 180px; overflow-y: auto; margin-top: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      border: 1px solid #1e293b;
+    }
+    .terminal-line { margin: 6px 0; opacity: 0; animation: fadeIn 0.2s forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* Report & Tab Switcher Styles */
+    #report-state { display: none; }
+    
+    .tab-bar {
+      display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid var(--input-border);
+      padding-bottom: 10px;
+    }
+    .tab-btn {
+      padding: 10px 20px; border: none; background: var(--section-bg);
+      color: var(--text-muted); border-radius: 6px; font-weight: 600;
+      cursor: pointer; font-size: 14px; transition: all 0.2s;
+    }
+    .tab-btn.active { background: var(--primary-blue); color: white; }
+
+    .output-container {
+      background: #ffffff; color: #1e293b; padding: 30px; border: 1px solid #cbd5e0;
+      border-radius: 8px; margin-bottom: 20px;
+    }
+
+    /* Excel Tab Styles */
+    .excel-sheet { overflow-x: auto; font-size: 12px; }
+    .excel-table { width: 100%; border-collapse: collapse; text-align: center; }
+    .excel-table th, .excel-table td { border: 1px solid #cbd5e0; padding: 8px 6px; }
+    .excel-table th { background: #f1f5f9; color: #334155; font-weight: 700; }
+    .excel-table td.question-cell { text-align: left; max-width: 320px; line-height: 1.4; padding: 12px 10px; color: #1e293b; font-weight: 500; font-size: 13px; }
+    .excel-table .check { color: var(--success-green); font-weight: bold; font-size: 15px; }
+    .excel-table .cross { color: #ef4444; font-weight: bold; font-size: 15px; }
+
+    /* Multi-Page PDF Styles */
+    .page-break { page-break-before: always; margin-top: 40px; padding-top: 40px; border-top: 2px dashed #cbd5e0; }
+    
+    .pdf-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 3px solid var(--primary-blue); padding-bottom: 15px; margin-bottom: 20px;
+    }
+    .pdf-title { font-size: 24px; font-weight: 800; color: #0f172a; margin: 0; }
+    .pdf-subtitle { font-size: 12px; color: #64748b; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+    .report-meta-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+      background: #f8fafc; padding: 12px 16px; border-radius: 6px; margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+    }
+    .meta-item strong { display: block; font-size: 11px; color: #64748b; text-transform: uppercase; }
+    .meta-item span { font-size: 14px; font-weight: 600; color: #0f172a; }
+
+    .section-title { font-size: 18px; color: var(--primary-blue); border-bottom: 1px solid #cbd5e0; padding-bottom: 8px; margin-bottom: 15px; margin-top: 0; }
+    
+    .bar-group { margin-bottom: 12px; }
+    .bar-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .bar-track { background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden; }
+    .bar-fill { background: var(--primary-blue); height: 100%; border-radius: 5px; }
+
+    .findings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+    .finding-card { border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; background: #fafafa; }
+    .finding-card h4 { margin: 0 0 10px 0; color: var(--primary-blue); font-size: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
+    .finding-bullet { font-size: 13px; margin-bottom: 8px; line-height: 1.4; color: #334155; }
+
+    .analysis-box { background: #f8fafc; border-left: 4px solid var(--primary-blue); padding: 15px; margin-bottom: 20px; font-size: 13px; line-height: 1.5; }
+    .analysis-box h5 { margin: 0 0 8px 0; font-size: 14px; color: #0f172a; }
+
+    .check-icon {
+      width: 50px; height: 50px; background: var(--success-green); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin: 0 auto 15px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="header">
+      <img src="/demos/assessment-generator/logo.png" alt="Infinyty Tech" class="company-logo" onerror="this.src='https://via.placeholder.com/150x40?text=Infinyty.tech'">
+    </div>
+
+    <div id="form-state">
+      <h2>AI Candidate Evaluator</h2>
+      <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-top: -20px; margin-bottom: 30px;">
+        Automated Candidate Response Evaluation & Comprehensive Multi-Page PDF Reporting
+      </p>
+
+      <form id="eval-form">
+        <div class="form-row">
+          <div class="form-group"><label>Candidate Name</label><input type="text" value="Anurag" required></div>
+          <div class="form-group"><label>Candidate Email</label><input type="text" value="anurag@infinyty.tech" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Position Applied For</label><input type="text" value="Marketing Manager" required></div>
+          <div class="form-group"><label>Company Name</label><input type="text" value="Infinyty Tech" required></div>
+        </div>
+        <div class="form-group"><label>Candidate Responses (Excel Data)</label><select required><option>Anurag_Assessment_Responses_2026.xlsx</option></select></div>
+        <div class="form-group"><label>Questions Metadata (Excel Data)</label><select required><option>Marketing_Role_Question_Bank.xlsx</option></select></div>
+        <div class="form-group"><label>Culture Core Values (Excel Matrix)</label><select required><option>Infinyty_Core_Values_Matrix.xlsx</option></select></div>
+
+        <button type="submit" class="submit-btn" id="generate-btn">Run DeepSeek AI Evaluation</button>
+      </form>
+    </div>
+
+    <div id="loading-state">
+      <div style="font-size: 30px; margin-bottom: 10px;">⚙️</div>
+      <h3 style="margin: 0; color: var(--text-main);">Evaluating Candidate Assessment...</h3>
+      <div class="terminal-box" id="terminal"></div>
+    </div>
+
+    <div id="report-state">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div class="check-icon">&#10003;</div>
+        <h3 style="margin: 0;">Evaluation Report Generated & Dispatched</h3>
+      </div>
+
+      <div class="tab-bar">
+        <button type="button" class="tab-btn active" id="tab-pdf-btn" onclick="switchTab('pdf')">📄 Executive Multi-Page PDF</button>
+        <button type="button" class="tab-btn" id="tab-excel-btn" onclick="switchTab('excel')">📊 Internal Excel Matrix</button>
+      </div>
+
+      <div id="tab-pdf-view" class="output-container">
+        <div id="pdf-wrapper" style="padding: 20px; background-color: #ffffff; color: #1e293b;"> 
+          
+          <div class="pdf-page">
+            <div class="pdf-header">
+              <div>
+                <div class="pdf-title">Candidate Evaluation Report</div>
+                <div class="pdf-subtitle">Infinyty Tech Executive Assessment & Fit Analysis</div>
+              </div>
+              <img src="/demos/assessment-generator/logo.png" alt="Infinyty Tech" style="height: 28px;" onerror="this.style.display='none'">
+            </div>
+
+            <div class="report-meta-grid">
+              <div class="meta-item"><strong>Candidate Name</strong><span>Anurag</span></div>
+              <div class="meta-item"><strong>Applied Role</strong><span>Marketing Manager</span></div>
+              <div class="meta-item"><strong>Company</strong><span>Infinyty Tech</span></div>
+              <div class="meta-item"><strong>Evaluation Date</strong><span id="eval-date"></span></div>
+            </div>
+
+            <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 15px; border-radius: 6px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span style="font-size: 12px; color: #1e40af; font-weight: 700; text-transform: uppercase;">Overall Role-Fit Score</span>
+                <div style="font-size: 24px; font-weight: 800; color: #1e3a8a;">88% Match</div>
+              </div>
+              <span style="background: #dbeafe; color: #1e40af; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 700;">RECOMMENDED FOR INTERVIEW</span>
+            </div>
+
+            <h3 class="section-title">1. Executive Summary</h3>
+            <p style="font-size: 13px; line-height: 1.6; color: #334155;">
+              The candidate demonstrated an exceptional grasp of technical marketing strategy, specifically excelling in ROI analysis and data-driven pivot strategies. Cultural alignment is high, displaying strong innovation and agility. The primary area for probing during the interview is the candidate's approach to cross-functional stakeholder management and budget adherence under strict corporate guidelines.
+            </p>
+
+            <div class="findings-grid">
+              <div class="finding-card">
+                <h4>Key Strengths (Done Well)</h4>
+                <div class="finding-bullet">✔ Strong capability in ROI calculations and campaign funnel optimization.</div>
+                <div class="finding-bullet">✔ Excellent scenario responses on pivoting social media spend mid-way.</div>
+                <div class="finding-bullet">✔ Highly aligned with Infinyty Tech's core values of innovation and agility.</div>
+              </div>
+              <div class="finding-card">
+                <h4>Areas for Growth</h4>
+                <div class="finding-bullet">⚠ Tends to prefer autonomous execution over corporate consensus.</div>
+                <div class="finding-bullet">⚠ Requires clearer escalation guidelines for high-budget ad spend caps.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="page-break">
+            <h3 class="section-title">2. Technical & Behavioral Competency Breakdown</h3>
+            <p style="font-size: 13px; line-height: 1.6; color: #334155; margin-bottom: 20px;">
+              Scores derived from the 30-question Multiple Choice segment, evaluating both hard skills (SEO/SEM, Analytics) and situational behavior logic.
+            </p>
+            
+            <div class="bar-group">
+              <div class="bar-label"><span>Technical Marketing Execution (Section 1)</span><span>92%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width: 92%;"></div></div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-label"><span>Data-Driven Decision Making & Analytics (Section 2)</span><span>85%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width: 85%;"></div></div>
+            </div>
+            <div class="bar-group">
+              <div class="bar-label"><span>Cultural Values Alignment & Logic (Section 3)</span><span>88%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width: 88%;"></div></div>
+            </div>
+          </div>
+
+          <div class="page-break">
+            <h3 class="section-title">3. Deep-Dive AI Scenario Analysis</h3>
+            <p style="font-size: 13px; line-height: 1.6; color: #334155; margin-bottom: 20px;">
+              The AI evaluated the candidate's long-form written responses against the Infinyty Tech core values rubric.
+            </p>
+
+            <div class="analysis-box">
+              <h5>Scenario A: Pivoting a failing campaign mid-way</h5>
+              <p><strong>AI Evaluation:</strong> The candidate's response successfully prioritized data over ego. They correctly identified metrics like CAC and Bounce Rate as indicators to halt spend, demonstrating strong <em>Data-Driven Thinking</em> and <em>Adaptability</em>. Score: 9.5/10.</p>
+            </div>
+
+            <div class="analysis-box">
+              <h5>Scenario B: Low quality leads conflict with Sales</h5>
+              <p><strong>AI Evaluation:</strong> The candidate proposed a collaborative meeting with sales to redefine lead qualification parameters. This showed excellent <em>Collaboration</em> and <em>Problem Solving</em>, avoiding defensive behavior. Score: 9.0/10.</p>
+            </div>
+
+            <div class="analysis-box" style="border-left-color: #f59e0b;">
+              <h5>Scenario C: Balancing creativity with strict budget constraints</h5>
+              <p><strong>AI Evaluation:</strong> While the creative ideas were strong, the candidate's written response indicated a willingness to slightly bypass budget approvals if the ROI "felt guaranteed." This flagged a minor risk in <em>Integrity/Process Adherence</em>. Score: 7.0/10.</p>
+            </div>
+          </div>
+
+          <div class="page-break">
+            <h3 class="section-title">4. Final HR & Hiring Manager Recommendations</h3>
+            
+            <table class="excel-table" style="margin-top: 15px;">
+              <thead>
+                <tr>
+                  <th style="text-align: left;">Recommended Interview Questions for Hiring Manager</th>
+                  <th>Focus Area</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align: left; padding: 12px; font-size: 13px;">"Can you describe a time when you strongly believed in a campaign, but management rejected it due to budget? How did you handle it?"</td>
+                  <td>Process Adherence</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left; padding: 12px; font-size: 13px;">"How do you balance rapid agility with the need to keep cross-functional teams (like product/design) aligned on brand voice?"</td>
+                  <td>Collaboration</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style="margin-top: 30px; padding: 20px; background: #f1f5f9; border-radius: 8px;">
+              <h4 style="margin: 0 0 10px 0; color: #0f172a;">Next Steps</h4>
+              <p style="font-size: 13px; margin: 0; color: #475569;">Proceed to Final Round Interview. Candidate exhibits high potential for autonomous marketing leadership. Ensure onboarding covers corporate budgeting workflows extensively.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="tab-excel-view" class="output-container" style="display: none;">
+        <h4 style="margin-top: 0; color: #0f172a;">Internal Excel Matrix (`Anurag_Evaluation_Report.xlsx`)</h4>
+        <p style="font-size: 13px; color: #64748b; margin-bottom: 15px;">
+          This internal matrix is generated by the AI before compiling the final PDF.
+        </p>
+        
+        <div class="excel-sheet">
+          <table class="excel-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Scenario Question Evaluated</th>
+                <th colspan="4">Leadership Values</th>
+                <th colspan="5">Technical & Execution Values</th>
+              </tr>
+              <tr>
+                <th>Ownership</th>
+                <th>Collab</th>
+                <th>Integrity</th>
+                <th>Adapt</th>
+                <th>Data</th>
+                <th>Creative</th>
+                <th>Solving</th>
+                <th>Innovate</th>
+                <th>Results</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="question-cell"><strong>Q01:</strong> Failed campaign pivot response</td><td class="check">✓</td><td></td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td></td><td class="check">✓</td><td></td><td class="check">✓</td></tr>
+              <tr><td class="question-cell"><strong>Q02:</strong> Social media algorithm drop</td><td></td><td class="check">✓</td><td></td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td></td></tr>
+              <tr><td class="question-cell"><strong>Q03:</strong> Auditing for ethical alignment</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td></td><td class="check">✓</td><td></td><td class="check">✓</td><td></td><td class="check">✓</td></tr>
+              <tr><td class="question-cell"><strong>Q04:</strong> Cross-functional design team collab</td><td></td><td class="cross">✗</td><td></td><td class="check">✓</td><td></td><td class="check">✓</td><td></td><td class="cross">✗</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button class="submit-btn" onclick="resetDemo()" style="background: var(--section-bg); color: var(--text-main); border: 1px solid var(--input-border);">Back to Form</button>
+        <button class="submit-btn" onclick="downloadPDF()">Download Full PDF Report</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('eval-date').innerText = new Date().toLocaleDateString('en-US', dateOptions);
+
+    function switchTab(type) {
+      const pdfTab = document.getElementById('tab-pdf-btn');
+      const excelTab = document.getElementById('tab-excel-btn');
+      const pdfView = document.getElementById('tab-pdf-view');
+      const excelView = document.getElementById('tab-excel-view');
+
+      if (type === 'pdf') {
+        pdfTab.classList.add('active'); excelTab.classList.remove('active');
+        pdfView.style.display = 'block'; excelView.style.display = 'none';
+      } else {
+        excelTab.classList.add('active'); pdfTab.classList.remove('active');
+        excelView.style.display = 'block'; pdfView.style.display = 'none';
+      }
+    }
+
+    document.getElementById('eval-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      document.getElementById('form-state').style.display = 'none';
+      document.getElementById('loading-state').style.display = 'block';
+
+      const terminal = document.getElementById('terminal');
+      terminal.innerHTML = '';
+      
+      const steps = [
+        "> Starting Candidate Report Generation Setup...",
+        "> Reading Questions Metadata XLSX file...",
+        "> Reading Candidate Responses XLSX file...",
+        "> Reading Core Values Matrix XLSX file...",
+        "> Executing DeepSeek AI Evaluation Model...",
+        "> Processing Candidate 1: Anurag (Marketing Manager)...",
+        "> Generating Excel Report: Anurag_Evaluation_Report.xlsx...",
+        "> Rendering Multi-Page Infinyty Tech PDF Report...",
+        "> Dispatching secure HR notification email...",
+        "> Evaluation Complete!"
+      ];
+
+      let delay = 0;
+      steps.forEach((step, index) => {
+        setTimeout(() => {
+          const p = document.createElement('div');
+          p.className = 'terminal-line'; p.innerText = step;
+          terminal.appendChild(p); terminal.scrollTop = terminal.scrollHeight;
+          if(index === steps.length - 1) {
+            setTimeout(() => {
+              document.getElementById('loading-state').style.display = 'none';
+              document.getElementById('report-state').style.display = 'block';
+              document.querySelector('.card').scrollTop = 0;
+            }, 800);
+          }
+        }, delay);
+        delay += 550;
+      });
+    });
+
+    function downloadPDF() {
+      switchTab('pdf'); 
+      
+      // Target the wrapper containing all the page-break elements
+      const element = document.getElementById('pdf-wrapper');
+      
+      // By using html2pdf's pagebreak configuration, it will slice the PDF beautifully at our .page-break classes
+      const opt = {
+        margin:       0.5,
+        filename:     'Infinyty_Tech_Evaluation_Anurag.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak:    { mode: 'css', avoid: 'tr' } 
+      };
+      
+      html2pdf().set(opt).from(element).save();
+    }
+
+    function resetDemo() {
+      document.getElementById('eval-form').reset();
+      document.getElementById('report-state').style.display = 'none';
+      document.getElementById('form-state').style.display = 'block';
+      document.querySelector('.card').scrollTop = 0;
+    }
+  </script>
+</body>
+</html>
