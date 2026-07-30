@@ -17,6 +17,9 @@
       --toast-bg: #ffffff;
       --toast-text: #1a202c;
       --toast-border: #e2e8f0;
+      --modal-overlay: rgba(0, 0, 0, 0.5);
+      --section-bg: #f8fafc;
+      --primary-blue: #2563eb;
     }
 
     [data-theme="dark"] {
@@ -30,6 +33,8 @@
       --toast-bg: #0f172a;
       --toast-text: #f8fafc;
       --toast-border: #334155;
+      --modal-overlay: rgba(0, 0, 0, 0.7);
+      --section-bg: #0f172a;
     }
 
     body {
@@ -46,7 +51,7 @@
       overflow: hidden;
     }
 
-    /* Toast Notification Banner matching Anurag's style */
+    /* Toast Notification Banner */
     .toast-banner {
       position: absolute;
       top: 24px;
@@ -73,21 +78,23 @@
       transform: translateY(0);
     }
 
-    .toast-icon {
-      color: #10b981;
-      font-weight: bold;
-    }
+    .toast-icon { color: #10b981; font-weight: bold; }
 
     .card {
       background: var(--card-bg);
       width: 100%;
-      max-width: 550px;
+      max-width: 850px;
+      max-height: 90vh;
+      overflow-y: auto;
       padding: 40px;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       box-sizing: border-box;
       transition: background 0.3s ease;
     }
+    
+    .card::-webkit-scrollbar { width: 8px; }
+    .card::-webkit-scrollbar-thumb { background: var(--input-border); border-radius: 4px; }
 
     .header {
       display: flex;
@@ -96,157 +103,139 @@
       margin-bottom: 25px;
     }
 
-    .company-logo {
-      height: 32px;
-      width: auto;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+    .company-logo { height: 32px; width: auto; }
+    .header-right { display: flex; align-items: center; gap: 16px; }
 
     .theme-toggle {
-      background: none;
-      border: 1px solid var(--input-border);
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background 0.2s;
+      background: none; border: 1px solid var(--input-border);
+      border-radius: 50%; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px; transition: background 0.2s;
     }
+    .theme-toggle:hover { background: rgba(0, 0, 0, 0.05); }
+    [data-theme="dark"] .theme-toggle:hover { background: rgba(255, 255, 255, 0.1); }
+    .logout { color: #3182ce; text-decoration: none; font-size: 14px; }
 
-    .theme-toggle:hover {
-      background: rgba(0, 0, 0, 0.05);
-    }
+    h2 { text-align: center; color: var(--text-main); font-size: 22px; margin-bottom: 30px; font-weight: 600; }
 
-    [data-theme="dark"] .theme-toggle:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .logout {
-      color: #3182ce;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    h2 {
-      text-align: center;
-      color: var(--text-main);
-      font-size: 22px;
-      margin-bottom: 30px;
-      font-weight: 600;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px; }
+    
     input[type="text"], select {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--input-border);
-      background-color: var(--input-bg);
-      color: var(--input-text);
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-      outline: none;
+      width: 100%; padding: 10px 12px; border: 1px solid var(--input-border);
+      background-color: var(--input-bg); color: var(--input-text);
+      border-radius: 6px; font-size: 14px; box-sizing: border-box; outline: none;
       transition: border-color 0.2s, background 0.3s;
     }
+    input[type="text"]:focus, select:focus, textarea:focus { border-color: #3182ce; }
 
-    input[type="text"]:focus, select:focus {
-      border-color: #3182ce;
+    .dropdown-group { display: flex; gap: 10px; }
+    .dropdown-group select { flex: 1; }
+    
+    .preview-btn {
+      background: var(--section-bg); border: 1px solid var(--input-border);
+      color: var(--text-main); padding: 0 15px; border-radius: 6px;
+      cursor: pointer; font-size: 13px; font-weight: 600; transition: background 0.2s;
+      white-space: nowrap;
     }
-
-    .file-input-wrapper {
-      display: flex;
-      align-items: center;
-      border: 1px solid var(--input-border);
-      background-color: var(--input-bg);
-      border-radius: 6px;
-      padding: 6px;
-      color: var(--text-main);
-    }
-
-    input[type="file"] {
-      font-size: 13px;
-      color: var(--text-main);
-    }
+    .preview-btn:hover { background: var(--input-border); }
 
     .submit-btn {
-      width: 100%;
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.2s;
+      width: 100%; background: #2563eb; color: white; border: none;
+      padding: 14px; font-size: 15px; font-weight: 600; border-radius: 6px;
+      cursor: pointer; margin-top: 10px; transition: background 0.2s;
+    }
+    .submit-btn:hover { background: #1d4ed8; }
+    .submit-btn:disabled { background: #93c5fd; cursor: not-allowed; }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--modal-overlay); display: none;
+      justify-content: center; align-items: center; z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    
+    .modal-content {
+      background: var(--card-bg); color: var(--text-main);
+      width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;
+      padding: 30px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      position: relative;
     }
 
-    .submit-btn:hover {
-      background: #1d4ed8;
+    .modal-close {
+      position: absolute; top: 15px; right: 20px;
+      background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer;
     }
 
-    .submit-btn:disabled {
-      background: #93c5fd;
-      cursor: not-allowed;
+    .doc-preview table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    .doc-preview th, .doc-preview td {
+      border: 1px solid var(--input-border); padding: 10px; font-size: 14px; text-align: left;
+    }
+    .doc-preview th { background: var(--section-bg); }
+
+    /* Loading, Assessment & Export State */
+    #loading-state, #export-success-state {
+      display: none; text-align: center; padding: 40px 0; color: var(--text-muted); font-weight: 600;
     }
 
-    #success-state {
-      display: none;
-      text-align: center;
-      padding: 40px 0;
+    #assessment-state { display: none; }
+    
+    .assessment-header {
+      text-align: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--input-border);
     }
+    
+    .section-block {
+      background: var(--section-bg); border: 1px solid var(--input-border);
+      border-radius: 8px; padding: 20px; margin-bottom: 20px;
+    }
+
+    .section-title { font-size: 16px; font-weight: bold; color: var(--primary-blue); margin-bottom: 15px; margin-top: 0; }
+
+    .question-item { margin-bottom: 20px; font-size: 14px; color: var(--text-main); }
+    
+    .options-list {
+      margin-top: 10px; display: flex; flex-direction: column; gap: 8px;
+    }
+
+    .options-list label {
+      display: flex; align-items: flex-start; gap: 8px; font-weight: 400; color: var(--text-main);
+      cursor: pointer; margin: 0; font-size: 14px; line-height: 1.4;
+    }
+
+    .options-list input[type="radio"] { margin-top: 3px; }
+
+    /* Fillable text area for Section 4 */
+    textarea.real-text-area {
+      width: 100%; height: 80px; padding: 10px; margin-top: 10px;
+      border: 1px solid var(--input-border); background: var(--input-bg);
+      color: var(--input-text); border-radius: 6px; font-family: inherit; font-size: 14px;
+      resize: vertical; box-sizing: border-box; outline: none; transition: border-color 0.2s;
+    }
+    textarea.real-text-area:focus { border-color: var(--primary-blue); }
 
     .check-icon {
-      width: 60px;
-      height: 60px;
-      background: #10b981;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      margin: 0 auto 20px auto;
-    }
-
-    .success-desc {
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.5;
+      width: 60px; height: 60px; background: #10b981; color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 30px; margin: 0 auto 20px auto;
     }
   </style>
 </head>
 <body data-theme="light">
 
-  <!-- Toast Notification Bar -->
   <div class="toast-banner" id="toast-banner">
     <span class="toast-icon">✓</span>
     <span id="toast-text">Light mode enabled</span>
   </div>
 
+  <div class="modal-overlay" id="preview-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div id="modal-body" class="doc-preview"></div>
+    </div>
+  </div>
+
   <div class="card">
-    
-    <!-- Header with Logo, Theme Toggle, and Logout -->
     <div class="header">
       <img src="/demos/assessment-generator/logo.png" alt="Infinyty Tech" class="company-logo">
       <div class="header-right">
@@ -255,7 +244,7 @@
       </div>
     </div>
 
-    <!-- Active Form State -->
+    <!-- 1. Form State -->
     <div id="form-state">
       <h2>AI Assessment Generator</h2>
       
@@ -264,22 +253,18 @@
           <label>Company Name</label>
           <input type="text" required>
         </div>
-
         <div class="form-group">
           <label>HR Contact Email(s)</label>
           <input type="text" placeholder="Use commas to separate multiple emails" required>
         </div>
-
         <div class="form-group">
           <label>Industry / Domain</label>
           <input type="text" required>
         </div>
-
         <div class="form-group">
           <label>Position</label>
           <input type="text" required>
         </div>
-
         <div class="form-group">
           <label>Position Level</label>
           <select>
@@ -292,15 +277,25 @@
 
         <div class="form-group">
           <label>Job Description (Document)</label>
-          <div class="file-input-wrapper">
-            <input type="file" accept=".pdf,.doc,.docx">
+          <div class="dropdown-group">
+            <select id="jd-select" required>
+              <option value="" disabled selected>Select a Sample JD Template...</option>
+              <option value="software">Software Developer Role</option>
+              <option value="marketing">Marketing Job Description</option>
+            </select>
+            <button type="button" class="preview-btn" onclick="previewDocument('jd')">👁 View</button>
           </div>
         </div>
 
         <div class="form-group">
           <label>Culture Card (Excel)</label>
-          <div class="file-input-wrapper">
-            <input type="file" accept=".xls,.xlsx">
+          <div class="dropdown-group">
+            <select id="cc-select" required>
+              <option value="" disabled selected>Select an Excel Culture Card...</option>
+              <option value="technical">Technical Values Matrix</option>
+              <option value="leadership">Leadership Values Matrix</option>
+            </select>
+            <button type="button" class="preview-btn" onclick="previewDocument('cc')">👁 View</button>
           </div>
         </div>
 
@@ -308,15 +303,35 @@
       </form>
     </div>
 
-    <!-- Success State -->
-    <div id="success-state">
+    <!-- 2. Loading State -->
+    <div id="loading-state">
+      <div style="font-size: 30px; margin-bottom: 15px;">⚙️</div>
+      AI is analyzing the JD & Culture Card...<br>Generating Sectioned Assessment...
+    </div>
+
+    <!-- 3. Assessment State -->
+    <div id="assessment-state">
+      <div class="assessment-header">
+        <h2 style="margin-bottom: 5px;">Candidate Assessment Ready</h2>
+      </div>
+
+      <div id="assessment-content"></div>
+
+      <div style="display: flex; gap: 10px; margin-top: 30px;">
+        <button class="submit-btn" onclick="resetDemo()" style="background: var(--section-bg); color: var(--text-main); border: 1px solid var(--input-border);">Back to Form</button>
+        <!-- EXPORT BUTTON TRIGGERS exportAssessment() -->
+        <button class="submit-btn" onclick="exportAssessment()">Export to PDF / HR System</button>
+      </div>
+    </div>
+
+    <!-- 4. Export Success State -->
+    <div id="export-success-state">
       <div class="check-icon">&#10003;</div>
-      <h2 style="margin-bottom: 10px;">Assessment Generated!</h2>
-      <p class="success-desc">
-        The AI has successfully processed the job description and culture card. <br><br>
-        The automated Google Form links have been dispatched to the HR contact emails provided.
+      <h2 style="margin-bottom: 10px;">Assessment Exported Successfully!</h2>
+      <p style="color: var(--text-muted); font-size: 15px; line-height: 1.5;">
+        The structured assessment has been saved as a PDF and dispatched securely to the connected HR portal and provided email addresses.
       </p>
-      <button class="submit-btn" onclick="resetDemo()" style="margin-top: 30px; width: auto; padding: 10px 30px;">Run Another Demo</button>
+      <button class="submit-btn" onclick="resetDemo()" style="margin-top: 30px; width: auto; padding: 10px 30px;">Generate Another Assessment</button>
     </div>
 
   </div>
@@ -324,7 +339,103 @@
   <script>
     let toastTimeout;
 
-    // Theme Toggle & Toast Notification Logic
+    const docData = {
+      'jd_software': `<h3 style="color:var(--primary-blue); margin-top: 0;">Software Engineer – Job Description</h3><p>Infinyty Tech is looking for a Software Engineer who is passionate about building scalable, reliable, and high-quality software systems.</p><strong>Key Responsibilities</strong><ul style="color:var(--text-muted); font-size:14px;"><li>Design, develop, and maintain backend and frontend components</li><li>Write clean, efficient, and well-documented code</li><li>Collaborate with cross-functional teams including product and analytics</li><li>Participate in code reviews and technical discussions</li></ul><strong>Required Skills</strong><ul style="color:var(--text-muted); font-size:14px;"><li>Strong proficiency in Python and REST APIs</li><li>Experience with databases and data processing</li><li>Understanding of software design principles</li></ul>`,
+      'jd_marketing': `<h3 style="color:var(--primary-blue); margin-top: 0;">Marketing Specialist – Job Description</h3><p>Infinyty Tech is looking for a data-driven Marketing Specialist to manage multi-channel campaigns and brand growth.</p><strong>Key Responsibilities</strong><ul style="color:var(--text-muted); font-size:14px;"><li>Develop and execute B2B marketing strategies and digital campaigns</li><li>Analyze campaign performance metrics to optimize ROI</li><li>Manage social media presence and content creation pipelines</li></ul><strong>Required Skills</strong><ul style="color:var(--text-muted); font-size:14px;"><li>Proficiency in SEO, SEM, and CRM tools</li><li>Strong copywriting and communication abilities</li><li>Experience with analytics platforms (Google Analytics)</li></ul>`,
+      'cc_technical': `<h3 style="color:var(--primary-blue); margin-top: 0;">Culture Card (Excel view)</h3><table><tr><th>A (Category)</th><th>B (Core Values)</th></tr><tr><td>Technical Values</td><td>Problem Solving, Data-Driven Decision Making, Quality, Reliability</td></tr><tr><td>Execution</td><td>Agility, Continuous Delivery, Code Ownership</td></tr></table>`,
+      'cc_leadership': `<h3 style="color:var(--primary-blue); margin-top: 0;">Culture Card (Excel view)</h3><table><tr><th>A (Category)</th><th>B (Core Values)</th></tr><tr><td>Leadership Values</td><td>Integrity, Transparency, Collaboration, Leadership</td></tr><tr><td>Management</td><td>Strategic Vision, Mentorship, Conflict Resolution</td></tr></table>`
+    };
+
+    // Full 60-Question Bank with REAL options
+    const questionBank = {
+      software: {
+        sec1: [
+          { q: "If an algorithm scales at O(n^2), what happens to processing time if the data size doubles?", opts: ["Processing time remains constant", "Processing time doubles", "Processing time quadruples", "Processing time increases logarithmically"] },
+          { q: "Which software design pattern restricts object creation to a single instance?", opts: ["Factory Pattern", "Observer Pattern", "Decorator Pattern", "Singleton Pattern"] },
+          { q: "In binary logic, what is the result of 1 XOR 1?", opts: ["0", "1", "2", "-1"] },
+          { q: "If a system experiences 99.9% uptime, roughly how much downtime is permitted per year?", opts: ["~52 minutes", "~8.7 hours", "~43 minutes", "~8 days"] },
+          { q: "A queue data structure strictly follows which primary principle?", opts: ["LIFO (Last In, First Out)", "FIFO (First In, First Out)", "FILO (First In, Last Out)", "Random Access"] },
+          { q: "What is the worst-case time complexity of binary search on a sorted array?", opts: ["O(1)", "O(n)", "O(log n)", "O(n^2)"] },
+          { q: "Which of the following is a primary characteristic of a microservices architecture?", opts: ["A single monolithic database", "Independent deployability of services", "Tight coupling between modules", "Shared memory space"] },
+          { q: "In Git, what command saves your local changes temporarily without committing them?", opts: ["git save", "git commit --amend", "git stash", "git push"] },
+          { q: "If statement A implies B, and B implies C, which logical conclusion is strictly true?", opts: ["C implies A", "B implies A", "A implies C", "Not enough information"] },
+          { q: "What is the primary purpose of a hash map data structure?", opts: ["Sorting data sequentially", "Providing O(1) average lookup time", "Creating linked lists", "Graph traversal"] }
+        ],
+        sec2: [
+          { q: "Which HTTP status code explicitly indicates that a requested resource was not found?", opts: ["200 OK", "403 Forbidden", "404 Not Found", "500 Internal Server Error"] },
+          { q: "In Python, what is the core difference between a list and a tuple?", opts: ["Lists are immutable, tuples are mutable", "Tuples are immutable, lists are mutable", "Both are immutable", "Tuples can only store string values"] },
+          { q: "Which standard SQL command is used to retrieve data from a relational database?", opts: ["GET", "FETCH", "SELECT", "PULL"] },
+          { q: "What does REST stand for in web API architecture?", opts: ["Remote Execution Server Transport", "Representational State Transfer", "Real-time Event System Technology", "Relational Entity Storage Transmission"] },
+          { q: "What is the primary performance benefit of database indexing?", opts: ["It automatically encrypts data", "It reduces overall storage space", "It speeds up data retrieval operations", "It prevents SQL injection attacks"] },
+          { q: "Which of the following is NOT a standard HTTP method?", opts: ["GET", "POST", "FETCH", "DELETE"] },
+          { q: "In object-oriented programming, what concept allows objects of different classes to be treated as objects of a common superclass?", opts: ["Encapsulation", "Polymorphism", "Abstraction", "Instantiation"] },
+          { q: "Which AWS service is primarily used for scalable, object-level cloud storage?", opts: ["Amazon EC2", "Amazon RDS", "Amazon S3", "AWS Lambda"] },
+          { q: "What is the main purpose of a foreign key in a relational database?", opts: ["To encrypt a specific table", "To establish a link between data in two tables", "To automatically generate unique IDs", "To speed up write operations"] },
+          { q: "Which mechanism handles automatic memory management in Python?", opts: ["Manual allocation (malloc)", "Garbage Collection", "Pointer arithmetic", "Developer intervention"] }
+        ],
+        sec3: [
+          { q: "When you fundamentally disagree with a senior developer on a software architecture choice, what is the best approach?", opts: ["Implement it your way anyway", "Discuss the disagreement using data-backed points and trade-off analysis", "Ignore the disagreement and stay silent", "Escalate immediately to HR"] },
+          { q: "How should you handle discovering a major bug in your code exactly one hour before a production release?", opts: ["Deploy it and hope no one notices", "Delay the release and immediately alert stakeholders with a remediation plan", "Blame the QA team for missing it", "Try to rewrite the entire module in an hour"] },
+          { q: "Why is code documentation considered a critical core value in high-performing technical teams?", opts: ["It makes developers look busy", "It enables knowledge sharing, onboarding, and scaling", "It is legally required by all software licenses", "It replaces the need for writing clean code"] },
+          { q: "If a peer consistently misses sprint deadlines and it impacts your work, how should you address it?", opts: ["Do their work for them secretly", "Report them to the engineering manager immediately", "Check in privately to understand their blockers and offer collaborative help", "Publicly call them out in the daily standup"] },
+          { q: "What is the most effective way to respond to critical feedback during a peer code review?", opts: ["Take it as a personal attack", "Argue every single point to prove you are right", "Evaluate the feedback objectively, ask clarifying questions, and iterate", "Refuse to make any requested changes"] },
+          { q: "How do you balance writing 'perfect' code versus meeting tight product delivery deadlines?", opts: ["Always miss the deadline to ensure the code is flawless", "Ship broken code just to meet the deadline", "Ship a functional MVP while explicitly documenting technical debt for future refactoring", "Quit the project entirely"] },
+          { q: "What role does continuous learning play in a modern engineering culture?", opts: ["It is a waste of productive coding time", "It keeps skills sharp in an rapidly evolving technological landscape", "It is only necessary for junior developers", "It is strictly a requirement for management roles"] },
+          { q: "How should an engineering team handle dangerous 'knowledge silos' regarding legacy systems?", opts: ["Fire the person hoarding the knowledge", "Actively encourage cross-training, pair programming, and documentation", "Keep them isolated so they can focus", "Hire more people to figure it out blindly"] },
+          { q: "What is the primary goal of holding a blameless post-mortem after a critical system outage?", opts: ["To find out exactly who to fire", "To identify underlying system failures and create guardrails to prevent recurrence", "To make the on-call engineer feel bad", "To save cloud infrastructure costs"] },
+          { q: "If you are assigned a critical task in a framework you have never used, what is your best first step?", opts: ["Refuse the task completely", "Guess how the syntax works", "Read the documentation and build a small proof-of-concept before starting", "Ask a senior engineer to do it for you"] }
+        ],
+        sec4: [
+          "Describe a specific scenario where you had to debug a severe production issue under tight time constraints. What was your technical approach and how did you communicate with stakeholders?",
+          "Explain how you would design a scalable REST API from scratch, including your strategy for security, rate limiting, and database connections.",
+          "Draft a brief, professional code review response to a junior developer whose logic works perfectly, but ignores company style guidelines and lacks proper error handling."
+        ]
+      },
+      marketing: {
+        sec1: [
+          { q: "If a marketing campaign spends $1000 and generates $5000 in tracked sales, what is the Return on Investment (ROI)?", opts: ["100%", "400%", "500%", "50%"] },
+          { q: "Which metric best measures the percentage of website visitors who complete a desired action?", opts: ["Bounce Rate", "Conversion Rate", "Impression Rate", "Churn Rate"] },
+          { q: "If your email open rates drop significantly but click-through rates rise, what is the most logical conclusion?", opts: ["Fewer people opened the email, but those who did were highly engaged", "The email HTML was completely broken", "The spam filter blocked every single email", "The total list size increased"] },
+          { q: "In a standard marketing funnel, which stage immediately follows 'Awareness'?", opts: ["Purchase", "Retention", "Interest/Consideration", "Advocacy"] },
+          { q: "What is the statistical purpose of conducting an A/B split test on a landing page?", opts: ["To reduce ad spend to zero", "To compare two variations to determine which yields a higher conversion rate", "To automatically generate copywriting", "To manipulate search engine algorithms"] },
+          { q: "If Customer Acquisition Cost (CAC) drastically exceeds Customer Lifetime Value (LTV), what is the result?", opts: ["A highly profitable campaign", "An unsustainable business model", "A perfect marketing equilibrium", "Readiness for an IPO"] },
+          { q: "Which of the following scenarios indicates a high 'bounce rate' on a landing page?", opts: ["Highly engaged users clicking multiple links", "Users leaving the page without interacting with any elements", "A server crash preventing access", "A successful checkout completion"] },
+          { q: "If a social media post has incredibly high reach but very low engagement, what is the likely issue?", opts: ["Viral success", "The content was seen but did not resonate with the audience", "There were too many comments", "Perfect audience targeting"] },
+          { q: "What does 'SEO' stand for in digital marketing?", opts: ["Search Engine Optimization", "Social Engagement Outlet", "Sales Event Organization", "System Error Output"] },
+          { q: "In target audience segmentation, what does 'demographic' data primarily refer to?", opts: ["Age, gender, and income", "Hobbies and personal interests", "Website click behavior", "Past purchase history"] }
+        ],
+        sec2: [
+          { q: "Which Google tool is the industry standard for tracking website traffic and user behavior?", opts: ["Google Analytics", "Google Docs", "Google Drive", "Google Keep"] },
+          { q: "What is the primary purpose of a Call to Action (CTA) in a marketing email?", opts: ["To add visual color to the page", "To explicitly prompt the user to take a specific, measurable action", "To track user IP addresses", "To improve email server delivery speed"] },
+          { q: "In Search Engine Marketing (SEM), what does CPC stand for?", opts: ["Cost Per Click", "Clicks Per Campaign", "Cost Per Customer", "Content Per Channel"] },
+          { q: "Which strategy is most effective for long-term improvement of organic search rankings?", opts: ["Buying thousands of cheap backlinks", "Consistent keyword optimization and producing high-quality content", "Spamming hidden keywords on the homepage", "Ignoring mobile-friendly design"] },
+          { q: "What core role does a CRM platform play in a marketing department?", opts: ["Designing graphic logos", "Managing customer relationships, data, and sales pipelines", "Hosting website domains", "Writing backend software code"] },
+          { q: "Which of the following is considered an example of 'gated content'?", opts: ["A public blog post", "A premium whitepaper requiring an email address to download", "A public YouTube video", "A company homepage"] },
+          { q: "What is a standard benchmark for a 'good' average email open rate across most B2B industries?", opts: ["1-2%", "15-25%", "80-90%", "100%"] },
+          { q: "How do UTM parameters assist digital marketers in campaign tracking?", opts: ["By speeding up page load times", "By appending tags to URLs to track the specific source and medium of incoming traffic", "By encrypting user passwords", "By blocking spam bots"] },
+          { q: "What is the primary goal of running retargeting ads?", opts: ["To reach people who have never heard of the brand", "To re-engage users who previously visited the site but did not convert", "To drastically increase organic search volume", "To delete bad online reviews"] },
+          { q: "Which metric is most critical when measuring top-of-funnel brand awareness?", opts: ["Conversion rate", "Reach and Impressions", "Customer Support Tickets", "Churn Rate"] }
+        ],
+        sec3: [
+          { q: "How do you handle a scenario where the sales team claims all marketing leads are low quality?", opts: ["Ignore them completely", "Review the lead qualification criteria together and adjust targeting accordingly", "Blame sales for lacking the skills to close", "Stop generating leads altogether"] },
+          { q: "If a major, highly-funded product launch campaign fails to hit its KPIs, what is your immediate response?", opts: ["Hide the final report from management", "Analyze the data to find the root cause and apply learnings to the next campaign", "Blame the advertising platform's algorithm", "Run the exact same campaign again unchanged"] },
+          { q: "Why is maintaining strict brand consistency across all channels a core marketing value?", opts: ["It is not important at all", "It builds long-term customer trust and instant brand recognition", "It saves money on buying new colors", "It is required by social network terms of service"] },
+          { q: "How do you adapt when a sudden social media algorithm update drastically cuts your organic reach?", opts: ["Delete the brand account in protest", "Pivot the strategy (e.g., utilize new video formats, paid boosts, or community engagement)", "Post the exact same content but 10 times a day", "Threaten to sue the platform"] },
+          { q: "What is the most professional way to respond to negative brand feedback on a public forum?", opts: ["Argue with the customer publicly", "Delete the comment immediately", "Acknowledge the issue professionally and attempt to resolve it offline", "Ignore it completely"] },
+          { q: "How do you balance creative, out-of-the-box campaign ideas with strict, data-driven budget constraints?", opts: ["Only run boring, safe ads", "Overspend the budget anyway for the sake of art", "Test low-cost creative variations in small batches before scaling the budget", "Refuse to use anything except free stock photos"] },
+          { q: "Describe the importance of cross-functional collaboration between marketing and the product design team.", opts: ["It ensures marketing promises match the actual product reality", "It just makes meetings unnecessarily longer", "Marketing shouldn't talk to design at all", "Product design dictates all advertising copy"] },
+          { q: "When brainstorming new campaigns, how do you ensure diverse perspectives are included?", opts: ["Only the department head is allowed to speak", "Actively encourage open idea sharing from all team members regardless of seniority", "Copy competitors exactly", "Use a random word generator"] },
+          { q: "If a key stakeholder rejects your proposed campaign strategy, how do you proceed?", opts: ["Tell them they don't understand marketing", "Ask for specific, constructive feedback, address their concerns, and iterate", "Quit working on their account", "Run the campaign anyway behind their back"] },
+          { q: "Why is absolute transparency in campaign reporting essential for leadership trust?", opts: ["It shows you have nothing to hide, fostering trust even when campaigns underperform", "It is a guaranteed way to get fired", "It purposely confuses the client", "It is a strict legal requirement"] }
+        ],
+        sec4: [
+          "Describe a time you had to pivot a marketing campaign mid-way through because the data showed it wasn't working. What specific metrics did you analyze, and what changes did you make?",
+          "Outline a 3-step digital marketing strategy for launching a new B2B software tool targeting enterprise clients on a highly restricted budget.",
+          "Write a short, professional crisis-management response to a viral social media complaint regarding a massive delay in product shipping."
+        ]
+      }
+    };
+
     function toggleTheme() {
       const body = document.body;
       const btn = document.getElementById('theme-btn');
@@ -341,40 +452,98 @@
         toastText.innerText = 'Light mode enabled';
       }
 
-      // Show toast animation
       toast.classList.add('show');
-
-      // Hide toast automatically after 2.5 seconds
       clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2500);
+      toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 2500);
     }
 
-    // Form Simulation Logic
+    function previewDocument(type) {
+      const selectId = type === 'jd' ? 'jd-select' : 'cc-select';
+      const val = document.getElementById(selectId).value;
+      if(!val) { alert("Please select an option from the dropdown first."); return; }
+      document.getElementById('modal-body').innerHTML = docData[`${type}_${val}`];
+      document.getElementById('preview-modal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('preview-modal').style.display = 'none'; }
+
+    // Generates the full 30 MCQ + 3 Text Area assessment
+    function generateAssessmentHTML(role) {
+      let html = '';
+      const bank = questionBank[role];
+      const sections = [
+        { title: "Section 1: General Aptitude & Logic (10 MCQs)", data: bank.sec1, type: "mcq" },
+        { title: "Section 2: Role-Specific Technical Skills (10 MCQs)", data: bank.sec2, type: "mcq" },
+        { title: "Section 3: Culture & Behavioral Fit (10 MCQs)", data: bank.sec3, type: "mcq" },
+        { title: "Section 4: Deep-Dive Scenarios (3 Paragraph Questions)", data: bank.sec4, type: "para" }
+      ];
+
+      sections.forEach((sec, s_idx) => {
+        html += `<div class="section-block"><h4 class="section-title">${sec.title}</h4>`;
+        
+        sec.data.forEach((qItem, q_idx) => {
+          if (sec.type === 'mcq') {
+            html += `<div class="question-item"><strong>Q${q_idx + 1}.</strong> ${qItem.q}`;
+            const groupName = `s${s_idx}_q${q_idx}`;
+            html += `<div class="options-list">
+              <label><input type="radio" name="${groupName}" value="a"> A) ${qItem.opts[0]}</label>
+              <label><input type="radio" name="${groupName}" value="b"> B) ${qItem.opts[1]}</label>
+              <label><input type="radio" name="${groupName}" value="c"> C) ${qItem.opts[2]}</label>
+              <label><input type="radio" name="${groupName}" value="d"> D) ${qItem.opts[3]}</label>
+            </div>`;
+          } else {
+            html += `<div class="question-item"><strong>Q${q_idx + 1}.</strong> ${qItem}`;
+            // REAL typable text area
+            html += `<textarea class="real-text-area" placeholder="Type candidate answer here..."></textarea>`;
+          }
+          html += `</div>`;
+        });
+        html += `</div>`;
+      });
+      return html;
+    }
+
     document.getElementById('demo-form').addEventListener('submit', function(e) {
       e.preventDefault();
+      
       const btn = document.getElementById('generate-btn');
+      const role = document.getElementById('jd-select').value;
       
       btn.innerText = "Analyzing & Generating... Please wait";
       btn.disabled = true;
 
+      // Hide form, show loading
+      document.getElementById('form-state').style.display = 'none';
+      document.getElementById('loading-state').style.display = 'block';
+
       setTimeout(() => {
-        document.getElementById('form-state').style.display = 'none';
-        document.getElementById('success-state').style.display = 'block';
+        // Hide loading, show generated assessment
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('assessment-content').innerHTML = generateAssessmentHTML(role);
+        document.getElementById('assessment-state').style.display = 'block';
+        document.querySelector('.card').scrollTop = 0;
       }, 2500);
     });
 
+    // Handle Export Workflow
+    function exportAssessment() {
+      document.getElementById('assessment-state').style.display = 'none';
+      document.getElementById('export-success-state').style.display = 'block';
+      document.querySelector('.card').scrollTop = 0;
+    }
+
+    // Reset everything back to start
     function resetDemo() {
       document.getElementById('demo-form').reset();
       const btn = document.getElementById('generate-btn');
       btn.innerText = "Generate Candidate Assessment";
       btn.disabled = false;
-
-      document.getElementById('success-state').style.display = 'none';
+      
+      document.getElementById('export-success-state').style.display = 'none';
+      document.getElementById('assessment-state').style.display = 'none';
       document.getElementById('form-state').style.display = 'block';
+      document.querySelector('.card').scrollTop = 0;
     }
   </script>
-
 </body>
 </html>
