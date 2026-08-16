@@ -1,16 +1,22 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us &mdash; Infinyty Tech</title>
-  <meta name="description" content="Get in touch with Infinyty Tech &mdash; book a meeting or reach us via WhatsApp, email, or LinkedIn.">
-  <meta property="og:title" content="Contact Us — Infinyty Tech">
-  <meta property="og:description" content="Get in touch with Infinyty Tech to discuss your AI, data science, or software engineering needs.">
+  <title>Contact Us &mdash; Infinyty</title>
+  <meta name="description" content="Get in touch with Infinyty &mdash; book a meeting or reach us via WhatsApp, email, or LinkedIn.">
+  <meta property="og:title" content="Contact Us — Infinyty">
+  <meta property="og:description" content="Get in touch with Infinyty to discuss your AI, data science, or software engineering needs.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://infinyty-tech.vercel.app/contact">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="style.css?v=11.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=40.0">
   <script>
     (function(){
       var t = localStorage.getItem('theme');
@@ -67,16 +73,8 @@
 <header id="header">
   <div class="nav-inner">
     <a href="/" class="nav-logo">
-      <svg viewBox="0 0 40 36" fill="none">
-        <path d="M10 18C10 12 15 11 18 15.5C21 20 26 25 30 20C34 15 29 10 25 14.5C21 19 16 25 12 21C9.5 18.5 9.5 12.5 15 11" stroke="url(#navLogoGrad)" stroke-width="2.6" stroke-linecap="round"/>
-        <defs>
-          <linearGradient id="navLogoGrad" x1="10" y1="18" x2="34" y2="18" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#0072F4"/>
-            <stop offset="100%" stop-color="#4FC8FF"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <span class="nav-brandmark-text">infi<b>nyty</b>.tech</span>
+      <img src="/assets/infinyty-icon.png" alt="Infinyty" style="height:28px; width:auto; object-fit:contain;">
+      <span class="nav-brand-text">infinyty</span>
     </a>
     <nav>
       <ul class="nav-links">
@@ -96,7 +94,7 @@
       </button>
       <a href="/contact#contact-form" class="btn-secondary book-meeting-btn" style="padding:.5rem 1.25rem;font-size:.875rem;">Book a Meeting</a>
     </div>
-    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    <div class="hamburger" id="hamburger" aria-label="Toggle Menu"><span></span><span></span><span></span></div>
   </div>
   <div class="mobile-menu" id="mobile-menu">
     <a href="/">Home</a>
@@ -111,40 +109,50 @@
 </header>
 
 <main>
-  <div class="contact-hero-grid">
+  <div class="contact-hero-grid ambient-glow-wrap">
     <div class="contact-hero-text">
-      <p class="tagline">Connect</p>
-      <h1>Let's Build Something Exceptional</h1>
-      <p>We'd love to hear about your project. Reach out via any channel below, or book a meeting directly.</p>
+      <p class="tagline">Next Steps</p>
+      <h1>Have a Technology, Data, or AI Challenge?</h1>
+      <p>Let's turn it into a production-ready solution. Reach out via any channel below, or schedule a discovery call directly.</p>
     </div>
-    <div class="text-center">
-      <div class="logo-drawing-container" style="margin-top: 0;">
-        <svg viewBox="-5 -5 50 46" fill="none" class="drawing-logo-svg" shape-rendering="geometricPrecision">
-          <defs>
-            <!-- High-quality SVG Gaussian Blur Filter -->
-            <filter id="contactLogoGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2.5" result="blur"/>
-              <feMerge>
-                <feMergeNode in="blur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-            <linearGradient id="contactLogoGrad" x1="10" y1="18" x2="34" y2="18" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#0072F4"/>
-              <stop offset="100%" stop-color="#4FC8FF"/>
-            </linearGradient>
-          </defs>
-          <!-- Blur Glow Path (behind) -->
-          <path class="drawing-logo-path-glow" d="M10 18C10 12 15 11 18 15.5C21 20 26 25 30 20C34 15 29 10 25 14.5C21 19 16 25 12 21C9.5 18.5 9.5 12.5 15 11" stroke="#0072F4" stroke-width="4.5" stroke-linecap="round" filter="url(#contactLogoGlow)"/>
-          <!-- Bolder Main Crisp Path (front) -->
-          <path class="drawing-logo-path" d="M10 18C10 12 15 11 18 15.5C21 20 26 25 30 20C34 15 29 10 25 14.5C21 19 16 25 12 21C9.5 18.5 9.5 12.5 15 11" stroke="url(#contactLogoGrad)" stroke-width="3.2" stroke-linecap="round"/>
-        </svg>
-        <div class="logo-drawing-text">infi<b>nyty</b>.tech</div>
+    <div class="text-center" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 1.75rem 2.25rem; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+        <img src="/assets/infinyty-icon.png" alt="Infinyty" style="width: 78px; height: auto; object-fit: contain;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-top: 0.75rem; letter-spacing: -0.01em;">
+          infinyty<span style="color: var(--text);">.tech</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="section">
+  <!-- 3-STEP ROADMAP (MATCHING DECK SLIDE 11) -->
+  <div class="section" style="padding-top: 1rem; padding-bottom: 2rem;">
+    <div class="roadmap-3-grid">
+      <div class="roadmap-step-card">
+        <div class="roadmap-step-num">01</div>
+        <div class="roadmap-step-content">
+          <h4>Discover</h4>
+          <p>Understand your goals, challenges, and opportunities.</p>
+        </div>
+      </div>
+      <div class="roadmap-step-card">
+        <div class="roadmap-step-num">02</div>
+        <div class="roadmap-step-content">
+          <h4>Plan</h4>
+          <p>Define the solution, architecture, scope, and path to production.</p>
+        </div>
+      </div>
+      <div class="roadmap-step-card">
+        <div class="roadmap-step-num">03</div>
+        <div class="roadmap-step-content">
+          <h4>Build &amp; Deploy</h4>
+          <p>Build, launch, and scale with measurable business impact.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="padding-top: 1rem;">
     <div class="text-center">
       <h2 class="section-title" style="font-size:1.75rem;">Direct Channels</h2>
     </div>
@@ -152,7 +160,7 @@
     <div class="contact-grid">
       <!-- WhatsApp -->
       <div class="contact-card">
-        <a href="tel:+919930420065" class="full-link" aria-label="Call on WhatsApp"></a>
+        <a href="https://wa.me/919930420065" target="_blank" rel="noopener noreferrer" class="full-link" aria-label="Chat on WhatsApp"></a>
         <div class="contact-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 21 1.65-3.8a9 9 0 1 1 3.4 2.9z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0za5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
         </div>
@@ -174,10 +182,10 @@
       <div class="contact-card">
         <a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" class="full-link" aria-label="Visit LinkedIn"></a>
         <div class="contact-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
         </div>
         <h3>LinkedIn</h3>
-        <p>Infinyty Tech</p>
+        <p>Infinyty</p>
       </div>
     </div>
 
@@ -252,23 +260,28 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-grid">
-      <div class="footer-brand"><h3>Infinyty Tech</h3><p>Driving Excellence with Data &amp; AI. Formerly Infinity Analytics Consulting.</p></div>
-      <div class="footer-col"><h4>Solutions</h4><ul><li><a href="/services#agentic-ai">Agentic AI &amp; Gen AI</a></li><li><a href="/services#agentic-ai">Predictive Analytics</a></li><li><a href="/services">Data Engineering</a></li><li><a href="/services#software-development">Software Development</a></li></ul></div>
-      <div class="footer-col"><h4>Company</h4><ul><li><a href="/about">About Us</a></li><li><a href="/success-stories">Success Stories</a></li><li><a href="/careers">Careers</a></li><li><a href="/contact">Contact Us</a></li></ul></div>
-      <div class="footer-col"><h4>Contact Us</h4><ul><li><a href="mailto:contact@infinyty.tech">contact@infinyty.tech</a></li><li><a href="tel:+919930420065">+91 99304 20065</a></li><li><a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank">LinkedIn</a></li></ul></div>
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="margin-bottom:0.75rem;">
+          <img src="/assets/infinyty-lockup-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height:28px;">
+          <img src="/assets/infinyty-lockup-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height:28px;">
+        </a>
+        <p>Driving Excellence with Data &amp; AI. Formerly Infinity Analytics Consulting.</p>
+      </div>
+      <div class="footer-col"><h4>Solutions</h4><ul><li><a href="/services#agentic-ai">Agentic AI &amp; Gen AI</a></li><li><a href="/services#agentic-ai">Predictive Analytics</a></li><li><a href="/services#data-engineering">Data Engineering</a></li><li><a href="/services#software-development">Software Development</a></li><li><a href="/services#cloud-devops">Cloud &amp; DevOps</a></li><li><a href="/services#ui-ux">UI/UX Design</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="/about">About Us</a></li><li><a href="/success-stories">Success Stories</a></li><li><a href="/demos">Demos</a></li><li><a href="/careers">Careers</a></li><li><a href="/contact">Contact Us</a></li></ul></div>
+      <div class="footer-col"><h4>Contact Us</h4><ul><li><a href="mailto:contact@infinyty.tech">contact@infinyty.tech</a></li><li><a href="tel:+919930420065">+91 99304 20065</a></li><li><a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" rel="noopener noreferrer">LinkedIn</a></li></ul></div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 Infinyty.tech &mdash; All Rights Reserved. Powered by Infinyty Tech Global Solutions Pvt. Ltd.</p>
+      <p>&copy; 2026 Infinyty &mdash; All Rights Reserved. Powered by Infinyty Tech Global Solutions Pvt. Ltd.</p>
       <div class="footer-socials">
-        <a href="https://wa.me/919930420065" aria-label="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 21 1.65-3.8a9 9 0 1 1 3.4 2.9z"/></svg></a>
+        <a href="https://wa.me/919930420065" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 21 1.65-3.8a9 9 0 1 1 3.4 2.9z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0za5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg></a>
         <a href="mailto:contact@infinyty.tech" aria-label="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
-        <a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
       </div>
     </div>
   </div>
 </footer>
 
-<script src="main.js?v=7.0"></script>
+<script src="/main.js?v=7.0"></script>
 </body>
 </html>
-

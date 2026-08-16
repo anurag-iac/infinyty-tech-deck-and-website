@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 28" width="110" height="28">
+  <path d="M7 2h7c3 0 5.5 1.5 5 4.8-.5 3.8-3 5.7-6 5.7H9.5l-1.5 9H4L7 2z" fill="#003087"/>
+  <path d="M10.5 7h6c2.8 0 4.8 1.4 4.4 4.4-.4 3.4-2.5 5.2-5.3 5.2H12.5l-1.2 7.4H7.5l2-17z" fill="#0079C1"/>
+  <text x="25" y="21" font-family="'Space Grotesk', -apple-system, sans-serif" font-size="20" font-weight="800" fill="currentColor">Pay<tspan fill="#0079C1">Pal</tspan></text>
+</svg>

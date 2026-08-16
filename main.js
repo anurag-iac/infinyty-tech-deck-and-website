@@ -15,9 +15,12 @@ window.addEventListener('scroll', updateProgress, { passive: true });
 updateProgress();
 
 // ── STICKY HEADER SHADOW ──
-window.addEventListener('scroll', () => {
-  document.querySelector('header').classList.toggle('scrolled', window.scrollY > 20);
-}, { passive: true });
+const headerEl = document.querySelector('header');
+if (headerEl) {
+  window.addEventListener('scroll', () => {
+    headerEl.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+}
 
 // ── MOBILE MENU ──
 const hamburger = document.getElementById('hamburger');
@@ -44,14 +47,14 @@ const getCleanPath = (urlStr) => {
 };
 
 const currentCleanPath = getCleanPath(window.location.href);
-document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(a => {
+document.querySelectorAll('.nav-links a:not(.btn-primary):not(.btn-secondary), .mobile-menu a:not(.btn-primary):not(.btn-secondary)').forEach(a => {
   const targetCleanPath = getCleanPath(a.href);
-  if (currentCleanPath === targetCleanPath) {
+  if (currentCleanPath === targetCleanPath || (targetCleanPath !== '/index' && currentCleanPath.startsWith(targetCleanPath + '/'))) {
     a.classList.add('active');
   }
 });
 
-// ── THEME TOGGLE ──
+// ── UNIFIED THEME TOGGLE & SYNC ──
 const themeToggle = document.getElementById('theme-toggle');
 
 function applyThemeIcons() {
@@ -59,16 +62,42 @@ function applyThemeIcons() {
   document.querySelectorAll('.sun-icon').forEach(el => el.style.display = isDark ? 'block' : 'none');
   document.querySelectorAll('.moon-icon').forEach(el => el.style.display = isDark ? 'none' : 'block');
 }
-applyThemeIcons();
+
+function syncTheme(theme) {
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark-mode');
+    if (document.body) document.body.classList.remove('light-theme');
+  } else {
+    document.documentElement.classList.remove('dark-mode');
+    if (document.body) document.body.classList.add('light-theme');
+  }
+  localStorage.setItem('theme', theme);
+  localStorage.setItem('infinyty_theme', theme);
+  localStorage.setItem('pitch_theme', theme);
+  applyThemeIcons();
+}
+
+// Initial sync
+const initialTheme = localStorage.getItem('theme') || localStorage.getItem('infinyty_theme') || localStorage.getItem('pitch_theme');
+if (initialTheme) {
+  syncTheme(initialTheme);
+} else {
+  applyThemeIcons();
+}
 
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark-mode');
-    const theme = document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
-    applyThemeIcons();
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    syncTheme(isDark ? 'light' : 'dark');
   });
 }
+
+// Storage event listener for real-time tab synchronization
+window.addEventListener('storage', (e) => {
+  if (e.key === 'theme' || e.key === 'infinyty_theme' || e.key === 'pitch_theme') {
+    if (e.newValue) syncTheme(e.newValue);
+  }
+});
 
 // ── CARD ENTRANCE ANIMATIONS (IntersectionObserver) ──
 const animatables = document.querySelectorAll('.card, .team-card, .contact-card');

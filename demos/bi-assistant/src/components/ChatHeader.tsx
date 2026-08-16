@@ -11,7 +11,7 @@ interface ChatHeaderProps {
   setViewMode: (mode: ViewMode) => void;
   darkMode: boolean;
   setDarkMode: (val: boolean) => void;
-  onClearChat: () => void;
+  onClearChat?: () => void;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
@@ -93,7 +93,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           </div>
 
           <button
-            onClick={onClearChat}
+            onClick={() => { if (onClearChat) { onClearChat(); } else { window.location.reload(); } }}
             className="p-2 rounded-xl text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
             title="Reset Chat Conversation"
           >

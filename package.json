@@ -1,7 +1,17 @@
 {
+  "name": "infinyty-tech-website",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "serve . -l 3000",
+    "start": "serve . -l 3000"
+  },
   "dependencies": {
+    "cheerio": "^1.2.0",
     "gif-encoder-2": "^1.0.5",
     "playwright": "^1.61.1",
     "pngjs": "^7.0.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
   }
 }

@@ -3,236 +3,603 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assessment Generator - Demo</title>
+  <title>Assessment Generator &mdash; Infinyty</title>
+  <link rel="icon" type="image/png" href="/assets/favicon-32.png">
   
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
   <!-- PDF Generation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
-    /* Theme Color Variables */
     :root {
-      --bg-gradient: linear-gradient(110deg, #f4f7f9 45%, #1a56db 45%);
-      --card-bg: #ffffff;
-      --text-main: #1a202c;
-      --text-muted: #4a5568;
-      --input-bg: #ffffff;
-      --input-border: #cbd5e0;
-      --input-text: #1a202c;
-      --toast-bg: #ffffff;
-      --toast-text: #1a202c;
-      --toast-border: #e2e8f0;
-      --modal-overlay: rgba(0, 0, 0, 0.5);
-      --section-bg: #f8fafc;
-      --primary-blue: #2563eb;
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-elevated: #f1f5f9;
+      --bg-input: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-brand: #0072f4;
+      --accent-cyan: #0284c7;
+      --accent-glow: rgba(0, 114, 244, 0.08);
+      --border-subtle: #e2e8f0;
+      --border-bright: rgba(0, 114, 244, 0.25);
+      --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.07);
+      --success-brand: #10b981;
+      --warning-brand: #f59e0b;
     }
 
     [data-theme="dark"] {
-      --bg-gradient: linear-gradient(110deg, #0f172a 45%, #1e3a8a 45%);
-      --card-bg: #1e293b;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --input-bg: #0f172a;
-      --input-border: #334155;
-      --input-text: #f8fafc;
-      --toast-bg: #0f172a;
-      --toast-text: #f8fafc;
-      --toast-border: #334155;
-      --modal-overlay: rgba(0, 0, 0, 0.7);
-      --section-bg: #0f172a;
+      --bg-base: #090d16;
+      --bg-surface: rgba(15, 23, 42, 0.85);
+      --bg-elevated: #1e293b;
+      --bg-input: rgba(15, 23, 42, 0.6);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-brand: #0072f4;
+      --accent-cyan: #00c6ff;
+      --accent-glow: rgba(0, 114, 244, 0.15);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-bright: rgba(0, 114, 244, 0.3);
+      --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg-gradient);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-base);
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: background 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 114, 244, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(0, 198, 255, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Toast Notification Banner */
-    .toast-banner {
-      position: absolute;
-      top: 24px;
-      background: var(--toast-bg);
-      color: var(--toast-text);
-      border: 1px solid var(--toast-border);
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-size: 14px;
-      font-weight: 500;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* ── TOP NAV HEADER ── */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.5rem;
       display: flex;
       align-items: center;
-      gap: 10px;
-      opacity: 0;
-      transform: translateY(-20px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
-      z-index: 100;
+      justify-content: space-between;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    [data-theme="dark"] .top-nav {
+      background: rgba(9, 13, 22, 0.85);
     }
 
-    .toast-banner.show { opacity: 1; transform: translateY(0); }
-    .toast-icon { color: #10b981; font-weight: bold; }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
 
-    .card {
-      background: var(--card-bg);
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 22px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .nav-logo .logo-dark { display: none; }
+    .nav-logo .logo-light { display: block; }
+    [data-theme="dark"] .nav-logo .logo-dark { display: block; }
+    [data-theme="dark"] .nav-logo .logo-light { display: none; }
+
+    .nav-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border-subtle);
+    }
+
+    .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(0, 114, 244, 0.1);
+      border: 1px solid rgba(0, 114, 244, 0.25);
+      color: #38bdf8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      letter-spacing: 0.02em;
+    }
+    [data-theme="light"] .app-badge {
+      color: var(--accent-brand);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      background: var(--bg-elevated);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success-brand);
+      box-shadow: 0 0 8px var(--success-brand);
+    }
+
+    .nav-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      border-radius: 8px;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-bright);
+    }
+
+    /* ── MAIN CONTENT CONTAINER ── */
+    .app-container {
+      max-width: 960px;
       width: 100%;
-      max-width: 850px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      box-sizing: border-box;
-      transition: background 0.3s ease;
-    }
-    
-    .card::-webkit-scrollbar { width: 8px; }
-    .card::-webkit-scrollbar-thumb { background: var(--input-border); border-radius: 4px; }
-
-    .header {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 25px;
+      margin: 2rem auto;
+      padding: 0 1.25rem;
+      flex: 1;
     }
 
-    .company-logo { height: 32px; width: auto; }
-    .header-right { display: flex; align-items: center; gap: 16px; }
-
-    .theme-toggle {
-      background: none; border: 1px solid var(--input-border);
-      border-radius: 50%; width: 36px; height: 36px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 16px; transition: background 0.2s;
+    .app-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      padding: 2.25rem;
+      transition: background 0.3s, border-color 0.3s;
     }
-    .theme-toggle:hover { background: rgba(0, 0, 0, 0.05); }
-    [data-theme="dark"] .theme-toggle:hover { background: rgba(255, 255, 255, 0.1); }
-    .logout { color: #3182ce; text-decoration: none; font-size: 14px; }
 
-    h2 { text-align: center; color: var(--text-main); font-size: 22px; margin-bottom: 30px; font-weight: 600; }
+    .hero-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .hero-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-header p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
 
-    .form-group { margin-bottom: 18px; }
-    label { display: block; font-size: 13px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px; }
-    
+    /* ── FORM ELEMENTS ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .full-width {
+      grid-column: span 2;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
     input[type="text"], select {
-      width: 100%; padding: 10px 12px; border: 1px solid var(--input-border);
-      background-color: var(--input-bg); color: var(--input-text);
-      border-radius: 6px; font-size: 14px; box-sizing: border-box; outline: none;
-      transition: border-color 0.2s, background 0.3s;
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      color: var(--text-primary);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+      font-family: inherit;
     }
-    input[type="text"]:focus, select:focus, textarea:focus { border-color: #3182ce; }
+    input[type="text"]:focus, select:focus {
+      border-color: var(--accent-brand);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
 
-    .dropdown-group { display: flex; gap: 10px; }
-    .dropdown-group select { flex: 1; }
-    
-    .preview-btn {
-      background: var(--section-bg); border: 1px solid var(--input-border);
-      color: var(--text-main); padding: 0 15px; border-radius: 6px;
-      cursor: pointer; font-size: 13px; font-weight: 600; transition: background 0.2s;
+    .dropdown-with-btn {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .dropdown-with-btn select {
+      flex: 1;
+    }
+
+    .preview-doc-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      border-radius: 10px;
+      padding: 0 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
       white-space: nowrap;
+      transition: all 0.2s;
     }
-    .preview-btn:hover { background: var(--input-border); }
-
-    .submit-btn {
-      width: 100%; background: #2563eb; color: white; border: none;
-      padding: 14px; font-size: 15px; font-weight: 600; border-radius: 6px;
-      cursor: pointer; margin-top: 10px; transition: background 0.2s;
-    }
-    .submit-btn:hover { background: #1d4ed8; }
-    .submit-btn:disabled { background: #93c5fd; cursor: not-allowed; }
-
-    /* Modal Styles */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--modal-overlay); display: none;
-      justify-content: center; align-items: center; z-index: 1000;
-      backdrop-filter: blur(4px);
-    }
-    
-    .modal-content {
-      background: var(--card-bg); color: var(--text-main);
-      width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;
-      padding: 30px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      position: relative;
+    .preview-doc-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-brand);
     }
 
-    .modal-close {
-      position: absolute; top: 15px; right: 20px;
-      background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer;
-    }
-
-    .doc-preview table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-    .doc-preview th, .doc-preview td {
-      border: 1px solid var(--input-border); padding: 10px; font-size: 14px; text-align: left;
-    }
-    .doc-preview th { background: var(--section-bg); }
-
-    /* Inline Culture Card Preview */
+    /* Inline Culture Card Box */
     #inline-cc-preview {
       display: none;
-      margin-top: 10px;
-      padding: 15px;
-      border: 1px solid var(--input-border);
-      border-radius: 6px;
-      background: var(--section-bg);
-      color: var(--text-main);
+      margin-top: 0.75rem;
+      padding: 1rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
     }
 
-    /* Loading, Assessment & Export State */
-    #loading-state, #export-success-state, #exporting-loader {
-      display: none; text-align: center; padding: 40px 0; color: var(--text-muted); font-weight: 600;
+    /* ── ACTION BUTTONS ── */
+    .primary-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-brand) 0%, var(--accent-cyan) 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(0, 114, 244, 0.35);
+      transition: all 0.2s;
+      margin-top: 1rem;
+    }
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(0, 114, 244, 0.5);
+    }
+    .primary-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    #assessment-state { display: none; }
-    
-    .assessment-header {
-      text-align: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--input-border);
+    .secondary-btn {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.85rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    
-    .section-block {
-      background: var(--card-bg); border: 1px solid var(--input-border);
-      border-radius: 8px; padding: 20px; margin-bottom: 20px;
+    .secondary-btn:hover {
+      border-color: var(--border-bright);
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    .section-title { font-size: 16px; font-weight: bold; color: var(--primary-blue); margin-bottom: 15px; margin-top: 0; }
-
-    .question-item { margin-bottom: 20px; font-size: 14px; color: var(--text-main); }
-    
-    .options-list { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
-
-    .options-list label {
-      display: flex; align-items: flex-start; gap: 8px; font-weight: 400; color: var(--text-main);
-      cursor: pointer; margin: 0; font-size: 14px; line-height: 1.4;
+    /* ── TERMINAL LOG STATE ── */
+    #loading-state {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 0;
     }
-    .options-list input[type="radio"] { margin-top: 3px; }
-
-    textarea.real-text-area {
-      width: 100%; height: 80px; padding: 10px; margin-top: 10px;
-      border: 1px solid var(--input-border); background: var(--input-bg);
-      color: var(--input-text); border-radius: 6px; font-family: inherit; font-size: 14px;
-      resize: vertical; box-sizing: border-box; outline: none; transition: border-color 0.2s;
+    .terminal-box {
+      background: #060911;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      text-align: left;
+      height: 180px;
+      overflow-y: auto;
+      margin-top: 1.5rem;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
     }
-    textarea.real-text-area:focus { border-color: var(--primary-blue); }
+    .terminal-line {
+      margin: 0.35rem 0;
+      opacity: 0;
+      animation: fadeIn 0.2s forwards;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .terminal-line::before {
+      content: '>';
+      color: var(--accent-brand);
+      font-weight: bold;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
 
-    .check-icon {
-      width: 60px; height: 60px; background: #10b981; color: white;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 30px; margin: 0 auto 20px auto;
+    /* ── ASSESSMENT SUITE STATE ── */
+    #assessment-state {
+      display: none;
+    }
+
+    .assessment-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem;
+      background: rgba(0, 114, 244, 0.08);
+      border: 1px solid rgba(0, 114, 244, 0.25);
+      border-radius: 12px;
+      margin-bottom: 1.75rem;
+    }
+    .assessment-meta h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .assessment-meta p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .section-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .section-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-brand);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    [data-theme="light"] .section-card-title {
+      color: #0284c7;
+    }
+
+    .question-block {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .question-header {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.6rem 0.85rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover {
+      border-color: var(--accent-brand);
+      color: var(--text-primary);
+      background: var(--accent-glow);
+    }
+    .option-item input[type="radio"] {
+      margin-top: 0.15rem;
+      accent-color: var(--accent-brand);
+    }
+
+    textarea.scenario-textarea {
+      width: 100%;
+      min-height: 90px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-primary);
+      padding: 0.75rem;
+      font-family: inherit;
+      font-size: 0.88rem;
+      resize: vertical;
+      outline: none;
+      margin-top: 0.5rem;
+    }
+    textarea.scenario-textarea:focus {
+      border-color: var(--accent-brand);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    /* ── SUCCESS STATE ── */
+    #export-success-state, #exporting-loader {
+      display: none;
+      text-align: center;
+      padding: 3rem 1.5rem;
+    }
+    .success-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--success-brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin: 0 auto 1.25rem;
+    }
+
+    /* ── TOAST NOTIFICATION ── */
+    .toast-banner {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 1000;
+    }
+    .toast-banner.show { opacity: 1; transform: translateY(0); }
+    .toast-icon { color: var(--success-brand); font-weight: bold; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7); display: none;
+      justify-content: center; align-items: center; z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+    .modal-content {
+      background: var(--bg-surface); color: var(--text-primary);
+      width: 90%; max-width: 650px; max-height: 80vh; overflow-y: auto;
+      padding: 2rem; border-radius: 16px; border: 1px solid var(--border-subtle);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+      color: var(--text-secondary); width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .modal-close:hover { color: var(--text-primary); border-color: var(--border-bright); }
+
+    .doc-preview table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .doc-preview th, .doc-preview td {
+      border: 1px solid var(--border-subtle); padding: 0.75rem; font-size: 0.85rem; text-align: left;
+    }
+    .doc-preview th { background: var(--bg-elevated); color: var(--text-primary); }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .full-width { grid-column: span 1; }
+      .app-card { padding: 1.5rem; }
     }
   </style>
 </head>
 <body data-theme="light">
 
+  <!-- TOP NAV HEADER -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-logo" title="Infinyty Home">
+        <img src="/assets/infinyty-lockup-dark.png" alt="Infinyty" class="logo-dark">
+        <img src="/assets/infinyty-lockup-light.png" alt="Infinyty" class="logo-light">
+      </a>
+      <div class="nav-divider"></div>
+      <div class="app-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        AI Assessment Generator
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span>AI Engine Ready</span>
+      </div>
+      <button class="nav-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <a href="/demos" class="nav-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Demos
+      </a>
+    </div>
+  </header>
+
+  <!-- TOAST NOTIFICATION -->
   <div class="toast-banner" id="toast-banner">
     <span class="toast-icon">✓</span>
-    <span id="toast-text">Light mode enabled</span>
+    <span id="toast-text">Action completed</span>
   </div>
 
+  <!-- PREVIEW MODAL -->
   <div class="modal-overlay" id="preview-modal">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal()">×</button>
@@ -240,126 +607,147 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="header">
-      <img src="/demos/assessment-generator/logo.png" alt="Infinyty Tech" class="company-logo">
-      <div class="header-right">
-        <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
-        <a href="#" class="logout">Logout</a>
-      </div>
-    </div>
-
-    <!-- 1. Form State (With Autofilled Values) -->
-    <div id="form-state">
-      <h2>AI Assessment Generator</h2>
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-container">
+    <div class="app-card">
       
-      <form id="demo-form">
-        <div class="form-group">
-          <label>Company Name</label>
-          <input type="text" value="Infinyty Tech" required>
+      <!-- 1. FORM STATE -->
+      <div id="form-state">
+        <div class="hero-header">
+          <h1>AI Candidate Assessment Generator</h1>
+          <p>Instantly generate role-specific evaluation questionnaires, behavioral rubrics, and automated grading matrices from Job Descriptions.</p>
         </div>
-        <div class="form-group">
-          <label>HR Contact Email(s)</label>
-          <input type="text" value="contact@infinyty.tech" required>
-        </div>
-        <div class="form-group">
-          <label>Industry / Domain</label>
-          <input type="text" value="Data Science / Analytics / Consulting" required>
-        </div>
-        <div class="form-group">
-          <label>Position</label>
-          <input type="text" required>
-        </div>
-        <div class="form-group">
-          <label>Position Level</label>
-          <select>
-            <option>Entry-Level</option>
-            <option>Mid-Level</option>
-            <option>Senior-Level</option>
-            <option>Executive</option>
-          </select>
-        </div>
+        
+        <form id="demo-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Company Name</label>
+              <input type="text" value="Infinyty" required>
+            </div>
+            <div class="form-group">
+              <label>HR Contact Email</label>
+              <input type="text" value="contact@infinyty.tech" required>
+            </div>
+            <div class="form-group">
+              <label>Industry / Domain</label>
+              <input type="text" value="Data Science &amp; AI Engineering" required>
+            </div>
+            <div class="form-group">
+              <label>Position Level</label>
+              <select>
+                <option>Entry-Level</option>
+                <option>Mid-Level</option>
+                <option selected>Senior-Level</option>
+                <option>Principal / Lead</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
+              <label>Job Description Template</label>
+              <div class="dropdown-with-btn">
+                <select id="jd-select" required>
+                  <option value="" disabled>Select a Sample JD Template...</option>
+                  <option value="software" selected>Software &amp; AI Engineer Role</option>
+                  <option value="marketing">Growth &amp; Technical Marketing Manager</option>
+                </select>
+                <button type="button" class="preview-doc-btn" onclick="previewDocument('jd')">
+                  👁 View JD
+                </button>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label>Culture Values Matrix</label>
+              <div class="dropdown-with-btn">
+                <select id="cc-select" required onchange="showInlineCultureCard()">
+                  <option value="" disabled>Select a Culture Matrix...</option>
+                  <option value="technical" selected>Technical &amp; Execution Values Matrix</option>
+                  <option value="leadership">Leadership &amp; Strategic Vision Matrix</option>
+                </select>
+                <button type="button" class="preview-doc-btn" onclick="previewDocument('cc')">
+                  👁 View Matrix
+                </button>
+              </div>
+              <div id="inline-cc-preview" class="doc-preview"></div>
+            </div>
+          </div>
 
-        <div class="form-group">
-          <label>Job Description (Document)</label>
-          <div class="dropdown-group">
-            <select id="jd-select" required>
-              <option value="" disabled selected>Select a Sample JD Template...</option>
-              <option value="software">Software Developer Role</option>
-              <option value="marketing">Marketing Job Description</option>
-            </select>
-            <button type="button" class="preview-btn" onclick="previewDocument('jd')">👁 View</button>
+          <button type="submit" class="primary-btn" id="generate-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Generate Candidate Assessment
+          </button>
+        </form>
+      </div>
+
+      <!-- 2. LOADING STATE (TERMINAL TRACE) -->
+      <div id="loading-state">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">⚙️</div>
+        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">Synthesizing Assessment Matrix...</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Cross-referencing technical requirements with culture fit benchmarks</p>
+        <div class="terminal-box" id="terminal"></div>
+      </div>
+
+      <!-- 3. ASSESSMENT STATE -->
+      <div id="assessment-state">
+        <div class="assessment-banner">
+          <div class="assessment-meta">
+            <h3>Candidate Assessment Ready</h3>
+            <p>33 Evaluation Items Generated &middot; Structured for Automated Scoring</p>
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="nav-btn" onclick="copyShareLink()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              Share Link
+            </button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Culture Card (Excel)</label>
-          <div class="dropdown-group">
-            <select id="cc-select" required onchange="showInlineCultureCard()">
-              <option value="" disabled selected>Select an Excel Culture Card...</option>
-              <option value="technical">Technical Values Matrix</option>
-              <option value="leadership">Leadership Values Matrix</option>
-            </select>
-          </div>
-          <!-- Inline Preview Box for Culture Card -->
-          <div id="inline-cc-preview" class="doc-preview"></div>
+        <div id="pdf-wrapper">
+          <div id="assessment-content"></div>
         </div>
 
-        <button type="submit" class="submit-btn" id="generate-btn">Generate Candidate Assessment</button>
-      </form>
-    </div>
-
-    <!-- 2. Loading State -->
-    <div id="loading-state">
-      <div style="font-size: 30px; margin-bottom: 15px;">⚙️</div>
-      AI is analyzing the JD & Culture Card...<br>Generating Sectioned Assessment...
-    </div>
-
-    <!-- 3. Assessment State -->
-    <div id="assessment-state">
-      <div id="pdf-wrapper">
-        <div class="assessment-header">
-          <h2 style="margin-bottom: 5px;">Candidate Assessment Ready</h2>
+        <div style="display: flex; gap: 0.75rem; margin-top: 2rem;">
+          <button class="secondary-btn" onclick="resetDemo()" style="flex: 1;">
+            ← Back to Configuration
+          </button>
+          <button class="primary-btn" onclick="exportAssessment()" style="flex: 2; margin-top: 0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export to PDF / HR Portal
+          </button>
         </div>
-        <div id="assessment-content"></div>
+      </div>
+      
+      <!-- EXPORTING LOADER -->
+      <div id="exporting-loader">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📄</div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">Compiling PDF Document...</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Packaging high-resolution assessment report</p>
       </div>
 
-      <div style="display: flex; gap: 10px; margin-top: 30px;">
-        <button class="submit-btn" onclick="resetDemo()" style="background: var(--section-bg); color: var(--text-main); border: 1px solid var(--input-border);">Back to Form</button>
-        <!-- EXPORT BUTTON -->
-        <button class="submit-btn" onclick="exportAssessment()">Export to PDF / HR System</button>
+      <!-- 4. EXPORT SUCCESS STATE -->
+      <div id="export-success-state">
+        <div class="success-icon-wrap">✓</div>
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">Assessment Exported Successfully!</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 500px; margin: 0 auto 1.75rem; line-height: 1.5;">
+          The structured candidate questionnaire has been downloaded as a PDF and dispatched to the designated HR review pipeline.
+        </p>
+        <button class="primary-btn" onclick="resetDemo()" style="width: auto; margin: 0 auto; padding: 0.75rem 2rem;">
+          Generate Another Assessment
+        </button>
       </div>
-    </div>
-    
-    <!-- Exporting Loader -->
-    <div id="exporting-loader">
-      <div style="font-size: 30px; margin-bottom: 15px;">📄</div>
-      Generating PDF Document... Please wait.
-    </div>
 
-    <!-- 4. Export Success State -->
-    <div id="export-success-state">
-      <div class="check-icon">&#10003;</div>
-      <h2 style="margin-bottom: 10px;">Assessment Exported Successfully!</h2>
-      <p style="color: var(--text-muted); font-size: 15px; line-height: 1.5;">
-        The structured assessment has been downloaded as a PDF and dispatched securely to the connected HR portal and provided email addresses.
-      </p>
-      <button class="submit-btn" onclick="resetDemo()" style="margin-top: 30px; width: auto; padding: 10px 30px;">Generate Another Assessment</button>
     </div>
-
-  </div>
+  </main>
 
   <script>
     let toastTimeout;
 
     const docData = {
-      'jd_software': `<h3 style="color:var(--primary-blue); margin-top: 0;">Software Engineer – Job Description</h3><p>Infinyty Tech is looking for a Software Engineer who is passionate about building scalable, reliable, and high-quality software systems.</p><strong>Key Responsibilities</strong><ul style="color:var(--text-muted); font-size:14px;"><li>Design, develop, and maintain backend and frontend components</li><li>Write clean, efficient, and well-documented code</li><li>Collaborate with cross-functional teams including product and analytics</li><li>Participate in code reviews and technical discussions</li></ul><strong>Required Skills</strong><ul style="color:var(--text-muted); font-size:14px;"><li>Strong proficiency in Python and REST APIs</li><li>Experience with databases and data processing</li><li>Understanding of software design principles</li></ul>`,
-      'jd_marketing': `<h3 style="color:var(--primary-blue); margin-top: 0;">Marketing Specialist – Job Description</h3><p>Infinyty Tech is looking for a data-driven Marketing Specialist to manage multi-channel campaigns and brand growth.</p><strong>Key Responsibilities</strong><ul style="color:var(--text-muted); font-size:14px;"><li>Develop and execute B2B marketing strategies and digital campaigns</li><li>Analyze campaign performance metrics to optimize ROI</li><li>Manage social media presence and content creation pipelines</li></ul><strong>Required Skills</strong><ul style="color:var(--text-muted); font-size:14px;"><li>Proficiency in SEO, SEM, and CRM tools</li><li>Strong copywriting and communication abilities</li><li>Experience with analytics platforms (Google Analytics)</li></ul>`,
-      'cc_technical': `<h3 style="color:var(--primary-blue); margin-top: 0; font-size: 15px;">Culture Card (Excel view)</h3><table><tr><th>A (Category)</th><th>B (Core Values)</th></tr><tr><td>Technical Values</td><td>Problem Solving, Data-Driven Decision Making, Quality, Reliability</td></tr><tr><td>Execution</td><td>Agility, Continuous Delivery, Code Ownership</td></tr></table>`,
-      'cc_leadership': `<h3 style="color:var(--primary-blue); margin-top: 0; font-size: 15px;">Culture Card (Excel view)</h3><table><tr><th>A (Category)</th><th>B (Core Values)</th></tr><tr><td>Leadership Values</td><td>Integrity, Transparency, Collaboration, Leadership</td></tr><tr><td>Management</td><td>Strategic Vision, Mentorship, Conflict Resolution</td></tr></table>`
+      'jd_software': `<h3 style="color:var(--accent-brand); margin-top: 0;">Software Engineer – Job Description</h3><p style="margin: 0.5rem 0 1rem; color:var(--text-secondary); line-height:1.5;">Infinyty is looking for a Software Engineer who is passionate about building scalable, reliable, and high-quality software systems.</p><strong>Key Responsibilities</strong><ul style="color:var(--text-secondary); font-size:14px; margin: 0.5rem 0 1rem 1.25rem; line-height:1.6;"><li>Design, develop, and maintain backend and frontend components</li><li>Write clean, efficient, and well-documented code</li><li>Collaborate with cross-functional teams including product and analytics</li><li>Participate in code reviews and technical discussions</li></ul><strong>Required Skills</strong><ul style="color:var(--text-secondary); font-size:14px; margin: 0.5rem 0 0 1.25rem; line-height:1.6;"><li>Strong proficiency in Python, TypeScript, and REST APIs</li><li>Experience with databases and data processing pipelines</li><li>Understanding of modern distributed architecture</li></ul>`,
+      'jd_marketing': `<h3 style="color:var(--accent-brand); margin-top: 0;">Marketing Specialist – Job Description</h3><p style="margin: 0.5rem 0 1rem; color:var(--text-secondary); line-height:1.5;">Infinyty is looking for a data-driven Marketing Specialist to manage multi-channel campaigns and brand growth.</p><strong>Key Responsibilities</strong><ul style="color:var(--text-secondary); font-size:14px; margin: 0.5rem 0 1rem 1.25rem; line-height:1.6;"><li>Develop and execute B2B marketing strategies and digital campaigns</li><li>Analyze campaign performance metrics to optimize ROI</li><li>Manage social media presence and content creation pipelines</li></ul><strong>Required Skills</strong><ul style="color:var(--text-secondary); font-size:14px; margin: 0.5rem 0 0 1.25rem; line-height:1.6;"><li>Proficiency in SEO, SEM, and CRM analytics tools</li><li>Strong copywriting and stakeholder communication abilities</li><li>Experience with analytics platforms (Google Analytics, BigQuery)</li></ul>`,
+      'cc_technical': `<h3 style="color:var(--accent-brand); margin-top: 0; font-size: 15px;">Technical Values Matrix</h3><table><tr><th>Category</th><th>Core Evaluation Metrics</th></tr><tr><td>Technical Values</td><td>Problem Solving, Data-Driven Decision Making, Quality, Reliability</td></tr><tr><td>Execution</td><td>Agility, Continuous Delivery, Code Ownership, Test Coverage</td></tr></table>`,
+      'cc_leadership': `<h3 style="color:var(--accent-brand); margin-top: 0; font-size: 15px;">Leadership Values Matrix</h3><table><tr><th>Category</th><th>Core Evaluation Metrics</th></tr><tr><td>Leadership Values</td><td>Integrity, Transparency, Collaboration, Mentorship</td></tr><tr><td>Management</td><td>Strategic Vision, Stakeholder Alignment, Conflict Resolution</td></tr></table>`
     };
 
-    // Full 60-Question Bank
+    // 60-Question Bank
     const questionBank = {
       software: {
         sec1: [
@@ -449,33 +837,38 @@
       }
     };
 
-    function toggleTheme() {
-      const body = document.body;
-      const btn = document.getElementById('theme-btn');
+    function showToast(msg) {
       const toast = document.getElementById('toast-banner');
       const toastText = document.getElementById('toast-text');
-      
-      if (body.getAttribute('data-theme') === 'light') {
-        body.setAttribute('data-theme', 'dark');
-        btn.innerText = '☀️'; toastText.innerText = 'Dark mode enabled';
-      } else {
-        body.setAttribute('data-theme', 'light');
-        btn.innerText = '🌙'; toastText.innerText = 'Light mode enabled';
-      }
+      toastText.innerText = msg;
       toast.classList.add('show');
       clearTimeout(toastTimeout);
       toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 2500);
     }
 
+    function toggleTheme() {
+      const body = document.body;
+      const themeIcon = document.getElementById('theme-icon');
+      
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.setAttribute('data-theme', 'light');
+        themeIcon.innerText = '🌙';
+        showToast('Light mode enabled');
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        themeIcon.innerText = '☀️';
+        showToast('Dark mode enabled');
+      }
+    }
+
     function previewDocument(type) {
       const selectId = type === 'jd' ? 'jd-select' : 'cc-select';
       const val = document.getElementById(selectId).value;
-      if(!val) { alert("Please select an option from the dropdown first."); return; }
+      if(!val) { showToast("Please select an option first."); return; }
       document.getElementById('modal-body').innerHTML = docData[`${type}_${val}`];
       document.getElementById('preview-modal').style.display = 'flex';
     }
 
-    // Displays the Culture Card inline immediately when selected
     function showInlineCultureCard() {
       const val = document.getElementById('cc-select').value;
       const previewDiv = document.getElementById('inline-cc-preview');
@@ -489,31 +882,36 @@
 
     function closeModal() { document.getElementById('preview-modal').style.display = 'none'; }
 
+    function copyShareLink() {
+      navigator.clipboard.writeText(window.location.href);
+      showToast('Assessment link copied to clipboard!');
+    }
+
     function generateAssessmentHTML(role) {
       let html = '';
-      const bank = questionBank[role];
+      const bank = questionBank[role] || questionBank.software;
       const sections = [
-        { title: "Section 1: General Aptitude & Logic (10 MCQs)", data: bank.sec1, type: "mcq" },
+        { title: "Section 1: General Logic & Problem Solving (10 MCQs)", data: bank.sec1, type: "mcq" },
         { title: "Section 2: Role-Specific Technical Skills (10 MCQs)", data: bank.sec2, type: "mcq" },
-        { title: "Section 3: Culture & Behavioral Fit (10 MCQs)", data: bank.sec3, type: "mcq" },
-        { title: "Section 4: Deep-Dive Scenarios (3 Paragraph Questions)", data: bank.sec4, type: "para" }
+        { title: "Section 3: Cultural & Situational Behavioral Fit (10 MCQs)", data: bank.sec3, type: "mcq" },
+        { title: "Section 4: Deep-Dive Scenarios & Architecture (3 Paragraphs)", data: bank.sec4, type: "para" }
       ];
 
       sections.forEach((sec, s_idx) => {
-        html += `<div class="section-block"><h4 class="section-title">${sec.title}</h4>`;
+        html += `<div class="section-card"><h4 class="section-card-title">${sec.title}</h4>`;
         sec.data.forEach((qItem, q_idx) => {
           if (sec.type === 'mcq') {
-            html += `<div class="question-item"><strong>Q${q_idx + 1}.</strong> ${qItem.q}`;
+            html += `<div class="question-block"><div class="question-header"><strong>Q${q_idx + 1}.</strong> ${qItem.q}</div>`;
             const groupName = `s${s_idx}_q${q_idx}`;
-            html += `<div class="options-list">
-              <label><input type="radio" name="${groupName}" value="a"> A) ${qItem.opts[0]}</label>
-              <label><input type="radio" name="${groupName}" value="b"> B) ${qItem.opts[1]}</label>
-              <label><input type="radio" name="${groupName}" value="c"> C) ${qItem.opts[2]}</label>
-              <label><input type="radio" name="${groupName}" value="d"> D) ${qItem.opts[3]}</label>
+            html += `<div class="options-grid">
+              <label class="option-item"><input type="radio" name="${groupName}" value="a"><span><strong>A)</strong> ${qItem.opts[0]}</span></label>
+              <label class="option-item"><input type="radio" name="${groupName}" value="b"><span><strong>B)</strong> ${qItem.opts[1]}</span></label>
+              <label class="option-item"><input type="radio" name="${groupName}" value="c"><span><strong>C)</strong> ${qItem.opts[2]}</span></label>
+              <label class="option-item"><input type="radio" name="${groupName}" value="d"><span><strong>D)</strong> ${qItem.opts[3]}</span></label>
             </div>`;
           } else {
-            html += `<div class="question-item"><strong>Q${q_idx + 1}.</strong> ${qItem}`;
-            html += `<textarea class="real-text-area" placeholder="Type candidate answer here..."></textarea>`;
+            html += `<div class="question-block"><div class="question-header"><strong>Q${q_idx + 1}.</strong> ${qItem}</div>`;
+            html += `<textarea class="scenario-textarea" placeholder="Type candidate answer notes or rubric parameters here..."></textarea>`;
           }
           html += `</div>`;
         });
@@ -524,58 +922,77 @@
 
     document.getElementById('demo-form').addEventListener('submit', function(e) {
       e.preventDefault();
-      const btn = document.getElementById('generate-btn');
-      const role = document.getElementById('jd-select').value;
+      const role = document.getElementById('jd-select').value || 'software';
       
-      btn.innerText = "Analyzing & Generating... Please wait";
-      btn.disabled = true;
-
       document.getElementById('form-state').style.display = 'none';
       document.getElementById('loading-state').style.display = 'block';
 
-      setTimeout(() => {
-        document.getElementById('loading-state').style.display = 'none';
-        document.getElementById('assessment-content').innerHTML = generateAssessmentHTML(role);
-        document.getElementById('assessment-state').style.display = 'block';
-        document.querySelector('.card').scrollTop = 0;
-      }, 2500);
+      const terminal = document.getElementById('terminal');
+      terminal.innerHTML = '';
+      
+      const logs = [
+        "Initializing Infinyty Assessment Synthesis Engine v2.4...",
+        "Ingesting Job Description vector embeddings...",
+        "Mapping core technical competencies to question bank taxonomy...",
+        "Parsing Culture Card rubric parameters...",
+        "Generating Section 1: Logic & Problem Solving (10 items)...",
+        "Generating Section 2: Technical Skills (10 items)...",
+        "Generating Section 3: Behavioral Fit (10 items)...",
+        "Generating Section 4: Deep-Dive Scenarios (3 items)...",
+        "Validating rubric scoring weights...",
+        "Assessment synthesis complete!"
+      ];
+
+      let delay = 0;
+      logs.forEach((log, idx) => {
+        setTimeout(() => {
+          const div = document.createElement('div');
+          div.className = 'terminal-line';
+          div.innerText = log;
+          terminal.appendChild(div);
+          terminal.scrollTop = terminal.scrollHeight;
+
+          if (idx === logs.length - 1) {
+            setTimeout(() => {
+              document.getElementById('loading-state').style.display = 'none';
+              document.getElementById('assessment-content').innerHTML = generateAssessmentHTML(role);
+              document.getElementById('assessment-state').style.display = 'block';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 600);
+          }
+        }, delay);
+        delay += 240;
+      });
     });
 
-    // Real PDF Export using html2pdf
     function exportAssessment() {
       document.getElementById('assessment-state').style.display = 'none';
       document.getElementById('exporting-loader').style.display = 'block';
-      document.querySelector('.card').scrollTop = 0;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       const element = document.getElementById('pdf-wrapper');
-      
       const opt = {
         margin:       0.5,
-        filename:     'Infinyty_Tech_Candidate_Assessment.pdf',
+        filename:     'Infinyty_Candidate_Assessment.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2 },
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
       };
 
-      // Generate the PDF file, trigger the download, and then show the Success screen
       html2pdf().set(opt).from(element).save().then(() => {
         document.getElementById('exporting-loader').style.display = 'none';
         document.getElementById('export-success-state').style.display = 'block';
-        document.querySelector('.card').scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
 
     function resetDemo() {
       document.getElementById('demo-form').reset();
-      document.getElementById('inline-cc-preview').style.display = 'none'; // Clear inline preview
-      const btn = document.getElementById('generate-btn');
-      btn.innerText = "Generate Candidate Assessment";
-      btn.disabled = false;
-      
+      document.getElementById('inline-cc-preview').style.display = 'none';
       document.getElementById('export-success-state').style.display = 'none';
       document.getElementById('assessment-state').style.display = 'none';
       document.getElementById('form-state').style.display = 'block';
-      document.querySelector('.card').scrollTop = 0;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
 </body>
