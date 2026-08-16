@@ -2049,9 +2049,44 @@
       align-items: center;
       justify-content: center;
       border-radius: 13px 13px 0 0;
+      cursor: pointer;
     }
     .light-theme .demo-screen-container {
       background: #f1f5f9;
+    }
+
+    .demo-expand-hint {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(2, 7, 20, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.3rem 0.65rem;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .deck-demo-card-large:hover .demo-expand-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .light-theme .demo-expand-hint {
+      background: rgba(255, 255, 255, 0.92);
+      color: #0f172a;
+      border-color: rgba(0, 114, 244, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     
     .demo-screen-img,
@@ -2196,6 +2231,153 @@
       font-family: 'Inter', sans-serif;
     }
 
+    /* ── PROTOTYPE VIDEO LIGHTBOX MODAL ── */
+    .deck-lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+      padding: 1.5rem;
+    }
+    .deck-lightbox-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .deck-lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 7, 20, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      cursor: pointer;
+    }
+    .deck-lightbox-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1060px;
+      background: #06112a;
+      border: 1px solid rgba(79, 200, 255, 0.35);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 114, 244, 0.28);
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.96);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .deck-lightbox-overlay.open .deck-lightbox-content {
+      transform: scale(1);
+    }
+    .light-theme .deck-lightbox-content {
+      background: #ffffff;
+      border-color: rgba(0, 114, 244, 0.25);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 114, 244, 0.15);
+    }
+    .deck-lightbox-header {
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .light-theme .deck-lightbox-header {
+      background: #f8fafc;
+    }
+    .deck-lightbox-badge {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      background: rgba(37,99,235,0.12);
+      border: 1px solid rgba(37,99,235,0.3);
+      padding: 0.18rem 0.65rem;
+      border-radius: 99px;
+      display: inline-block;
+      margin-bottom: 0.25rem;
+    }
+    .deck-lightbox-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .deck-lightbox-close {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s, border-color 0.2s;
+    }
+    .deck-lightbox-close:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+      transform: scale(1.08);
+    }
+    .deck-lightbox-media-wrapper {
+      position: relative;
+      width: 100%;
+      background: #020714;
+      max-height: 65vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .deck-lightbox-media-wrapper video {
+      width: 100%;
+      max-height: 65vh;
+      object-fit: contain;
+      background: #000;
+      display: block;
+      outline: none;
+    }
+    .deck-lightbox-footer {
+      padding: 0.95rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .light-theme .deck-lightbox-footer {
+      background: #f8fafc;
+    }
+    .deck-lightbox-hint {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .deck-lightbox-hint kbd {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.78rem;
+    }
+    .light-theme .deck-lightbox-hint kbd {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+      color: #334155;
+    }
+
     /* ── SLIDE: WHY INFINYTY MATRIX COMPARISON ── */
     .deck-matrix-grid {
       display: grid;
@@ -2222,24 +2404,53 @@
     }
     .light-theme .matrix-col { background: #ffffff; }
 
-    /* Infinyty Prominent Rounded Card */
+    /* Infinyty Prominent Rounded Hero Card with Animated Glow */
+    @keyframes heroGlowDark {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 114, 244, 0.28), 0 14px 40px rgba(0, 114, 244, 0.22);
+        border-color: rgba(0, 114, 244, 0.55);
+      }
+      50% {
+        box-shadow: 0 0 38px rgba(79, 200, 255, 0.5), 0 16px 46px rgba(0, 114, 244, 0.35);
+        border-color: rgba(79, 200, 255, 0.85);
+      }
+    }
+    @keyframes heroGlowLight {
+      0%, 100% {
+        box-shadow: 0 0 16px rgba(0, 114, 244, 0.16), 0 12px 34px rgba(0, 114, 244, 0.12);
+        border-color: rgba(0, 114, 244, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 28px rgba(0, 114, 244, 0.32), 0 14px 38px rgba(0, 114, 244, 0.2);
+        border-color: rgba(0, 114, 244, 0.75);
+      }
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .matrix-col.col-infinyty-card {
-      border: 1px solid rgba(0, 114, 244, 0.45);
+      border: 1.5px solid rgba(0, 114, 244, 0.5);
       background: rgba(0, 114, 244, 0.08);
-      box-shadow: 0 14px 40px rgba(0, 114, 244, 0.22);
+      animation: heroGlowDark 4s ease-in-out infinite;
       position: relative;
+      z-index: 2;
     }
     .light-theme .matrix-col.col-infinyty-card {
       background: #f8fbff;
-      border-color: rgba(0, 114, 244, 0.35);
-      box-shadow: 0 12px 34px rgba(0, 114, 244, 0.12);
+      animation: heroGlowLight 4s ease-in-out infinite;
     }
     .matrix-col.col-infinyty-card::before {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
-      height: 3.5px;
-      background: linear-gradient(90deg, #0072F4, #4FC8FF);
+      height: 4px;
+      background: linear-gradient(90deg, #0072F4, #4FC8FF, #3b82f6, #0072F4);
+      background-size: 300% 300%;
+      animation: gradientShift 4s ease infinite;
+      z-index: 3;
     }
 
     .matrix-col-header {
@@ -4009,12 +4220,22 @@
     <div class="deck-demos-showcase-grid">
       <!-- Demo 1: BI Bot -->
       <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
-        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
+             data-demo-title="AI Analytics Bot &mdash; Full Demo"
+             data-demo-badge="Analytics &amp; AI"
+             data-demo-video-webm="assets/bi-bot-auto.webm"
+             data-demo-video-mp4="assets/bi-bot-product-demo.mp4"
+             data-demo-poster="assets/bi-assistant-real.png"
+             data-demo-link="demos/bi-assistant/index.html">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/bi-assistant-real.png">
             <source src="assets/bi-bot-auto.webm" type="video/webm">
             <source src="assets/bi-bot-product-demo.mp4" type="video/mp4">
             <img src="assets/bi-assistant-real.png" alt="BI Bot Dashboard" class="demo-screen-img">
           </video>
+          <div class="demo-expand-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+            Click to Expand
+          </div>
         </div>
         
         <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
@@ -4048,11 +4269,20 @@
 
       <!-- Demo 2: Fleet Operations Platform -->
       <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
-        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
+             data-demo-title="Fleet Operations Platform &mdash; Full Demo"
+             data-demo-badge="Operations &amp; Automation"
+             data-demo-video-webm="assets/ops-portal-auto.webm"
+             data-demo-poster="assets/ops-portal-real.png"
+             data-demo-link="demos/operations-portal/index.html">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/ops-portal-real.png">
             <source src="assets/ops-portal-auto.webm" type="video/webm">
             <img src="assets/ops-portal-real.png" alt="Fleet Operations Platform" class="demo-screen-img">
           </video>
+          <div class="demo-expand-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+            Click to Expand
+          </div>
         </div>
         
         <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
@@ -4101,11 +4331,20 @@
     <div class="deck-demos-showcase-grid">
       <!-- Demo 3: Fleet Settlement App -->
       <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
-        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
+             data-demo-title="Fleet Settlement App &mdash; Full Demo"
+             data-demo-badge="FinTech &amp; Mobility"
+             data-demo-video-webm="assets/fleet-portal-auto.webm"
+             data-demo-poster="assets/fleet-portal-real.png"
+             data-demo-link="demos/fleet-portal/index.html">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/fleet-portal-real.png">
             <source src="assets/fleet-portal-auto.webm" type="video/webm">
             <img src="assets/fleet-portal-real.png" alt="Fleet Settlement App" class="demo-screen-img">
           </video>
+          <div class="demo-expand-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+            Click to Expand
+          </div>
         </div>
         
         <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
@@ -4139,12 +4378,22 @@
 
       <!-- Demo 4: Assessment Generator -->
       <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
-        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
+             data-demo-title="Assessment Generator &mdash; Full Demo"
+             data-demo-badge="HR Tech &amp; GenAI"
+             data-demo-video-webm="assets/assessment-generator-auto.webm"
+             data-demo-video-mp4="assets/form-generator-demo.mp4"
+             data-demo-poster="assets/assessment-generator-real.png"
+             data-demo-link="demos/assessment-generator/index.html">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/assessment-generator-real.png">
             <source src="assets/assessment-generator-auto.webm" type="video/webm">
             <source src="assets/form-generator-demo.mp4" type="video/mp4">
             <img src="assets/assessment-generator-real.png" alt="Assessment Generator" class="demo-screen-img">
           </video>
+          <div class="demo-expand-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+            Click to Expand
+          </div>
         </div>
         
         <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
@@ -4175,6 +4424,35 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROTOTYPE VIDEO LIGHTBOX MODAL -->
+<div id="deck-video-lightbox" class="deck-lightbox-overlay" aria-hidden="true">
+  <div class="deck-lightbox-backdrop" id="lightbox-backdrop"></div>
+  <div class="deck-lightbox-content">
+    <div class="deck-lightbox-header">
+      <div>
+        <div id="lightbox-badge" class="deck-lightbox-badge">Analytics &amp; AI</div>
+        <h3 id="lightbox-title" class="deck-lightbox-title">AI Analytics Bot &mdash; Full Demo</h3>
+      </div>
+      <button id="lightbox-close-btn" class="deck-lightbox-close" aria-label="Close demo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="deck-lightbox-media-wrapper">
+      <video id="lightbox-video-player" controls playsinline preload="auto">
+        <source id="lightbox-source-webm" src="" type="video/webm">
+        <source id="lightbox-source-mp4" src="" type="video/mp4">
+      </video>
+    </div>
+    <div class="deck-lightbox-footer">
+      <span class="deck-lightbox-hint">Press <kbd>ESC</kbd> or click outside to close</span>
+      <a id="lightbox-launch-btn" href="#" target="_blank" class="demo-launch-action-btn" style="margin:0;">
+        Launch Interactive Prototype
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
     </div>
   </div>
 </div>
@@ -4306,6 +4584,61 @@
       syncUrl(current);
     }
   }
+
+  // Lightbox Modal Logic
+  const lightbox = document.getElementById('deck-video-lightbox');
+  const lightboxBackdrop = document.getElementById('lightbox-backdrop');
+  const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+  const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxBadge = document.getElementById('lightbox-badge');
+  const lightboxVideo = document.getElementById('lightbox-video-player');
+  const lightboxSourceWebm = document.getElementById('lightbox-source-webm');
+  const lightboxSourceMp4 = document.getElementById('lightbox-source-mp4');
+  const lightboxLaunchBtn = document.getElementById('lightbox-launch-btn');
+
+  function openLightbox(container) {
+    if (!lightbox) return;
+    const title = container.getAttribute('data-demo-title') || 'Interactive Prototype';
+    const badge = container.getAttribute('data-demo-badge') || 'Prototype';
+    const webm = container.getAttribute('data-demo-video-webm') || '';
+    const mp4 = container.getAttribute('data-demo-video-mp4') || '';
+    const poster = container.getAttribute('data-demo-poster') || '';
+    const link = container.getAttribute('data-demo-link') || '#';
+
+    lightboxTitle.innerHTML = title;
+    lightboxBadge.textContent = badge;
+    lightboxLaunchBtn.href = link;
+    lightboxVideo.poster = poster;
+
+    // Reset video sources
+    lightboxSourceWebm.src = webm;
+    lightboxSourceMp4.src = mp4;
+    lightboxVideo.load();
+    lightboxVideo.play().catch(() => {});
+
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeLightbox() {
+    if (!lightbox || !lightbox.classList.contains('open')) return;
+    lightboxVideo.pause();
+    lightboxVideo.currentTime = 0;
+    lightboxSourceWebm.src = '';
+    lightboxSourceMp4.src = '';
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+  }
+
+  document.querySelectorAll('.demo-screen-container').forEach(container => {
+    container.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openLightbox(container);
+    });
+  });
+
+  if (lightboxBackdrop) lightboxBackdrop.addEventListener('click', closeLightbox);
+  if (lightboxCloseBtn) lightboxCloseBtn.addEventListener('click', closeLightbox);
   
   const navPrevEl = document.getElementById('nav-prev');
   if (navPrevEl) navPrevEl.addEventListener('click', () => goTo(current - 1));
@@ -4328,6 +4661,13 @@
   });
   
   document.addEventListener('keydown', e => {
+    if (lightbox && lightbox.classList.contains('open')) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeLightbox();
+      }
+      return;
+    }
     if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
@@ -4349,6 +4689,7 @@
     touchStartY = e.touches[0].clientY;
   }, { passive: true });
   document.addEventListener('touchend', e => { 
+    if (lightbox && lightbox.classList.contains('open')) return;
     const dx = e.changedTouches[0].clientX - touchStartX; 
     const dy = e.changedTouches[0].clientY - touchStartY;
     if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) {
