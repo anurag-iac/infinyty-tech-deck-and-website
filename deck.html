@@ -217,10 +217,10 @@
     .slide-sub { font-size: clamp(0.95rem,1.6vw,1.2rem); color: var(--muted); line-height: 1.7; max-width: 680px; margin: 0 auto; }
     .slide-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1100px; }
     
-    .stats-row { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; position: relative; z-index: 1; }
-    .stat-card { background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 16px; padding: 1.35rem 1.75rem; min-width: 170px; backdrop-filter: blur(12px); flex: 1; max-width: 250px; box-shadow: var(--shadow); }
-    .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem,3.5vw,2.75rem); font-weight: 800; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 0.5rem; }
-    .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; max-width: 980px; margin-top: 2rem; position: relative; z-index: 1; }
+    .stat-card { background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 18px; padding: 2.2rem 1.6rem; min-height: 180px; backdrop-filter: blur(12px); box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: clamp(3rem, 4.8vw, 3.8rem); font-weight: 800; color: var(--primary); line-height: 1; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
+    .stat-label { font-size: 0.88rem; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.35; }
     
     /* ── SLIDE: THE THREE STRATEGIC PILLARS ── */
     .deck-pillars-grid {
