@@ -23,8 +23,7 @@
         document.documentElement.classList.remove('dark-theme');
         document.documentElement.classList.add('light-theme');
       }
-      var isAuth = sessionStorage.getItem('infinyty_deck_auth') === 'true' || localStorage.getItem('infinyty_deck_auth') === 'true';
-      if (isAuth) {
+      if (sessionStorage.getItem('infinyty_deck_auth') === 'true') {
         document.documentElement.classList.add('deck-unlocked');
       }
     })();
@@ -233,7 +232,7 @@
       position: fixed;
       top: 1.25rem;
       right: 1.5rem;
-      z-index: 1000;
+      z-index: 100005;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -244,7 +243,7 @@
       color: var(--text); display: flex; align-items: center; justify-content: center;
       cursor: pointer; backdrop-filter: blur(8px); transition: background 0.2s, color 0.2s, transform 0.2s;
     }
-    .light-theme .deck-top-btn { background: rgba(0,0,0,0.02); }
+    .light-theme .deck-top-btn { background: rgba(0,0,0,0.04); border-color: rgba(0,114,244,0.15); }
     .deck-top-btn:hover { background: rgba(0,114,244,0.15); color: var(--primary); transform: translateY(-1px); }
     .deck-top-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
     .sun-icon { display: none; }
@@ -252,7 +251,7 @@
     .light-theme .moon-icon { display: none; }
     .moon-icon { display: block; }
 
-    /* ── BEAUTIFUL PASSWORD ACCESS GATE ── */
+    /* ── MINIMALISTIC PASSWORD ACCESS GATE ── */
     .password-gate-overlay {
       position: fixed;
       inset: 0;
@@ -262,13 +261,16 @@
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
-      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .light-theme .password-gate-overlay {
+      background: #f8fafc;
     }
     .deck-unlocked .password-gate-overlay,
     .password-gate-overlay.unlocked {
+      display: none !important;
       opacity: 0 !important;
       visibility: hidden !important;
-      transform: scale(1.03) !important;
       pointer-events: none !important;
     }
     .password-gate-bg {
@@ -280,102 +282,94 @@
     .gate-glow {
       position: absolute;
       border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.28;
+      filter: blur(100px);
+      opacity: 0.25;
     }
     .gate-glow-1 {
-      width: 550px;
-      height: 550px;
-      top: -100px;
-      right: -100px;
+      width: 450px;
+      height: 450px;
+      top: -50px;
+      right: -50px;
       background: #0072F4;
     }
     .gate-glow-2 {
-      width: 500px;
-      height: 500px;
-      bottom: -100px;
-      left: -100px;
+      width: 400px;
+      height: 400px;
+      bottom: -50px;
+      left: -50px;
       background: #4FC8FF;
     }
-    .gate-grid-pattern {
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      opacity: 0.5;
+    .light-theme .gate-glow {
+      opacity: 0.15;
     }
     .password-gate-card {
       position: relative;
       z-index: 2;
       width: 100%;
-      max-width: 460px;
+      max-width: 380px;
       background: rgba(6, 17, 42, 0.85);
-      border: 1px solid rgba(79, 200, 255, 0.25);
-      border-radius: 24px;
-      padding: 2.5rem 2.2rem;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(0, 114, 244, 0.25);
+      border: 1px solid rgba(79, 200, 255, 0.2);
+      border-radius: 20px;
+      padding: 2.4rem 2rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 114, 244, 0.15);
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+    .light-theme .password-gate-card {
+      background: #ffffff;
+      border: 1px solid rgba(0, 114, 244, 0.15);
+      box-shadow: 0 20px 50px rgba(0, 114, 244, 0.08);
+    }
     .gate-brand-icon-wrap {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
       background: rgba(0, 114, 244, 0.12);
-      border: 1px solid rgba(0, 114, 244, 0.3);
+      border: 1px solid rgba(0, 114, 244, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.25rem;
-      box-shadow: 0 0 25px rgba(0, 114, 244, 0.25);
+      margin-bottom: 1.15rem;
+    }
+    .light-theme .gate-brand-icon-wrap {
+      background: rgba(0, 114, 244, 0.06);
+      border-color: rgba(0, 114, 244, 0.15);
     }
     .gate-icon-img {
-      width: 34px;
+      width: 28px;
       height: auto;
       display: block;
     }
-    .gate-badge {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      background: rgba(0, 114, 244, 0.15);
-      border: 1px solid rgba(79, 200, 255, 0.3);
-      padding: 0.25rem 0.8rem;
-      border-radius: 99px;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.85rem;
-    }
     .gate-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.65rem;
-      font-weight: 800;
+      font-size: 1.4rem;
+      font-weight: 700;
       color: #ffffff;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
       letter-spacing: -0.01em;
+    }
+    .light-theme .gate-title {
+      color: #0f172a;
     }
     .gate-sub {
       font-family: 'Inter', sans-serif;
-      font-size: 0.86rem;
-      color: rgba(240, 242, 248, 0.65);
-      line-height: 1.5;
-      margin-bottom: 1.75rem;
-      max-width: 380px;
+      font-size: 0.84rem;
+      color: rgba(240, 242, 248, 0.6);
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+    }
+    .light-theme .gate-sub {
+      color: #64748b;
     }
     .gate-form {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.85rem;
     }
     .gate-input-wrapper {
       position: relative;
@@ -383,43 +377,35 @@
       display: flex;
       align-items: center;
     }
-    .gate-input-icon {
-      position: absolute;
-      left: 14px;
-      width: 18px;
-      height: 18px;
-      color: rgba(240, 242, 248, 0.45);
-      pointer-events: none;
-    }
     .gate-password-input {
       width: 100%;
-      background: rgba(2, 7, 20, 0.65);
-      border: 1.5px solid rgba(79, 200, 255, 0.25);
+      background: rgba(2, 7, 20, 0.6);
+      border: 1.5px solid rgba(79, 200, 255, 0.22);
       border-radius: 12px;
-      padding: 0.85rem 2.8rem 0.85rem 2.75rem;
+      padding: 0.75rem 2.6rem 0.75rem 1rem;
       font-family: 'Inter', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: #ffffff;
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
+    .light-theme .gate-password-input {
+      background: #f8fafc;
+      border: 1.5px solid rgba(0, 114, 244, 0.18);
+      color: #0f172a;
+    }
     .gate-password-input:focus {
       border-color: #0072F4;
-      box-shadow: 0 0 0 3px rgba(0, 114, 244, 0.25), 0 0 15px rgba(0, 114, 244, 0.2);
+      box-shadow: 0 0 0 3px rgba(0, 114, 244, 0.2);
     }
     .gate-password-input.input-error {
-      border-color: #ef4444;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
-      animation: shake 0.4s ease;
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-6px); }
-      40%, 80% { transform: translateX(6px); }
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+      animation: shake 0.35s ease;
     }
     .gate-visibility-btn {
       position: absolute;
-      right: 12px;
+      right: 10px;
       background: none;
       border: none;
       color: rgba(240, 242, 248, 0.5);
@@ -430,82 +416,50 @@
       justify-content: center;
       transition: color 0.2s;
     }
+    .light-theme .gate-visibility-btn {
+      color: #94a3b8;
+    }
     .gate-visibility-btn:hover {
-      color: #ffffff;
+      color: var(--primary);
     }
     .gate-visibility-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
     }
     .gate-error-msg {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: #f87171;
       font-weight: 500;
       margin-top: -0.35rem;
     }
-    .gate-options-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      font-size: 0.78rem;
-      color: rgba(240, 242, 248, 0.6);
-      margin-top: -0.2rem;
-    }
-    .gate-remember-label {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      cursor: pointer;
-    }
-    .gate-remember-label input[type="checkbox"] {
-      accent-color: #0072F4;
-      cursor: pointer;
-    }
-    .gate-request-link {
-      color: var(--accent);
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .gate-request-link:hover {
-      text-decoration: underline;
-      opacity: 0.9;
+    .light-theme .gate-error-msg {
+      color: #dc2626;
     }
     .gate-submit-btn {
       width: 100%;
-      padding: 0.85rem 1.5rem;
+      padding: 0.78rem 1.25rem;
       background: var(--grad);
       border: none;
       border-radius: 12px;
       color: #ffffff;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-      box-shadow: 0 8px 24px rgba(0, 114, 244, 0.4);
-      margin-top: 0.4rem;
+      gap: 0.4rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 6px 20px rgba(0, 114, 244, 0.35);
+      margin-top: 0.2rem;
     }
     .gate-submit-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 114, 244, 0.55);
+      box-shadow: 0 8px 24px rgba(0, 114, 244, 0.5);
     }
     .gate-submit-btn:active {
       transform: translateY(0);
-    }
-    .gate-footer-hint {
-      margin-top: 1.75rem;
-      font-size: 0.72rem;
-      color: rgba(240, 242, 248, 0.4);
-      letter-spacing: 0.02em;
     }
 
     .badge { display: inline-block; background: rgba(0,114,244,0.15); border: 1px solid rgba(0,114,244,0.4); color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.3rem 0.85rem; border-radius: 99px; margin-bottom: 1.25rem; }
@@ -3462,18 +3416,12 @@
       <img src="assets/infinyty-icon.png" alt="Infinyty Tech" class="gate-icon-img">
     </div>
     
-    <div class="gate-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Confidential Deck
-    </div>
-    
-    <h2 class="gate-title">Enter Access Code</h2>
-    <p class="gate-sub">This presentation contains proprietary materials and live prototypes. Please enter the access code provided by Infinyty Tech.</p>
+    <h2 class="gate-title">Enter Password</h2>
+    <p class="gate-sub">Enter password to view presentation</p>
     
     <form id="gate-form" class="gate-form" onsubmit="event.preventDefault(); handleGateUnlock();">
       <div class="gate-input-wrapper">
-        <svg class="gate-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <input type="password" id="gate-input-password" class="gate-password-input" placeholder="Enter access password..." autocomplete="current-password" required autofocus>
+        <input type="password" id="gate-input-password" class="gate-password-input" placeholder="Password" autocomplete="current-password" required autofocus>
         <button type="button" id="gate-toggle-visibility" class="gate-visibility-btn" aria-label="Toggle password visibility">
           <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           <svg class="icon-eye-off" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
@@ -3481,27 +3429,14 @@
       </div>
 
       <div id="gate-error-msg" class="gate-error-msg" style="display:none;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span>Incorrect access code. Please try again.</span>
-      </div>
-
-      <div class="gate-options-row">
-        <label class="gate-remember-label">
-          <input type="checkbox" id="gate-remember-me" checked>
-          <span>Remember on this device</span>
-        </label>
-        <a href="mailto:contact@infinyty.tech?subject=Request%20Deck%20Access%20Code" class="gate-request-link">Request Access</a>
+        Incorrect password
       </div>
 
       <button type="submit" id="gate-submit-btn" class="gate-submit-btn">
-        <span>Unlock Presentation</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <span>Enter</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </form>
-
-    <div class="gate-footer-hint">
-      &copy; 2026 Infinyty Tech Global Solutions Pvt. Ltd.
-    </div>
   </div>
 </div>
 
@@ -3511,12 +3446,6 @@
 </a>
 
 <div class="deck-top-actions">
-  <button id="lock-deck-btn" class="deck-top-btn" aria-label="Lock Deck" title="Lock Deck">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-    </svg>
-  </button>
   <button id="theme-toggle" class="deck-top-btn" aria-label="Toggle Theme" title="Toggle Theme">
     <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="4"></circle>
@@ -4989,51 +4918,25 @@
     }
   });
   
-  // ── PASSWORD ACCESS GATE CONFIG & LOGIC ──
-  // Configurable Access Passwords (Case-insensitive)
+  // ── MINIMALISTIC PASSWORD GATE CONFIG & LOGIC ──
   const VALID_PASSWORDS = ['infinyty', 'infinyty2026', 'deck2026', 'partner2026'];
 
   const gateOverlay = document.getElementById('deck-password-gate');
   const gateInput = document.getElementById('gate-input-password');
   const gateErrorMsg = document.getElementById('gate-error-msg');
-  const gateRememberCheckbox = document.getElementById('gate-remember-me');
   const gateToggleVisibility = document.getElementById('gate-toggle-visibility');
-  const lockDeckBtn = document.getElementById('lock-deck-btn');
 
   function isDeckUnlocked() {
-    return sessionStorage.getItem('infinyty_deck_auth') === 'true' || 
-           localStorage.getItem('infinyty_deck_auth') === 'true';
+    return sessionStorage.getItem('infinyty_deck_auth') === 'true';
   }
 
-  function unlockDeck(persist = false) {
-    if (persist) {
-      localStorage.setItem('infinyty_deck_auth', 'true');
-    }
+  function unlockDeck() {
     sessionStorage.setItem('infinyty_deck_auth', 'true');
     document.documentElement.classList.add('deck-unlocked');
     if (gateOverlay) {
       gateOverlay.classList.add('unlocked');
     }
-    // Autoplay active slide videos on unlock
     syncVideos();
-  }
-
-  function lockDeck() {
-    sessionStorage.removeItem('infinyty_deck_auth');
-    localStorage.removeItem('infinyty_deck_auth');
-    document.documentElement.classList.remove('deck-unlocked');
-    if (gateOverlay) {
-      gateOverlay.classList.remove('unlocked');
-    }
-    if (gateInput) {
-      gateInput.value = '';
-      gateInput.focus();
-    }
-    if (gateErrorMsg) {
-      gateErrorMsg.style.display = 'none';
-    }
-    // Pause videos when locked
-    slides.forEach(s => s.querySelectorAll('video').forEach(v => v.pause()));
   }
 
   function handleGateUnlock() {
@@ -5043,15 +4946,14 @@
     if (VALID_PASSWORDS.includes(entered)) {
       gateInput.classList.remove('input-error');
       if (gateErrorMsg) gateErrorMsg.style.display = 'none';
-      const remember = gateRememberCheckbox ? gateRememberCheckbox.checked : true;
-      unlockDeck(remember);
+      unlockDeck();
     } else {
       gateInput.classList.add('input-error');
-      if (gateErrorMsg) gateErrorMsg.style.display = 'flex';
+      if (gateErrorMsg) gateErrorMsg.style.display = 'block';
       gateInput.select();
       setTimeout(() => {
         if (gateInput) gateInput.classList.remove('input-error');
-      }, 500);
+      }, 400);
     }
   }
 
@@ -5062,10 +4964,6 @@
       gateToggleVisibility.querySelector('.icon-eye').style.display = isPass ? 'none' : 'block';
       gateToggleVisibility.querySelector('.icon-eye-off').style.display = isPass ? 'block' : 'none';
     });
-  }
-
-  if (lockDeckBtn) {
-    lockDeckBtn.addEventListener('click', lockDeck);
   }
 
   document.addEventListener('keydown', e => {
