@@ -27,10 +27,14 @@ const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobile-menu');
 if (hamburger && mobileMenu) {
   hamburger.addEventListener('click', () => {
-    mobileMenu.classList.toggle('open');
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
   });
   mobileMenu.querySelectorAll('a').forEach(a =>
-    a.addEventListener('click', () => mobileMenu.classList.remove('open'))
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+    })
   );
 }
 
