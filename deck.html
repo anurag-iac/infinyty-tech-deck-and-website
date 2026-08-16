@@ -75,10 +75,11 @@
       align-items: center;
       padding: 3rem 5vw;
       opacity: 0;
-      transform: translateY(28px) scale(0.975);
       pointer-events: none;
       visibility: hidden;
-      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+      backface-visibility: hidden;
       text-align: center;
       overflow: hidden;
       background: var(--dark);
@@ -87,6 +88,22 @@
     .light-theme .slide {
       background: #f8fbff;
     }
+
+    /* Initial Entering States (no transition) */
+    .slide.enter-next {
+      opacity: 0;
+      transform: translateY(28px) scale(0.98);
+      visibility: visible;
+      transition: none !important;
+    }
+    .slide.enter-prev {
+      opacity: 0;
+      transform: translateY(-28px) scale(0.98);
+      visibility: visible;
+      transition: none !important;
+    }
+
+    /* Active State */
     .slide.active {
       opacity: 1;
       transform: translateY(0) scale(1);
@@ -94,19 +111,21 @@
       visibility: visible;
       z-index: 5;
     }
+
+    /* Exiting States (visible and transitioning smoothly) */
     .slide.exit-prev {
       opacity: 0;
-      transform: translateY(-28px) scale(0.975);
+      transform: translateY(-28px) scale(0.98);
       pointer-events: none;
-      visibility: hidden;
-      z-index: 2;
+      visibility: visible;
+      z-index: 3;
     }
     .slide.exit-next {
       opacity: 0;
-      transform: translateY(28px) scale(0.975);
+      transform: translateY(28px) scale(0.98);
       pointer-events: none;
-      visibility: hidden;
-      z-index: 2;
+      visibility: visible;
+      z-index: 3;
     }
 
     .slide-1,.slide-3,.slide-5,.slide-7,.slide-9,.slide-11 { background: var(--dark); }
@@ -4178,34 +4197,47 @@
     });
   }
 
+  let isNavigating = false;
+
   function goTo(index, pushHistory = true) {
     if (index < 0 || index >= total) return;
     if (index === current && slides[current].classList.contains('active')) return;
+    if (isNavigating) return;
     
+    isNavigating = true;
     const isForward = index > current;
     const prevSlide = slides[current];
     const nextSlide = slides[index];
 
-    // Remove obsolete transition classes from background slides
+    // Clean up non-participating slides
     slides.forEach((s, idx) => {
       if (idx !== current && idx !== index) {
-        s.classList.remove('active', 'exit-prev', 'exit-next');
+        s.classList.remove('active', 'exit-prev', 'exit-next', 'enter-prev', 'enter-next');
       }
     });
 
+    // Position next slide at its directional entrance without animation
+    nextSlide.classList.remove('active', 'exit-prev', 'exit-next');
+    nextSlide.classList.add(isForward ? 'enter-next' : 'enter-prev');
+    
+    // Force reflow
+    void nextSlide.offsetHeight;
+
+    // Trigger smooth transition
     if (prevSlide) {
-      prevSlide.classList.remove('active');
+      prevSlide.classList.remove('active', 'enter-prev', 'enter-next');
       prevSlide.classList.add(isForward ? 'exit-prev' : 'exit-next');
     }
 
-    nextSlide.classList.remove('exit-prev', 'exit-next');
+    nextSlide.classList.remove('enter-prev', 'enter-next');
     nextSlide.classList.add('active');
 
     setTimeout(() => {
       if (prevSlide && !prevSlide.classList.contains('active')) {
         prevSlide.classList.remove('exit-prev', 'exit-next');
       }
-    }, 450);
+      isNavigating = false;
+    }, 480);
     
     current = index;
     updateProgress();
