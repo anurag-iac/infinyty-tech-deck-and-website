@@ -69,38 +69,44 @@
     .slide {
       position: absolute;
       inset: 0;
-      display: none;
+      display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 3rem 5vw;
       opacity: 0;
+      transform: translateY(28px) scale(0.975);
       pointer-events: none;
       visibility: hidden;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
       text-align: center;
       overflow: hidden;
       background: var(--dark);
+      z-index: 1;
     }
     .light-theme .slide {
       background: #f8fbff;
     }
     .slide.active {
-      display: flex;
       opacity: 1;
+      transform: translateY(0) scale(1);
       pointer-events: all;
       visibility: visible;
       z-index: 5;
-      animation: slideInFade 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    @keyframes slideInFade {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .slide.exit-prev {
+      opacity: 0;
+      transform: translateY(-28px) scale(0.975);
+      pointer-events: none;
+      visibility: hidden;
+      z-index: 2;
+    }
+    .slide.exit-next {
+      opacity: 0;
+      transform: translateY(28px) scale(0.975);
+      pointer-events: none;
+      visibility: hidden;
+      z-index: 2;
     }
 
     .slide-1,.slide-3,.slide-5,.slide-7,.slide-9,.slide-11 { background: var(--dark); }
@@ -4152,16 +4158,30 @@
     if (index < 0 || index >= total) return;
     if (index === current && slides[current].classList.contains('active')) return;
     
-    // Ensure all slides are cleanly inactive
+    const isForward = index > current;
+    const prevSlide = slides[current];
+    const nextSlide = slides[index];
+
+    // Remove obsolete transition classes from background slides
     slides.forEach((s, idx) => {
-      if (idx === index) {
-        s.classList.remove('exit');
-        s.classList.add('active');
-      } else {
-        s.classList.remove('active');
-        s.classList.remove('exit');
+      if (idx !== current && idx !== index) {
+        s.classList.remove('active', 'exit-prev', 'exit-next');
       }
     });
+
+    if (prevSlide) {
+      prevSlide.classList.remove('active');
+      prevSlide.classList.add(isForward ? 'exit-prev' : 'exit-next');
+    }
+
+    nextSlide.classList.remove('exit-prev', 'exit-next');
+    nextSlide.classList.add('active');
+
+    setTimeout(() => {
+      if (prevSlide && !prevSlide.classList.contains('active')) {
+        prevSlide.classList.remove('exit-prev', 'exit-next');
+      }
+    }, 450);
     
     current = index;
     updateProgress();
