@@ -69,37 +69,43 @@
     .slide {
       position: absolute;
       inset: 0;
-      display: flex;
+      display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 3rem 5vw;
       opacity: 0;
-      transform: translateY(40px);
       pointer-events: none;
       visibility: hidden;
-      transition: opacity 0.45s cubic-bezier(.4,0,.2,1), transform 0.45s cubic-bezier(.4,0,.2,1), visibility 0.45s;
       text-align: center;
       overflow: hidden;
+      background: var(--dark);
+    }
+    .light-theme .slide {
+      background: #f8fbff;
     }
     .slide.active {
+      display: flex;
       opacity: 1;
-      transform: translateY(0);
       pointer-events: all;
       visibility: visible;
       z-index: 5;
+      animation: slideInFade 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .slide.exit {
-      opacity: 0;
-      transform: translateY(-40px);
-      visibility: hidden;
-      z-index: 4;
+    @keyframes slideInFade {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .slide-1,.slide-3,.slide-5,.slide-7,.slide-9,.slide-11 { background: var(--dark); }
     .slide-2,.slide-4,.slide-6,.slide-8,.slide-10 { background: var(--dark2); }
-    .slide-11 { background: radial-gradient(ellipse at 60% 50%, #041b50 0%, var(--dark) 70%); }
-    .light-theme .slide-11 { background: radial-gradient(ellipse at 60% 50%, #e0f2fe 0%, var(--dark) 70%) !important; }
+    .light-theme .slide-1,.light-theme .slide-2,.light-theme .slide-3,.light-theme .slide-4,.light-theme .slide-5,.light-theme .slide-6,.light-theme .slide-7,.light-theme .slide-8,.light-theme .slide-9,.light-theme .slide-10,.light-theme .slide-11,.light-theme .slide-12,.light-theme .slide-13 { background: #f8fbff; }
 
     .glow { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; opacity: 0.35; transition: opacity 0.3s; }
     .light-theme .glow { opacity: 0.08 !important; }
@@ -4329,13 +4335,19 @@
   function goTo(index, pushHistory = true) {
     if (index < 0 || index >= total) return;
     if (index === current && slides[current].classList.contains('active')) return;
-    slides[current].classList.remove('active');
-    slides[current].classList.add('exit');
-    setTimeout(() => {
-      slides.forEach(s => s.classList.remove('exit'));
-    }, 600);
+    
+    // Ensure all slides are cleanly inactive
+    slides.forEach((s, idx) => {
+      if (idx === index) {
+        s.classList.remove('exit');
+        s.classList.add('active');
+      } else {
+        s.classList.remove('active');
+        s.classList.remove('exit');
+      }
+    });
+    
     current = index;
-    slides[current].classList.add('active');
     updateProgress();
     updateLogoVisibility();
     syncVideos();
