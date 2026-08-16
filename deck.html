@@ -128,9 +128,9 @@
       z-index: 3;
     }
 
-    .slide-1,.slide-3,.slide-5,.slide-7,.slide-9,.slide-11 { background: var(--dark); }
-    .slide-2,.slide-4,.slide-6,.slide-8,.slide-10 { background: var(--dark2); }
-    .light-theme .slide-1,.light-theme .slide-2,.light-theme .slide-3,.light-theme .slide-4,.light-theme .slide-5,.light-theme .slide-6,.light-theme .slide-7,.light-theme .slide-8,.light-theme .slide-9,.light-theme .slide-10,.light-theme .slide-11,.light-theme .slide-12,.light-theme .slide-13 { background: #f8fbff; }
+    .slide-1,.slide-3,.slide-5,.slide-7,.slide-9,.slide-11,.slide-13 { background: var(--dark); }
+    .slide-2,.slide-4,.slide-6,.slide-8,.slide-10,.slide-12 { background: var(--dark2); }
+    .light-theme .slide { background: #f8fbff !important; }
 
     .glow { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; opacity: 0.35; transition: opacity 0.3s; }
     .light-theme .glow { opacity: 0.08 !important; }
@@ -426,8 +426,8 @@
     .deck-engagement-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-      margin-top: 1.15rem;
+      gap: 1.15rem;
+      margin-top: 0.35rem;
       width: 100%;
       max-width: 1220px;
       position: relative;
@@ -1931,10 +1931,10 @@
       background: var(--card-bg-opacity);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 1.25rem 2rem;
-      min-height: 80px;
-      margin-top: 0.85rem;
-      margin-bottom: 1.25rem;
+      padding: 1.5rem 2.2rem;
+      min-height: 96px;
+      margin-top: 0.65rem;
+      margin-bottom: 0.65rem;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
@@ -1948,18 +1948,18 @@
     .journey-flow-step {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
       text-align: left;
     }
     .journey-flow-num {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
       background: rgba(0, 114, 244, 0.15);
       border: 1px solid rgba(79, 200, 255, 0.35);
       color: #4FC8FF;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.95rem;
+      font-size: 1.02rem;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -1977,7 +1977,7 @@
     }
     .journey-flow-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.22rem;
+      font-size: 1.28rem;
       font-weight: 800;
       color: var(--text);
       line-height: 1.15;
@@ -1985,7 +1985,7 @@
     }
     .journey-flow-sub {
       font-family: 'Inter', sans-serif;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       color: var(--muted);
       white-space: nowrap;
       font-weight: 500;
@@ -2767,6 +2767,7 @@
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
         padding-bottom: 0.5rem !important;
+        padding-right: 1.5rem !important;
         margin-top: 0.5rem !important;
         border-radius: 14px !important;
       }
@@ -3311,7 +3312,7 @@
 </div>
 
 <!-- SLIDE 6: INDUSTRIES & CLIENTS -->
-<div class="slide slide-8" data-index="5">
+<div class="slide slide-6" data-index="5">
   <div class="glow glow-purple" style="width:400px;height:400px;bottom:-100px;right:-60px;opacity:0.2;"></div>
   <div class="glow glow-cyan" style="width:350px;height:350px;top:-80px;left:-80px;opacity:0.15;"></div>
   <div class="slide-content" style="max-width: 1120px;">
@@ -3373,7 +3374,7 @@
 </div>
 
 <!-- SLIDE 7: WHY INFINYTY -->
-<div class="slide slide-11" data-index="6">
+<div class="slide slide-7" data-index="6">
   <div class="glow glow-blue" style="width:550px;height:550px;top:-100px;left:-100px;opacity:0.25;"></div>
   <div class="slide-content" style="max-width: 1160px;">
     <div class="badge" style="margin-bottom:0.35rem;">Why Us?</div>
@@ -3473,10 +3474,10 @@
           </div>
         </div>
 
-        <!-- COL 3: TRADITIONAL CONSULTING -->
+        <!-- COL 3: BIG CONSULTANCIES -->
         <div class="matrix-col col-neutral-card">
           <div class="matrix-col-header">
-            <span class="th-competitor-title">Traditional Consulting</span>
+            <span class="th-competitor-title">Big Consultancies</span>
             <span class="th-pill-neutral">Legacy</span>
           </div>
           <div class="matrix-cell-item cell-neutral">
@@ -3517,10 +3518,10 @@
           </div>
         </div>
 
-        <!-- COL 4: DEV AGENCIES / OUTSOURCING -->
+        <!-- COL 4: TRADITIONAL AGENCIES -->
         <div class="matrix-col col-neutral-card">
           <div class="matrix-col-header">
-            <span class="th-competitor-title">Dev Agencies / Outsourcing</span>
+            <span class="th-competitor-title">Traditional Agencies</span>
             <span class="th-pill-neutral">Outsourced</span>
           </div>
           <div class="matrix-cell-item cell-neutral">
@@ -3566,7 +3567,7 @@
 </div>
 
 <!-- SLIDE 8: PROVEN RESULTS -->
-<div class="slide slide-9" data-index="7">
+<div class="slide slide-8" data-index="7">
   <div class="glow glow-blue" style="width:450px;height:450px;top:-80px;right:-80px;opacity:0.25;"></div>
   <div class="slide-content" style="max-width: 1240px;">
     <div class="badge" style="margin-bottom:0.25rem;">Proven Results</div>
@@ -3690,7 +3691,7 @@
 </div>
 
 <!-- SLIDE 9: ENGAGEMENT MODELS -->
-<div class="slide slide-7" data-index="8">
+<div class="slide slide-9" data-index="8">
   <div class="glow glow-purple" style="width:450px;height:450px;top:-100px;left:-100px;opacity:0.22;"></div>
   <div class="glow glow-blue" style="width:450px;height:450px;bottom:-100px;right:-100px;opacity:0.22;"></div>
   <div class="slide-content" style="max-width: 1220px;">
@@ -3828,7 +3829,7 @@
 </div>
 
 <!-- SLIDE 10: THE THREE STRATEGIC PILLARS -->
-<div class="slide slide-6" data-index="9">
+<div class="slide slide-10" data-index="9">
   <div class="glow glow-blue" style="width:500px;height:500px;top:-120px;left:-120px;opacity:0.25;"></div>
   <div class="glow glow-purple" style="width:450px;height:450px;bottom:-100px;right:-100px;opacity:0.18;"></div>
   <div class="slide-content" style="max-width: 1220px;">
@@ -3938,7 +3939,7 @@
 </div>
 
 <!-- SLIDE 11: CTA / NEXT STEPS -->
-<div class="slide slide-12" data-index="10">
+<div class="slide slide-11" data-index="10">
   <div class="glow glow-blue" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.2;"></div>
   <div class="glow glow-cyan" style="width:300px;height:300px;bottom:-60px;right:-60px;opacity:0.15;"></div>
   <div class="slide-content">
@@ -3991,8 +3992,8 @@
   </div>
 </div>
 
-<!-- SLIDE 12: DEMOS PART I (BI BOT & FLEET OPERATIONS PORTAL) -->
-<div class="slide slide-10" data-index="11">
+<!-- SLIDE 12: DEMOS PART I (BI BOT & FLEET OPERATIONS PLATFORM) -->
+<div class="slide slide-12" data-index="11">
   <div class="glow glow-cyan" style="width:450px;height:450px;top:-80px;right:-80px;opacity:0.22;"></div>
   <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;left:-80px;opacity:0.2;"></div>
   <div class="slide-content" style="max-width: 1220px;">
@@ -4042,12 +4043,12 @@
         </div>
       </div>
 
-      <!-- Demo 2: Fleet Operations Portal -->
+      <!-- Demo 2: Fleet Operations Platform -->
       <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
         <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/ops-portal-real.png">
             <source src="assets/ops-portal-auto.webm" type="video/webm">
-            <img src="assets/ops-portal-real.png" alt="Fleet Operations Portal" class="demo-screen-img">
+            <img src="assets/ops-portal-real.png" alt="Fleet Operations Platform" class="demo-screen-img">
           </video>
         </div>
         
@@ -4084,7 +4085,7 @@
 </div>
 
 <!-- SLIDE 13: DEMOS PART II (FLEET SETTLEMENT APP & ASSESSMENT GENERATOR) -->
-<div class="slide slide-11" data-index="12">
+<div class="slide slide-13" data-index="12">
   <div class="glow glow-purple" style="width:450px;height:450px;top:-80px;left:-80px;opacity:0.2;"></div>
   <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;right:-80px;opacity:0.22;"></div>
   <div class="slide-content" style="max-width: 1220px;">
@@ -4271,18 +4272,17 @@
     // Position next slide at its directional entrance immediately
     nextSlide.classList.remove('active', 'exit-prev', 'exit-next');
     nextSlide.classList.add(isForward ? 'enter-next' : 'enter-prev');
-    
-    // Force reflow
-    void nextSlide.offsetHeight;
 
-    // Trigger smooth transition
-    if (prevSlide && prevSlide !== nextSlide) {
-      prevSlide.classList.remove('active', 'enter-prev', 'enter-next');
-      prevSlide.classList.add(isForward ? 'exit-prev' : 'exit-next');
-    }
-
-    nextSlide.classList.remove('enter-prev', 'enter-next');
-    nextSlide.classList.add('active');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (prevSlide && prevSlide !== nextSlide) {
+          prevSlide.classList.remove('active', 'enter-prev', 'enter-next');
+          prevSlide.classList.add(isForward ? 'exit-prev' : 'exit-next');
+        }
+        nextSlide.classList.remove('enter-prev', 'enter-next');
+        nextSlide.classList.add('active');
+      });
+    });
 
     navTimer = setTimeout(() => {
       slides.forEach((s, idx) => {
@@ -4297,14 +4297,18 @@
     updateProgress();
     updateLogoVisibility();
     syncVideos();
-    document.getElementById('slide-num').textContent = (current + 1) + ' / ' + total;
+    const numEl = document.getElementById('slide-num');
+    if (numEl) numEl.textContent = (current + 1) + ' / ' + total;
     if (pushHistory) {
       syncUrl(current);
     }
   }
   
-  document.getElementById('nav-prev').addEventListener('click', () => goTo(current - 1));
-  document.getElementById('nav-next').addEventListener('click', () => goTo(current + 1));
+  const navPrevEl = document.getElementById('nav-prev');
+  if (navPrevEl) navPrevEl.addEventListener('click', () => goTo(current - 1));
+
+  const navNextEl = document.getElementById('nav-next');
+  if (navNextEl) navNextEl.addEventListener('click', () => goTo(current + 1));
 
   window.addEventListener('hashchange', () => {
     const target = getSlideFromHash();
@@ -4321,6 +4325,7 @@
   });
   
   document.addEventListener('keydown', e => {
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
     if (e.key === 'Home') goTo(0);
@@ -4343,7 +4348,6 @@
   document.addEventListener('touchend', e => { 
     const dx = e.changedTouches[0].clientX - touchStartX; 
     const dy = e.changedTouches[0].clientY - touchStartY;
-    // Only trigger slide navigation on intentional horizontal swipe (>55px and horizontally dominant)
     if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) {
       goTo(dx < 0 ? current + 1 : current - 1);
     }
@@ -4351,17 +4355,19 @@
   
   // Theme Toggle
   const toggleBtn = document.getElementById('theme-toggle');
-  toggleBtn.addEventListener('click', () => {
-    if (document.documentElement.classList.contains('light-theme')) {
-      document.documentElement.classList.remove('light-theme');
-      document.documentElement.classList.add('dark-theme');
-      localStorage.setItem('deck-theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark-theme');
-      document.documentElement.classList.add('light-theme');
-      localStorage.setItem('deck-theme', 'light');
-    }
-  });
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      if (document.documentElement.classList.contains('light-theme')) {
+        document.documentElement.classList.remove('light-theme');
+        document.documentElement.classList.add('dark-theme');
+        localStorage.setItem('deck-theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark-theme');
+        document.documentElement.classList.add('light-theme');
+        localStorage.setItem('deck-theme', 'light');
+      }
+    });
+  }
 
   // Initialize from hash
   const initialSlide = getSlideFromHash();
@@ -4376,7 +4382,8 @@
   updateProgress();
   updateLogoVisibility();
   syncVideos();
-  document.getElementById('slide-num').textContent = (current + 1) + ' / ' + total;
+  const initNumEl = document.getElementById('slide-num');
+  if (initNumEl) initNumEl.textContent = (current + 1) + ' / ' + total;
 </script>
 </body>
 </html>
