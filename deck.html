@@ -251,20 +251,19 @@
     .light-theme .moon-icon { display: none; }
     .moon-icon { display: block; }
 
-    /* ── MINIMALISTIC PASSWORD ACCESS GATE ── */
+    /* ── FULL-PAGE BRANDED PASSWORD ACCESS GATE ── */
     .password-gate-overlay {
       position: fixed;
       inset: 0;
       z-index: 100000;
-      background: #020714;
+      background: var(--dark);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 2rem;
+      text-align: center;
       transition: opacity 0.35s ease, visibility 0.35s ease;
-    }
-    .light-theme .password-gate-overlay {
-      background: #f8fafc;
     }
     .deck-unlocked .password-gate-overlay,
     .password-gate-overlay.unlocked {
@@ -282,133 +281,110 @@
     .gate-glow {
       position: absolute;
       border-radius: 50%;
-      filter: blur(100px);
-      opacity: 0.25;
+      filter: blur(120px);
+      opacity: 0.28;
     }
     .gate-glow-1 {
-      width: 450px;
-      height: 450px;
-      top: -50px;
-      right: -50px;
+      width: 550px;
+      height: 550px;
+      top: -100px;
+      right: -100px;
       background: #0072F4;
     }
     .gate-glow-2 {
-      width: 400px;
-      height: 400px;
-      bottom: -50px;
-      left: -50px;
+      width: 450px;
+      height: 450px;
+      bottom: -100px;
+      left: -100px;
       background: #4FC8FF;
     }
     .light-theme .gate-glow {
       opacity: 0.15;
     }
-    .password-gate-card {
+    .password-gate-container {
       position: relative;
       z-index: 2;
-      width: 100%;
-      max-width: 380px;
-      background: rgba(6, 17, 42, 0.85);
-      border: 1px solid rgba(79, 200, 255, 0.2);
-      border-radius: 20px;
-      padding: 2.4rem 2rem;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 114, 244, 0.15);
-      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
+      max-width: 780px;
+      width: 100%;
     }
-    .light-theme .password-gate-card {
-      background: #ffffff;
-      border: 1px solid rgba(0, 114, 244, 0.15);
-      box-shadow: 0 20px 50px rgba(0, 114, 244, 0.08);
+    .gate-cover-logo {
+      height: 38px;
+      width: auto;
+      margin-bottom: 1.5rem;
     }
-    .gate-brand-icon-wrap {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: rgba(0, 114, 244, 0.12);
-      border: 1px solid rgba(0, 114, 244, 0.25);
+    .gate-cover-logo.logo-dark { display: block; }
+    .gate-cover-logo.logo-light { display: none; }
+    .light-theme .gate-cover-logo.logo-dark { display: none; }
+    .light-theme .gate-cover-logo.logo-light { display: block; }
+
+    .gate-hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .gate-hero-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 650px;
+      margin-bottom: 2rem;
+    }
+    .gate-hero-form {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.15rem;
-    }
-    .light-theme .gate-brand-icon-wrap {
-      background: rgba(0, 114, 244, 0.06);
-      border-color: rgba(0, 114, 244, 0.15);
-    }
-    .gate-icon-img {
-      width: 28px;
-      height: auto;
-      display: block;
-    }
-    .gate-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 0.35rem;
-      letter-spacing: -0.01em;
-    }
-    .light-theme .gate-title {
-      color: #0f172a;
-    }
-    .gate-sub {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.84rem;
-      color: rgba(240, 242, 248, 0.6);
-      line-height: 1.4;
-      margin-bottom: 1.5rem;
-    }
-    .light-theme .gate-sub {
-      color: #64748b;
-    }
-    .gate-form {
+      gap: 0.6rem;
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
+      max-width: 440px;
     }
-    .gate-input-wrapper {
+    .gate-hero-input-wrap {
       position: relative;
-      width: 100%;
+      flex: 1;
       display: flex;
       align-items: center;
     }
-    .gate-password-input {
+    .gate-hero-input {
       width: 100%;
-      background: rgba(2, 7, 20, 0.6);
-      border: 1.5px solid rgba(79, 200, 255, 0.22);
+      background: var(--card-bg-opacity);
+      border: 1.5px solid var(--border);
       border-radius: 12px;
-      padding: 0.75rem 2.6rem 0.75rem 1rem;
+      padding: 0.85rem 2.6rem 0.85rem 1.15rem;
       font-family: 'Inter', sans-serif;
-      font-size: 0.92rem;
-      color: #ffffff;
+      font-size: 0.95rem;
+      color: var(--text);
       outline: none;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .light-theme .gate-password-input {
-      background: #f8fafc;
-      border: 1.5px solid rgba(0, 114, 244, 0.18);
-      color: #0f172a;
+    .light-theme .gate-hero-input {
+      background: #ffffff;
+      border-color: rgba(0, 114, 244, 0.25);
     }
-    .gate-password-input:focus {
-      border-color: #0072F4;
-      box-shadow: 0 0 0 3px rgba(0, 114, 244, 0.2);
+    .gate-hero-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 114, 244, 0.25), 0 0 20px rgba(0, 114, 244, 0.15);
     }
-    .gate-password-input.input-error {
+    .gate-hero-input.input-error {
       border-color: #ef4444 !important;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
       animation: shake 0.35s ease;
     }
     .gate-visibility-btn {
       position: absolute;
-      right: 10px;
+      right: 12px;
       background: none;
       border: none;
-      color: rgba(240, 242, 248, 0.5);
+      color: var(--muted);
       cursor: pointer;
       padding: 4px;
       display: flex;
@@ -416,28 +392,15 @@
       justify-content: center;
       transition: color 0.2s;
     }
-    .light-theme .gate-visibility-btn {
-      color: #94a3b8;
-    }
     .gate-visibility-btn:hover {
       color: var(--primary);
     }
     .gate-visibility-btn svg {
-      width: 17px;
-      height: 17px;
+      width: 18px;
+      height: 18px;
     }
-    .gate-error-msg {
-      font-size: 0.78rem;
-      color: #f87171;
-      font-weight: 500;
-      margin-top: -0.35rem;
-    }
-    .light-theme .gate-error-msg {
-      color: #dc2626;
-    }
-    .gate-submit-btn {
-      width: 100%;
-      padding: 0.78rem 1.25rem;
+    .gate-hero-submit-btn {
+      padding: 0.85rem 1.4rem;
       background: var(--grad);
       border: none;
       border-radius: 12px;
@@ -446,20 +409,40 @@
       font-size: 0.92rem;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.4rem;
+      gap: 0.45rem;
+      white-space: nowrap;
       transition: transform 0.2s, box-shadow 0.2s;
       box-shadow: 0 6px 20px rgba(0, 114, 244, 0.35);
-      margin-top: 0.2rem;
+      flex-shrink: 0;
     }
-    .gate-submit-btn:hover {
+    .gate-hero-submit-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0, 114, 244, 0.5);
     }
-    .gate-submit-btn:active {
+    .gate-hero-submit-btn:active {
       transform: translateY(0);
+    }
+    .gate-error-msg {
+      font-size: 0.82rem;
+      color: #f87171;
+      font-weight: 600;
+      margin-top: 0.65rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .light-theme .gate-error-msg {
+      color: #dc2626;
+    }
+    @media (max-width: 600px) {
+      .gate-hero-form {
+        flex-direction: column;
+        width: 100%;
+      }
+      .gate-hero-submit-btn {
+        width: 100%;
+      }
     }
 
     .badge { display: inline-block; background: rgba(0,114,244,0.15); border: 1px solid rgba(0,114,244,0.4); color: var(--accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.3rem 0.85rem; border-radius: 99px; margin-bottom: 1.25rem; }
@@ -3403,40 +3386,42 @@
   </style>
 </head>
 <body>
-<!-- BEAUTIFUL ACCESS CODE / PASSWORD GATE -->
+<!-- FULL PAGE BRANDED PASSWORD GATE -->
 <div id="deck-password-gate" class="password-gate-overlay" aria-modal="true" role="dialog">
   <div class="password-gate-bg">
     <div class="gate-glow gate-glow-1"></div>
     <div class="gate-glow gate-glow-2"></div>
-    <div class="gate-grid-pattern"></div>
   </div>
   
-  <div class="password-gate-card">
-    <div class="gate-brand-icon-wrap">
-      <img src="assets/infinyty-icon.png" alt="Infinyty Tech" class="gate-icon-img">
+  <div class="password-gate-container">
+    <div class="cover-brand-wrap" style="margin-bottom: 1.5rem;">
+      <img src="assets/infinyty-lockup-dark.png" alt="Infinyty Tech" class="gate-cover-logo logo-dark">
+      <img src="assets/infinyty-lockup-light.png" alt="Infinyty Tech" class="gate-cover-logo logo-light">
     </div>
     
-    <h2 class="gate-title">Enter Password</h2>
-    <p class="gate-sub">Enter password to view presentation</p>
+    <h1 class="gate-hero-title">Build. Automate.<br><span class="gradient-text">Scale with AI.</span></h1>
+    <p class="gate-hero-sub">AI-powered systems, data platforms, and products built for real-world business impact.</p>
     
-    <form id="gate-form" class="gate-form" onsubmit="event.preventDefault(); handleGateUnlock();">
-      <div class="gate-input-wrapper">
-        <input type="password" id="gate-input-password" class="gate-password-input" placeholder="Password" autocomplete="current-password" required autofocus>
+    <form id="gate-form" class="gate-hero-form" onsubmit="event.preventDefault(); handleGateUnlock();">
+      <div class="gate-hero-input-wrap">
+        <input type="password" id="gate-input-password" class="gate-hero-input" placeholder="Enter password to view deck..." autocomplete="current-password" required autofocus>
         <button type="button" id="gate-toggle-visibility" class="gate-visibility-btn" aria-label="Toggle password visibility">
           <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           <svg class="icon-eye-off" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
         </button>
       </div>
 
-      <div id="gate-error-msg" class="gate-error-msg" style="display:none;">
-        Incorrect password
-      </div>
-
-      <button type="submit" id="gate-submit-btn" class="gate-submit-btn">
-        <span>Enter</span>
+      <button type="submit" id="gate-submit-btn" class="gate-hero-submit-btn">
+        <span>View Deck</span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </form>
+
+    <div id="gate-error-msg" class="gate-error-msg" style="display:none;">
+      Incorrect password. Please try again.
+    </div>
+
+    <p style="margin-top:2.25rem; font-size:0.8rem; color:var(--muted); letter-spacing:0.04em;">infinyty.tech &nbsp;&middot;&nbsp; contact@infinyty.tech</p>
   </div>
 </div>
 
