@@ -171,10 +171,9 @@ header.scrolled { box-shadow: 0 2px 24px var(--shadow-color); }
   gap: 0.65rem;
   text-decoration: none;
 }
-.nav-logo-img, .nav-logo img {
+.nav-logo-icon, .nav-logo img {
   height: 28px;
   width: auto;
-  max-width: 180px;
   object-fit: contain;
   display: block;
 }
@@ -185,18 +184,6 @@ header.scrolled { box-shadow: 0 2px 24px var(--shadow-color); }
   letter-spacing: -0.03em;
   color: var(--text);
   line-height: 1;
-}
-.nav-logo .logo-dark {
-  display: none;
-}
-.nav-logo .logo-light {
-  display: block;
-}
-.dark-mode .nav-logo .logo-light {
-  display: none;
-}
-.dark-mode .nav-logo .logo-dark {
-  display: block;
 }
 .nav-links { display: flex; gap: 0.35rem; list-style: none; flex-wrap: nowrap; align-items: center; }
 .nav-links a {
