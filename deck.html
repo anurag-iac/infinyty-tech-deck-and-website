@@ -635,9 +635,28 @@
       background: rgba(139, 92, 246, 0.16);
       color: #a78bfa;
     }
-    .light-theme .engagement-card:nth-child(1) .engagement-point-icon { background: #e0effe; color: var(--primary); }
-    .light-theme .engagement-card:nth-child(2) .engagement-point-icon { background: #dcfce7; color: #16a34a; }
     .light-theme .engagement-card:nth-child(3) .engagement-point-icon { background: #f3e8ff; color: #7c3aed; }
+
+    .proto-cell {
+      display: inline-flex;
+      align-items: center;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.70rem;
+      font-weight: 700;
+      padding: 0.22rem 0.52rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: -0.01em;
+    }
+    .dark-theme .proto-cell {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #f1f5f9;
+    }
 
     .service-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 2rem; width: 100%; max-width: 900px; position: relative; z-index: 1; }
     .service-card { background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; text-align: left; transition: border-color 0.2s, background 0.2s; box-shadow: var(--shadow); }
@@ -3941,13 +3960,13 @@
             <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0 0;">AI Analytics Bot</h3>
           </div>
           
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.75rem;">
-            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Automated Reports</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Natural Language SQL</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Live Charts</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.5rem;">
+            <div style="display: flex; flex-wrap: nowrap; gap: 0.35rem; align-items: center; overflow: hidden;">
+              <span class="proto-cell">Automated Reports</span>
+              <span class="proto-cell">Natural Language SQL</span>
+              <span class="proto-cell">Live Charts</span>
             </div>
-            <a href="demos/bi-assistant/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
+            <a href="demos/bi-assistant/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
               Launch Prototype
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
@@ -3979,14 +3998,14 @@
             <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0 0;">Fleet Operations Platform</h3>
           </div>
           
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.75rem;">
-            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">20+ Workflows</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Photo Audits</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Maintenance</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">RBAC</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.5rem;">
+            <div style="display: flex; flex-wrap: nowrap; gap: 0.35rem; align-items: center; overflow: hidden;">
+              <span class="proto-cell">20+ Workflows</span>
+              <span class="proto-cell">Photo Audits</span>
+              <span class="proto-cell">Maintenance</span>
+              <span class="proto-cell">RBAC</span>
             </div>
-            <a href="demos/operations-portal/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
+            <a href="demos/operations-portal/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
               Launch Prototype
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
@@ -4033,13 +4052,13 @@
             <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0 0;">Fleet Settlement App</h3>
           </div>
           
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.75rem;">
-            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Auto Payouts</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Weekly Hisaab</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Live Ledger</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.5rem;">
+            <div style="display: flex; flex-wrap: nowrap; gap: 0.35rem; align-items: center; overflow: hidden;">
+              <span class="proto-cell">Auto Payouts</span>
+              <span class="proto-cell">Weekly Hisaab</span>
+              <span class="proto-cell">Live Ledger</span>
             </div>
-            <a href="demos/fleet-portal/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
+            <a href="demos/fleet-portal/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
               Launch Prototype
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
@@ -4072,13 +4091,13 @@
             <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0 0;">Assessment Generator</h3>
           </div>
           
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.75rem;">
-            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center;">
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Candidate Reports</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Instant Scoring</span>
-              <span style="display: inline-flex; align-items: center; background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); color: var(--primary); font-family: 'Space Grotesk', sans-serif; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px;">Cloud Deployed</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.5rem;">
+            <div style="display: flex; flex-wrap: nowrap; gap: 0.35rem; align-items: center; overflow: hidden;">
+              <span class="proto-cell">Candidate Reports</span>
+              <span class="proto-cell">Instant Scoring</span>
+              <span class="proto-cell">Cloud Deployed</span>
             </div>
-            <a href="demos/assessment-generator/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
+            <a href="demos/assessment-generator/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
               Launch Prototype
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
