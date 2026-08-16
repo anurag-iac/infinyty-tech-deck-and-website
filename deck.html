@@ -1247,17 +1247,17 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: stretch;
-      gap: 1.75rem;
+      gap: 1.5rem;
       width: 100%;
-      max-width: 1060px;
-      margin-top: 1.15rem;
+      max-width: 980px;
+      margin-top: 0.85rem;
       position: relative;
       z-index: 1;
     }
     .challenge-col {
       background: var(--card-bg-opacity);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
       backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
@@ -1275,20 +1275,20 @@
     }
     .light-theme .challenge-col.challenge-legacy {
       border: 1px solid #fecaca;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
     }
     
     /* Infinyty Prominent Col */
     .challenge-col.challenge-infinyty {
       border: 1px solid rgba(0, 114, 244, 0.4);
       background: rgba(0, 114, 244, 0.05);
-      box-shadow: 0 8px 30px rgba(0, 114, 244, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 114, 244, 0.1);
       position: relative;
     }
     .light-theme .challenge-col.challenge-infinyty {
       background: #f8fbff;
       border: 1px solid #bfdbfe;
-      box-shadow: 0 4px 24px rgba(0, 114, 244, 0.07);
+      box-shadow: 0 2px 16px rgba(0, 114, 244, 0.05);
     }
     .challenge-col.challenge-infinyty::before {
       content: '';
@@ -1299,13 +1299,13 @@
     }
     
     .challenge-col-header {
-      height: 52px;
+      height: 46px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 1.45rem;
+      justify-content: flex-start;
+      padding: 0 1.25rem;
       border-bottom: 1px solid var(--border);
-      background: rgba(0, 0, 0, 0.15);
+      background: rgba(0, 0, 0, 0.08);
       flex-shrink: 0;
     }
     .light-theme .challenge-col-header {
@@ -1316,7 +1316,7 @@
       align-items: center;
       gap: 0.65rem;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.96rem;
+      font-size: 1.02rem;
       font-weight: 800;
       color: var(--text);
       letter-spacing: -0.01em;
@@ -1361,21 +1361,25 @@
       flex-direction: column;
     }
     .challenge-row-item {
-      padding: 1.1rem 1.45rem;
+      padding: 0.75rem 1.25rem;
       border-bottom: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      min-height: 94px;
+      gap: 0.15rem;
       justify-content: center;
     }
     .challenge-row-item:last-child {
       border-bottom: none;
     }
+    .challenge-item-head {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
     .challenge-icon-badge {
       width: 26px;
       height: 26px;
-      border-radius: 7px;
+      border-radius: 6px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -1403,26 +1407,28 @@
     }
     .challenge-item-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.02rem;
+      font-size: 1.12rem;
       font-weight: 800;
       color: var(--text);
+      letter-spacing: -0.01em;
     }
     .challenge-item-title.std-title {
-      color: var(--accent);
+      color: var(--primary);
     }
     .light-theme .challenge-item-title.std-title {
-      color: var(--primary);
+      color: #2563eb;
     }
     .challenge-item-desc {
       font-family: 'Inter', sans-serif;
-      font-size: 0.88rem;
+      font-size: 0.94rem;
       color: var(--muted);
-      line-height: 1.45;
+      line-height: 1.4;
+      padding-left: 2.25rem;
       margin: 0;
     }
     .challenge-item-desc.std-desc {
       color: var(--text);
-      font-weight: 600;
+      font-weight: 500;
     }
     .challenge-row-item.infinyty-highlight {
       background: rgba(0, 114, 244, 0.03);
@@ -2929,7 +2935,7 @@
       </div>
     </div>
     
-    <p style="margin-top:1.25rem;font-size:0.78rem;color:var(--muted);letter-spacing:0.05em;">infinyty.tech &nbspmiddot;&nbsp; contact@infinyty.tech</p>
+    <p style="margin-top:1.25rem;font-size:0.78rem;color:var(--muted);letter-spacing:0.05em;">infinyty.tech &nbsp;&middot;&nbsp; contact@infinyty.tech</p>
   </div>
 </div>
 
@@ -2937,114 +2943,47 @@
 <div class="slide slide-2" data-index="1">
   <div class="glow glow-blue" style="width:480px;height:480px;top:-60px;right:-60px;opacity:0.22;"></div>
   <div class="glow glow-cyan" style="width:350px;height:350px;bottom:-60px;left:-60px;opacity:0.18;"></div>
-  <div class="slide-content" style="max-width:1100px;">
+  <div class="slide-content" style="max-width:1120px;">
     <div class="badge" style="margin-bottom:0.35rem;">The Shift</div>
-    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.2rem); margin-bottom:0.2rem; line-height:1.2;">Every enterprise will become an AI enterprise.<br><span class="gradient-text">The only variable is speed.</span></h2>
-    <p class="slide-sub" style="font-size:0.86rem; max-width:640px; margin-bottom:0.1rem;">Moving from experimentation to measurable business advantage.</p>
-    
-    <!-- 3 Stat Rows: Cohesive 2-Column Rows (Narrative+Source Left, Visual Right) -->
-    <div class="deck-stats-rows">
-      <!-- Row 1: McKinsey -->
-      <div class="deck-stat-row">
-        <div class="row-main-col">
-          <div class="row-header-line">
-            <span class="row-hero-num">+52%</span>
-            <span class="row-hero-tag">Revenue / Employee</span>
-          </div>
-          <div class="row-content-body">
-            Higher revenue is generated per employee when AI is integrated into products.<sup>*</sup>
-          </div>
-        </div>
-        <div class="row-viz-card">
-          <div style="display: flex; align-items: center; justify-content: space-around; gap: 0.65rem;">
-            <div style="text-align: center;">
-              <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--muted);">1.0×</div>
-              <div style="font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em;">Baseline</div>
-            </div>
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem;">
-              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem; font-weight: 800; color: #10b981; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.35); padding: 0.1rem 0.5rem; border-radius: 99px;">+52%</span>
-              <svg width="44" height="10" viewBox="0 0 44 10" fill="none" style="display: block;">
-                <path d="M 2 5 L 38 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" />
-                <path d="M 34 1.5 L 39 5 L 34 8.5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-            <div style="text-align: center;">
-              <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: #10b981;">1.52×</div>
-              <div style="font-size: 0.72rem; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 0.04em;">With AI</div>
-            </div>
-          </div>
-        </div>
+    <h2 class="slide-h2" style="font-size:clamp(1.75rem, 2.8vw, 2.35rem); margin-bottom:0.25rem; line-height:1.2;">Every enterprise is becoming an AI enterprise.<br><span class="gradient-text">The advantage will go to those who move first.</span></h2>
+    <p class="slide-sub" style="font-size:0.92rem; max-width:680px; margin-bottom:1.5rem;">AI is reshaping how companies generate revenue, improve efficiency, and compete.</p>
+
+    <!-- 3 Stat Cards (Larger blocks, Centered text, Big Bold numbers) -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; margin-bottom: 1.5rem;">
+
+      <!-- Card 1: +52% -->
+      <div style="background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: 16px; padding: 2.2rem 1.6rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 4.5vw, 3.6rem); font-weight: 800; color: var(--primary); line-height: 1; letter-spacing: -0.02em;">+52%<sup style="font-size:0.45em; vertical-align:super; font-weight: 700;">*</sup></div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Revenue / Employee</div>
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--muted); line-height: 1.55; max-width: 280px;">Higher revenue per employee when AI is embedded into core products.</div>
       </div>
 
-      <!-- Row 2: Bain Profit Pools -->
-      <div class="deck-stat-row">
-        <div class="row-main-col">
-          <div class="row-header-line">
-            <span class="row-hero-num">80%+</span>
-            <span class="row-hero-tag">Market Profit Pools</span>
-          </div>
-          <div class="row-content-body">
-            Of industry profit pools expected to shift to software, data and AI by 2030.<sup>#</sup>
-          </div>
-        </div>
-        <div class="row-viz-card" style="gap: 0.4rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; font-weight: 800;">
-            <span style="color: #10b981; display: flex; align-items: center; gap: 0.35rem;">
-              <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
-              80% Software &amp; AI
-            </span>
-            <span style="color: #ef4444; display: flex; align-items: center; gap: 0.35rem; font-weight: 700;">
-              <span style="width: 6px; height: 6px; border-radius: 50%; background: #ef4444;"></span>
-              20% Legacy
-            </span>
-          </div>
-          <div style="height: 8px; border-radius: 99px; background: rgba(148, 163, 184, 0.25); display: flex; overflow: hidden; gap: 2px;">
-            <div style="width: 80%; height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 99px 0 0 99px;"></div>
-            <div style="width: 20%; height: 100%; background: linear-gradient(90deg, #ef4444, #f87171); border-radius: 0 99px 99px 0;"></div>
-          </div>
-          <div style="font-size: 0.7rem; font-weight: 600; color: var(--muted); text-align: center; letter-spacing: 0.02em;">2030 Global Concentration</div>
-        </div>
+      <!-- Card 2: 80% -->
+      <div style="background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: 16px; padding: 2.2rem 1.6rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 4.5vw, 3.6rem); font-weight: 800; color: var(--primary); line-height: 1; letter-spacing: -0.02em;">80%<sup style="font-size:0.45em; vertical-align:super; font-weight: 700;">#</sup></div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">of Profit Pools</div>
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--muted); line-height: 1.55; max-width: 280px;">Expected to shift toward software, data, and AI by 2030.</div>
       </div>
 
-      <!-- Row 3: BCG Productivity Gains -->
-      <div class="deck-stat-row">
-        <div class="row-main-col">
-          <div class="row-header-line">
-            <span class="row-hero-num">30–50%</span>
-            <span class="row-hero-tag">Operational Efficiency</span>
-          </div>
-          <div class="row-content-body">
-            Higher operational efficiency achieved with AI, with maintenance costs reduced by up to 35%.<sup>^</sup>
-          </div>
-        </div>
-        <div class="row-viz-card" style="gap: 0.45rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Space Grotesk', sans-serif;">
-            <span style="font-size: 0.82rem; font-weight: 600; color: var(--text);">Productivity Gains</span>
-            <span style="font-size: 0.86rem; font-weight: 800; color: #10b981; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.35); padding: 0.12rem 0.55rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.25rem;">
-              <span style="font-size: 0.75rem;">▲</span> +50%
-            </span>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; font-family: 'Space Grotesk', sans-serif;">
-            <span style="font-size: 0.82rem; font-weight: 600; color: var(--text);">Maintenance Costs</span>
-            <span style="font-size: 0.86rem; font-weight: 800; color: #10b981; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.35); padding: 0.12rem 0.55rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.25rem;">
-              <span style="font-size: 0.75rem;">▼</span> -35%
-            </span>
-          </div>
-        </div>
+      <!-- Card 3: ~40% -->
+      <div style="background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: 16px; padding: 2.2rem 1.6rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 4.5vw, 3.6rem); font-weight: 800; color: var(--primary); line-height: 1; letter-spacing: -0.02em;">~40%<sup style="font-size:0.45em; vertical-align:super; font-weight: 700;">^</sup></div>
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Operational Efficiency</div>
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--muted); line-height: 1.55; max-width: 280px;">Potential efficiency gains across AI-enabled enterprise processes.</div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Banner -->
+    <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1.8rem; display: flex; align-items: center; justify-content: center; text-align: center; max-width: 900px; margin: 0 auto;">
+      <div style="font-family:'Space Grotesk', sans-serif; font-size: clamp(0.92rem, 1.35vw, 1.12rem); font-weight: 700; letter-spacing: -0.01em; color: var(--text);">
+        The AI enterprise is no longer a future state. <span class="gradient-text">It's a competitive shift happening now.</span>
       </div>
     </div>
 
-    <!-- Bottom Banner: The AI Enterprise Has Arrived -->
-    <div class="deck-imperative-box" style="justify-content: center; text-align: center; margin-top: 0.85rem;">
-      <div style="font-family:'Space Grotesk', sans-serif; font-size: clamp(0.95rem, 1.4vw, 1.15rem); font-weight: 800; letter-spacing: -0.01em; display: flex; align-items: center; justify-content: center; gap: 0.65rem;">
-        <img src="assets/infinyty-icon.png" alt="Infinyty" style="width: 16px; height: auto; object-fit: contain;">
-        <span class="gradient-text">The AI Enterprise Has Arrived.</span>
-      </div>
-    </div>
-
-    <!-- Sources Footnote -->
-    <div class="deck-sources-bar" style="display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-top: 0.65rem; font-size: 0.72rem; color: var(--muted); font-family: 'Inter', sans-serif;">
-      <span style="font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.75;">Data Sources:</span>
+    <!-- Sources Footnote (Smaller font size) -->
+    <div class="deck-sources-bar" style="display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-top: 0.75rem; font-size: 0.64rem; color: var(--muted); font-family: 'Inter', sans-serif; letter-spacing: 0.04em;">
+      <span style="font-weight: 700; text-transform: uppercase; opacity: 0.75;">DATA SOURCES:</span>
       <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" style="color: var(--muted); text-decoration: underline; text-underline-offset: 2px;">* McKinsey &amp; Company</a>
       <span style="opacity: 0.4;">·</span>
       <a href="https://www.bain.com/about/media-center/press-releases/2026/nearly-half-of-industrial-automation-revenue-to-rely-on-ai-by-2030-bain--company-finds/" target="_blank" style="color: var(--muted); text-decoration: underline; text-underline-offset: 2px;"># Bain &amp; Company</a>
@@ -3063,8 +3002,8 @@
     <h2 class="slide-h2" style="font-size:clamp(1.75rem, 2.8vw, 2.35rem); margin-bottom:0.25rem; line-height:1.2;">
       Bridging the <span class="gradient-text">Enterprise Execution Gap</span>
     </h2>
-    <p class="slide-sub" style="font-size:0.88rem; max-width:680px; margin-bottom:0.65rem;">
-      Why off-the-shelf software and fragmented data stall AI initiatives before they deliver value.
+    <p class="slide-sub" style="font-size:0.92rem; max-width:680px; margin-bottom:1.2rem;">
+      Connect your data. Automate your operations. Turn AI into impact.
     </p>
 
     <!-- 2-Column Comparison Matrix Table -->
@@ -3072,12 +3011,11 @@
       
       <!-- COLUMN 1: THE CHALLENGE -->
       <div class="challenge-col challenge-legacy">
-        <div class="challenge-col-header header-legacy">
+        <div class="challenge-col-header header-legacy" style="justify-content: flex-start;">
           <div class="challenge-header-title">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             <span>The Challenge</span>
           </div>
-          <span class="challenge-pill-legacy">Legacy Bottlenecks</span>
         </div>
 
         <div class="challenge-rows">
@@ -3089,7 +3027,7 @@
               </div>
               <span class="challenge-item-title">Siloed Data</span>
             </div>
-            <p class="challenge-item-desc">Data is scattered across systems and spreadsheets.</p>
+            <p class="challenge-item-desc">Scattered across systems</p>
           </div>
 
           <!-- Row 2 -->
@@ -3098,9 +3036,9 @@
               <div class="challenge-icon-badge badge-legacy">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
               </div>
-              <span class="challenge-item-title">Slow &amp; Rigid Systems</span>
+              <span class="challenge-item-title">Rigid Systems</span>
             </div>
-            <p class="challenge-item-desc">Off-the-shelf tools don't fit. Building internally takes too long.</p>
+            <p class="challenge-item-desc">Slow to adapt</p>
           </div>
 
           <!-- Row 3 -->
@@ -3109,21 +3047,20 @@
               <div class="challenge-icon-badge badge-legacy">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
               </div>
-              <span class="challenge-item-title">Manual Operations</span>
+              <span class="challenge-item-title">Manual Work</span>
             </div>
-            <p class="challenge-item-desc">Too much manual work. Decisions rely on outdated information.</p>
+            <p class="challenge-item-desc">Slow decisions</p>
           </div>
         </div>
       </div>
 
       <!-- COLUMN 2: HOW WE SOLVE THIS -->
       <div class="challenge-col challenge-infinyty">
-        <div class="challenge-col-header header-infinyty-std">
+        <div class="challenge-col-header header-infinyty-std" style="justify-content: flex-start;">
           <div class="challenge-header-title">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            <span>How We Solve This</span>
+            <span>Our Solution</span>
           </div>
-          <span class="challenge-pill-infinyty">Our Solution</span>
         </div>
 
         <div class="challenge-rows">
@@ -3135,7 +3072,7 @@
               </div>
               <span class="challenge-item-title std-title">Unified Data</span>
             </div>
-            <p class="challenge-item-desc std-desc">One reliable foundation for AI and decisions.</p>
+            <p class="challenge-item-desc std-desc">One source of truth</p>
           </div>
 
           <!-- Row 2 -->
@@ -3144,9 +3081,9 @@
               <div class="challenge-icon-badge badge-solution">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
               </div>
-              <span class="challenge-item-title std-title">AI-Powered Workflows</span>
+              <span class="challenge-item-title std-title">Intelligent Workflows</span>
             </div>
-            <p class="challenge-item-desc std-desc">Custom systems built around how your business works.</p>
+            <p class="challenge-item-desc std-desc">Built around your business</p>
           </div>
 
           <!-- Row 3 -->
@@ -3157,7 +3094,7 @@
               </div>
               <span class="challenge-item-title std-title">Automated Outcomes</span>
             </div>
-            <p class="challenge-item-desc std-desc">Faster execution, better decisions, measurable business impact.</p>
+            <p class="challenge-item-desc std-desc">Faster, measurable execution</p>
           </div>
         </div>
       </div>
@@ -3529,9 +3466,8 @@
       <!-- 01: Pharma Automated Regulatory Filing AI -->
       <div class="case-card">
         <div>
-          <span class="case-sector-pill">Pharma &middot; AI</span>
-          <h4>Regulatory Filing AI</h4>
-          <p>Automated the conversion of large volumes of trial data into regulatory-ready submissions.</p>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.12rem; font-weight: 800; color: var(--text); margin-bottom: 0.35rem;">Regulatory Filing AI</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--muted); line-height: 1.45;">Convert large volumes of trial data into regulatory-ready submissions.</p>
         </div>
         <div class="case-metrics-grid">
           <div class="case-stat-col">
@@ -3549,9 +3485,8 @@
       <!-- 02: Automotive Lead Scoring -->
       <div class="case-card">
         <div>
-          <span class="case-sector-pill">Automotive &middot; Voice AI</span>
-          <h4>Lead Scoring &amp; Voice AI</h4>
-          <p>Combined predictive lead scoring with AI voice agents to prioritize and qualify leads before human follow-up.</p>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.12rem; font-weight: 800; color: var(--text); margin-bottom: 0.35rem;">Lead Scoring &amp; Voice AI</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--muted); line-height: 1.45;">Predict and qualify leads with scoring and AI voice agents.</p>
         </div>
         <div class="case-metrics-grid">
           <div class="case-stat-col">
@@ -3569,9 +3504,8 @@
       <!-- 03: HR Tech AI Evaluation -->
       <div class="case-card">
         <div>
-          <span class="case-sector-pill">HR Tech &middot; GenAI</span>
-          <h4>AI Candidate Evaluation</h4>
-          <p>AI-powered candidate assessments and scoring, replacing manual evaluation with instant results.</p>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.12rem; font-weight: 800; color: var(--text); margin-bottom: 0.35rem;">AI Candidate Evaluation</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--muted); line-height: 1.45;">Automate candidate assessment and scoring with instant results.</p>
         </div>
         <div class="case-metrics-grid">
           <div class="case-stat-col">
@@ -3589,9 +3523,8 @@
       <!-- 04: E-Commerce ROAS Optimization -->
       <div class="case-card">
         <div>
-          <span class="case-sector-pill">E-Commerce &middot; Analytics</span>
-          <h4>ROAS Optimization</h4>
-          <p>Connected customer journeys to ad spend, enabling smarter allocation and reducing waste.</p>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.12rem; font-weight: 800; color: var(--text); margin-bottom: 0.35rem;">ROAS Optimization</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--muted); line-height: 1.45;">Connect customer journeys to ad spend for smarter allocation.</p>
         </div>
         <div class="case-metrics-grid">
           <div class="case-stat-col">
@@ -3609,9 +3542,8 @@
       <!-- 05: Enterprise Intelligent BI Agent -->
       <div class="case-card">
         <div>
-          <span class="case-sector-pill">Enterprise &middot; AI + BI</span>
-          <h4>Intelligent BI Assistant</h4>
-          <p>Unified business data into a conversational AI assistant for faster insights and decision-making.</p>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.12rem; font-weight: 800; color: var(--text); margin-bottom: 0.35rem;">Intelligent BI Assistant</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--muted); line-height: 1.45;">Unify business data for conversational insights and faster decisions.</p>
         </div>
         <div class="case-metrics-grid">
           <div class="case-stat-col">
@@ -3629,9 +3561,8 @@
       <!-- 06: E-Commerce CRM Reactivation -->
       <div class="case-card">
         <div>
-          <span class="case-sector-pill">E-Commerce &middot; Predictive ML</span>
-          <h4>CRM Reactivation</h4>
-          <p>ML-powered targeting and automated triggers to reactivate dormant customers at scale.</p>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.12rem; font-weight: 800; color: var(--text); margin-bottom: 0.35rem;">CRM Reactivation</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--muted); line-height: 1.45;">Use predictive targeting to reactivate dormant customers at scale.</p>
         </div>
         <div class="case-metrics-grid">
           <div class="case-stat-col">
@@ -3657,8 +3588,135 @@
     <div class="badge">How We Work</div>
     <h2 class="slide-h2">Flexible <span class="gradient-text">Engagement Models</span></h2>
     <p class="slide-sub" style="font-size:0.92rem; max-width:760px; margin-bottom:0.25rem;">
-      From initial conversation to enterprise execution &mdash; we understand your strategic priorities before engineering scalable AI systems.
+      From initial discovery to production and beyond &mdash; engage us where you need us most.
     </p>
+
+    <!-- 5-Step Journey Flow Bar -->
+    <div class="deck-journey-flow-bar">
+      <div class="journey-flow-step active">
+        <div class="journey-flow-num">01</div>
+        <div class="journey-flow-info">
+          <span class="journey-flow-title">Discover</span>
+          <span class="journey-flow-sub">Client Priorities First</span>
+        </div>
+      </div>
+      <div class="journey-flow-arrow">&rarr;</div>
+      <div class="journey-flow-step">
+        <div class="journey-flow-num">02</div>
+        <div class="journey-flow-info">
+          <span class="journey-flow-title">Identify</span>
+          <span class="journey-flow-sub">AI &amp; Data Opportunities</span>
+        </div>
+      </div>
+      <div class="journey-flow-arrow">&rarr;</div>
+      <div class="journey-flow-step">
+        <div class="journey-flow-num">03</div>
+        <div class="journey-flow-info">
+          <span class="journey-flow-title">Design</span>
+          <span class="journey-flow-sub">Architecture &amp; Feasibility</span>
+        </div>
+      </div>
+      <div class="journey-flow-arrow">&rarr;</div>
+      <div class="journey-flow-step">
+        <div class="journey-flow-num">04</div>
+        <div class="journey-flow-info">
+          <span class="journey-flow-title">Build</span>
+          <span class="journey-flow-sub">Custom AI &amp; Systems</span>
+        </div>
+      </div>
+      <div class="journey-flow-arrow">&rarr;</div>
+      <div class="journey-flow-step">
+        <div class="journey-flow-num">05</div>
+        <div class="journey-flow-info">
+          <span class="journey-flow-title">Scale</span>
+          <span class="journey-flow-sub">Continuous Evolution</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="deck-engagement-grid">
+
+      <!-- MODEL 01: PILOT -->
+      <div class="engagement-card">
+        <div class="engagement-head">
+          <div class="engagement-header-row">
+            <h3 class="engagement-title">Pilot</h3>
+            <div class="engagement-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="engagement-points-list">
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>Client Priorities First</strong></span>
+          </div>
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>AI &amp; Data Opportunity Identification</strong></span>
+          </div>
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>Proof of Concept &amp; Validation</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODEL 02: BUILD & SCALE -->
+      <div class="engagement-card">
+        <div class="engagement-head">
+          <div class="engagement-header-row">
+            <h3 class="engagement-title">Build &amp; Scale</h3>
+            <div class="engagement-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="engagement-points-list">
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>End-to-End Ownership &amp; Delivery</strong></span>
+          </div>
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>Custom AI &amp; Systems Engineering</strong></span>
+          </div>
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>Production Scalability &amp; Reliability</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODEL 03: ONGOING ENGINEERING -->
+      <div class="engagement-card">
+        <div class="engagement-head">
+          <div class="engagement-header-row">
+            <h3 class="engagement-title">Ongoing Engineering</h3>
+            <div class="engagement-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="engagement-points-list">
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>Continuous Engineering &amp; Support</strong></span>
+          </div>
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>Performance Optimization &amp; Reliability</strong></span>
+          </div>
+          <div class="engagement-point-row">
+            <div class="engagement-point-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span><strong>Flexible Team Extension &amp; Capacity</strong></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
     <!-- 5-Step Journey from Conversation to Execution -->
     <div class="deck-journey-flow-bar">
@@ -3690,7 +3748,7 @@
         <div class="journey-flow-num">04</div>
         <div class="journey-flow-info">
           <span class="journey-flow-title">Build</span>
-          <span class="journey-flow-sub">Turnkey Engineering</span>
+          <span class="journey-flow-sub">Custom AI &amp; Systems</span>
         </div>
       </div>
       <div class="journey-flow-arrow">&rarr;</div>
@@ -3784,7 +3842,7 @@
             <div class="engagement-point-icon">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <span><strong>Turnkey Engineering &amp; Integration</strong></span>
+            <span><strong>Custom AI &amp; Systems Engineering</strong></span>
           </div>
           <div class="engagement-point-row">
             <div class="engagement-point-icon">
@@ -3868,34 +3926,22 @@
           </div>
           <h3 class="pillar-title">AI Development &amp; Deployment</h3>
         </div>
-        <div class="pillar-items-list">
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Autonomous Multi-Agent Workflows</span>
-            </div>
-            <p class="pillar-item-desc">Orchestrated agents executing multi-step business logic.</p>
+        <div class="pillar-items-list" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Autonomous Multi-Agent Workflows</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">AI Infusions &amp; RAG Applications</span>
-            </div>
-            <p class="pillar-item-desc">Contextual retrieval, vector search &amp; custom LLM apps.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">AI Infusions &amp; RAG Applications</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Enterprise Chatbots &amp; Voice AI</span>
-            </div>
-            <p class="pillar-item-desc">Domain-specific assistants &amp; 24/7 client interactions.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Enterprise Chatbots &amp; Voice AI</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Custom Fine-Tuned Models &amp; SLMs</span>
-            </div>
-            <p class="pillar-item-desc">Specialized small models tailored to your operations.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Custom Fine-Tuned Models &amp; SLMs</span>
           </div>
         </div>
       </div>
@@ -3911,34 +3957,22 @@
           </div>
           <h3 class="pillar-title">Data Platform &amp; Intelligence</h3>
         </div>
-        <div class="pillar-items-list">
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Data Engineering</span>
-            </div>
-            <p class="pillar-item-desc">Enterprise lakehouses, ETL pipelines &amp; governance.</p>
+        <div class="pillar-items-list" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Data Engineering</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Marketing Analytics &amp; Growth ML</span>
-            </div>
-            <p class="pillar-item-desc">Attribution, LTV scoring &amp; predictive campaign ROI.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Marketing Analytics &amp; Growth ML</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">BI &amp; Data Visualization</span>
-            </div>
-            <p class="pillar-item-desc">Interactive executive scorecards &amp; visual reporting.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">BI &amp; Data Visualization</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Predictive ML &amp; Forecasting</span>
-            </div>
-            <p class="pillar-item-desc">Demand forecasting, propensity models &amp; deep analytics.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Predictive ML &amp; Forecasting</span>
           </div>
         </div>
       </div>
@@ -3954,34 +3988,22 @@
           </div>
           <h3 class="pillar-title">Product Engineering</h3>
         </div>
-        <div class="pillar-items-list">
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Scalable Cloud &amp; API Architectures</span>
-            </div>
-            <p class="pillar-item-desc">High-throughput microservices &amp; automated CI/CD.</p>
+        <div class="pillar-items-list" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Scalable Cloud &amp; API Architectures</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Full Stack Web &amp; Mobile Apps</span>
-            </div>
-            <p class="pillar-item-desc">Modern platforms with intuitive UI/UX product design.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Full Stack Web &amp; Mobile Apps</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Legacy System Integration</span>
-            </div>
-            <p class="pillar-item-desc">Connecting legacy ERPs &amp; CRMs with modern AI stacks.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Legacy System Integration</span>
           </div>
-          <div class="pillar-item">
-            <div class="pillar-item-head">
-              <div class="pillar-item-dot"></div>
-              <span class="pillar-item-title">Cloud Infrastructure &amp; DevOps</span>
-            </div>
-            <p class="pillar-item-desc">Resilient, cost-optimized &amp; zero-trust infrastructure.</p>
+          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Cloud Infrastructure &amp; DevOps</span>
           </div>
         </div>
       </div>
@@ -3997,23 +4019,23 @@
   <div class="slide-content">
     <div class="badge">Next Steps</div>
     <div style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.2rem,2.2vw,1.65rem);font-weight:600;color:var(--muted);margin-bottom:0.35rem;margin-top:0.35rem;">Have a Technology, Data, or AI Challenge?</div>
-    <h2 class="slide-h2" style="font-size:clamp(1.85rem,3.7vw,3rem);margin-bottom:0.4rem;margin-top:0;"><span class="gradient-text">Let&rsquo;s build the right solution and get it into production.</span></h2>
+    <h2 class="slide-h2" style="font-size:clamp(1.85rem,3.7vw,3rem);margin-bottom:0.4rem;margin-top:0;"><span class="gradient-text">Let&rsquo;s turn it into a production-ready solution.</span></h2>
     
     <!-- 3-Step Engagement Roadmap Diagram with Same Size & Color Progression -->
     <div class="deck-roadmap-row">
       <div class="roadmap-step step-1">
         <div class="roadmap-num">01</div>
         <div class="roadmap-content">
-          <h4>Discover &amp; Assess</h4>
-          <p>Understand your goals, challenges, data, and opportunities.</p>
+          <h4>Discover</h4>
+          <p>Understand your goals, challenges, and opportunities.</p>
         </div>
       </div>
       <div class="roadmap-arrow">➔</div>
       <div class="roadmap-step step-2">
         <div class="roadmap-num">02</div>
         <div class="roadmap-content">
-          <h4>Design &amp; Plan</h4>
-          <p>Define the architecture, scope, milestones, and path to production.</p>
+          <h4>Plan</h4>
+          <p>Define the solution, architecture, scope, and path to production.</p>
         </div>
       </div>
       <div class="roadmap-arrow">➔</div>
@@ -4021,7 +4043,7 @@
         <div class="roadmap-num">03</div>
         <div class="roadmap-content">
           <h4>Build &amp; Deploy</h4>
-          <p>Build, launch, and scale production-ready systems with measurable impact.</p>
+          <p>Build, launch, and scale with measurable business impact.</p>
         </div>
       </div>
     </div>
@@ -4032,6 +4054,7 @@
         <div class="cta-contact-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:contact@infinyty.tech">contact@infinyty.tech</a></div>
         <div class="cta-contact-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg><a href="tel:+919930420065">+91 99304 20065</a></div>
         <div class="cta-contact-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><a href="/" target="_blank">infinyty.tech</a></div>
+        <div class="cta-contact-item"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg><a href="https://www.linkedin.com/company/infinyty-tech/" target="_blank">LinkedIn</a></div>
       </div>
       <div style="margin-top: 1rem;">
         <a href="/contact#contact-form" class="btn-deck" target="_blank" style="margin-top:0;">
@@ -4049,15 +4072,15 @@
   <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;left:-80px;opacity:0.2;"></div>
   <div class="slide-content" style="max-width: 1220px;">
     <div class="badge" style="margin-bottom:0.25rem;">Live Working Prototypes</div>
-    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">Interactive <span class="gradient-text">Live Prototypes</span></h2>
+    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">See Our Work in <span class="gradient-text">Action</span></h2>
     <p class="slide-sub" style="font-size:0.92rem; max-width:760px; margin-bottom:0.25rem;">
-      Production-grade systems built by our team to demonstrate rapid execution, scalable architecture, and intuitive user experience.
+      Real-world AI, data, and software built for measurable impact.
     </p>
     
     <div class="deck-demos-showcase-grid">
       <!-- Demo 1: BI Bot -->
-      <div class="deck-demo-card-large">
-        <div class="demo-screen-container">
+      <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/bi-assistant-real.png">
             <source src="assets/bi-bot-auto.webm" type="video/webm">
             <source src="assets/bi-bot-product-demo.mp4" type="video/mp4">
@@ -4065,64 +4088,66 @@
           </video>
         </div>
         
-        <div class="demo-card-body">
+        <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
           <div>
-            <div class="demo-card-top-meta">
-              <span class="demo-card-category">Analytics &amp; AI</span>
-              <span class="demo-card-kpi">80% Faster Reporting</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">Analytics &amp; AI</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Prototype</span>
             </div>
-            <h3 class="demo-card-title" style="margin-top: 0.35rem; margin-bottom: 0.35rem;">BI Bot &amp; Query Analyst</h3>
-            <p class="demo-card-desc">Conversational AI indexing 10,000+ orders with natural language SQL querying, instant chart generation, and automated discount audits.</p>
             
-            <div class="demo-chips-row">
-              <span class="demo-chip">Natural Language SQL</span>
-              <span class="demo-chip">10k Orders Indexed</span>
-              <span class="demo-chip">Live Charts</span>
-              <span class="demo-chip">CSV Export</span>
+            <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); font-weight: 800; color: #10b981; line-height: 1;">80%</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Faster Reporting</span>
+            </div>
+            
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0.5rem 0;">AI Analytics Copilot</h3>
+            
+            <div style="display: inline-block; background: #2563eb; color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 4px; letter-spacing: 0.01em;">
+              10K+ Orders &middot; Natural Language SQL &middot; Live Charts
             </div>
           </div>
           
-          <div class="demo-launch-row">
-            <span class="demo-explore-hint">Interactive prototype with mock data</span>
-            <a href="demos/bi-assistant/index.html" target="_blank" class="demo-launch-action-btn">
+          <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
+            <a href="demos/bi-assistant/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700;">
               Launch Prototype
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
         </div>
       </div>
 
       <!-- Demo 2: Fleet Operations Portal -->
-      <div class="deck-demo-card-large">
-        <div class="demo-screen-container">
+      <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/ops-portal-real.png">
             <source src="assets/ops-portal-auto.webm" type="video/webm">
             <img src="assets/ops-portal-real.png" alt="Fleet Operations Portal" class="demo-screen-img">
           </video>
         </div>
         
-        <div class="demo-card-body">
+        <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
           <div>
-            <div class="demo-card-top-meta">
-              <span class="demo-card-category">Operations Hub</span>
-              <span class="demo-card-kpi">75% Faster Check-ins</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">Operations &amp; Automation</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Prototype</span>
             </div>
-            <h3 class="demo-card-title" style="margin-top: 0.35rem; margin-bottom: 0.35rem;">Fleet Operations Portal</h3>
-            <p class="demo-card-desc">20+ workflows with live vehicle audit logs, photo inspection captures, driver onboarding registry, and maintenance dispatching.</p>
             
-            <div class="demo-chips-row">
-              <span class="demo-chip">20+ Workflows</span>
-              <span class="demo-chip">Live Photo Audits</span>
-              <span class="demo-chip">Maintenance Dispatch</span>
-              <span class="demo-chip">Role RBAC</span>
+            <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); font-weight: 800; color: #10b981; line-height: 1;">75%</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Faster Check-ins</span>
+            </div>
+            
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0.5rem 0;">Fleet Operations Platform</h3>
+            
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-top: 0.35rem;">
+              20+ Workflows &middot; Photo Audits &middot; Maintenance &middot; RBAC
             </div>
           </div>
           
-          <div class="demo-launch-row">
-            <span class="demo-explore-hint">Full-featured operator dashboard</span>
-            <a href="demos/operations-portal/index.html" target="_blank" class="demo-launch-action-btn">
+          <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
+            <a href="demos/operations-portal/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700;">
               Launch Prototype
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
         </div>
@@ -4137,51 +4162,52 @@
   <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;right:-80px;opacity:0.22;"></div>
   <div class="slide-content" style="max-width: 1220px;">
     <div class="badge" style="margin-bottom:0.25rem;">Live Working Prototypes</div>
-    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">Interactive <span class="gradient-text">Live Prototypes</span></h2>
+    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">See Our Work in <span class="gradient-text">Action</span></h2>
     <p class="slide-sub" style="font-size:0.92rem; max-width:760px; margin-bottom:0.25rem;">
-      Production-grade systems built by our team to automate workflows, streamline operations, and deliver measurable business value.
+      Real-world AI, data, and software built for measurable impact.
     </p>
     
     <div class="deck-demos-showcase-grid">
       <!-- Demo 3: Fleet Settlement App -->
-      <div class="deck-demo-card-large">
-        <div class="demo-screen-container">
+      <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/fleet-portal-real.png">
             <source src="assets/fleet-portal-auto.webm" type="video/webm">
             <img src="assets/fleet-portal-real.png" alt="Fleet Settlement App" class="demo-screen-img">
           </video>
         </div>
         
-        <div class="demo-card-body">
+        <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
           <div>
-            <div class="demo-card-top-meta">
-              <span class="demo-card-category">FinTech &amp; Mobility</span>
-              <span class="demo-card-kpi">Zero Billing Disputes</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">FinTech &amp; Mobility</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Prototype</span>
             </div>
-            <h3 class="demo-card-title" style="margin-top: 0.35rem; margin-bottom: 0.35rem;">Fleet Settlement App</h3>
-            <p class="demo-card-desc">Driver payout calculation and automated weekly settlement ledger with bilingual (Hindi &amp; English) UI and real-time dispute resolution.</p>
             
-            <div class="demo-chips-row">
-              <span class="demo-chip">Auto Payouts</span>
-              <span class="demo-chip">Hindi &amp; English UI</span>
-              <span class="demo-chip">Weekly Hisaab</span>
-              <span class="demo-chip">Live Ledger</span>
+            <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); font-weight: 800; color: #10b981; line-height: 1;">Zero</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Billing Disputes</span>
+            </div>
+            
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0.5rem 0;">Fleet Settlement App</h3>
+            
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-top: 0.35rem;">
+              Auto Payouts &middot; Hindi &amp; English UI &middot; Weekly Hisaab &middot; Live Ledger
             </div>
           </div>
           
-          <div class="demo-launch-row">
-            <span class="demo-explore-hint">Interactive mobile web app</span>
-            <a href="demos/fleet-portal/index.html" target="_blank" class="demo-launch-action-btn">
+          <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
+            <a href="demos/fleet-portal/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700;">
               Launch Prototype
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
         </div>
       </div>
 
       <!-- Demo 4: Assessment Generator -->
-      <div class="deck-demo-card-large">
-        <div class="demo-screen-container">
+      <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);">
           <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/assessment-generator-real.png">
             <source src="assets/assessment-generator-auto.webm" type="video/webm">
             <source src="assets/form-generator-demo.mp4" type="video/mp4">
@@ -4189,28 +4215,29 @@
           </video>
         </div>
         
-        <div class="demo-card-body">
+        <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
           <div>
-            <div class="demo-card-top-meta">
-              <span class="demo-card-category">HR Tech &amp; GenAI</span>
-              <span class="demo-card-kpi">100% Auto Deployment</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">HR Tech &amp; GenAI</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Prototype</span>
             </div>
-            <h3 class="demo-card-title" style="margin-top: 0.35rem; margin-bottom: 0.35rem;">Assessment Generator</h3>
-            <p class="demo-card-desc">AI analyzes Job Descriptions and culture values to generate tailored evaluation questions and programmatically deploy Google Forms.</p>
             
-            <div class="demo-chips-row">
-              <span class="demo-chip">Candidate Report</span>
-              <span class="demo-chip">Google Forms API</span>
-              <span class="demo-chip">Instant Scoring</span>
-              <span class="demo-chip">Cloud Deployed</span>
+            <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); font-weight: 800; color: #10b981; line-height: 1;">100%</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Auto Deployment</span>
+            </div>
+            
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0.5rem 0;">Assessment Generator</h3>
+            
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-top: 0.35rem;">
+              Candidate Report &middot; Google Forms API &middot; Instant Scoring &middot; Cloud Deployed
             </div>
           </div>
           
-          <div class="demo-launch-row">
-            <span class="demo-explore-hint">Automated form generation tool</span>
-            <a href="demos/assessment-generator/index.html" target="_blank" class="demo-launch-action-btn">
+          <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
+            <a href="demos/assessment-generator/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1.1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700;">
               Launch Prototype
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
         </div>
