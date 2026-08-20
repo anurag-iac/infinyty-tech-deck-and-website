@@ -391,13 +391,36 @@ h1, h2, h3, h4, h5, h6, .section-title, .hero h1, .hero-title, .card-title, .ser
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
 
-/* Card entrance styling */
-.card, .team-card, .contact-card {
-  opacity: 1; transform: none;
-  transition: opacity .3s ease, transform .2s ease, box-shadow .2s ease;
+/* Card entrance & Interactive Spotlight styling */
+.card, .team-card, .contact-card, .job-card, .roadmap-step-card, .service-card, .deck-model-card, .stats-pedigree-card {
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  will-change: opacity, transform;
+  position: relative;
 }
-.card.visible, .team-card.visible, .contact-card.visible {
-  opacity: 1; transform: none;
+.card.visible, .team-card.visible, .contact-card.visible, .job-card.visible, .roadmap-step-card.visible, .service-card.visible, .deck-model-card.visible, .stats-pedigree-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Cursor Spotlight Glow Effect */
+.card::after, .team-card::after, .contact-card::after, .job-card::after, .roadmap-step-card::after, .service-card::after, .deck-model-card::after, .stats-pedigree-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 114, 244, 0.08), transparent 60%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+.dark-mode .card::after, .dark-mode .team-card::after, .dark-mode .contact-card::after, .dark-mode .job-card::after, .dark-mode .roadmap-step-card::after, .dark-mode .service-card::after, .dark-mode .deck-model-card::after, .dark-mode .stats-pedigree-card::after {
+  background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(79, 200, 255, 0.12), transparent 60%);
+}
+.card:hover::after, .team-card:hover::after, .contact-card:hover::after, .job-card:hover::after, .roadmap-step-card:hover::after, .service-card:hover::after, .deck-model-card:hover::after, .stats-pedigree-card:hover::after {
+  opacity: 1;
 }
 
 .card {
@@ -411,8 +434,58 @@ h1, h2, h3, h4, h5, h6, .section-title, .hero h1, .hero-title, .card-title, .ser
   background: var(--gradient-primary);
   transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
 }
-.card:hover { transform: translateY(-5px) !important; box-shadow: var(--shadow-lg) !important; }
+.card:hover { transform: translateY(-5px) scale(1.01) !important; box-shadow: var(--shadow-lg) !important; }
 .card:hover::before { transform: scaleX(1); }
+
+/* Keyframe animations */
+@keyframes pulseBadgeDot {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 114, 244, 0.6);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 5px rgba(0, 114, 244, 0);
+  }
+}
+@keyframes pulseBadgeDotDark {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(79, 200, 255, 0.6);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 5px rgba(79, 200, 255, 0);
+  }
+}
+.tagline::before {
+  animation: pulseBadgeDot 2.2s infinite ease-in-out !important;
+}
+.dark-mode .tagline::before {
+  animation: pulseBadgeDotDark 2.2s infinite ease-in-out !important;
+}
+
+@keyframes gradientShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.accent, .gradient-text {
+  background: linear-gradient(135deg, #0072F4 0%, #4FC8FF 50%, #0059c2 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  animation: gradientShimmer 6s ease-in-out infinite !important;
+}
+.dark-mode .accent, .dark-mode .gradient-text {
+  background: linear-gradient(135deg, #38bdf8 0%, #4FC8FF 50%, #818cf8 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  animation: gradientShimmer 6s ease-in-out infinite !important;
+}
 
 .card-icon {
   width: 48px; height: 48px; border-radius: 12px;
@@ -423,7 +496,7 @@ h1, h2, h3, h4, h5, h6, .section-title, .hero h1, .hero-title, .card-title, .ser
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background 0.25s ease;
 }
 .card:hover .card-icon {
-  transform: scale(1.08);
+  transform: scale(1.1) rotate(2deg);
 }
 .card-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
 

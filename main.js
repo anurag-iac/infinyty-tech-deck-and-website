@@ -118,24 +118,35 @@ window.addEventListener('storage', (e) => {
   }
 });
 
-// ── CARD ENTRANCE ANIMATIONS (IntersectionObserver) ──
-const animatables = document.querySelectorAll('.card, .team-card, .contact-card');
+// ── CARD ENTRANCE & TILE POP ANIMATIONS (IntersectionObserver) ──
+const animatables = document.querySelectorAll('.card, .team-card, .contact-card, .job-card, .roadmap-step-card, .service-card, .deck-model-card, .stats-pedigree-card, .hero-stat-card, .why-matrix-table');
 if ('IntersectionObserver' in window && animatables.length > 0) {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         const siblings = [...entry.target.parentElement.children];
         const idx = siblings.indexOf(entry.target);
-        entry.target.style.transitionDelay = (idx % 3) * 80 + 'ms';
+        entry.target.style.transitionDelay = (idx >= 0 ? (idx % 4) * 75 : 0) + 'ms';
         entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.08 });
   animatables.forEach(el => observer.observe(el));
 } else {
   animatables.forEach(el => el.classList.add('visible'));
 }
+
+// ── MOUSE SPOTLIGHT GLOW ON TILES & CARDS ──
+document.querySelectorAll('.card, .team-card, .contact-card, .job-card, .roadmap-step-card, .service-card, .deck-model-card, .stats-pedigree-card, .hero-stat-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  }, { passive: true });
+});
 
 // ── METRIC COUNTER ANIMATION ──
 const counters = document.querySelectorAll('.metric-counter, [data-count]');
