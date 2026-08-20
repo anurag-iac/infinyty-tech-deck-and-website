@@ -3727,6 +3727,244 @@
       -webkit-text-fill-color: transparent;
       animation: gradientFlow 4.5s ease-in-out infinite;
     }
+
+    /* ── SLIDE 4: TRANSFORMATION (MANUAL TO INTELLIGENT ENTERPRISE) ── */
+    .deck-transform-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 1120px;
+      margin-top: 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .transform-col-card {
+      flex: 1;
+      background: var(--card-bg-opacity);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.15rem 1.35rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow);
+      position: relative;
+      min-height: 300px;
+    }
+
+    .transform-col-before {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .light-theme .transform-col-before {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+
+    .transform-col-build {
+      background: var(--card-bg-opacity);
+      border: 2px solid var(--primary);
+      box-shadow: 0 8px 32px rgba(0, 114, 244, 0.15);
+      padding: 0;
+      overflow: hidden;
+    }
+    .light-theme .transform-col-build {
+      background: #ffffff;
+    }
+
+    .transform-build-header {
+      background: var(--primary);
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 0.6rem 1rem;
+    }
+
+    .transform-build-body {
+      padding: 1.15rem 1.35rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .transform-col-after {
+      background: rgba(0, 114, 244, 0.04);
+      border-color: rgba(0, 114, 244, 0.25);
+    }
+    .light-theme .transform-col-after {
+      background: #f0f7ff;
+      border-color: #bfdbfe;
+    }
+
+    .transform-pill-header {
+      align-self: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.32rem 0.9rem;
+      border-radius: 99px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .pill-header-muted {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .light-theme .pill-header-muted {
+      background: #e2e8f0;
+      color: #475569;
+      border-color: #cbd5e1;
+    }
+
+    .pill-header-blue {
+      background: rgba(0, 114, 244, 0.12);
+      color: var(--primary);
+      border: 1px solid rgba(0, 114, 244, 0.3);
+    }
+    .light-theme .pill-header-blue {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border-color: #93c5fd;
+    }
+
+    .transform-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+
+    .transform-item-row {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .transform-item-icon {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+
+    .transform-item-icon-blue {
+      color: var(--primary);
+    }
+
+    .transform-item-icon-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(0, 114, 244, 0.1);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .light-theme .transform-item-icon-circle {
+      background: #e0f2fe;
+      color: #0284c7;
+    }
+
+    .transform-item-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .transform-connector-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+
+    /* Bottom Impact Strip */
+    .transform-bottom-strip {
+      width: 100%;
+      max-width: 1120px;
+      background: var(--card-bg-opacity);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+    .light-theme .transform-bottom-strip {
+      background: #ffffff;
+      border-color: #e2e8f0;
+    }
+
+    .transform-stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .transform-stat-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 114, 244, 0.1);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .light-theme .transform-stat-icon {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+
+    .transform-stat-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .transform-stat-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+    }
+
+    @media (max-width: 900px) {
+      .deck-transform-container {
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+      .transform-connector-arrow {
+        transform: rotate(90deg);
+      }
+      .transform-bottom-strip {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .transform-stat-divider {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -3794,7 +4032,7 @@
       <button id="nav-prev" aria-label="Previous Slide">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <span id="slide-num">1 / 13</span>
+      <span id="slide-num">1 / 14</span>
       <button id="nav-next" aria-label="Next Slide">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
@@ -3997,8 +4235,195 @@
   </div>
 </div>
 
-<!-- SLIDE 4: ABOUT US -->
+<!-- SLIDE 4: OUR IMPACT (MANUAL OPERATIONS TO INTELLIGENT ENTERPRISE) -->
 <div class="slide slide-4" data-index="3">
+  <div class="glow glow-blue" style="width:500px;height:500px;top:-100px;left:-100px;opacity:0.22;"></div>
+  <div class="glow glow-cyan" style="width:400px;height:400px;bottom:-80px;right:-80px;opacity:0.18;"></div>
+  <div class="slide-content" style="max-width: 1160px;">
+    <div class="badge" style="margin-bottom:0.25rem;">Our Impact</div>
+    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.3rem); margin-bottom:0.2rem; line-height:1.2;">
+      From Manual Operations to an <span class="gradient-text gradient-text-animated">Intelligent Enterprise</span>
+    </h2>
+    <p class="slide-sub" style="font-size:0.92rem; max-width:700px; margin-bottom:0.9rem;">
+      Turn manual processes into connected, automated, scalable systems.
+    </p>
+
+    <!-- 3-Column Transformation Nexus -->
+    <div class="deck-transform-container">
+      
+      <!-- COLUMN 1: BEFORE: MANUAL OPERATIONS -->
+      <div class="transform-col-card transform-col-before">
+        <div class="transform-pill-header pill-header-muted">
+          BEFORE: MANUAL OPERATIONS
+        </div>
+        <div class="transform-items-list">
+          <div class="transform-item-row">
+            <div class="transform-item-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><rect x="8" y="12" width="8" height="6" rx="1"/><path d="M12 12v6"/><path d="M8 15h8"/></svg>
+            </div>
+            <span class="transform-item-text">Spreadsheets &amp; Manual Tracking</span>
+          </div>
+          <div class="transform-item-row">
+            <div class="transform-item-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><circle cx="18" cy="15" r="4"/><polyline points="18 13 18 15 19.5 16.5"/></svg>
+            </div>
+            <span class="transform-item-text">Time-Consuming Processes</span>
+          </div>
+          <div class="transform-item-row">
+            <div class="transform-item-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="4" rx="1"/><rect x="3" y="17" width="6" height="4" rx="1"/><rect x="15" y="17" width="6" height="4" rx="1"/><path d="M12 7v5"/><path d="M6 17v-3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/></svg>
+            </div>
+            <span class="transform-item-text">No Central Workflow</span>
+          </div>
+          <div class="transform-item-row">
+            <div class="transform-item-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <span class="transform-item-text">Limited Visibility</span>
+          </div>
+          <div class="transform-item-row">
+            <div class="transform-item-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <span class="transform-item-text">Reactive Decisions</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARROW 1 -->
+      <div class="transform-connector-arrow">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-dasharray="3 3" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="18" y2="12"/><polyline points="13 7 18 12 13 17" stroke-dasharray="0"/></svg>
+      </div>
+
+      <!-- COLUMN 2: WHAT WE BUILD -->
+      <div class="transform-col-card transform-col-build">
+        <div class="transform-build-header">
+          WHAT WE BUILD
+        </div>
+        <div class="transform-build-body">
+          <div class="transform-items-list">
+            <div class="transform-item-row">
+              <div class="transform-item-icon transform-item-icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><circle cx="6" cy="6.5" r="0.75" fill="currentColor"/><circle cx="8.5" cy="6.5" r="0.75" fill="currentColor"/><circle cx="11" cy="6.5" r="0.75" fill="currentColor"/></svg>
+              </div>
+              <span class="transform-item-text">Custom Apps</span>
+            </div>
+            <div class="transform-item-row">
+              <div class="transform-item-icon transform-item-icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/><path d="M9 9v11"/><path d="M12 13h5"/><path d="M12 16h3"/></svg>
+              </div>
+              <span class="transform-item-text">Portals</span>
+            </div>
+            <div class="transform-item-row">
+              <div class="transform-item-icon transform-item-icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              </div>
+              <span class="transform-item-text">Databases</span>
+            </div>
+            <div class="transform-item-row">
+              <div class="transform-item-icon transform-item-icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="3" width="4" height="4" rx="1"/><rect x="3" y="17" width="4" height="4" rx="1"/><rect x="17" y="17" width="4" height="4" rx="1"/><path d="M12 7v4"/><path d="M5 17v-3a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3"/><circle cx="12" cy="11" r="1.5" fill="currentColor"/></svg>
+              </div>
+              <span class="transform-item-text">Automated Workflows</span>
+            </div>
+            <div class="transform-item-row">
+              <div class="transform-item-icon transform-item-icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 19 8 13 13 16 19 8"/><polyline points="15 8 19 8 19 12"/><path d="M4 4v16h16"/><path d="M19 4v3"/><path d="M17.5 5.5h3"/></svg>
+              </div>
+              <span class="transform-item-text">AI &amp; Analytics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARROW 2 -->
+      <div class="transform-connector-arrow">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-dasharray="3 3" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="18" y2="12"/><polyline points="13 7 18 12 13 17" stroke-dasharray="0"/></svg>
+      </div>
+
+      <!-- COLUMN 3: AFTER: INTELLIGENT ENTERPRISE -->
+      <div class="transform-col-card transform-col-after">
+        <div class="transform-pill-header pill-header-blue">
+          AFTER: INTELLIGENT ENTERPRISE
+        </div>
+        <div class="transform-items-list">
+          <div class="transform-item-row">
+            <div class="transform-item-icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><polyline points="7 10 10 13 17 6"/></svg>
+            </div>
+            <span class="transform-item-text">Digital Operations</span>
+          </div>
+          <div class="transform-item-row">
+            <div class="transform-item-icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </div>
+            <span class="transform-item-text">Connected Systems</span>
+          </div>
+          <div class="transform-item-row">
+            <div class="transform-item-icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <span class="transform-item-text">Faster Execution</span>
+          </div>
+          <div class="transform-item-row">
+            <div class="transform-item-icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            </div>
+            <span class="transform-item-text">Real-Time Visibility</span>
+          </div>
+          <div class="transform-item-row">
+            <div class="transform-item-icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <span class="transform-item-text">Smarter Decisions</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Impact Strip -->
+    <div class="transform-bottom-strip">
+      <div class="transform-stat-item">
+        <div class="transform-stat-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        </div>
+        <span class="transform-stat-label">Higher Efficiency</span>
+      </div>
+      
+      <div class="transform-stat-divider"></div>
+
+      <div class="transform-stat-item">
+        <div class="transform-stat-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <span class="transform-stat-label">Lower Manual Work</span>
+      </div>
+
+      <div class="transform-stat-divider"></div>
+
+      <div class="transform-stat-item">
+        <div class="transform-stat-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <span class="transform-stat-label">Better Decisions</span>
+      </div>
+
+      <div class="transform-stat-divider"></div>
+
+      <div class="transform-stat-item">
+        <div class="transform-stat-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><polyline points="13 6 19 6 19 12"/><line x1="6" y1="18" x2="19" y2="6"/></svg>
+        </div>
+        <span class="transform-stat-label">Scalable Growth</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SLIDE 5: ABOUT US -->
+<div class="slide slide-5" data-index="4">
   <div class="glow glow-blue" style="width:450px;height:450px;bottom:-100px;right:-80px;opacity:0.25;"></div>
   <div class="glow glow-cyan" style="width:350px;height:350px;top:-80px;left:-80px;opacity:0.15;"></div>
   <div class="slide-content">
@@ -4014,8 +4439,8 @@
   </div>
 </div>
 
-<!-- SLIDE 5: LEADERSHIP -->
-<div class="slide slide-5" data-index="4">
+<!-- SLIDE 6: LEADERSHIP -->
+<div class="slide slide-6" data-index="5">
   <div class="glow glow-cyan" style="width:450px;height:450px;top:-80px;right:-80px;opacity:0.25;"></div>
   <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;left:-80px;opacity:0.18;"></div>
   <div class="slide-content" style="max-width:1120px;">
@@ -4102,8 +4527,8 @@
   </div>
 </div>
 
-<!-- SLIDE 6: INDUSTRIES & CLIENTS -->
-<div class="slide slide-6" data-index="5">
+<!-- SLIDE 7: INDUSTRIES & CLIENTS -->
+<div class="slide slide-7" data-index="6">
   <div class="glow glow-purple" style="width:400px;height:400px;bottom:-100px;right:-60px;opacity:0.2;"></div>
   <div class="glow glow-cyan" style="width:350px;height:350px;top:-80px;left:-80px;opacity:0.15;"></div>
   <div class="slide-content" style="max-width: 1120px;">
@@ -4200,8 +4625,8 @@
   </div>
 </div>
 
-<!-- SLIDE 7: PROVEN RESULTS -->
-<div class="slide slide-7" data-index="6">
+<!-- SLIDE 8: PROVEN RESULTS -->
+<div class="slide slide-8" data-index="7">
   <div class="glow glow-blue" style="width:450px;height:450px;top:-80px;right:-80px;opacity:0.25;"></div>
   <div class="slide-content" style="max-width: 1240px;">
     <div class="badge" style="margin-bottom:0.25rem;">Proven Results</div>
@@ -4324,8 +4749,8 @@
   </div>
 </div>
 
-<!-- SLIDE 8: WHY INFINYTY -->
-<div class="slide slide-8" data-index="7">
+<!-- SLIDE 9: WHY INFINYTY -->
+<div class="slide slide-9" data-index="8">
   <div class="glow glow-blue" style="width:550px;height:550px;top:-100px;left:-100px;opacity:0.25;"></div>
   <div class="slide-content" style="max-width: 1160px;">
     <div class="badge" style="margin-bottom:0.35rem;">Why Us?</div>
@@ -4517,8 +4942,8 @@
   </div>
 </div>
 
-<!-- SLIDE 9: ENGAGEMENT MODELS -->
-<div class="slide slide-9" data-index="8">
+<!-- SLIDE 10: ENGAGEMENT MODELS -->
+<div class="slide slide-10" data-index="9">
   <div class="glow glow-purple" style="width:450px;height:450px;top:-100px;left:-100px;opacity:0.22;"></div>
   <div class="glow glow-blue" style="width:450px;height:450px;bottom:-100px;right:-100px;opacity:0.22;"></div>
   <div class="slide-content" style="max-width: 1220px;">
@@ -4612,8 +5037,8 @@
   </div>
 </div>
 
-<!-- SLIDE 10: THE THREE STRATEGIC PILLARS -->
-<div class="slide slide-10" data-index="9">
+<!-- SLIDE 11: THE THREE STRATEGIC PILLARS -->
+<div class="slide slide-11" data-index="10">
   <div class="glow glow-blue" style="width:500px;height:500px;top:-120px;left:-120px;opacity:0.25;"></div>
   <div class="glow glow-purple" style="width:450px;height:450px;bottom:-100px;right:-100px;opacity:0.18;"></div>
   <div class="slide-content" style="max-width: 1220px;">
@@ -4848,8 +5273,8 @@
   </div>
 </div>
 
-<!-- SLIDE 11: CTA / NEXT STEPS -->
-<div class="slide slide-11" data-index="10">
+<!-- SLIDE 12: CTA / NEXT STEPS -->
+<div class="slide slide-12" data-index="11">
   <div class="glow glow-blue" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.2;"></div>
   <div class="glow glow-cyan" style="width:300px;height:300px;bottom:-60px;right:-60px;opacity:0.15;"></div>
   <div class="slide-content">
@@ -4876,8 +5301,8 @@
   </div>
 </div>
 
-<!-- SLIDE 12: DEMOS PART I (BI BOT & FLEET OPERATIONS PLATFORM) -->
-<div class="slide slide-12" data-index="11">
+<!-- SLIDE 13: DEMOS PART I (BI BOT & FLEET OPERATIONS PLATFORM) -->
+<div class="slide slide-13" data-index="12">
   <div class="glow glow-cyan" style="width:450px;height:450px;top:-80px;right:-80px;opacity:0.22;"></div>
   <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;left:-80px;opacity:0.2;"></div>
   <div class="slide-content" style="max-width: 1220px;">
@@ -4988,8 +5413,8 @@
   </div>
 </div>
 
-<!-- SLIDE 13: DEMOS PART II (FLEET OPERATIONS PLATFORM & ASSESSMENT GENERATOR) -->
-<div class="slide slide-13" data-index="12">
+<!-- SLIDE 14: DEMOS PART II (FLEET OPERATIONS PLATFORM & ASSESSMENT GENERATOR) -->
+<div class="slide slide-14" data-index="13">
   <div class="glow glow-purple" style="width:450px;height:450px;top:-80px;left:-80px;opacity:0.2;"></div>
   <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;right:-80px;opacity:0.22;"></div>
   <div class="slide-content" style="max-width: 1220px;">
