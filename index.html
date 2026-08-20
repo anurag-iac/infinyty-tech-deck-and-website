@@ -1,8 +1,10 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Infinyty — AI, Data &amp; Software Solutions</title>
-  <meta name="description" content="Infinyty Global Solutions — Driving Excellence with Data &amp; AI. Formerly Infinity Analytics Consulting.">
+  <meta name="description" content="Driving Excellence with Data &amp; AI. High-performance AI agents, data engineering, and custom software.">
   <meta property="og:title" content="Infinyty — AI, Data &amp; Software Solutions">
   <meta property="og:description" content="Driving Excellence with Data &amp; AI. High-performance AI agents, data engineering, and custom software.">
   <meta property="og:type" content="website">
@@ -11,10 +13,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png">
   <link rel="shortcut icon" href="/assets/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=40.0">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=41.0">
   <script>
     (function(){
       var t = localStorage.getItem('theme');
@@ -25,22 +27,24 @@
 <body>
 <div id="scroll-progress"></div>
 
+<!-- ══════════════════════════════════════════════════════════════
+     HEADER & NAVIGATION
+     ══════════════════════════════════════════════════════════════ -->
 <header id="header">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Infinyty">
-      <img src="/assets/infinyty-icon.png" alt="Infinyty" class="nav-logo-icon">
-      <span class="nav-brand-text">infinyty</span>
+      <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="nav-logo-img logo-light">
+      <img src="/assets/infinyty-logo-horizontal-dark.png" alt="Infinyty" class="nav-logo-img logo-dark">
     </a>
     <nav>
       <ul class="nav-links">
-        <li><a href="/">Home</a></li>
+        <li><a href="/" class="active">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li><a href="/success-stories">Success Stories</a></li>
         <li><a href="/demos">Demos</a></li>
         <li><a href="/about">About Us</a></li>
         <li><a href="/careers">Careers</a></li>
         <li><a href="/contact">Contact Us</a></li>
-        <li><a href="/deck.html" target="_blank" class="nav-deck-pill">Pitch Deck ↗</a></li>
       </ul>
     </nav>
     <div class="nav-actions">
@@ -55,86 +59,126 @@
     </div>
   </div>
   <div class="mobile-menu" id="mobile-menu">
-    <a href="/">Home</a>
+    <a href="/" class="active">Home</a>
     <a href="/services">Services</a>
     <a href="/success-stories">Success Stories</a>
     <a href="/demos">Demos</a>
     <a href="/about">About Us</a>
     <a href="/careers">Careers</a>
     <a href="/contact">Contact Us</a>
-    <a href="/deck.html" target="_blank" class="nav-deck-pill" style="margin:.3rem 0; width:max-content;">Pitch Deck ↗</a>
     <a href="/contact#contact-form" class="btn-primary" style="margin-top:.5rem;justify-content:center;">Book a Meeting</a>
   </div>
 </header>
 
 <main>
-  <!-- HERO: Top has lockup, Center has icon with ambient glow & KPI stats -->
-  <div class="hero ambient-glow-wrap">
-    <div class="hero-logo-wrap" style="margin-bottom: 1.25rem;">
-      <img src="/assets/infinyty-icon.png" alt="Infinyty Icon" class="hero-logo-icon" style="width: 70px; height: auto; object-fit: contain;">
-    </div>
-    <h1>Driving Excellence<br><span class="accent">With Data &amp; AI</span></h1>
-    <p>We build innovative tools, AI systems, and robust software solutions that help businesses move in the right direction.</p>
-    <div class="hero-formerly">
-      Formerly Infinity Analytics Consulting
-      <img src="/assets/iac-logo.png" alt="Infinity Analytics Consulting Logo">
-    </div>
-    <div class="hero-btns">
-      <a href="/contact#contact-form" class="btn-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18M8 14h2v2H8z"></path></svg>
-        Book a Meeting
-      </a>
-      <a href="/services" class="btn-secondary">Explore Services</a>
-    </div>
+  <!-- ══════════════════════════════════════════════════════════════
+       HERO SECTION (MATCHING DECK SLIDE 1 & SLIDE 4)
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section-full hero-full-wrap">
+    <div class="hero" style="padding-top: 5.5rem; padding-bottom: 4.5rem;">
+      <div class="hero-logo-wrap" style="margin-bottom: 1.25rem;">
+        <img src="/assets/infinyty-icon.png" alt="Infinyty Icon" class="hero-logo-icon" style="width: 64px; height: auto; object-fit: contain;">
+      </div>
+      
+      <h1 style="margin-bottom: 0.9rem;">Build. Automate.<br><span class="gradient-text">Scale with Data and AI.</span></h1>
+      <p class="hero-sub" style="max-width: 820px; font-size: clamp(1.02rem, 1.6vw, 1.18rem); line-height: 1.65; margin: 0 auto 1.5rem;">Engineering trusted data into intelligent products, autonomous workflows, and measurable business outcomes &mdash; driving revenue, productivity, efficiency, and growth.</p>
+      
+      <!-- 3 Core Pillars Pill Row -->
+      <div class="cover-pillars-row" style="margin-bottom: 2rem;">
+        <div class="cover-pillar-pill">Data Platform &amp; Intelligence</div>
+        <span class="cover-pillar-sep">&bull;</span>
+        <div class="cover-pillar-pill">AI Development &amp; Deployment</div>
+        <span class="cover-pillar-sep">&bull;</span>
+        <div class="cover-pillar-pill">Product Engineering</div>
+      </div>
 
-    <!-- Home Page 4 Metric Blocks -->
-    <div class="hero-stats-strip">
-      <div class="hero-stat-card">
-        <div class="hero-stat-num">16+</div>
-        <div class="hero-stat-label">Years of Leadership Experience</div>
+      <!-- CTA Buttons -->
+      <div class="hero-btns" style="margin-bottom: 2.5rem;">
+        <a href="/contact#contact-form" class="btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18M8 14h2v2H8z"></path></svg>
+          Book a Meeting
+        </a>
+        <a href="/services" class="btn-secondary">Explore Services</a>
       </div>
-      <div class="hero-stat-card">
-        <div class="hero-stat-num">30+</div>
-        <div class="hero-stat-label">Projects Delivered</div>
-      </div>
-      <div class="hero-stat-card">
-        <div class="hero-stat-num">8+</div>
-        <div class="hero-stat-label">Industries Served</div>
-      </div>
-      <div class="hero-stat-card">
-        <div class="hero-stat-num">100%</div>
-        <div class="hero-stat-label">Client-Owned Technology</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ABOUT SNIPPET -->
-  <div class="section-full section-bg">
-    <div class="section">
-      <div class="about-grid">
-        <div class="about-text">
-          <h2>About the Company</h2>
-          <p>Welcome to Infinyty! We empower businesses to modernize their infrastructure and leverage technology to optimize operational performance.</p>
-          <p>Whether you're a startup launching a new product or an established enterprise seeking to automate complex workflows, we have the expertise to guide your digital journey. From AI and Cloud Architecture to Custom Software Development, we build innovative solutions tailored to your unique requirements.</p>
-          <a href="/about" class="btn-secondary mt-2" style="display:inline-flex;margin-top:1.25rem;">Learn More About Us</a>
+      <!-- Home Page 4 Metric Blocks (Slide 4 Metrics) -->
+      <div class="hero-stats-strip">
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">18+</div>
+          <div class="hero-stat-label">Years Leadership Experience</div>
         </div>
-        <div class="text-center">
-          <div class="excellence-badge">
-            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 1rem;opacity:.8"><circle cx="12" cy="12" r="10"></circle><path d="M8 12a4 4 0 0 1 4-4 4 4 0 0 1 4 4"></path><line x1="12" y1="8" x2="12" y2="3"></line><line x1="12" y1="16" x2="12" y2="21"></line></svg>
-            <p class="badge-title">16+ Years of Excellence</p>
-            <p class="badge-desc">in Data Science &amp; Engineering</p>
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">80+</div>
+          <div class="hero-stat-label">Projects Delivered</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">8+</div>
+          <div class="hero-stat-label">Industries Served</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-num">100%</div>
+          <div class="hero-stat-label">Client-Owned Technology</div>
+        </div>
+      </div>
+
+      <!-- Proven Pedigree Across (Deck Slide 5) -->
+      <div style="margin-top: 2.25rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 1.75rem; text-align: center;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 1.15rem;">Proven Leadership &amp; Engineering Pedigree Across</div>
+        <div style="display: flex; flex-direction: column; gap: 1.1rem; align-items: center;">
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.75rem 2.25rem;">
+            <img src="/assets/logo-coinbase.png" alt="Coinbase" class="pedigree-brand-logo logo-coinbase" style="height:18px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-linkedin.png" alt="LinkedIn" class="pedigree-brand-logo logo-linkedin" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-amazon.png" alt="Amazon" class="pedigree-brand-logo logo-amazon" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-hotstar.png" alt="Disney+ Hotstar" class="pedigree-brand-logo logo-hotstar" style="height:33px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-paypal.png" alt="PayPal" class="pedigree-brand-logo logo-paypal" style="height:21px; width:auto; object-fit:contain;">
+          </div>
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.75rem 2.25rem;">
+            <img src="/assets/logo-workday.png" alt="Workday" class="pedigree-brand-logo logo-workday" style="height:26px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-jio.png" alt="Jio" class="pedigree-brand-logo logo-jio" style="height:32px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-ebay.png" alt="eBay" class="pedigree-brand-logo logo-ebay" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-fico.png" alt="FICO" class="pedigree-brand-logo logo-fico" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-directi.png" alt="Directi" class="pedigree-brand-logo logo-directi" style="height:25px; width:auto; object-fit:contain;">
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- INDUSTRIES WE SERVE -->
-  <div class="section" style="padding-top: 3.5rem; padding-bottom: 2rem;">
+  <!-- ══════════════════════════════════════════════════════════════
+       ABOUT SNIPPET SECTION
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section-full section-bg">
+    <div class="section">
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="tagline">About Infinyty</p>
+          <h2 class="section-title" style="font-size: clamp(1.8rem, 3vw, 2.35rem); margin-bottom: 1rem;">An Enterprise AI &amp; Engineering Partner</h2>
+          <p style="font-size: 1rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 1rem;">Welcome to Infinyty! Infinyty is an enterprise technology partner building AI systems, data platforms, and production-grade software that deliver measurable results.</p>
+          <p style="font-size: 1rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 1.5rem;">Whether you're a high-growth scaleup deploying your first multi-agent AI system or an established enterprise modernizing data platforms, our senior engineers and founders lead direct execution with zero unnecessary layers.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="/about" class="btn-primary">Learn More About Us</a>
+            <a href="/success-stories" class="btn-secondary">View Case Studies</a>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="excellence-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 1rem;opacity:.85"><circle cx="12" cy="12" r="10"></circle><path d="M8 12a4 4 0 0 1 4-4 4 4 0 0 1 4 4"></path><line x1="12" y1="8" x2="12" y2="3"></line><line x1="12" y1="16" x2="12" y2="21"></line></svg>
+            <p class="badge-title">18+ Years Leadership Experience</p>
+            <p class="badge-desc">in Data Science &amp; Systems Engineering</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       INDUSTRIES WE SERVE (SECTORS GRID - SLIDE 6)
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section" style="padding-top: 4.5rem; padding-bottom: 3.5rem;">
     <div class="text-center mb-4">
       <p class="tagline">Sectors</p>
-      <h2 class="section-title" style="font-size: 1.85rem; margin-bottom: 0.5rem;">Industries We Serve</h2>
-      <p class="section-sub">Delivering data science, AI, and custom software systems across key global sectors.</p>
+      <h2 class="section-title">Serving <span class="gradient-text">Key Global Sectors</span></h2>
+      <p class="section-sub">Delivering data science, AI systems, and custom software architectures across key industries.</p>
     </div>
     
     <div class="home-industries-grid">
@@ -175,7 +219,7 @@
       <div class="home-industry-card">
         <div class="home-industry-top">
           <div class="home-industry-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
           </div>
           <h3 class="home-industry-title">Tech Platforms &amp; SaaS</h3>
         </div>
@@ -206,156 +250,165 @@
     </div>
   </div>
 
-  <!-- THE THREE STRATEGIC PILLARS (CAPABILITIES) -->
-  <div class="section" style="padding-top: 3.5rem; padding-bottom: 3.5rem;">
-    <div class="text-center mb-4">
-      <p class="tagline">Value Proposition</p>
-      <h2 class="section-title">The Three Strategic Pillars</h2>
-      <p class="section-sub">Full-lifecycle AI systems, scalable data intelligence, and high-impact product engineering.</p>
-    </div>
-    
-    <div class="home-pillars-grid">
-      <!-- PILLAR 01: AI DEVELOPMENT & DEPLOYMENT -->
-      <div class="home-pillar-card">
-        <div class="home-pillar-head">
-          <div class="home-pillar-badge-row">
-            <span class="home-pillar-pill">Pillar 01</span>
-            <div class="home-pillar-icon-box">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+  <!-- ══════════════════════════════════════════════════════════════
+       THE THREE STRATEGIC PILLARS (VALUE PROPOSITION - DECK SLIDE 10)
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section-full section-bg" style="padding-top: 4.5rem; padding-bottom: 4.5rem;">
+    <div class="section" style="padding: 0 1.5rem;">
+      <div class="text-center mb-4">
+        <p class="tagline">Value Proposition</p>
+        <h2 class="section-title">Three <span class="gradient-text">Strategic Pillars</span></h2>
+        <p class="section-sub">Scalable data intelligence, full-lifecycle AI systems, and high-impact product engineering.</p>
+      </div>
+      
+      <div class="home-pillars-grid">
+        <!-- PILLAR 01: DATA PLATFORM & INTELLIGENCE -->
+        <div class="home-pillar-card">
+          <div class="home-pillar-head">
+            <div class="home-pillar-badge-row">
+              <span class="home-pillar-pill">Pillar 01</span>
+              <div class="home-pillar-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+              </div>
+            </div>
+            <h3 class="home-pillar-title">Data Platform &amp; Intelligence</h3>
+          </div>
+          <div class="home-pillar-items-list">
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot" style="background: #10b981;"></div>
+                <span class="home-pillar-item-title">AI-Ready Data Foundations</span>
+              </div>
+              <p class="home-pillar-item-desc">Enterprise lakehouses, automated ETL pipelines, data governance &amp; ingestion.</p>
+            </div>
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot" style="background: #10b981;"></div>
+                <span class="home-pillar-item-title">Analytics &amp; Smart Dashboarding</span>
+              </div>
+              <p class="home-pillar-item-desc">Interactive executive scorecards, KPI visual reporting &amp; automated alerts.</p>
+            </div>
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot" style="background: #10b981;"></div>
+                <span class="home-pillar-item-title">Predictive ML &amp; Modeling</span>
+              </div>
+              <p class="home-pillar-item-desc">Demand forecasting, churn propensity, multi-touch attribution &amp; growth ML.</p>
             </div>
           </div>
-          <h3 class="home-pillar-title">AI Development &amp; Deployment</h3>
+          <div class="home-pillar-examples" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed var(--border);">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 700; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">Real-World Applications</div>
+            <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.84rem; color: var(--text-muted);">
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: #10b981; font-weight: bold;">&bull;</span> Intelligent executive dashboards &amp; BI</div>
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: #10b981; font-weight: bold;">&bull;</span> Churn prediction &amp; demand forecasting</div>
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: #10b981; font-weight: bold;">&bull;</span> Structured data to unlock AI growth</div>
+            </div>
+          </div>
         </div>
-        <div class="home-pillar-items-list">
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Autonomous Multi-Agent Workflows</span>
+
+        <!-- PILLAR 02: AI DEVELOPMENT & DEPLOYMENT -->
+        <div class="home-pillar-card">
+          <div class="home-pillar-head">
+            <div class="home-pillar-badge-row">
+              <span class="home-pillar-pill">Pillar 02</span>
+              <div class="home-pillar-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+              </div>
             </div>
-            <p class="home-pillar-item-desc">Orchestrated agents executing multi-step business logic.</p>
+            <h3 class="home-pillar-title">AI Development &amp; Deployment</h3>
           </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">AI Infusions &amp; RAG Applications</span>
+          <div class="home-pillar-items-list">
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot"></div>
+                <span class="home-pillar-item-title">AI Agents, RAG &amp; Automation</span>
+              </div>
+              <p class="home-pillar-item-desc">Contextual retrieval, vector search &amp; autonomous multi-agent workflows.</p>
             </div>
-            <p class="home-pillar-item-desc">Contextual retrieval, vector search &amp; custom LLM apps.</p>
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot"></div>
+                <span class="home-pillar-item-title">Custom Models &amp; SLMs</span>
+              </div>
+              <p class="home-pillar-item-desc">Specialized small language models and fine-tuning tailored to your operations.</p>
+            </div>
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot"></div>
+                <span class="home-pillar-item-title">Integration &amp; MLOps</span>
+              </div>
+              <p class="home-pillar-item-desc">Deterministic tool-calling, structured JSON outputs &amp; production pipelines.</p>
+            </div>
           </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Tool-Calling &amp; Structured Outputs</span>
+          <div class="home-pillar-examples" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed var(--border);">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">Real-World Applications</div>
+            <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.84rem; color: var(--text-muted);">
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: var(--primary); font-weight: bold;">&bull;</span> Internal knowledge &amp; support chatbots</div>
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: var(--primary); font-weight: bold;">&bull;</span> Automated workflows for approvals &amp; ops</div>
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: var(--primary); font-weight: bold;">&bull;</span> Measurable team productivity gains</div>
             </div>
-            <p class="home-pillar-item-desc">Deterministic API integrations &amp; JSON schema validation.</p>
           </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Domain-Specific SLMs &amp; Fine-Tuning</span>
+        </div>
+
+        <!-- PILLAR 03: PRODUCT ENGINEERING -->
+        <div class="home-pillar-card">
+          <div class="home-pillar-head">
+            <div class="home-pillar-badge-row">
+              <span class="home-pillar-pill">Pillar 03</span>
+              <div class="home-pillar-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              </div>
             </div>
-            <p class="home-pillar-item-desc">Specialized small models tailored to your operations.</p>
+            <h3 class="home-pillar-title">Product Engineering</h3>
+          </div>
+          <div class="home-pillar-items-list">
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot"></div>
+                <span class="home-pillar-item-title">Cloud &amp; API Architecture</span>
+              </div>
+              <p class="home-pillar-item-desc">High-throughput microservices, scalable cloud infra &amp; automated CI/CD.</p>
+            </div>
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot"></div>
+                <span class="home-pillar-item-title">Web &amp; Mobile Products</span>
+              </div>
+              <p class="home-pillar-item-desc">Modern full-stack web and mobile apps with intuitive UI/UX product design.</p>
+            </div>
+            <div class="home-pillar-item">
+              <div class="home-pillar-item-head">
+                <div class="home-pillar-item-dot"></div>
+                <span class="home-pillar-item-title">Legacy Modernization</span>
+              </div>
+              <p class="home-pillar-item-desc">Connecting legacy ERPs and CRMs with modern AI stacks &amp; zero-trust DevOps.</p>
+            </div>
+          </div>
+          <div class="home-pillar-examples" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed var(--border);">
+            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 700; color: #8b5cf6; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem;">Real-World Applications</div>
+            <div style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.84rem; color: var(--text-muted);">
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: #8b5cf6; font-weight: bold;">&bull;</span> Revenue growth &amp; UX product upgrades</div>
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: #8b5cf6; font-weight: bold;">&bull;</span> Reduced ship-time &amp; faster iteration</div>
+              <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="color: #8b5cf6; font-weight: bold;">&bull;</span> Legacy modernization &amp; cloud architecture</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- PILLAR 02: DATA PLATFORM & INTELLIGENCE -->
-      <div class="home-pillar-card">
-        <div class="home-pillar-head">
-          <div class="home-pillar-badge-row">
-            <span class="home-pillar-pill">Pillar 02</span>
-            <div class="home-pillar-icon-box">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
-            </div>
-          </div>
-          <h3 class="home-pillar-title">Data Platform &amp; Intelligence</h3>
-        </div>
-        <div class="home-pillar-items-list">
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Data Engineering</span>
-            </div>
-            <p class="home-pillar-item-desc">Enterprise lakehouses, ETL pipelines &amp; governance.</p>
-          </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Marketing Analytics &amp; Growth ML</span>
-            </div>
-            <p class="home-pillar-item-desc">Attribution, LTV scoring &amp; predictive campaign ROI.</p>
-          </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">BI &amp; Data Visualization</span>
-            </div>
-            <p class="home-pillar-item-desc">Interactive executive scorecards &amp; visual reporting.</p>
-          </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Predictive ML &amp; Forecasting</span>
-            </div>
-            <p class="home-pillar-item-desc">Demand forecasting, propensity models &amp; deep analytics.</p>
-          </div>
-        </div>
+      <div class="text-center mt-4" style="margin-top: 2.5rem;">
+        <a href="/services" class="btn-primary">Explore All Services &amp; Architecture</a>
       </div>
-
-      <!-- PILLAR 03: PRODUCT ENGINEERING -->
-      <div class="home-pillar-card">
-        <div class="home-pillar-head">
-          <div class="home-pillar-badge-row">
-            <span class="home-pillar-pill">Pillar 03</span>
-            <div class="home-pillar-icon-box">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-            </div>
-          </div>
-          <h3 class="home-pillar-title">Product Engineering</h3>
-        </div>
-        <div class="home-pillar-items-list">
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Scalable Cloud &amp; API Architectures</span>
-            </div>
-            <p class="home-pillar-item-desc">High-throughput microservices &amp; automated CI/CD.</p>
-          </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Full Stack Web &amp; Mobile Apps</span>
-            </div>
-            <p class="home-pillar-item-desc">Modern platforms with intuitive UI/UX product design.</p>
-          </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Legacy System Integration</span>
-            </div>
-            <p class="home-pillar-item-desc">Connecting legacy ERPs &amp; CRMs with modern AI stacks.</p>
-          </div>
-          <div class="home-pillar-item">
-            <div class="home-pillar-item-head">
-              <div class="home-pillar-item-dot"></div>
-              <span class="home-pillar-item-title">Cloud Infrastructure &amp; DevOps</span>
-            </div>
-            <p class="home-pillar-item-desc">Resilient, cost-optimized &amp; zero-trust infrastructure.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="text-center mt-4">
-      <a href="/services" class="btn-primary">Explore All Services &amp; Architecture</a>
     </div>
   </div>
 
-  <!-- WHY INFINYTY (STRUCTURED COMPARISON MATRIX) -->
-  <div class="section-full section-bg why-infinyty-section">
-    <div class="section">
+  <!-- ══════════════════════════════════════════════════════════════
+       WHY INFINYTY (STRUCTURED 4-COLUMN COMPARISON MATRIX - DECK SLIDE 7)
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section-full why-infinyty-section" style="padding-top: 4.5rem; padding-bottom: 4.5rem;">
+    <div class="section" style="padding: 0 1.5rem;">
       <div class="text-center mb-4">
         <p class="tagline">WHY INFINYTY?</p>
-        <h2 class="section-title">Why Infinyty?</h2>
+        <h2 class="section-title">Why <span class="gradient-text">Infinyty?</span></h2>
         <p class="section-sub" style="max-width: 650px; margin: 0.5rem auto 0;">Senior expertise. Direct execution. No unnecessary layers.</p>
       </div>
 
@@ -417,9 +470,9 @@
             </div>
           </div>
 
-          <!-- COL 2: INFINYTY TECH (ROUNDED PROMINENT CARD) -->
-          <div class="why-matrix-col col-infinyty">
-            <div class="why-matrix-header">
+          <!-- COL 2: INFINYTY TECH (ROUNDED PROMINENT HERO CARD) -->
+          <div class="why-matrix-col col-infinyty-card">
+            <div class="why-matrix-header header-infinyty">
               <div class="why-brand-wrap">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
                 <span>Infinyty Tech</span>
@@ -464,10 +517,54 @@
             </div>
           </div>
 
-          <!-- COL 3: TRADITIONAL CONSULTING -->
-          <div class="why-matrix-col col-neutral">
+          <!-- COL 3: TRADITIONAL AGENCIES -->
+          <div class="why-matrix-col">
             <div class="why-matrix-header">
-              <span class="why-competitor-title">Traditional Consulting</span>
+              <span class="why-competitor-title">Traditional Agencies</span>
+              <span class="why-pill-neutral">Outsourced</span>
+            </div>
+            <div class="why-matrix-cell cell-neutral-val">
+              <div class="status-badge badge-cross">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </div>
+              <span>Mostly delivery teams</span>
+            </div>
+            <div class="why-matrix-cell cell-neutral-val">
+              <div class="status-badge badge-cross">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </div>
+              <span>Tech-focused</span>
+            </div>
+            <div class="why-matrix-cell cell-neutral-val">
+              <div class="status-badge badge-cross">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </div>
+              <span>Templates &amp; components</span>
+            </div>
+            <div class="why-matrix-cell cell-neutral-val">
+              <div class="status-badge badge-cross">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </div>
+              <span>Integrations &amp; APIs</span>
+            </div>
+            <div class="why-matrix-cell cell-neutral-val">
+              <div class="status-badge badge-cross">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </div>
+              <span>Implementation-focused</span>
+            </div>
+            <div class="why-matrix-cell cell-neutral-val">
+              <div class="status-badge badge-cross">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </div>
+              <span>Higher vendor dependency</span>
+            </div>
+          </div>
+
+          <!-- COL 4: BIG CONSULTANCIES -->
+          <div class="why-matrix-col">
+            <div class="why-matrix-header">
+              <span class="why-competitor-title">Big Consultancies</span>
               <span class="why-pill-neutral">Legacy</span>
             </div>
             <div class="why-matrix-cell cell-neutral-val">
@@ -508,67 +605,25 @@
             </div>
           </div>
 
-          <!-- COL 4: DEV AGENCIES / OUTSOURCING -->
-          <div class="why-matrix-col col-neutral">
-            <div class="why-matrix-header">
-              <span class="why-competitor-title">Dev Agencies / Outsourcing</span>
-              <span class="why-pill-neutral">Outsourced</span>
-            </div>
-            <div class="why-matrix-cell cell-neutral-val">
-              <div class="status-badge badge-cross">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </div>
-              <span>Mostly delivery teams</span>
-            </div>
-            <div class="why-matrix-cell cell-neutral-val">
-              <div class="status-badge badge-cross">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </div>
-              <span>Tech-focused</span>
-            </div>
-            <div class="why-matrix-cell cell-neutral-val">
-              <div class="status-badge badge-cross">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </div>
-              <span>Templates &amp; components</span>
-            </div>
-            <div class="why-matrix-cell cell-neutral-val">
-              <div class="status-badge badge-cross">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </div>
-              <span>Basic wrappers &amp; scripts</span>
-            </div>
-            <div class="why-matrix-cell cell-neutral-val">
-              <div class="status-badge badge-cross">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </div>
-              <span>Frontend &amp; backend only</span>
-            </div>
-            <div class="why-matrix-cell cell-neutral-val">
-              <div class="status-badge badge-cross">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </div>
-              <span>Agency dependency</span>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ENGAGEMENT MODELS & EXECUTION JOURNEY -->
-  <div class="section-full">
-    <div class="section">
+  <!-- ══════════════════════════════════════════════════════════════
+       HOW WE WORK (5-STEP JOURNEY & 4 ENGAGEMENT MODELS - SLIDE 9)
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section-full section-bg" style="padding-top: 4.5rem; padding-bottom: 4.5rem;">
+    <div class="section" style="padding: 0 1.5rem;">
       <div class="text-center mb-4">
         <p class="tagline">How We Work</p>
         <h2 class="section-title">Flexible <span class="gradient-text">Engagement Models</span></h2>
-        <p class="section-sub">From initial conversation to enterprise execution &mdash; we understand your strategic priorities before engineering scalable AI systems.</p>
+        <p class="section-sub">From initial conversation to enterprise execution &mdash; engage us where you need us most.</p>
       </div>
 
       <!-- 5-Step Journey from Conversation to Execution -->
       <div class="deck-journey-flow-bar">
-        <div class="journey-flow-step active">
+        <div class="journey-flow-step">
           <div class="journey-flow-num">01</div>
           <div class="journey-flow-info">
             <span class="journey-flow-title">Discover</span>
@@ -609,169 +664,397 @@
         </div>
       </div>
       
+      <!-- 4 Structured Engagement Models -->
       <div class="home-engagement-grid">
       
-      <!-- MODEL 01: PILOT -->
-      <div class="engagement-card">
-        <div>
-          <div class="engagement-head">
-            <div class="engagement-header-row">
-              <h3 class="engagement-title">Pilot</h3>
-              <div class="engagement-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <!-- MODEL 01: PILOT SPRINT -->
+        <div class="engagement-card">
+          <div>
+            <div class="engagement-head">
+              <div class="engagement-header-row">
+                <h3 class="engagement-title">Pilot Sprint</h3>
+                <div class="engagement-icon-box">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
               </div>
+              <p class="engagement-desc">Validate feasibility, technical architecture, and measurable ROI in a rapid 2–4 week pilot sprint.</p>
             </div>
-            <p class="engagement-desc">Understand priorities, identify AI opportunities, and validate feasibility before a larger rollout.</p>
+
+            <!-- Lifecycle Visual Step Track -->
+            <div class="engagement-step-track">
+              <span class="engagement-step-badge">Discover</span>
+              <span class="engagement-step-arrow">→</span>
+              <span class="engagement-step-badge">Identify</span>
+              <span class="engagement-step-arrow">→</span>
+              <span class="engagement-step-badge">Validate</span>
+            </div>
           </div>
 
-          <!-- Lifecycle Visual Step Track -->
-          <div class="engagement-step-track">
-            <span class="engagement-step-badge">Discover</span>
-            <span class="engagement-step-arrow">→</span>
-            <span class="engagement-step-badge">Identify</span>
-            <span class="engagement-step-arrow">→</span>
-            <span class="engagement-step-badge">Validate</span>
+          <div class="engagement-points-list">
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Client Priorities First</strong></span>
+            </div>
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>AI &amp; Data Opportunity Identification</strong></span>
+            </div>
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Working PoC &amp; Feasibility Report</strong></span>
+            </div>
           </div>
         </div>
 
-        <div class="engagement-points-list">
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <!-- MODEL 02: BUILD & SCALE -->
+        <div class="engagement-card">
+          <div>
+            <div class="engagement-head">
+              <div class="engagement-header-row">
+                <h3 class="engagement-title">Build &amp; Scale</h3>
+                <div class="engagement-icon-box">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path></svg>
+                </div>
+              </div>
+              <p class="engagement-desc">Turn validated concepts and architectures into robust, production-ready systems.</p>
             </div>
-            <span><strong>Client Priorities First</strong></span>
+
+            <!-- Lifecycle Visual Step Track -->
+            <div class="engagement-step-track">
+              <span class="engagement-step-badge">Design</span>
+              <span class="engagement-step-arrow">→</span>
+              <span class="engagement-step-badge">Build</span>
+              <span class="engagement-step-arrow">→</span>
+              <span class="engagement-step-badge">Deploy</span>
+            </div>
           </div>
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+
+          <div class="engagement-points-list">
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>End-to-End Ownership &amp; Delivery</strong></span>
             </div>
-            <span><strong>AI &amp; Data Opportunity Identification</strong></span>
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Custom AI &amp; Systems Engineering</strong></span>
+            </div>
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Production Scalability &amp; Reliability</strong></span>
+            </div>
           </div>
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+
+        <!-- MODEL 03: DEDICATED ENGINEERING POD -->
+        <div class="engagement-card">
+          <div>
+            <div class="engagement-head">
+              <div class="engagement-header-row">
+                <h3 class="engagement-title">Dedicated Pod</h3>
+                <div class="engagement-icon-box">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"></path></svg>
+                </div>
+              </div>
+              <p class="engagement-desc">High-velocity engineering squad embedded directly alongside your team for continuous shipping.</p>
             </div>
-            <span><strong>Proof of Concept &amp; Validation</strong></span>
+
+            <!-- Lifecycle Visual Step Track -->
+            <div class="engagement-step-track">
+              <span class="engagement-step-badge">Optimize</span>
+              <span class="engagement-step-arrow">→</span>
+              <span class="engagement-step-badge">Scale</span>
+              <span class="engagement-step-arrow">→</span>
+              <span class="engagement-step-badge">Evolve</span>
+            </div>
+          </div>
+
+          <div class="engagement-points-list">
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Continuous Engineering &amp; Support</strong></span>
+            </div>
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Senior Data &amp; AI Engineers</strong></span>
+            </div>
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Flexible Team Extension &amp; Capacity</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODEL 04: ENTERPRISE ADVISORY -->
+        <div class="engagement-card">
+          <div>
+            <div class="engagement-head">
+              <div class="engagement-header-row">
+                <h3 class="engagement-title">Advisory</h3>
+                <div class="engagement-icon-box">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+              </div>
+              <p class="engagement-desc">Strategic guidance on AI roadmaps, vendor evaluations, data architecture, and team enablement.</p>
+            </div>
+
+            <!-- Lifecycle Visual Step Track -->
+            <div class="engagement-step-track">
+              <span class="engagement-step-badge">Assess</span>
+              <span class="engagement-step-arrow">→</span>
+              <span class="engagement-step-badge">Roadmap</span>
+              <span class="engagement-step-arrow">→</span>
+              <span class="engagement-step-badge">Govern</span>
+            </div>
+          </div>
+
+          <div class="engagement-points-list">
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>AI Strategy &amp; Architecture Roadmaps</strong></span>
+            </div>
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Vendor &amp; Stack Technology Audits</strong></span>
+            </div>
+            <div class="engagement-point-row">
+              <div class="engagement-point-icon">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <span><strong>Governance, Security &amp; Compliance</strong></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       FEATURED LIVE PROTOTYPES & DEMOS (DECK SLIDES 12 & 13)
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section" style="padding-top: 4.5rem; padding-bottom: 4rem;">
+    <div class="text-center mb-4">
+      <p class="tagline">Live Working Prototypes</p>
+      <h2 class="section-title">See Our Work in <span class="gradient-text">Action</span></h2>
+      <p class="section-sub">Real-world AI, data intelligence, and custom software systems built for verified impact.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+      
+      <!-- Demo 1: AI Analytics Bot -->
+      <div class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; border: 1px solid var(--border); transition: transform 0.25s ease, box-shadow 0.25s ease;">
+        <div style="position: relative; height: 190px; overflow: hidden; background: #06112a;">
+          <img src="/assets/bi-assistant-real.png" alt="AI Analytics Bot" style="width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0.9; transition: transform 0.3s ease;" loading="lazy">
+          <div style="position: absolute; top: 12px; left: 12px; background: rgba(0, 114, 244, 0.9); color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.65rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em;">
+            Analytics &amp; AI
+          </div>
+          <div style="position: absolute; bottom: 12px; left: 12px; background: rgba(2, 7, 20, 0.85); backdrop-filter: blur(8px); padding: 0.25rem 0.7rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: baseline; gap: 0.4rem;">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 800; color: #10b981;">80%</span>
+            <span style="font-size: 0.75rem; font-weight: 700; color: #f0f2f8;">Faster Reporting</span>
+          </div>
+        </div>
+        <div style="padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 1rem;">
+          <div>
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text);">1. AI Analytics Bot</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 0.75rem;">AI Business Intelligence assistant that unifies scattered sales records, aggregates multi-sheet ledger data, and generates instant SQL insights with dynamic charts.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Natural Language SQL</span>
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Live Visual Charts</span>
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Discount Audits</span>
+            </div>
+          </div>
+          <div style="padding-top: 0.75rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Interactive Demo</span>
+            <a href="/demos/bi-assistant/" target="_blank" class="btn-primary" style="padding: 0.45rem 0.95rem; font-size: 0.82rem; border-radius: 8px;">
+              Open Demo &rarr;
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- MODEL 02: BUILD & SCALE -->
-      <div class="engagement-card">
-        <div>
-          <div class="engagement-head">
-            <div class="engagement-header-row">
-              <h3 class="engagement-title">Build &amp; Scale</h3>
-              <div class="engagement-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path></svg>
-              </div>
-            </div>
-            <p class="engagement-desc">Turn validated concepts and architectures into robust, production-ready systems.</p>
+      <!-- Demo 2: Fleet Settlement App -->
+      <div class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; border: 1px solid var(--border); transition: transform 0.25s ease, box-shadow 0.25s ease;">
+        <div style="position: relative; height: 190px; overflow: hidden; background: #06112a;">
+          <img src="/assets/fleet-portal-real.png" alt="Fleet Settlement App" style="width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0.9; transition: transform 0.3s ease;" loading="lazy">
+          <div style="position: absolute; top: 12px; left: 12px; background: rgba(0, 114, 244, 0.9); color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.65rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em;">
+            FinTech &amp; Mobility
           </div>
-
-          <!-- Lifecycle Visual Step Track -->
-          <div class="engagement-step-track">
-            <span class="engagement-step-badge">Design</span>
-            <span class="engagement-step-arrow">→</span>
-            <span class="engagement-step-badge">Build</span>
-            <span class="engagement-step-arrow">→</span>
-            <span class="engagement-step-badge">Deploy</span>
+          <div style="position: absolute; bottom: 12px; left: 12px; background: rgba(2, 7, 20, 0.85); backdrop-filter: blur(8px); padding: 0.25rem 0.7rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: baseline; gap: 0.4rem;">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 800; color: #10b981;">100%</span>
+            <span style="font-size: 0.75rem; font-weight: 700; color: #f0f2f8;">Automated Settlements</span>
           </div>
         </div>
-
-        <div class="engagement-points-list">
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <div style="padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 1rem;">
+          <div>
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text);">2. Fleet Settlement App</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 0.75rem;">Automated fleet settlements, daily driver ledger reconciliation, compliance verification, and weekly hisaab reports with bilingual Hindi &amp; English support.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Auto Payouts</span>
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Weekly Hisaab</span>
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Live Ledger</span>
             </div>
-            <span><strong>End-to-End Ownership &amp; Delivery</strong></span>
           </div>
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            </div>
-            <span><strong>Turnkey Engineering &amp; Integration</strong></span>
-          </div>
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            </div>
-            <span><strong>Production Scalability &amp; Reliability</strong></span>
+          <div style="padding-top: 0.75rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Interactive Demo</span>
+            <a href="/demos/fleet-portal/" target="_blank" class="btn-primary" style="padding: 0.45rem 0.95rem; font-size: 0.82rem; border-radius: 8px;">
+              Open Demo &rarr;
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- MODEL 03: ONGOING ENGINEERING -->
-      <div class="engagement-card">
-        <div>
-          <div class="engagement-head">
-            <div class="engagement-header-row">
-              <h3 class="engagement-title">Ongoing Engineering</h3>
-              <div class="engagement-icon-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"></path></svg>
-              </div>
-            </div>
-            <p class="engagement-desc">Long-term engineering partnership to continuously optimize, evolve, and scale systems.</p>
+      <!-- Demo 3: Assessment Generator -->
+      <div class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; border: 1px solid var(--border); transition: transform 0.25s ease, box-shadow 0.25s ease;">
+        <div style="position: relative; height: 190px; overflow: hidden; background: #06112a;">
+          <img src="/assets/assessment-generator-real.png" alt="Assessment Generator" style="width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0.9; transition: transform 0.3s ease;" loading="lazy">
+          <div style="position: absolute; top: 12px; left: 12px; background: rgba(0, 114, 244, 0.9); color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.65rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em;">
+            HR Tech &amp; GenAI
           </div>
-
-          <!-- Lifecycle Visual Step Track -->
-          <div class="engagement-step-track">
-            <span class="engagement-step-badge">Optimize</span>
-            <span class="engagement-step-arrow">→</span>
-            <span class="engagement-step-badge">Scale</span>
-            <span class="engagement-step-arrow">→</span>
-            <span class="engagement-step-badge">Evolve</span>
+          <div style="position: absolute; bottom: 12px; left: 12px; background: rgba(2, 7, 20, 0.85); backdrop-filter: blur(8px); padding: 0.25rem 0.7rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: baseline; gap: 0.4rem;">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 800; color: #10b981;">95%</span>
+            <span style="font-size: 0.75rem; font-weight: 700; color: #f0f2f8;">Time Saved</span>
           </div>
         </div>
+        <div style="padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 1rem;">
+          <div>
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text);">3. Assessment Generator</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 0.75rem;">AI-powered job questionnaire builder connecting JD analysis to automated Google Form deployments with candidate rubric grading.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">AI Rubrics</span>
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Google Forms API</span>
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Instant Scoring</span>
+            </div>
+          </div>
+          <div style="padding-top: 0.75rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Interactive Demo</span>
+            <a href="/demos/assessment-generator/" target="_blank" class="btn-primary" style="padding: 0.45rem 0.95rem; font-size: 0.82rem; border-radius: 8px;">
+              Open Demo &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
 
-        <div class="engagement-points-list">
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            </div>
-            <span><strong>Continuous Engineering &amp; Support</strong></span>
+      <!-- Demo 4: Fleet Operations Platform -->
+      <div class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; border: 1px solid var(--border); transition: transform 0.25s ease, box-shadow 0.25s ease;">
+        <div style="position: relative; height: 190px; overflow: hidden; background: #06112a;">
+          <img src="/assets/ops-portal-real.png" alt="Fleet Operations Platform" style="width: 100%; height: 100%; object-fit: cover; object-position: top; opacity: 0.9; transition: transform 0.3s ease;" loading="lazy">
+          <div style="position: absolute; top: 12px; left: 12px; background: rgba(0, 114, 244, 0.9); color: #fff; font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.65rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em;">
+            Operations &amp; Automation
           </div>
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            </div>
-            <span><strong>Performance Optimization &amp; Reliability</strong></span>
+          <div style="position: absolute; bottom: 12px; left: 12px; background: rgba(2, 7, 20, 0.85); backdrop-filter: blur(8px); padding: 0.25rem 0.7rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: baseline; gap: 0.4rem;">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 800; color: #10b981;">75%</span>
+            <span style="font-size: 0.75rem; font-weight: 700; color: #f0f2f8;">Faster Check-ins</span>
           </div>
-          <div class="engagement-point-row">
-            <div class="engagement-point-icon">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <div style="padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 1rem;">
+          <div>
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text);">4. Fleet Operations Platform</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 0.75rem;">Consolidated 20+ operations hub with browser PDI camera inspections, driver check-in workflows, repair logs, and zero-dispute audit trails.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">20+ Workflows</span>
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">PDI Photo Audits</span>
+              <span class="demo-chip" style="font-size: 0.72rem; padding: 0.15rem 0.55rem;">Workshop Registry</span>
             </div>
-            <span><strong>Flexible Team Extension &amp; Capacity</strong></span>
+          </div>
+          <div style="padding-top: 0.75rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Interactive Demo</span>
+            <a href="/demos/operations-portal/" target="_blank" class="btn-primary" style="padding: 0.45rem 0.95rem; font-size: 0.82rem; border-radius: 8px;">
+              Open Demo &rarr;
+            </a>
           </div>
         </div>
       </div>
 
     </div>
-  
+
+    <div class="text-center" style="margin-top: 2.5rem;">
+      <a href="/demos" class="btn-secondary" style="font-size: 0.95rem; padding: 0.75rem 2rem;">
+        Explore All Interactive Demos &amp; Videos &rarr;
+      </a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       HIGH-IMPACT CLOSING CTA BANNER
+       ══════════════════════════════════════════════════════════════ -->
+  <div class="section" style="padding-top: 4.5rem; padding-bottom: 4.5rem;">
+    <div class="services-cta-banner">
+      <div class="glow glow-blue" style="width:450px;height:450px;top:-100px;left:-100px;opacity:0.22;"></div>
+      <div class="glow glow-cyan" style="width:350px;height:350px;bottom:-80px;right:-80px;opacity:0.18;"></div>
+      
+      <div style="position:relative; z-index:1;">
+        <h2 class="services-cta-title">Let&rsquo;s Build <span class="gradient-text">Together.</span></h2>
+        <p class="services-cta-sub">Whether you're looking to deploy autonomous AI agents, modernize your data platform, or build custom enterprise software &mdash; our senior engineers are ready to partner with you.</p>
+        
+        <div class="services-cta-actions">
+          <a href="/contact#contact-form" class="btn-primary btn-cta-large">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18M8 14h2v2H8z"></path></svg>
+            Book a Meeting
+          </a>
+        </div>
+        
+        <div class="services-cta-contact-row">
+          <div class="services-cta-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <a href="mailto:contact@infinyty.tech">contact@infinyty.tech</a>
+          </div>
+          <div class="services-cta-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"></path></svg>
+            <a href="tel:+919930420065">+91 99304 20065</a>
+          </div>
+          <div class="services-cta-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            <a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
 </main>
 
+<!-- ══════════════════════════════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════════════════════════════ -->
 <footer>
   <div class="footer-inner">
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="/" class="nav-logo" style="margin-bottom:0.75rem;">
-          <img src="/assets/infinyty-lockup-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height:28px;">
-          <img src="/assets/infinyty-lockup-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height:28px;">
+          <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height:28px;">
+          <img src="/assets/infinyty-logo-horizontal-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height:28px;">
         </a>
-        <p>Driving Excellence with Data &amp; AI. Formerly Infinity Analytics Consulting.</p>
+        <p>Driving Excellence with Data &amp; AI.</p>
       </div>
-      <div class="footer-col">
+            <div class="footer-col">
         <h4>Solutions</h4>
         <ul>
-          <li><a href="/services#agentic-ai">Agentic AI &amp; Gen AI</a></li>
-          <li><a href="/services#agentic-ai">Predictive Analytics</a></li>
-          <li><a href="/services#data-engineering">Data Engineering</a></li>
-          <li><a href="/services#software-development">Software Development</a></li>
-          <li><a href="/services#cloud-devops">Cloud &amp; DevOps</a></li>
-          <li><a href="/services#ui-ux">UI/UX Design</a></li>
+          <li><a href="/services#pillar-data">Data Platform &amp; Intelligence</a></li>
+          <li><a href="/services#pillar-ai">AI Development &amp; Deployment</a></li>
+          <li><a href="/services#pillar-engineering">Product Engineering</a></li>
+          <li><a href="/services#engagement-models">Engagement Models</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -811,6 +1094,5 @@
 </footer>
 
 <script src="/main.js?v=7.0"></script>
-
-
-</body></html>
+</body>
+</html>

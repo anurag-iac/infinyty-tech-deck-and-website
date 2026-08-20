@@ -1,6 +1,6 @@
 // ── THEME INIT (runs before DOM paint to prevent flash) ──
-// This is handled in <head> inline script per page.
-// main.js only handles the toggle button.
+// Handled in <head> inline script per page.
+// main.js handles the interactive toggle and cross-tab storage sync.
 
 // ── SCROLL PROGRESS BAR ──
 const progressBar = document.getElementById('scroll-progress');
@@ -22,20 +22,34 @@ if (headerEl) {
   }, { passive: true });
 }
 
-// ── MOBILE MENU ──
+// ── MOBILE MENU (with outside-click dismiss and ARIA sync) ──
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobile-menu');
 if (hamburger && mobileMenu) {
-  hamburger.addEventListener('click', () => {
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
     const isOpen = mobileMenu.classList.toggle('open');
     hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   });
+
   mobileMenu.querySelectorAll('a').forEach(a =>
     a.addEventListener('click', () => {
       mobileMenu.classList.remove('open');
       hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
     })
   );
+
+  document.addEventListener('click', (e) => {
+    if (mobileMenu.classList.contains('open')) {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+    }
+  });
 }
 
 // ── ACTIVE NAV LINK ──
@@ -78,11 +92,12 @@ function syncTheme(theme) {
   localStorage.setItem('theme', theme);
   localStorage.setItem('infinyty_theme', theme);
   localStorage.setItem('pitch_theme', theme);
+  localStorage.setItem('deck-theme', theme);
   applyThemeIcons();
 }
 
 // Initial sync
-const initialTheme = localStorage.getItem('theme') || localStorage.getItem('infinyty_theme') || localStorage.getItem('pitch_theme');
+const initialTheme = localStorage.getItem('theme') || localStorage.getItem('infinyty_theme') || localStorage.getItem('pitch_theme') || localStorage.getItem('deck-theme');
 if (initialTheme) {
   syncTheme(initialTheme);
 } else {
@@ -98,7 +113,7 @@ if (themeToggle) {
 
 // Storage event listener for real-time tab synchronization
 window.addEventListener('storage', (e) => {
-  if (e.key === 'theme' || e.key === 'infinyty_theme' || e.key === 'pitch_theme') {
+  if (e.key === 'theme' || e.key === 'infinyty_theme' || e.key === 'pitch_theme' || e.key === 'deck-theme') {
     if (e.newValue) syncTheme(e.newValue);
   }
 });
@@ -123,19 +138,18 @@ if ('IntersectionObserver' in window && animatables.length > 0) {
 }
 
 // ── METRIC COUNTER ANIMATION ──
-const counters = document.querySelectorAll('.metric-counter');
+const counters = document.querySelectorAll('.metric-counter, [data-count]');
 if ('IntersectionObserver' in window && counters.length > 0) {
   const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const el = entry.target;
-        const targetStr = el.getAttribute('data-count');
+        const targetStr = el.getAttribute('data-count') || el.textContent.trim();
         if (!targetStr) return;
 
-        const numMatch = targetStr.match(/([\d\.]+)/);
-        if (numMatch) {
-          const targetNum = parseFloat(numMatch[1]);
-          const isDecimal = numMatch[1].includes('.');
+        // Find all number sequences (integers and decimals)
+        const matches = [...targetStr.matchAll(/(\d+(?:\.\d+)?)/g)];
+        if (matches.length > 0) {
           const duration = 1200;
           const startTime = performance.now();
 
@@ -143,9 +157,18 @@ if ('IntersectionObserver' in window && counters.length > 0) {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
             const easeProgress = 1 - Math.pow(1 - progress, 3);
-            const currentVal = (targetNum * easeProgress).toFixed(isDecimal ? 1 : 0);
 
-            el.textContent = targetStr.replace(numMatch[1], currentVal);
+            let newText = targetStr;
+            for (let i = matches.length - 1; i >= 0; i--) {
+              const m = matches[i];
+              const targetNum = parseFloat(m[0]);
+              const isDecimal = m[0].includes('.');
+              const currentVal = (targetNum * easeProgress).toFixed(isDecimal ? 1 : 0);
+              const idx = m.index;
+              newText = newText.slice(0, idx) + currentVal + newText.slice(idx + m[0].length);
+            }
+
+            el.textContent = newText;
 
             if (progress < 1) {
               requestAnimationFrame(animate);
@@ -158,7 +181,8 @@ if ('IntersectionObserver' in window && counters.length > 0) {
         counterObserver.unobserve(el);
       }
     });
-  }, { threshold: 0.2 });
+  }, { threshold: 0.15 });
 
   counters.forEach(c => counterObserver.observe(c));
 }
+

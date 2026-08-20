@@ -2,3 +2,40 @@ node_modules/
 .DS_Store
 dist/
 *.log
+
+# Screenshots & test artifacts in root
+/*.png
+!/assets/**
+!/demos/**
+!/careers/**
+
+# Scratch and test folders
+scratch/
+test_artifacts/
+mobile_audit_deck/
+mobile_audit_web/
+screenshots_audit/
+website_audit_screenshots/
+
+# Temporary scratch scripts & files in root
+/*.py
+/*.txt
+/*.json
+!package.json
+!package-lock.json
+!vercel.json
+!serve.json
+
+# Scratch JS/HTML tools in root
+/audit_*.js
+/configure_*.js
+/fix_*.js
+/generate_*.js
+/integrate_*.js
+/rename_*.js
+/set_*.js
+/update_*.js
+/test_*.js
+/temp_*.html
+/deck_backup_*.html
+/animation_stage.html

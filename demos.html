@@ -13,9 +13,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png">
   <link rel="shortcut icon" href="/assets/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css?v=40.0">
   <script>
     (function(){
@@ -23,24 +23,7 @@
       if (t === 'dark') document.documentElement.classList.add('dark-mode');
     })();
   </script>
-    <style>
-    .demo-phone-shell {
-      position: relative;
-      width: 300px;
-      flex-shrink: 0;
-    }
-    .demo-phone-shell img {
-      width: 100%;
-      border-radius: 36px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.18), 0 0 0 6px var(--card-bg), 0 0 0 8px var(--border);
-      display: block;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .demo-phone-shell:hover img {
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 32px 68px rgba(0,0,0,0.22), 0 0 0 6px var(--card-bg), 0 0 0 8px var(--border);
-    }
-
+  <style>
     .demo-desktop-shell {
       position: relative;
       width: 100%;
@@ -77,11 +60,7 @@
       z-index: 10;
       padding: 1.5rem;
     }
-    .demo-phone-shell .demo-launch-overlay {
-      border-radius: 36px;
-    }
-    .demo-desktop-shell:hover .demo-launch-overlay,
-    .demo-phone-shell:hover .demo-launch-overlay {
+    .demo-desktop-shell:hover .demo-launch-overlay {
       background: rgba(9, 13, 22, 0.82);
       opacity: 1;
       visibility: visible;
@@ -90,7 +69,7 @@
       -webkit-backdrop-filter: blur(8px);
     }
 
-    /* Single Launch Button (Prototypes 1, 4, 5) */
+    /* Single Launch Button */
     .demo-launch-btn {
       background: #0072F4;
       color: #ffffff;
@@ -115,7 +94,7 @@
       box-shadow: 0 10px 28px rgba(0, 114, 244, 0.6);
     }
 
-    /* Dual Action Buttons (Prototypes 2 & 3) */
+    /* Dual Action Buttons (for Walkthrough Video + Live Demo) */
     .demo-action-buttons {
       display: flex;
       flex-direction: column;
@@ -270,7 +249,6 @@
         gap: 1rem;
       }
     }
-
   </style>
 </head>
 <body>
@@ -279,19 +257,18 @@
 <header id="header">
   <div class="nav-inner">
     <a href="/" class="nav-logo" aria-label="Infinyty">
-      <img src="/assets/infinyty-icon.png" alt="Infinyty" class="nav-logo-icon">
-      <span class="nav-brand-text">infinyty</span>
+      <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="nav-logo-img logo-light">
+      <img src="/assets/infinyty-logo-horizontal-dark.png" alt="Infinyty" class="nav-logo-img logo-dark">
     </a>
     <nav>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li><a href="/success-stories">Success Stories</a></li>
-        <li><a href="/demos">Demos</a></li>
+        <li><a href="/demos" class="active">Demos</a></li>
         <li><a href="/about">About Us</a></li>
         <li><a href="/careers">Careers</a></li>
         <li><a href="/contact">Contact Us</a></li>
-        <li><a href="/deck.html" target="_blank" class="nav-deck-pill">Pitch Deck ↗</a></li>
       </ul>
     </nav>
     <div class="nav-actions">
@@ -307,11 +284,10 @@
     <a href="/">Home</a>
     <a href="/services">Services</a>
     <a href="/success-stories">Success Stories</a>
-    <a href="/demos">Demos</a>
+    <a href="/demos" class="active">Demos</a>
     <a href="/about">About Us</a>
     <a href="/careers">Careers</a>
     <a href="/contact">Contact Us</a>
-    <a href="/deck.html" target="_blank" class="nav-deck-pill" style="margin:.3rem 0; width:max-content;">Pitch Deck ↗</a>
     <a href="/contact#contact-form" class="btn-primary" style="margin-top:.5rem;justify-content:center;">Book a Meeting</a>
   </div>
 </header>
@@ -324,16 +300,20 @@
   </div>
 
   <div class="section" style="padding-top: 1rem; max-width: 1200px; margin: 0 auto;">
-    <!-- PROTOTYPE 01: BI BOT -->
+    
+    <!-- PROTOTYPE 01: AI ANALYTICS BOT (80% FASTER REPORTING) -->
     <div style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;">
-      <span class="case-meta" style="margin-bottom: 0.5rem; display: inline-block;">Featured Prototype &mdash; 01</span>
-      <h2 class="case-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">BI Bot</h2>
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="case-meta">Featured Prototype &mdash; 01 &bull; Analytics &amp; AI</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; font-weight: 700; color: #10b981; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.75rem; border-radius: 99px;">80% Faster Reporting</span>
+      </div>
+      <h2 class="case-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">AI Analytics Bot</h2>
       <p style="font-size: 1.05rem; color: var(--text-muted); font-weight: 500; margin: 0;">AI Business Intelligence Assistant &amp; Instant Query Analyst</p>
     </div>
 
     <div class="demo-showcase-row">
-      <div class="demo-desktop-shell" title="BI Bot Demo">
-        <img src="/assets/bi-assistant-real.png" alt="BI Bot Screenshot" loading="lazy">
+      <div class="demo-desktop-shell" title="AI Analytics Bot Demo">
+        <img src="/assets/bi-assistant-real.png" alt="AI Analytics Bot Screenshot" loading="lazy">
         <div class="demo-launch-overlay">
           <a href="/demos/bi-assistant/" target="_blank" class="demo-launch-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -358,12 +338,12 @@
         <div>
           <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.75rem;">Key System Capabilities</div>
           <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Conversational BI Analyst</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Unified 10,000-Row Ledger</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Automated Discount Audits</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Theme-Responsive Charts</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Dynamic CSV Export</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Collapsible KPI Matrix</span>
+            <span class="demo-chip">Automated Reports</span>
+            <span class="demo-chip">Natural Language SQL</span>
+            <span class="demo-chip">Live Charts</span>
+            <span class="demo-chip">Dynamic CSV Export</span>
+            <span class="demo-chip">Automated Discount Audits</span>
+            <span class="demo-chip">Theme-Responsive Charts</span>
           </div>
         </div>
         <div>
@@ -375,9 +355,66 @@
       </div>
     </div>
 
-    <!-- PROTOTYPE 02: ASSESSMENT GENERATOR -->
-    <div style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; padding-top: 2rem;">
-      <span class="case-meta" style="margin-bottom: 0.5rem; display: inline-block;">Featured Prototype &mdash; 02</span>
+    <!-- PROTOTYPE 02: FLEET SETTLEMENT APP (100% AUTOMATED SETTLEMENTS) -->
+    <div style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; padding-top: 2.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="case-meta">Featured Prototype &mdash; 02 &bull; FinTech &amp; Mobility</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; font-weight: 700; color: #10b981; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.75rem; border-radius: 99px;">100% Automated Settlements</span>
+      </div>
+      <h2 class="case-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Fleet Settlement App</h2>
+      <p style="font-size: 1.05rem; color: var(--text-muted); font-weight: 500; margin: 0;">Automated Fleet Settlements, Daily Driver Ledger &amp; Compliance Hub</p>
+    </div>
+
+    <div class="demo-showcase-row">
+      <div class="demo-desktop-shell" title="Fleet Settlement App Demo">
+        <img src="/assets/fleet-portal-real.png" alt="Fleet Settlement App Screenshot" loading="lazy">
+        <div class="demo-launch-overlay">
+          <a href="/demos/fleet-portal/" target="_blank" class="demo-launch-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open Live Demo
+          </a>
+        </div>
+      </div>
+
+      <div style="flex: 1; min-width: 280px; max-width: 520px; display: flex; flex-direction: column; gap: 1.5rem;">
+        <div>
+          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.5rem;">Challenge</div>
+          <p style="font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin: 0;">A fleet management company relied on disconnected Google Sheets to manually reconcile driver payouts, vehicle rentals, and compliance records &mdash; causing frequent disputes and operational delays.</p>
+        </div>
+        <div>
+          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.5rem;">Solution</div>
+          <p style="font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin: 0;">Built an automated Fleet Ledger Portal with real-time ride log aggregation, auto-calculated settlements, compliance tracking, and a bilingual interface (English &amp; Hindi).</p>
+        </div>
+        <div class="case-impact" style="margin-top: 0;">
+          <div class="impact-title">Business Impact</div>
+          <p class="impact-desc" style="margin: 0;">Processing time reduced from days to seconds with <strong>100% Automated Settlements</strong>. Driver billing disputes dropped by <strong>80%</strong>, and compliance visibility reached <strong>100%</strong>.</p>
+        </div>
+        <div>
+          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.75rem;">Key System Capabilities</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <span class="demo-chip">Auto Payouts</span>
+            <span class="demo-chip">Weekly Hisaab</span>
+            <span class="demo-chip">Live Ledger</span>
+            <span class="demo-chip">Hindi &amp; English Support</span>
+            <span class="demo-chip">Document Management</span>
+            <span class="demo-chip">Operator Dashboard</span>
+          </div>
+        </div>
+        <div>
+          <a href="/demos/fleet-portal/" target="_blank" class="btn-primary demo-open-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROTOTYPE 03: ASSESSMENT GENERATOR (95% TIME SAVED) -->
+    <div style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; padding-top: 2.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="case-meta">Featured Prototype &mdash; 03 &bull; HR Tech &amp; GenAI</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; font-weight: 700; color: #10b981; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.75rem; border-radius: 99px;">95% Time Saved</span>
+      </div>
       <h2 class="case-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Assessment Generator</h2>
       <p style="font-size: 1.05rem; color: var(--text-muted); font-weight: 500; margin: 0;">Automated Candidate Questionnaire Builder &amp; Forms Integration</p>
     </div>
@@ -387,7 +424,7 @@
         <img src="/assets/assessment-generator-real.png" alt="Assessment Generator Screenshot" loading="lazy">
         <div class="demo-launch-overlay">
           <div class="demo-action-buttons">
-            <button type="button" class="demo-action-btn-video" onclick="event.stopPropagation(); openVideoModal('assets/form-generator-demo.mp4', 'Assessment Generator &mdash; Walkthrough Video')">
+            <button type="button" class="demo-action-btn-video" onclick="event.stopPropagation(); openVideoModal('/assets/form-generator-demo.mp4', 'Assessment Generator &mdash; Walkthrough Video')">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
               Watch Video
             </button>
@@ -410,17 +447,17 @@
         </div>
         <div class="case-impact" style="margin-top: 0;">
           <div class="impact-title">Business Impact</div>
-          <p class="impact-desc" style="margin: 0;">Cut assessment creation time from hours to seconds, automated 100% of Google Form deployment, and ensured consistent, role-specific evaluations.</p>
+          <p class="impact-desc" style="margin: 0;">Achieved <strong>95% Time Saved</strong> (cutting creation time from hours to seconds), automated 100% of Google Form deployment, and ensured consistent, role-specific evaluations.</p>
         </div>
         <div>
           <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.75rem;">Key System Capabilities</div>
           <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">AI Question Generation</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Google API Integration</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Automatic Email Dispatch</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Admin &amp; Candidate Links</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Render Cloud Deployment</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Custom Cultural Alignment</span>
+            <span class="demo-chip">Candidate Reports</span>
+            <span class="demo-chip">Instant Scoring</span>
+            <span class="demo-chip">Cloud Deployed</span>
+            <span class="demo-chip">AI Question Generation</span>
+            <span class="demo-chip">Google API Integration</span>
+            <span class="demo-chip">Automatic Email Dispatch</span>
           </div>
         </div>
         <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
@@ -428,7 +465,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             Open Live Demo
           </a>
-          <button type="button" class="btn-secondary demo-open-btn" style="cursor: pointer;" onclick="openVideoModal('assets/form-generator-demo.mp4', 'Assessment Generator &mdash; Walkthrough Video')">
+          <button type="button" class="btn-secondary demo-open-btn" style="cursor: pointer;" onclick="openVideoModal('/assets/form-generator-demo.mp4', 'Assessment Generator &mdash; Walkthrough Video')">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
             Watch Video (1:41)
           </button>
@@ -436,128 +473,19 @@
       </div>
     </div>
 
-    <!-- PROTOTYPE 03: CANDIDATE EVALUATOR -->
-    <div style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; padding-top: 2rem;">
-      <span class="case-meta" style="margin-bottom: 0.5rem; display: inline-block;">Featured Prototype &mdash; 03</span>
-      <h2 class="case-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Candidate Evaluator</h2>
-      <p style="font-size: 1.05rem; color: var(--text-muted); font-weight: 500; margin: 0;">AI-Powered Assessment Grading &amp; Professional PDF Reporter</p>
-    </div>
-
-    <div class="demo-showcase-row">
-      <div class="demo-desktop-shell" title="Candidate Evaluator Demo">
-        <img src="/assets/candidate-evaluator-real.png" alt="Candidate Evaluator Screenshot" loading="lazy">
-        <div class="demo-launch-overlay">
-          <div class="demo-action-buttons">
-            <button type="button" class="demo-action-btn-video" onclick="event.stopPropagation(); openVideoModal('assets/report-generator-demo.mp4', 'Candidate Evaluator &mdash; Walkthrough Video')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-              Watch Video
-            </button>
-            <a href="/demos/candidate-evaluator/" target="_blank" class="demo-action-btn-live" onclick="event.stopPropagation();">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              Open Live Demo
-            </a>
-          </div>
-        </div>
+    <!-- PROTOTYPE 04: FLEET OPERATIONS PLATFORM (75% FASTER CHECK-INS) -->
+    <div style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; padding-top: 2.5rem;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="case-meta">Featured Prototype &mdash; 04 &bull; Operations &amp; Automation</span>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; font-weight: 700; color: #10b981; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); padding: 0.2rem 0.75rem; border-radius: 99px;">75% Faster Check-ins</span>
       </div>
-
-      <div style="flex: 1; min-width: 280px; max-width: 520px; display: flex; flex-direction: column; gap: 1.5rem;">
-        <div>
-          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.5rem;">Challenge</div>
-          <p style="font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin: 0;">Grading candidate answers, assessing role-fit, and drafting professional PDF feedback reports for stakeholders was a slow, manual process prone to formatting delays.</p>
-        </div>
-        <div>
-          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.5rem;">Solution</div>
-          <p style="font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin: 0;">Built a report generation utility that passes candidate responses, job descriptions, and rubrics to an AI model to generate structured Excel reports, then programmatically renders them into client-ready PDFs.</p>
-        </div>
-        <div class="case-impact" style="margin-top: 0;">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc" style="margin: 0;">Reduced report generation and delivery times from hours to seconds, standardized AI-driven grading, and automated instant PDF delivery to HR.</p>
-        </div>
-        <div>
-          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.75rem;">Key System Capabilities</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Deepseek AI Evaluation</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Structured Excel Grading</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Professional PDF Rendering</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Automated HR Emailing</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Command-Line Utility</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Role-Fit Scoring</span>
-          </div>
-        </div>
-        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
-          <a href="/demos/candidate-evaluator/" target="_blank" class="btn-primary demo-open-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Open Live Demo
-          </a>
-          <button type="button" class="btn-secondary demo-open-btn" style="cursor: pointer;" onclick="openVideoModal('assets/report-generator-demo.mp4', 'Candidate Evaluator &mdash; Walkthrough Video')">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-            Watch Video (1:41)
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROTOTYPE 04: FLEET SETTLEMENT APP -->
-    <div style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; padding-top: 2rem;">
-      <span class="case-meta" style="margin-bottom: 0.5rem; display: inline-block;">Featured Prototype &mdash; 04</span>
-      <h2 class="case-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Fleet Settlement App</h2>
-      <p style="font-size: 1.05rem; color: var(--text-muted); font-weight: 500; margin: 0;">Automated Fleet Settlements &amp; Compliance Hub</p>
-    </div>
-
-    <div class="demo-showcase-row">
-      <div class="demo-phone-shell" title="Fleet Settlement App Demo">
-        <img src="/assets/fleet-portal-real.png" alt="Fleet Settlement App Screenshot" loading="lazy">
-        <div class="demo-launch-overlay">
-          <a href="/demos/fleet-portal/" target="_blank" class="demo-launch-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Open Live Demo
-          </a>
-        </div>
-      </div>
-
-      <div style="flex: 1; min-width: 280px; max-width: 520px; display: flex; flex-direction: column; gap: 1.5rem;">
-        <div>
-          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.5rem;">Challenge</div>
-          <p style="font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin: 0;">A fleet management company relied on disconnected Google Sheets to manually reconcile driver payouts, vehicle rentals, and compliance records — causing frequent disputes and errors.</p>
-        </div>
-        <div>
-          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.5rem;">Solution</div>
-          <p style="font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin: 0;">Built an automated Fleet Ledger Portal with real-time ride log aggregation, auto-calculated settlements, compliance tracking, and a bilingual interface (English &amp; Hindi).</p>
-        </div>
-        <div class="case-impact" style="margin-top: 0;">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc" style="margin: 0;">Processing time reduced from days to seconds. Driver billing disputes dropped by <strong>80%</strong>. Compliance visibility reached <strong>100%</strong>.</p>
-        </div>
-        <div>
-          <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.75rem;">Key System Capabilities</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Auto Driver Payments</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Hindi &amp; English Support</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Live Settlement Tracking</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Document Management</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">SOS Alerts</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Operator Dashboard</span>
-          </div>
-        </div>
-        <div>
-          <a href="/demos/fleet-portal/" target="_blank" class="btn-primary demo-open-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            Open Live Demo
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROTOTYPE 05: FLEET OPERATIONS PORTAL -->
-    <div style="margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; padding-top: 2rem;">
-      <span class="case-meta" style="margin-bottom: 0.5rem; display: inline-block;">Featured Prototype &mdash; 05</span>
-      <h2 class="case-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Fleet Operations Portal</h2>
+      <h2 class="case-title" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Fleet Operations Platform</h2>
       <p style="font-size: 1.05rem; color: var(--text-muted); font-weight: 500; margin: 0;">Automated Operational Hub, PDI Camera Audits &amp; Workshop Registry</p>
     </div>
 
     <div class="demo-showcase-row" style="margin-bottom: 4rem;">
-      <div class="demo-desktop-shell" title="Fleet Operations Portal Demo">
-        <img src="/assets/ops-portal-real.png" alt="Fleet Operations Portal Screenshot" loading="lazy">
+      <div class="demo-desktop-shell" title="Fleet Operations Platform Demo">
+        <img src="/assets/ops-portal-real.png" alt="Fleet Operations Platform Screenshot" loading="lazy">
         <div class="demo-launch-overlay">
           <a href="/demos/operations-portal/" target="_blank" class="demo-launch-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -569,7 +497,7 @@
       <div style="flex: 1; min-width: 280px; max-width: 520px; display: flex; flex-direction: column; gap: 1.5rem;">
         <div>
           <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.5rem;">Challenge</div>
-          <p style="font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin: 0;">Vehicle inspections, driver allocations, and damage photos were scattered across out-of-sync Google Sheets and WhatsApp chats — causing data loss and constant rent disputes.</p>
+          <p style="font-size: 0.93rem; color: var(--text-muted); line-height: 1.65; margin: 0;">Vehicle inspections, driver allocations, and damage photos were scattered across out-of-sync Google Sheets and WhatsApp chats &mdash; causing data loss and constant rent disputes.</p>
         </div>
         <div>
           <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.5rem;">Solution</div>
@@ -577,17 +505,17 @@
         </div>
         <div class="case-impact" style="margin-top: 0;">
           <div class="impact-title">Business Impact</div>
-          <p class="impact-desc" style="margin: 0;">Cut driver check-in times by <strong>75%</strong>, reduced data entry errors by <strong>95%</strong>, and achieved <strong>100% dispute resolution</strong> with visual camera audit trails.</p>
+          <p class="impact-desc" style="margin: 0;">Cut driver check-in times by <strong>75% (75% Faster Check-ins)</strong>, reduced data entry errors by <strong>95%</strong>, and achieved <strong>100% dispute resolution</strong> with visual camera audit trails.</p>
         </div>
         <div>
           <div class="case-subtitle" style="margin-top: 0; margin-bottom: 0.75rem;">Key System Capabilities</div>
           <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Driver &amp; Vehicle Records</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Camera Photo Inspections</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Rent &amp; Penalty Tracking</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Workshop &amp; Repairs Log</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Damage Photo History</span>
-            <span style="background: var(--chip-bg, var(--card-bg)); border: 1px solid var(--border); border-radius: 50px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">Works Offline</span>
+            <span class="demo-chip">20+ Workflows</span>
+            <span class="demo-chip">Photo Audits</span>
+            <span class="demo-chip">RBAC</span>
+            <span class="demo-chip">Camera Photo Inspections</span>
+            <span class="demo-chip">Rent &amp; Penalty Tracking</span>
+            <span class="demo-chip">Works Offline</span>
           </div>
         </div>
         <div>
@@ -606,20 +534,18 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="/" class="nav-logo" style="margin-bottom:0.75rem;">
-          <img src="/assets/infinyty-lockup-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height:28px;">
-          <img src="/assets/infinyty-lockup-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height:28px;">
+          <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height:28px;">
+          <img src="/assets/infinyty-logo-horizontal-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height:28px;">
         </a>
-        <p>Driving Excellence with Data &amp; AI. Formerly Infinity Analytics Consulting.</p>
+        <p>Driving Excellence with Data &amp; AI.</p>
       </div>
-      <div class="footer-col">
+            <div class="footer-col">
         <h4>Solutions</h4>
         <ul>
-          <li><a href="/services#agentic-ai">Agentic AI &amp; Gen AI</a></li>
-          <li><a href="/services#agentic-ai">Predictive Analytics</a></li>
-          <li><a href="/services#data-engineering">Data Engineering</a></li>
-          <li><a href="/services#software-development">Software Development</a></li>
-          <li><a href="/services#cloud-devops">Cloud &amp; DevOps</a></li>
-          <li><a href="/services#ui-ux">UI/UX Design</a></li>
+          <li><a href="/services#pillar-data">Data Platform &amp; Intelligence</a></li>
+          <li><a href="/services#pillar-ai">AI Development &amp; Deployment</a></li>
+          <li><a href="/services#pillar-engineering">Product Engineering</a></li>
+          <li><a href="/services#engagement-models">Engagement Models</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -627,7 +553,7 @@
         <ul>
           <li><a href="/about">About Us</a></li>
           <li><a href="/success-stories">Success Stories</a></li>
-          <li><a href="/demos">Demos</a></li>
+          <li><a href="/demos" class="active">Demos</a></li>
           <li><a href="/careers">Careers</a></li>
           <li><a href="/contact">Contact Us</a></li>
         </ul>
@@ -702,7 +628,10 @@
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
-        closeVideoModal();
+        const modal = document.getElementById('video-modal');
+        if (modal && modal.classList.contains('active')) {
+          closeVideoModal();
+        }
       }
     });
   </script>

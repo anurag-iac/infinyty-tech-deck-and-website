@@ -4,22 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Careers &amp; Company Values &mdash; Infinyty</title>
-  <meta name="description" content="Explore career opportunities, company values, and past hiring roles at Infinyty Global Solutions.">
-  <meta property="og:title" content="Careers & Company Values — Infinyty">
-  <meta property="og:description" content="Join Infinyty — driving excellence in Data, AI, and Software Solutions.">
+  <meta name="description" content="Explore career opportunities, company values, and past hiring roles at Infinyty Tech Global Solutions Pvt. Ltd.">
+  <meta property="og:title" content="Careers &amp; Company Values — Infinyty">
+  <meta property="og:description" content="Join Infinyty — driving excellence across Data Platform &amp; Intelligence, AI Development &amp; Deployment, and Product Engineering.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://infinyty-tech.vercel.app/careers">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png">
   <link rel="shortcut icon" href="/assets/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=40.0">
+  <link rel="stylesheet" href="/style.css?v=44.0">
   <script>
     (function(){
-      var t = localStorage.getItem('theme');
+      var t = localStorage.getItem('theme') || localStorage.getItem('infinyty_theme') || localStorage.getItem('pitch_theme');
       if (t === 'dark') document.documentElement.classList.add('dark-mode');
     })();
   </script>
@@ -29,9 +29,9 @@
 
 <header id="header">
   <div class="nav-inner">
-    <a href="/" class="nav-logo">
-      <img src="/assets/infinyty-icon.png" alt="Infinyty" style="height:28px; width:auto; object-fit:contain;">
-      <span class="nav-brand-text">infinyty</span>
+    <a href="/" class="nav-logo" aria-label="Infinyty">
+      <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="nav-logo-img logo-light">
+      <img src="/assets/infinyty-logo-horizontal-dark.png" alt="Infinyty" class="nav-logo-img logo-dark">
     </a>
     <nav>
       <ul class="nav-links">
@@ -40,7 +40,7 @@
         <li><a href="/success-stories">Success Stories</a></li>
         <li><a href="/demos">Demos</a></li>
         <li><a href="/about">About Us</a></li>
-        <li><a href="/careers">Careers</a></li>
+        <li><a href="/careers" class="active">Careers</a></li>
         <li><a href="/contact">Contact Us</a></li>
       </ul>
     </nav>
@@ -61,7 +61,7 @@
     <a href="/success-stories">Success Stories</a>
     <a href="/demos">Demos</a>
     <a href="/about">About Us</a>
-    <a href="/careers">Careers</a>
+    <a href="/careers" class="active">Careers</a>
     <a href="/contact">Contact Us</a>
     <a href="/contact#contact-form" class="btn-primary" style="margin-top:.5rem;justify-content:center;">Book a Meeting</a>
   </div>
@@ -72,10 +72,17 @@
   <div class="hero">
     <p class="tagline">Careers at Infinyty</p>
     <h1>Build the Future of<br><span class="accent">Data &amp; AI With Us</span></h1>
-    <p>We are problem solvers, engineers, and innovators dedicated to delivering high-impact AI systems, data architectures, and software solutions.</p>
+    <p>We are problem solvers, engineers, and innovators dedicated to delivering high-impact AI systems, data platforms, and product engineering solutions.</p>
+    
+    <!-- 3 Core Pillars Pill Row -->
+    <div class="cover-pillars-row" style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap;">
+      <div class="cover-pillar-pill" style="background: var(--card-bg, rgba(255,255,255,0.05)); border: 1px solid var(--border); padding: 0.4rem 1.1rem; border-radius: 99px; font-size: 0.88rem; font-weight: 600; color: var(--text);">Data Platform &amp; Intelligence</div>
+      <div class="cover-pillar-pill" style="background: var(--card-bg, rgba(255,255,255,0.05)); border: 1px solid var(--border); padding: 0.4rem 1.1rem; border-radius: 99px; font-size: 0.88rem; font-weight: 600; color: var(--text);">AI Development &amp; Deployment</div>
+      <div class="cover-pillar-pill" style="background: var(--card-bg, rgba(255,255,255,0.05)); border: 1px solid var(--border); padding: 0.4rem 1.1rem; border-radius: 99px; font-size: 0.88rem; font-weight: 600; color: var(--text);">Product Engineering</div>
+    </div>
   </div>
 
-  <!-- COMPANY VALUES -->
+  <!-- COMPANY VALUES & CULTURE -->
   <div class="section" style="padding-top: 2rem; padding-bottom: 2rem;">
     <div class="text-center mb-4">
       <p class="tagline">Our Culture</p>
@@ -84,36 +91,36 @@
     </div>
 
     <div class="grid-4" style="margin-top:2.5rem;">
-      <div class="card" style="padding: 1.5rem;">
-        <div class="card-icon" style="margin-bottom: 1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <div class="card card-blue">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
         </div>
-        <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Customer Success</h3>
-        <p style="font-size: 0.88rem; line-height: 1.6;">We lead our customers to better outcomes and win when they win.</p>
+        <h3>Customer Success</h3>
+        <p>We lead our customers to better outcomes and win when they win.</p>
       </div>
 
-      <div class="card" style="padding: 1.5rem;">
-        <div class="card-icon" style="margin-bottom: 1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <div class="card card-rose">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </div>
-        <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Care &amp; Compassion</h3>
-        <p style="font-size: 0.88rem; line-height: 1.6;">Empathy, care, and consideration are at the heart of our supportive culture.</p>
+        <h3>Care &amp; Compassion</h3>
+        <p>Empathy, care, and consideration are at the heart of our supportive culture.</p>
       </div>
 
-      <div class="card" style="padding: 1.5rem;">
-        <div class="card-icon" style="margin-bottom: 1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <div class="card card-purple">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
         </div>
-        <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Founder’s Mindset</h3>
-        <p style="font-size: 0.88rem; line-height: 1.6;">We drive ownership, accountability, and long-term value creation.</p>
+        <h3>Founder’s Mindset</h3>
+        <p>We drive ownership, accountability, and long-term value creation.</p>
       </div>
 
-      <div class="card" style="padding: 1.5rem;">
-        <div class="card-icon" style="margin-bottom: 1rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <div class="card card-amber">
+        <div class="card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Excellence &amp; Innovation</h3>
-        <p style="font-size: 0.88rem; line-height: 1.6;">We reinforce excellence and high-quality work in everything we do.</p>
+        <h3>Excellence &amp; Innovation</h3>
+        <p>We reinforce excellence and high-quality work in everything we do.</p>
       </div>
     </div>
   </div>
@@ -124,7 +131,7 @@
       <div class="text-center mb-4">
         <p class="tagline">Join Our Team</p>
         <h2 class="section-title">Roles &amp; Openings</h2>
-        <p class="section-sub">Explore our open positions and recently filled roles.</p>
+        <p class="section-sub">Explore our open positions and recently filled roles across our engineering pillars.</p>
       </div>
 
       <div style="max-width:900px; margin:2.5rem auto 0;">
@@ -136,6 +143,7 @@
               <div class="job-meta-row">
                 <span>Mumbai, India (On-site)</span>
                 <span>• Full-time</span>
+                <span>• Pillar: Product Engineering</span>
                 <span>• Client: Leading BFSI Company</span>
               </div>
               <div class="job-dates">Posted: Mar 10, 2026 &nbsp;•&nbsp; Closed: Apr 18, 2026</div>
@@ -159,13 +167,14 @@
               <div class="job-meta-row">
                 <span>Mumbai, India (Hybrid)</span>
                 <span>• Full-time</span>
+                <span>• Pillar: AI Development &amp; Deployment</span>
               </div>
               <div class="job-dates">Posted: Feb 20, 2026 &nbsp;•&nbsp; Closed: Mar 28, 2026</div>
             </div>
             <span class="badge-closed">Closed</span>
           </div>
           <p style="color:var(--text-muted); font-size:.95rem; margin-top:.75rem;">
-            This is a full-time remote role for a Senior Machine Learning Engineer focusing on ML algorithm development, neural networks, and statistical analysis.
+            This is a full-time hybrid role for a Senior Machine Learning Engineer focusing on ML algorithm development, neural networks, and statistical analysis.
           </p>
           <div style="margin-top:1.25rem; font-weight:600; font-size:.9rem; color:var(--primary); display:flex; align-items:center; gap:0.25rem;">
             View Details &amp; Qualifications
@@ -181,6 +190,7 @@
               <div class="job-meta-row">
                 <span>Remote</span>
                 <span>• Contract</span>
+                <span>• Pillar: Data Platform &amp; Intelligence / AI</span>
                 <span>• Client: Leading Crypto Company</span>
               </div>
               <div class="job-dates">Posted: Mar 01, 2026 &nbsp;•&nbsp; Closed: Apr 12, 2026</div>
@@ -203,12 +213,18 @@
   <div class="section" style="padding-top: 0; padding-bottom: 2rem;">
     <div class="cta-section text-center" style="margin-top: 1rem; margin-bottom: 1rem; background:var(--cta-bg); border:1px solid var(--border); padding:3.5rem 2rem; border-radius:var(--radius-xl);">
       <h2 style="font-size:2rem; font-weight:800; margin-bottom:1rem;">Don't See an Open Role That Fits?</h2>
-      <p style="color:var(--text-muted); max-width:600px; margin:0 auto 2rem; font-size:1.05rem;">
-        We are always looking for exceptional talent in Machine Learning, Data Engineering, Agentic AI, and Full-Stack Development.
+      <p style="color:var(--text-muted); max-width:640px; margin:0 auto 2rem; font-size:1.05rem;">
+        We are always looking for exceptional talent across our three core pillars: <strong>Data Platform &amp; Intelligence</strong>, <strong>AI Development &amp; Deployment</strong>, and <strong>Product Engineering</strong>.
       </p>
       <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-        <a href="mailto:contact@infinyty.tech" class="btn-primary">Send Your CV</a>
-        <a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" class="btn-secondary">Connect on LinkedIn</a>
+        <a href="mailto:careers@infinyty.tech" class="btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:0.35rem;"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          Send Your CV to careers@infinyty.tech
+        </a>
+        <a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:0.35rem;"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          Connect on LinkedIn
+        </a>
       </div>
     </div>
   </div>
@@ -220,20 +236,18 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="/" class="nav-logo" style="margin-bottom:0.75rem;">
-          <img src="/assets/infinyty-lockup-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height:28px;">
-          <img src="/assets/infinyty-lockup-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height:28px;">
+          <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height:28px;">
+          <img src="/assets/infinyty-logo-horizontal-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height:28px;">
         </a>
-        <p>Driving Excellence with Data &amp; AI. Formerly Infinity Analytics Consulting.</p>
+        <p>Driving Excellence in Data Platform &amp; Intelligence, AI Development &amp; Deployment, and Product Engineering.</p>
       </div>
-      <div class="footer-col">
+            <div class="footer-col">
         <h4>Solutions</h4>
         <ul>
-          <li><a href="/services#agentic-ai">Agentic AI &amp; Gen AI</a></li>
-          <li><a href="/services#agentic-ai">Predictive Analytics</a></li>
-          <li><a href="/services#data-engineering">Data Engineering</a></li>
-          <li><a href="/services#software-development">Software Development</a></li>
-          <li><a href="/services#cloud-devops">Cloud &amp; DevOps</a></li>
-          <li><a href="/services#ui-ux">UI/UX Design</a></li>
+          <li><a href="/services#pillar-data">Data Platform &amp; Intelligence</a></li>
+          <li><a href="/services#pillar-ai">AI Development &amp; Deployment</a></li>
+          <li><a href="/services#pillar-engineering">Product Engineering</a></li>
+          <li><a href="/services#engagement-models">Engagement Models</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -250,6 +264,7 @@
         <h4>Contact Us</h4>
         <ul>
           <li><a href="mailto:contact@infinyty.tech">contact@infinyty.tech</a></li>
+          <li><a href="mailto:careers@infinyty.tech">careers@infinyty.tech</a></li>
           <li><a href="tel:+919930420065">+91 99304 20065</a></li>
           <li><a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
         </ul>
@@ -272,6 +287,6 @@
   </div>
 </footer>
 
-<script src="/main.js?v=7.0"></script>
+<script src="/main.js?v=44.0"></script>
 </body>
 </html>

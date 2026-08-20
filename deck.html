@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark-theme">
+<html lang="en" class="light-theme">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,11 +15,14 @@
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
     (function(){
-      var t = localStorage.getItem('deck-theme') || 'dark';
-      if (t === 'light') {
+      var t = localStorage.getItem('deck-theme') || 'light';
+      if (t === 'dark') {
+        document.documentElement.classList.remove('light-theme');
+        document.documentElement.classList.add('dark-theme');
+      } else {
         document.documentElement.classList.remove('dark-theme');
         document.documentElement.classList.add('light-theme');
       }
@@ -454,12 +457,12 @@
     .slide-sub { font-size: clamp(0.95rem,1.6vw,1.2rem); color: var(--muted); line-height: 1.7; max-width: 680px; margin: 0 auto; }
     .slide-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1100px; }
     
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; max-width: 980px; margin-top: 2rem; position: relative; z-index: 1; }
-    .stat-card { background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 18px; padding: 2.2rem 1.6rem; min-height: 180px; backdrop-filter: blur(12px); box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-    .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: clamp(3rem, 4.8vw, 3.8rem); font-weight: 800; color: var(--primary); line-height: 1; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
-    .stat-label { font-size: 0.88rem; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.35; }
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; max-width: 980px; margin-top: 2rem; position: relative; z-index: 1; align-items: stretch; }
+    .stat-card { background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 18px; padding: 2.2rem 1.6rem; min-height: 180px; backdrop-filter: blur(12px); box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; }
+    .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: clamp(3rem, 4.8vw, 3.8rem); font-weight: 800; color: var(--primary); line-height: 1; margin-bottom: 0.75rem; letter-spacing: -0.02em; height: 1.15em; display: flex; align-items: center; justify-content: center; }
+    .stat-label { font-size: 0.88rem; color: var(--muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.35; min-height: 2.7em; display: flex; align-items: flex-start; justify-content: center; text-align: center; }
     
-    /* ── SLIDE: THE THREE STRATEGIC PILLARS ── */
+    /* ── SLIDE: THE THREE STRATEGIC PILLARS & 3D FLIP ── */
     .deck-pillars-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -471,53 +474,123 @@
       z-index: 1;
       align-items: stretch;
     }
+    .deck-flip-card {
+      min-height: 335px;
+      height: 335px;
+      cursor: pointer;
+      border-radius: 18px;
+      user-select: none;
+      -webkit-user-select: none;
+      box-shadow: var(--shadow);
+      /* No transforms here — perspective container must NEVER be transformed */
+      transition: box-shadow 0.25s ease;
+    }
+    .deck-flip-card:hover {
+      box-shadow: 0 14px 40px rgba(0, 114, 244, 0.18);
+    }
+    .light-theme .deck-flip-card:hover {
+      box-shadow: 0 10px 30px rgba(0, 114, 244, 0.12);
+    }
+    .deck-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      /* Perspective lives HERE on the flipping element's parent — not on an outer wrapper that might get transformed */
+      perspective: 1200px;
+      perspective-origin: 50% 50%;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .deck-flip-card.is-flipped .deck-flip-inner {
+      transform: rotateY(180deg);
+    }
     .pillar-card {
       background: var(--card-bg-opacity);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 1.65rem 1.45rem;
+      padding: 1.55rem 1.45rem;
       text-align: left;
-      backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
+      box-shadow: none;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: border-color 0.25s ease;
     }
-    .pillar-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(0, 114, 244, 0.45);
-      box-shadow: 0 14px 40px rgba(0, 114, 244, 0.16);
+    .deck-flip-front {
+      z-index: 2;
+      pointer-events: auto;
+    }
+    .deck-flip-back {
+      transform: rotateY(180deg);
+      background: #0d1f3c;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .deck-flip-card.is-flipped .deck-flip-front {
+      pointer-events: none;
+      z-index: 1;
+    }
+    .deck-flip-card.is-flipped .deck-flip-back {
+      pointer-events: auto;
+      z-index: 2;
     }
     .light-theme .pillar-card {
       background: #ffffff;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     }
-    .light-theme .pillar-card:hover {
+    .light-theme .deck-flip-back {
+      background: #f1f5f9;
+    }
+    .deck-flip-card:nth-child(1) .pillar-card {
+      border: 1px solid var(--border);
+      border-top: 3.5px solid #0072F4;
+    }
+    .deck-flip-card:nth-child(2) .pillar-card {
+      border: 1px solid var(--border);
+      border-top: 3.5px solid #10b981;
+    }
+    .deck-flip-card:nth-child(3) .pillar-card {
+      border: 1px solid var(--border);
+      border-top: 3.5px solid #8b5cf6;
+    }
+    .deck-flip-card:nth-child(1):hover .pillar-card {
+      border-color: rgba(0, 114, 244, 0.45);
+      border-top-color: #0072F4;
+    }
+    .deck-flip-card:nth-child(2):hover .pillar-card {
+      border-color: rgba(16, 185, 129, 0.45);
+      border-top-color: #10b981;
+    }
+    .deck-flip-card:nth-child(3):hover .pillar-card {
+      border-color: rgba(139, 92, 246, 0.45);
+      border-top-color: #8b5cf6;
+    }
+    .light-theme .deck-flip-card:nth-child(1):hover .pillar-card {
       border-color: #0072F4;
-      box-shadow: 0 10px 30px rgba(0, 114, 244, 0.1);
+      border-top-color: #0072F4;
     }
-    .pillar-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3.5px;
-      background: linear-gradient(90deg, #0072F4, #4FC8FF);
+    .light-theme .deck-flip-card:nth-child(2):hover .pillar-card {
+      border-color: #10b981;
+      border-top-color: #10b981;
     }
-    .pillar-card:nth-child(2)::before {
-      background: linear-gradient(90deg, #10b981, #34d399);
+    .light-theme .deck-flip-card:nth-child(3):hover .pillar-card {
+      border-color: #8b5cf6;
+      border-top-color: #8b5cf6;
     }
-    .pillar-card:nth-child(3)::before {
-      background: linear-gradient(90deg, #8b5cf6, #c084fc);
-    }
+
     .pillar-head {
       display: flex;
       flex-direction: column;
       gap: 0.65rem;
-      margin-bottom: 1.15rem;
-      padding-bottom: 1rem;
+      margin-bottom: 1.05rem;
+      padding-bottom: 0.85rem;
       border-bottom: 1px solid var(--border);
     }
     .pillar-badge-row {
@@ -537,23 +610,23 @@
       color: var(--accent);
       border: 1px solid rgba(79, 200, 255, 0.35);
     }
-    .pillar-card:nth-child(2) .pillar-pill {
+    .deck-flip-card:nth-child(2) .pillar-pill {
       background: rgba(16, 185, 129, 0.15);
       color: #10b981;
       border-color: rgba(16, 185, 129, 0.35);
     }
-    .pillar-card:nth-child(3) .pillar-pill {
+    .deck-flip-card:nth-child(3) .pillar-pill {
       background: rgba(139, 92, 246, 0.15);
       color: #a78bfa;
       border-color: rgba(139, 92, 246, 0.35);
     }
-    .light-theme .pillar-card:nth-child(1) .pillar-pill { background: #e0effe; color: var(--primary); border-color: #bae0fd; }
-    .light-theme .pillar-card:nth-child(2) .pillar-pill { background: #dcfce7; color: #16a34a; border-color: #86efac; }
-    .light-theme .pillar-card:nth-child(3) .pillar-pill { background: #f3e8ff; color: #7c3aed; border-color: #ddd6fe; }
+    .light-theme .deck-flip-card:nth-child(1) .pillar-pill { background: #e0effe; color: var(--primary); border-color: #bae0fd; }
+    .light-theme .deck-flip-card:nth-child(2) .pillar-pill { background: #dcfce7; color: #16a34a; border-color: #86efac; }
+    .light-theme .deck-flip-card:nth-child(3) .pillar-pill { background: #f3e8ff; color: #7c3aed; border-color: #ddd6fe; }
 
     .pillar-icon-box {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -561,21 +634,21 @@
       background: rgba(0, 114, 244, 0.14);
       color: var(--accent);
     }
-    .pillar-card:nth-child(2) .pillar-icon-box {
+    .deck-flip-card:nth-child(2) .pillar-icon-box {
       background: rgba(16, 185, 129, 0.14);
       color: #10b981;
     }
-    .pillar-card:nth-child(3) .pillar-icon-box {
+    .deck-flip-card:nth-child(3) .pillar-icon-box {
       background: rgba(139, 92, 246, 0.14);
       color: #a78bfa;
     }
-    .light-theme .pillar-card:nth-child(1) .pillar-icon-box { background: #f0f7ff; color: var(--primary); }
-    .light-theme .pillar-card:nth-child(2) .pillar-icon-box { background: #f0fdf4; color: #16a34a; }
-    .light-theme .pillar-card:nth-child(3) .pillar-icon-box { background: #faf5ff; color: #7c3aed; }
+    .light-theme .deck-flip-card:nth-child(1) .pillar-icon-box { background: #f0f7ff; color: var(--primary); }
+    .light-theme .deck-flip-card:nth-child(2) .pillar-icon-box { background: #f0fdf4; color: #16a34a; }
+    .light-theme .deck-flip-card:nth-child(3) .pillar-icon-box { background: #faf5ff; color: #7c3aed; }
 
     .pillar-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
       color: var(--text);
       line-height: 1.25;
@@ -585,47 +658,92 @@
     .pillar-items-list {
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 0.95rem;
       flex: 1;
-      justify-content: space-between;
-    }
-    .pillar-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.18rem;
+      justify-content: center;
     }
     .pillar-item-head {
       display: flex;
       align-items: center;
-      gap: 0.55rem;
+      gap: 0.6rem;
     }
     .pillar-item-dot {
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--accent);
       flex-shrink: 0;
     }
-    .pillar-card:nth-child(2) .pillar-item-dot { background: #10b981; }
-    .pillar-card:nth-child(3) .pillar-item-dot { background: #a78bfa; }
-    .light-theme .pillar-card:nth-child(1) .pillar-item-dot { background: var(--primary); }
-    .light-theme .pillar-card:nth-child(2) .pillar-item-dot { background: #16a34a; }
-    .light-theme .pillar-card:nth-child(3) .pillar-item-dot { background: #7c3aed; }
+    .deck-flip-card:nth-child(1) .pillar-item-dot { background: var(--accent); }
+    .deck-flip-card:nth-child(2) .pillar-item-dot { background: #10b981; }
+    .deck-flip-card:nth-child(3) .pillar-item-dot { background: #a78bfa; }
+    .light-theme .deck-flip-card:nth-child(1) .pillar-item-dot { background: var(--primary); }
+    .light-theme .deck-flip-card:nth-child(2) .pillar-item-dot { background: #16a34a; }
+    .light-theme .deck-flip-card:nth-child(3) .pillar-item-dot { background: #7c3aed; }
 
     .pillar-item-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.92rem;
+      font-size: 0.94rem;
       font-weight: 700;
       color: var(--text);
-      line-height: 1.3;
+      line-height: 1.35;
     }
-    .pillar-item-desc {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.8rem;
-      color: var(--muted);
-      line-height: 1.4;
-      margin: 0;
-      padding-left: 0.95rem;
+    .pillar-flip-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin: 0.9rem auto 0;
+      padding: 0.28rem 0.8rem;
+      border-radius: 99px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(0, 114, 244, 0.1);
+      border: 1px solid rgba(0, 114, 244, 0.25);
+      color: #38bdf8;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      width: fit-content;
+    }
+    .deck-flip-card:nth-child(2) .pillar-flip-btn {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.25);
+      color: #34d399;
+    }
+    .deck-flip-card:nth-child(3) .pillar-flip-btn {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.25);
+      color: #c084fc;
+    }
+
+    .light-theme .deck-flip-card:nth-child(1) .pillar-flip-btn {
+      background: rgba(0, 114, 244, 0.08);
+      border-color: rgba(0, 114, 244, 0.25);
+      color: #0072F4;
+    }
+    .light-theme .deck-flip-card:nth-child(2) .pillar-flip-btn {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.25);
+      color: #16a34a;
+    }
+    .light-theme .deck-flip-card:nth-child(3) .pillar-flip-btn {
+      background: rgba(139, 92, 246, 0.08);
+      border-color: rgba(139, 92, 246, 0.25);
+      color: #7c3aed;
+    }
+
+    .deck-flip-card:hover .pillar-flip-btn {
+      transform: scale(1.05);
+      box-shadow: 0 4px 14px rgba(0, 114, 244, 0.18);
+    }
+    .deck-flip-card:nth-child(2):hover .pillar-flip-btn {
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.18);
+    }
+    .deck-flip-card:nth-child(3):hover .pillar-flip-btn {
+      box-shadow: 0 4px 14px rgba(139, 92, 246, 0.18);
     }
 
     /* ── SLIDE: FLEXIBLE ENGAGEMENT MODELS ── */
@@ -1359,61 +1477,178 @@
     .hero-eyebrow-line { width: 40px; height: 2px; background: var(--grad); border-radius: 2px; }
     .slide-h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem,6vw,5.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.25rem; }
 
-    /* ── SLIDE 1: COVER HERO ENHANCEMENT ── */
+    /* ── SLIDE 1: COVER HERO ENHANCEMENT (OPTION 1B: CONNECTED TRIAD NEXUS) ── */
+    .cover-neural-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.75;
+      transition: opacity 0.3s ease;
+    }
+    .light-theme .cover-neural-canvas {
+      opacity: 0.35;
+    }
+
     .cover-brand-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.6rem;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.6rem;
     }
-    .cover-brand-badge {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: rgba(0, 114, 244, 0.14);
-      border: 1px solid rgba(79, 200, 255, 0.35);
-      padding: 0.35rem 1.1rem;
-      border-radius: 99px;
-    }
-    .light-theme .cover-brand-badge {
-      background: #f0f7ff;
-      border-color: #bae0fd;
-      color: var(--primary);
-    }
-    .cover-pillars-row {
+
+    /* 3-Pillar Connected Triad Nexus Container */
+    .triad-nexus-container {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      margin-top: 1.85rem;
-      flex-wrap: wrap;
+      gap: 0;
+      margin-top: 2rem;
+      max-width: 960px;
+      width: 100%;
+      position: relative;
     }
-    .cover-pillar-pill {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.84rem;
-      font-weight: 700;
-      padding: 0.4rem 1.1rem;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      color: var(--text);
-      backdrop-filter: blur(8px);
-      transition: all 0.2s ease;
+    .triad-node {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: rgba(13, 22, 38, 0.85);
+      border: 1px solid rgba(0, 114, 244, 0.35);
+      border-radius: 14px;
+      padding: 0.85rem 1.35rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 114, 244, 0.12);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
     }
-    .light-theme .cover-pillar-pill {
+    .light-theme .triad-node {
       background: #ffffff;
-      border-color: rgba(0, 114, 244, 0.16);
-      color: #1e293b;
-      box-shadow: 0 2px 8px rgba(0, 114, 244, 0.06);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 20px rgba(0, 114, 244, 0.08);
     }
-    .cover-pillar-sep {
+    .triad-node:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: #0072F4;
+      box-shadow: 0 12px 36px rgba(0, 114, 244, 0.28);
+    }
+    .triad-node.node-data:hover {
+      border-color: #10b981;
+      box-shadow: 0 12px 36px rgba(16, 185, 129, 0.28);
+    }
+    .triad-node.node-eng:hover {
+      border-color: #8b5cf6;
+      box-shadow: 0 12px 36px rgba(139, 92, 246, 0.28);
+    }
+
+    .triad-icon-orb {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .triad-icon-orb.orb-blue {
+      background: rgba(0, 114, 244, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(0, 114, 244, 0.4);
+      box-shadow: 0 0 12px rgba(0, 114, 244, 0.3);
+    }
+    .triad-icon-orb.orb-emerald {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+    }
+    .triad-icon-orb.orb-purple {
+      background: rgba(139, 92, 246, 0.18);
+      color: #c084fc;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+    }
+
+    .light-theme .triad-icon-orb.orb-blue { background: #f0f7ff; color: #0072F4; border-color: #bae0fd; }
+    .light-theme .triad-icon-orb.orb-emerald { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+    .light-theme .triad-icon-orb.orb-purple { background: #faf5ff; color: #7c3aed; border-color: #e9d5ff; }
+
+    .triad-node-info {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .triad-node-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .triad-node-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
       color: var(--muted);
-      opacity: 0.5;
-      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+      margin-top: 3px;
+    }
+
+    /* Animated connecting data bus line */
+    .triad-connector {
+      flex: 1;
+      height: 2px;
+      position: relative;
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.5), rgba(0, 114, 244, 0.5));
+      min-width: 30px;
+      max-width: 55px;
+    }
+    .triad-connector:nth-of-type(2) {
+      background: linear-gradient(90deg, rgba(0, 114, 244, 0.5), rgba(139, 92, 246, 0.5));
+    }
+    .light-theme .triad-connector {
+      background: #cbd5e1;
+    }
+    .triad-connector::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      width: 8px;
+      height: 6px;
+      border-radius: 99px;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      animation: dataPulse 2.2s infinite linear;
+    }
+    .triad-connector:nth-of-type(2)::after {
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+      animation-delay: 1.1s;
+    }
+    @keyframes dataPulse {
+      0% { left: 0%; opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { left: 100%; opacity: 0; }
+    }
+
+    @media (max-width: 800px) {
+      .triad-nexus-container {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .triad-connector {
+        display: none;
+      }
+      .triad-node {
+        width: 100%;
+        max-width: 320px;
+      }
     }
     /* ── SLIDE 2: THE AI ENTERPRISE HAS ARRIVED (COHESIVE 2-COLUMN ROWS) ── */
     .deck-stats-rows {
@@ -2121,8 +2356,57 @@
     
     .logo-astroyogi { filter: none; }
     
-    .logo-interviewer { filter: brightness(1.2); }
-    .light-theme .logo-interviewer { filter: none; }
+    .logo-creditacceptance.logo-dark { display: block; }
+    .logo-creditacceptance.logo-light { display: none; }
+    .light-theme .logo-creditacceptance.logo-dark { display: none; }
+    .light-theme .logo-creditacceptance.logo-light { display: block; }
+
+    .logo-lt.logo-dark { display: block; }
+    .logo-lt.logo-light { display: none; }
+    .light-theme .logo-lt.logo-dark { display: none; }
+    .light-theme .logo-lt.logo-light { display: block; }
+
+    .logo-interviewer.logo-dark { display: block; }
+    .logo-interviewer.logo-light { display: none; }
+    .light-theme .logo-interviewer.logo-dark { display: none; }
+    .light-theme .logo-interviewer.logo-light { display: block; }
+
+    /* ── SLIDE 6: ROLLING CLIENT MARQUEE ── */
+    .deck-clients-marquee-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.55rem 0;
+      width: 100%;
+      max-width: 1040px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    }
+    .deck-marquee-track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: deck-marquee-scroll 24s linear infinite;
+    }
+    .deck-marquee-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes deck-marquee-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .deck-marquee-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 2.5rem;
+      height: 44px;
+      min-width: 145px;
+      flex-shrink: 0;
+    }
 
     /* ── SLIDE 9: 5-STEP JOURNEY FLOW BAR ── */
     .deck-journey-flow-bar {
@@ -2308,6 +2592,14 @@
       pointer-events: none;
       background: #090e1a;
     }
+    .light-theme .demo-screen-video {
+      background: #f8fafc;
+    }
+    .demo-card-app-fit .demo-screen-video,
+    .demo-card-app-fit .demo-screen-img {
+      object-fit: contain !important;
+      object-position: center !important;
+    }
     .deck-demo-card-large:hover .demo-screen-img,
     .deck-demo-card-large:hover .demo-screen-video {
       transform: scale(1.03);
@@ -2406,30 +2698,35 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.45rem;
+      gap: 0.5rem;
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 0.5rem 1.1rem;
-      border-radius: 9px;
-      background: rgba(0, 114, 244, 0.14);
-      border: 1px solid rgba(0, 114, 244, 0.35);
-      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 0.58rem 1.35rem;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0072F4 0%, #005bc4 100%);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff !important;
       text-decoration: none;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0, 114, 244, 0.45), 0 1px 3px rgba(0, 0, 0, 0.2);
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .light-theme .demo-launch-action-btn {
-      background: #f0f7ff;
-      border-color: #bae0fd;
-      color: var(--primary);
+      background: linear-gradient(135deg, #0072F4 0%, #0056cc 100%);
+      border-color: #0072F4;
+      color: #ffffff !important;
+      box-shadow: 0 4px 16px rgba(0, 114, 244, 0.35);
     }
     .demo-launch-action-btn:hover {
-      background: #0072F4;
-      color: #ffffff;
-      border-color: #0072F4;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 114, 244, 0.35);
+      background: linear-gradient(135deg, #0056cc 0%, #003d99 100%);
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 24px rgba(0, 114, 244, 0.65), 0 0 16px rgba(56, 189, 248, 0.4);
     }
     .demo-explore-hint {
       font-size: 0.70rem;
@@ -3376,13 +3673,55 @@
       .demo-launch-row {
         margin-top: 0.85rem !important;
         padding-top: 0.75rem !important;
-}
+      }
       .demo-launch-action-btn {
         width: 100% !important;
         justify-content: center !important;
         padding: 0.45rem 1rem !important;
         font-size: 0.82rem !important;
       }
+    }
+
+    /* Slide 2 Animated AI Accent & Gradient Text */
+    @keyframes aiShimmerGlow {
+      0% {
+        background-position: 0% 50%;
+        filter: drop-shadow(0 0 6px rgba(0, 114, 244, 0.4));
+      }
+      50% {
+        background-position: 100% 50%;
+        filter: drop-shadow(0 0 14px rgba(0, 210, 255, 0.8)) drop-shadow(0 0 22px rgba(168, 85, 247, 0.45));
+      }
+      100% {
+        background-position: 0% 50%;
+        filter: drop-shadow(0 0 6px rgba(0, 114, 244, 0.4));
+      }
+    }
+
+    .ai-highlight-animated {
+      background: linear-gradient(135deg, #0072F4 0%, #00d4ff 35%, #a855f7 70%, #0072F4 100%);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: aiShimmerGlow 4s ease-in-out infinite;
+      display: inline-block;
+      font-weight: 900;
+      position: relative;
+      letter-spacing: -0.02em;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .gradient-text-animated {
+      background: linear-gradient(135deg, #0072F4 0%, #00d2ff 35%, #7928CA 70%, #0072F4 100%);
+      background-size: 250% 250%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientFlow 4.5s ease-in-out infinite;
     }
   </style>
 </head>
@@ -3465,88 +3804,82 @@
 
 <!-- SLIDE 1: COVER -->
 <div class="slide slide-1 active" data-index="0">
+  <canvas id="cover-neural-canvas" class="cover-neural-canvas"></canvas>
   <div class="glow glow-blue" style="width:550px;height:550px;top:-120px;right:-100px;"></div>
   <div class="glow glow-cyan" style="width:400px;height:400px;bottom:-100px;left:-80px;opacity:0.22;"></div>
-  <div class="slide-content">
+  <div class="slide-content" style="position: relative; z-index: 2;">
     <div class="cover-brand-wrap" style="margin-bottom: 1.85rem;">
-      <img src="assets/infinyty-lockup-dark.png" alt="Infinyty" class="deck-cover-logo logo-dark" style="height: 38px; width: auto; object-fit: contain;">
-      <img src="assets/infinyty-lockup-light.png" alt="Infinyty" class="deck-cover-logo logo-light" style="height: 38px; width: auto; object-fit: contain;">
+      <img src="assets/infinyty-lockup-dark.png" alt="Infinyty" class="deck-cover-logo logo-dark" style="height: 40px; width: auto; object-fit: contain;">
+      <img src="assets/infinyty-lockup-light.png" alt="Infinyty" class="deck-cover-logo logo-light" style="height: 40px; width: auto; object-fit: contain;">
     </div>
     
-    <h1 class="slide-h1" style="margin-bottom:0.9rem;">Build. Automate.<br><span class="gradient-text">Scale with AI.</span></h1>
-    <p class="slide-sub" style="max-width:740px; font-size:clamp(1.05rem,1.7vw,1.25rem); line-height:1.65;">AI-powered systems, data platforms, and products built for real-world business impact.</p>
+    <h1 class="slide-h1" style="margin-bottom:0.9rem;">Build. Automate.<br><span class="gradient-text">Scale with Data and AI.</span></h1>
+    <p class="slide-sub" style="max-width:820px; font-size:clamp(1.02rem,1.6vw,1.18rem); line-height:1.65;">Engineering trusted data into intelligent products, autonomous workflows, and measurable business outcomes &mdash; driving revenue, productivity, efficiency, and growth.</p>
     
-    <!-- 3 Core Pillars -->
-    <div class="cover-pillars-row">
-      <div class="cover-pillar-pill">AI &amp; Automation</div>
-      <span class="cover-pillar-sep">&bull;</span>
-      <div class="cover-pillar-pill">Data &amp; Intelligence</div>
-      <span class="cover-pillar-sep">&bull;</span>
-      <div class="cover-pillar-pill">Product Engineering</div>
-    </div>
+    <!-- 3-Pillar Connected Triad Nexus (Option 1B - Clean) -->
+    <div class="triad-nexus-container" style="margin-top: 2rem;">
+      <div class="triad-node node-data">
+        <div class="triad-icon-orb orb-emerald">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+        </div>
+        <span class="triad-node-title">Data Platform &amp; Intelligence</span>
+      </div>
 
-    <div style="margin-top:2.25rem; display:flex; align-items:center; justify-content:center; gap:0.75rem; font-size:0.8rem; color:var(--muted);">
-      <span>Formerly</span>
-      <div style="background:#ffffff; padding:0.25rem 0.6rem; border-radius:6px; display:inline-flex; align-items:center; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
-        <img src="assets/iac-logo.png" alt="Infinity Analytics Consulting Logo" style="height:18px; width:auto; display:block;">
+      <div class="triad-connector"></div>
+
+      <div class="triad-node node-ai">
+        <div class="triad-icon-orb orb-blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        </div>
+        <span class="triad-node-title">AI &amp; Automation</span>
+      </div>
+
+      <div class="triad-connector"></div>
+
+      <div class="triad-node node-eng">
+        <div class="triad-icon-orb orb-purple">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+        </div>
+        <span class="triad-node-title">Product Engineering</span>
       </div>
     </div>
     
-    <p style="margin-top:1.25rem;font-size:0.78rem;color:var(--muted);letter-spacing:0.05em;">infinyty.tech &nbsp;&middot;&nbsp; contact@infinyty.tech</p>
+    <!-- Contact Info Row with Icons -->
+    <div class="deck-cover-contact-row" style="margin-top:2.25rem; display:flex; align-items:center; justify-content:center; gap:1.85rem; flex-wrap:wrap;">
+      <a href="mailto:contact@infinyty.tech" style="display:inline-flex; align-items:center; gap:0.45rem; color:var(--text); font-size:0.88rem; font-family:'Space Grotesk', sans-serif; font-weight:600; text-decoration:none; opacity:0.9; transition:opacity 0.2s, color 0.2s;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0072F4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <span>contact@infinyty.tech</span>
+      </a>
+      <a href="tel:+919930420065" style="display:inline-flex; align-items:center; gap:0.45rem; color:var(--text); font-size:0.88rem; font-family:'Space Grotesk', sans-serif; font-weight:600; text-decoration:none; opacity:0.9; transition:opacity 0.2s, color 0.2s;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0072F4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>+91 99304 20065</span>
+      </a>
+      <a href="https://infinyty.tech" target="_blank" style="display:inline-flex; align-items:center; gap:0.45rem; color:var(--text); font-size:0.88rem; font-family:'Space Grotesk', sans-serif; font-weight:600; text-decoration:none; opacity:0.9; transition:opacity 0.2s, color 0.2s;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0072F4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        <span>infinyty.tech</span>
+      </a>
+    </div>
   </div>
 </div>
 
 <!-- SLIDE 2: THE AI ENTERPRISE HAS ARRIVED -->
 <div class="slide slide-2" data-index="1">
-  <div class="glow glow-blue" style="width:480px;height:480px;top:-60px;right:-60px;opacity:0.22;"></div>
-  <div class="glow glow-cyan" style="width:350px;height:350px;bottom:-60px;left:-60px;opacity:0.18;"></div>
-  <div class="slide-content" style="max-width:1120px;">
-    <div class="badge" style="margin-bottom:0.35rem;">The Shift</div>
-    <h2 class="slide-h2" style="font-size:clamp(1.75rem, 2.8vw, 2.35rem); margin-bottom:0.25rem; line-height:1.2;">Every enterprise is becoming an AI enterprise.<br><span class="gradient-text">The advantage will go to those who move first.</span></h2>
-    <p class="slide-sub" style="font-size:0.92rem; max-width:680px; margin-bottom:1.5rem;">AI is reshaping how companies generate revenue, improve efficiency, and compete.</p>
+  <div class="glow glow-blue" style="width:580px;height:580px;top:-80px;right:-80px;opacity:0.25;"></div>
+  <div class="glow glow-cyan" style="width:450px;height:450px;bottom:-80px;left:-80px;opacity:0.2;"></div>
+  <div class="slide-content" style="max-width:1420px; text-align:center; padding: 2rem 1.5rem;">
+    <div class="badge" style="margin-bottom:1.85rem;">The Shift</div>
+    
+    <h2 class="slide-h2" style="font-size:clamp(1.95rem, 3.3vw, 3.15rem); font-weight:800; margin-bottom:0; line-height:1.32; letter-spacing:-0.03em;">
+      <span style="display:block; white-space:nowrap;">The <span class="ai-highlight-animated">AI</span> enterprise is no longer a future state.</span>
+      <span style="display:block; white-space:nowrap; margin-top:0.35rem;">It&rsquo;s a competitive shift happening now.</span>
+      <span class="gradient-text-animated" style="display:block; white-space:nowrap; margin-top:1.25rem;">The advantage will go to those who move first.</span>
+    </h2>
 
-    <!-- 3 Stat Cards (Larger blocks, Centered text, Big Bold numbers) -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; margin-bottom: 1.5rem;">
+    <div style="width:80px; height:3.5px; background:linear-gradient(90deg, var(--primary), var(--accent)); margin: 2.4rem auto 2rem; border-radius:99px; opacity:0.85;"></div>
 
-      <!-- Card 1: +52% -->
-      <div style="background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: 16px; padding: 2.2rem 1.6rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 4.5vw, 3.6rem); font-weight: 800; color: var(--primary); line-height: 1; letter-spacing: -0.02em;">+52%<sup style="font-size:0.45em; vertical-align:super; font-weight: 700;">*</sup></div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Revenue / Employee</div>
-        <div style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--muted); line-height: 1.55; max-width: 280px;">Higher revenue per employee when AI is embedded into core products.</div>
-      </div>
-
-      <!-- Card 2: 80% -->
-      <div style="background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: 16px; padding: 2.2rem 1.6rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 4.5vw, 3.6rem); font-weight: 800; color: var(--primary); line-height: 1; letter-spacing: -0.02em;">80%<sup style="font-size:0.45em; vertical-align:super; font-weight: 700;">#</sup></div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">of Profit Pools</div>
-        <div style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--muted); line-height: 1.55; max-width: 280px;">Expected to shift toward software, data, and AI by 2030.</div>
-      </div>
-
-      <!-- Card 3: ~40% -->
-      <div style="background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: 16px; padding: 2.2rem 1.6rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.8rem, 4.5vw, 3.6rem); font-weight: 800; color: var(--primary); line-height: 1; letter-spacing: -0.02em;">~40%<sup style="font-size:0.45em; vertical-align:super; font-weight: 700;">^</sup></div>
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Operational Efficiency</div>
-        <div style="font-family: 'Inter', sans-serif; font-size: 0.88rem; color: var(--muted); line-height: 1.55; max-width: 280px;">Potential efficiency gains across AI-enabled enterprise processes.</div>
-      </div>
-
-    </div>
-
-    <!-- Bottom Banner -->
-    <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1.8rem; display: flex; align-items: center; justify-content: center; text-align: center; max-width: 900px; margin: 0 auto;">
-      <div style="font-family:'Space Grotesk', sans-serif; font-size: clamp(0.92rem, 1.35vw, 1.12rem); font-weight: 700; letter-spacing: -0.01em; color: var(--text);">
-        The AI enterprise is no longer a future state. <span class="gradient-text">It's a competitive shift happening now.</span>
-      </div>
-    </div>
-
-    <!-- Sources Footnote (Smaller font size) -->
-    <div class="deck-sources-bar" style="display: flex; align-items: center; justify-content: center; gap: 0.65rem; margin-top: 0.75rem; font-size: 0.64rem; color: var(--muted); font-family: 'Inter', sans-serif; letter-spacing: 0.04em;">
-      <span style="font-weight: 700; text-transform: uppercase; opacity: 0.75;">DATA SOURCES:</span>
-      <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" style="color: var(--muted); text-decoration: underline; text-underline-offset: 2px;">* McKinsey &amp; Company</a>
-      <span style="opacity: 0.4;">·</span>
-      <a href="https://www.bain.com/about/media-center/press-releases/2026/nearly-half-of-industrial-automation-revenue-to-rely-on-ai-by-2030-bain--company-finds/" target="_blank" style="color: var(--muted); text-decoration: underline; text-underline-offset: 2px;"># Bain &amp; Company</a>
-      <span style="opacity: 0.4;">·</span>
-      <a href="https://www.bcg.com/publications/2023/how-to-scale-generative-ai-value" target="_blank" style="color: var(--muted); text-decoration: underline; text-underline-offset: 2px;">^ Boston Consulting Group</a>
-    </div>
+    <p style="font-family:'Space Grotesk', sans-serif; font-size:clamp(1.18rem, 1.8vw, 1.55rem); font-weight:700; color:var(--text); max-width:1050px; margin:0 auto; line-height:1.5; letter-spacing:-0.01em; white-space:nowrap;">
+      <span class="ai-highlight-animated">AI</span> is transforming how companies increase revenue, grow and compete.
+    </p>
   </div>
 </div>
 
@@ -3582,9 +3915,9 @@
               <div class="challenge-icon-badge badge-legacy">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/></svg>
               </div>
-              <span class="challenge-item-title">Siloed Data</span>
+              <span class="challenge-item-title">Siloed Scattered Data</span>
             </div>
-            <p class="challenge-item-desc">Scattered across systems</p>
+            <p class="challenge-item-desc">Poor AI returns</p>
           </div>
 
           <!-- Row 2 -->
@@ -3667,17 +4000,13 @@
   <div class="slide-content">
     <div class="badge">About Us</div>
     <h2 class="slide-h2">An Enterprise AI &amp;<br><span class="gradient-text">Engineering Partner</span></h2>
-    <p class="slide-sub">Infinyty builds AI systems, data platforms, and custom software that deliver measurable results.</p>
+    <p class="slide-sub">Infinyty builds data platforms, AI systems, and custom software that deliver measurable results.</p>
     
-    <div class="stats-row" style="margin-top:1.35rem; margin-bottom:1.1rem;">
-      <div class="stat-card"><div class="stat-num">16+</div><div class="stat-label">Years of Leadership Experience</div></div>
-      <div class="stat-card"><div class="stat-num">30+</div><div class="stat-label">Projects Delivered</div></div>
+    <div class="stats-row" style="margin-top:2.2rem; margin-bottom:1.5rem;">
+      <div class="stat-card"><div class="stat-num">18+</div><div class="stat-label">Years of Leadership Experience</div></div>
+      <div class="stat-card"><div class="stat-num">80+</div><div class="stat-label">Projects Delivered</div></div>
       <div class="stat-card"><div class="stat-num">8+</div><div class="stat-label">Industries Served</div></div>
     </div>
-    
-    <p class="highlight-line" style="margin-top:0.75rem; max-width:1040px; margin-left:auto; margin-right:auto; font-size:clamp(1.02rem, 1.45vw, 1.15rem); line-height:1.6; text-align:center;">
-      Founded in 2023 as <span style="white-space:nowrap; display:inline-flex; align-items:center; vertical-align:middle; margin:0 4px;"><span style="background:#ffffff; padding:0.15rem 0.45rem; border-radius:6px; display:inline-flex; align-items:center; box-shadow:0 1px 4px rgba(0,0,0,0.1); border:1px solid rgba(0,0,0,0.06); margin-right:4px;"><img src="assets/iac-logo.png" alt="IAC" style="height:15px; width:auto; display:block;"></span><strong>Infinity Analytics Consulting</strong></span>, <span style="white-space:nowrap; display:inline-flex; align-items:center; vertical-align:middle; margin:0 2px;"><img src="assets/infinyty-icon.png" alt="Infinyty" style="height:14px; width:auto; display:block; margin-right:4px;"><strong>Infinyty</strong></span> has evolved into a technology partner building AI products, data platforms, and production-grade systems for modern enterprises.
-    </p>
   </div>
 </div>
 
@@ -3715,7 +4044,7 @@
           </div>
         </div>
         <p class="team-bio-text">
-          16+ years building data and AI capabilities across leading tech companies.
+          18+ years building data and AI capabilities across leading tech companies.
         </p>
       </div>
 
@@ -3740,7 +4069,7 @@
           </div>
         </div>
         <p class="team-bio-text">
-          16+ years building technology products and engineering teams.
+          18+ years building technology products and engineering teams.
         </p>
       </div>
 
@@ -3776,10 +4105,10 @@
   <div class="slide-content" style="max-width: 1120px;">
     <div class="badge">Industries &amp; Clients</div>
     <h2 class="slide-h2">Serving <span class="gradient-text">Key Global Sectors</span></h2>
-    <p class="slide-sub">Delivering AI, data, and custom software solutions across diverse industries.</p>
+    <p class="slide-sub">Delivering data, AI, and custom software solutions across diverse industries.</p>
     
     <!-- Top: 4 - 4 Domains in each line -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.55rem 0.65rem; width: 100%; max-width: 880px; margin-top: 0.85rem; margin-bottom: 1.1rem;">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem 0.75rem; width: 100%; max-width: 960px; margin-top: 0.85rem; margin-bottom: 1.15rem;">
       <div class="industry-pill pill-fintech"><div class="dot-ind"></div>FinTech &amp; Banking</div>
       <div class="industry-pill pill-healthcare"><div class="dot-ind"></div>Healthcare &amp; Pharma</div>
       <div class="industry-pill pill-ecommerce"><div class="dot-ind"></div>E-Commerce &amp; Retail</div>
@@ -3790,49 +4119,209 @@
       <div class="industry-pill pill-cpg"><div class="dot-ind"></div>CPG &amp; FMCG</div>
     </div>
 
-    <!-- Bottom: Unified Company Block in 2 Lines -->
-    <div class="deck-clients-container" style="margin-top: 0.2rem; width: 100%; max-width: 840px;">
-      <h3 class="deck-clients-title" style="font-size: clamp(1.15rem, 1.8vw, 1.45rem); margin-bottom: 0.75rem;">Trusted by <span class="gradient-text">Innovators &amp; Market Leaders</span></h3>
+    <!-- Bottom: Rolling Client Marquee with Credit Acceptance and Astroyogi -->
+    <div class="deck-clients-container" style="margin-top: 0.35rem; width: 100%; max-width: 1040px;">
+      <h3 class="deck-clients-title" style="font-size: clamp(1.15rem, 1.8vw, 1.45rem); margin-bottom: 0.85rem;">Trusted by <span class="gradient-text">Innovators &amp; Market Leaders</span></h3>
       
-      <!-- Unified Single Container for all Logos -->
-      <div style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.15rem 1.6rem; width: 100%; display: flex; flex-direction: column; gap: 0.95rem; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-        
-        <!-- Line 1 (4 logos) -->
-        <div style="display: flex; align-items: center; justify-content: center; width: 100%; gap: 2rem; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; justify-content: center; height: 36px; min-width: 115px;">
-            <img src="assets/client-astroyogi.webp" alt="Astroyogi" class="logo-astroyogi" style="max-height: 26px; max-width: 120px; object-fit: contain;">
+      <!-- Rolling Marquee Box -->
+      <div class="deck-clients-marquee-box">
+        <div class="deck-marquee-track">
+          <!-- Item 1: Credit Acceptance -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-credit-acceptance-dark.png" alt="Credit Acceptance" class="logo-creditacceptance logo-dark" style="max-height: 32px; max-width: 145px; object-fit: contain;">
+            <img src="assets/client-credit-acceptance.png" alt="Credit Acceptance" class="logo-creditacceptance logo-light" style="max-height: 32px; max-width: 145px; object-fit: contain;">
           </div>
-          <div style="display: flex; align-items: center; justify-content: center; height: 36px; min-width: 115px;">
-            <img src="assets/client-ltfinance.svg" alt="L&T Finance" class="logo-lt" style="max-height: 28px; max-width: 120px; object-fit: contain;">
+          <!-- Item 2: L&T Finance (Bright Yellow in Dark Mode) -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-ltfinance-yellow.svg" alt="L&T Finance" class="logo-lt logo-dark" style="max-height: 32px; max-width: 135px; object-fit: contain;">
+            <img src="assets/client-ltfinance.svg" alt="L&T Finance" class="logo-lt logo-light" style="max-height: 32px; max-width: 135px; object-fit: contain;">
           </div>
-          <div style="display: flex; align-items: center; justify-content: center; height: 36px; min-width: 115px;">
-            <img src="assets/client-agrim.webp" alt="Agrim" class="logo-agrim" style="max-height: 26px; max-width: 120px; object-fit: contain;">
+          <!-- Item 3: Agrim -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-agrim.webp" alt="Agrim" class="logo-agrim" style="max-height: 30px; max-width: 130px; object-fit: contain;">
           </div>
-          <div style="display: flex; align-items: center; justify-content: center; height: 36px; min-width: 115px;">
-            <img src="assets/client-letzryd.png" alt="Letzryd" class="logo-letzryd" style="max-height: 26px; max-width: 120px; object-fit: contain;">
+          <!-- Item 4: Letzryd (Increased Size) -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-letzryd.png" alt="Letzryd" class="logo-letzryd" style="max-height: 38px; max-width: 150px; transform: scale(1.18); object-fit: contain;">
+          </div>
+          <!-- Item 5: Astroyogi -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-astroyogi.webp" alt="Astroyogi" class="logo-astroyogi" style="max-height: 30px; max-width: 135px; object-fit: contain;">
+          </div>
+          <!-- Item 6: Peopleverse (Increased Size) -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-peopleverse.avif" alt="Peopleverse" class="logo-peopleverse" style="max-height: 38px; max-width: 155px; transform: scale(1.22); object-fit: contain;">
+          </div>
+          <!-- Item 7: Tona Activewear -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-tona2.avif" alt="Tona Activewear" class="logo-tona" style="max-height: 30px; max-width: 135px; object-fit: contain;">
+          </div>
+          <!-- Item 8: Interviewer.ai (White in Dark Mode) -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-interviewer-dark.png" alt="Interviewer.ai" class="logo-interviewer logo-dark" style="max-height: 30px; max-width: 145px; object-fit: contain;">
+            <img src="assets/client-interviewer.png" alt="Interviewer.ai" class="logo-interviewer logo-light" style="max-height: 30px; max-width: 145px; object-fit: contain;">
+          </div>
+
+          <!-- REPEAT FOR SEAMLESS INFINITE LOOP -->
+          <div class="deck-marquee-item">
+            <img src="assets/client-credit-acceptance-dark.png" alt="Credit Acceptance" class="logo-creditacceptance logo-dark" style="max-height: 32px; max-width: 145px; object-fit: contain;">
+            <img src="assets/client-credit-acceptance.png" alt="Credit Acceptance" class="logo-creditacceptance logo-light" style="max-height: 32px; max-width: 145px; object-fit: contain;">
+          </div>
+          <div class="deck-marquee-item">
+            <img src="assets/client-ltfinance-yellow.svg" alt="L&T Finance" class="logo-lt logo-dark" style="max-height: 32px; max-width: 135px; object-fit: contain;">
+            <img src="assets/client-ltfinance.svg" alt="L&T Finance" class="logo-lt logo-light" style="max-height: 32px; max-width: 135px; object-fit: contain;">
+          </div>
+          <div class="deck-marquee-item">
+            <img src="assets/client-agrim.webp" alt="Agrim" class="logo-agrim" style="max-height: 30px; max-width: 130px; object-fit: contain;">
+          </div>
+          <div class="deck-marquee-item">
+            <img src="assets/client-letzryd.png" alt="Letzryd" class="logo-letzryd" style="max-height: 38px; max-width: 150px; transform: scale(1.18); object-fit: contain;">
+          </div>
+          <div class="deck-marquee-item">
+            <img src="assets/client-astroyogi.webp" alt="Astroyogi" class="logo-astroyogi" style="max-height: 30px; max-width: 135px; object-fit: contain;">
+          </div>
+          <div class="deck-marquee-item">
+            <img src="assets/client-peopleverse.avif" alt="Peopleverse" class="logo-peopleverse" style="max-height: 38px; max-width: 155px; transform: scale(1.22); object-fit: contain;">
+          </div>
+          <div class="deck-marquee-item">
+            <img src="assets/client-tona2.avif" alt="Tona Activewear" class="logo-tona" style="max-height: 30px; max-width: 135px; object-fit: contain;">
+          </div>
+          <div class="deck-marquee-item">
+            <img src="assets/client-interviewer-dark.png" alt="Interviewer.ai" class="logo-interviewer logo-dark" style="max-height: 30px; max-width: 145px; object-fit: contain;">
+            <img src="assets/client-interviewer.png" alt="Interviewer.ai" class="logo-interviewer logo-light" style="max-height: 30px; max-width: 145px; object-fit: contain;">
           </div>
         </div>
-
-        <!-- Line 2 (3 logos) -->
-        <div style="display: flex; align-items: center; justify-content: center; width: 100%; gap: 2.5rem; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; justify-content: center; height: 36px; min-width: 115px;">
-            <img src="assets/client-peopleverse.avif" alt="Peopleverse" class="logo-peopleverse" style="max-height: 26px; max-width: 120px; object-fit: contain;">
-          </div>
-          <div style="display: flex; align-items: center; justify-content: center; height: 36px; min-width: 115px;">
-            <img src="assets/client-tona2.avif" alt="Tona Activewear" class="logo-tona" style="max-height: 26px; max-width: 120px; object-fit: contain;">
-          </div>
-          <div style="display: flex; align-items: center; justify-content: center; height: 36px; min-width: 115px;">
-            <img src="assets/client-interviewer.png" alt="Interviewer.ai" class="logo-interviewer" style="max-height: 26px; max-width: 120px; object-fit: contain;">
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 7: WHY INFINYTY -->
+<!-- SLIDE 7: PROVEN RESULTS -->
 <div class="slide slide-7" data-index="6">
+  <div class="glow glow-blue" style="width:450px;height:450px;top:-80px;right:-80px;opacity:0.25;"></div>
+  <div class="slide-content" style="max-width: 1240px;">
+    <div class="badge" style="margin-bottom:0.25rem;">Proven Results</div>
+    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">Real Impact, <span class="gradient-text">Measurable Outcomes</span></h2>
+    <div class="case-grid">
+      <!-- 01: E-Commerce ROAS Optimization -->
+      <div class="case-card card-ecommerce">
+        <div>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">ROAS Optimization</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Connect customer journeys to ad spend for smarter allocation.</p>
+        </div>
+        <div class="case-metrics-grid">
+          <div class="case-stat-col">
+            <span class="case-stat-val">1.3&times;</span>
+            <span class="case-stat-lbl">ROAS</span>
+          </div>
+          <div class="case-stat-sep"></div>
+          <div class="case-stat-col">
+            <span class="case-stat-val accent-green">22%</span>
+            <span class="case-stat-lbl">Less Ad Waste</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02: Enterprise Intelligent BI Agent -->
+      <div class="case-card card-saas">
+        <div>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">Intelligent BI Assistant</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Unify business data for conversational insights and faster decisions.</p>
+        </div>
+        <div class="case-metrics-grid">
+          <div class="case-stat-col">
+            <span class="case-stat-val">85%</span>
+            <span class="case-stat-lbl">Less Manual Effort</span>
+          </div>
+          <div class="case-stat-sep"></div>
+          <div class="case-stat-col">
+            <span class="case-stat-val accent-green">+12%</span>
+            <span class="case-stat-lbl">Revenue Lift</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03: E-Commerce CRM Reactivation -->
+      <div class="case-card card-cpg">
+        <div>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">CRM Reactivation</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Use predictive targeting to reactivate dormant customers at scale.</p>
+        </div>
+        <div class="case-metrics-grid">
+          <div class="case-stat-col">
+            <span class="case-stat-val">11&times;</span>
+            <span class="case-stat-lbl">Purchase Lift</span>
+          </div>
+          <div class="case-stat-sep"></div>
+          <div class="case-stat-col">
+            <span class="case-stat-val">20K+</span>
+            <span class="case-stat-lbl">Users Activated</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04: Automotive Lead Scoring & Voice AI -->
+      <div class="case-card card-automotive">
+        <div>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">Lead Scoring &amp; Voice AI</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Predict and qualify leads with scoring and AI voice agents.</p>
+        </div>
+        <div class="case-metrics-grid">
+          <div class="case-stat-col">
+            <span class="case-stat-val">+18%</span>
+            <span class="case-stat-lbl">Revenue Lift</span>
+          </div>
+          <div class="case-stat-sep"></div>
+          <div class="case-stat-col">
+            <span class="case-stat-val accent-green">92%</span>
+            <span class="case-stat-lbl">Qualification</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05: HR Tech AI Evaluation -->
+      <div class="case-card card-hrtech">
+        <div>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">AI Candidate Evaluation</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Automate candidate assessment and scoring with instant results.</p>
+        </div>
+        <div class="case-metrics-grid">
+          <div class="case-stat-col">
+            <span class="case-stat-val">4h ➔ &lt;2m</span>
+            <span class="case-stat-lbl">Turnaround</span>
+          </div>
+          <div class="case-stat-sep"></div>
+          <div class="case-stat-col">
+            <span class="case-stat-val accent-green">100%</span>
+            <span class="case-stat-lbl">Automated Scoring</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06: Pharma Automated Regulatory Filing AI (Moved to Last) -->
+      <div class="case-card card-healthcare">
+        <div>
+          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">Regulatory Filing AI</h4>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Convert large volumes of trial data into regulatory-ready submissions.</p>
+        </div>
+        <div class="case-metrics-grid">
+          <div class="case-stat-col">
+            <span class="case-stat-val">16w ➔ 2w</span>
+            <span class="case-stat-lbl">Turnaround</span>
+          </div>
+          <div class="case-stat-sep"></div>
+          <div class="case-stat-col">
+            <span class="case-stat-val accent-green">95%</span>
+            <span class="case-stat-lbl">Automated</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: WHY INFINYTY -->
+<div class="slide slide-8" data-index="7">
   <div class="glow glow-blue" style="width:550px;height:550px;top:-100px;left:-100px;opacity:0.25;"></div>
   <div class="slide-content" style="max-width: 1160px;">
     <div class="badge" style="margin-bottom:0.35rem;">Why Us?</div>
@@ -3861,7 +4350,7 @@
           </div>
           <div class="matrix-cell-item">
             <div class="factor-item-wrap">
-              <div class="factor-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+              <div class="factor-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
               <span class="factor-name">Custom Built</span>
             </div>
           </div>
@@ -4024,130 +4513,6 @@
   </div>
 </div>
 
-<!-- SLIDE 8: PROVEN RESULTS -->
-<div class="slide slide-8" data-index="7">
-  <div class="glow glow-blue" style="width:450px;height:450px;top:-80px;right:-80px;opacity:0.25;"></div>
-  <div class="slide-content" style="max-width: 1240px;">
-    <div class="badge" style="margin-bottom:0.25rem;">Proven Results</div>
-    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">Real Impact, <span class="gradient-text">Measurable Outcomes</span></h2>
-    <div class="case-grid">
-      <!-- 01: Pharma Automated Regulatory Filing AI -->
-      <div class="case-card card-healthcare">
-        <div>
-          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">Regulatory Filing AI</h4>
-          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Convert large volumes of trial data into regulatory-ready submissions.</p>
-        </div>
-        <div class="case-metrics-grid">
-          <div class="case-stat-col">
-            <span class="case-stat-val">16w ➔ 2w</span>
-            <span class="case-stat-lbl">Turnaround</span>
-          </div>
-          <div class="case-stat-sep"></div>
-          <div class="case-stat-col">
-            <span class="case-stat-val accent-green">95%</span>
-            <span class="case-stat-lbl">Automated</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 02: Automotive Lead Scoring -->
-      <div class="case-card card-automotive">
-        <div>
-          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">Lead Scoring &amp; Voice AI</h4>
-          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Predict and qualify leads with scoring and AI voice agents.</p>
-        </div>
-        <div class="case-metrics-grid">
-          <div class="case-stat-col">
-            <span class="case-stat-val">+18%</span>
-            <span class="case-stat-lbl">Revenue Lift</span>
-          </div>
-          <div class="case-stat-sep"></div>
-          <div class="case-stat-col">
-            <span class="case-stat-val accent-green">92%</span>
-            <span class="case-stat-lbl">Qualification</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 03: HR Tech AI Evaluation -->
-      <div class="case-card card-hrtech">
-        <div>
-          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">AI Candidate Evaluation</h4>
-          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Automate candidate assessment and scoring with instant results.</p>
-        </div>
-        <div class="case-metrics-grid">
-          <div class="case-stat-col">
-            <span class="case-stat-val">4h ➔ &lt;2m</span>
-            <span class="case-stat-lbl">Turnaround</span>
-          </div>
-          <div class="case-stat-sep"></div>
-          <div class="case-stat-col">
-            <span class="case-stat-val accent-green">100%</span>
-            <span class="case-stat-lbl">Automated Scoring</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 04: E-Commerce ROAS Optimization -->
-      <div class="case-card card-ecommerce">
-        <div>
-          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">ROAS Optimization</h4>
-          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Connect customer journeys to ad spend for smarter allocation.</p>
-        </div>
-        <div class="case-metrics-grid">
-          <div class="case-stat-col">
-            <span class="case-stat-val">1.3&times;</span>
-            <span class="case-stat-lbl">ROAS</span>
-          </div>
-          <div class="case-stat-sep"></div>
-          <div class="case-stat-col">
-            <span class="case-stat-val accent-green">22%</span>
-            <span class="case-stat-lbl">Less Ad Waste</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 05: Enterprise Intelligent BI Agent -->
-      <div class="case-card card-saas">
-        <div>
-          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">Intelligent BI Assistant</h4>
-          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Unify business data for conversational insights and faster decisions.</p>
-        </div>
-        <div class="case-metrics-grid">
-          <div class="case-stat-col">
-            <span class="case-stat-val">85%</span>
-            <span class="case-stat-lbl">Less Manual Effort</span>
-          </div>
-          <div class="case-stat-sep"></div>
-          <div class="case-stat-col">
-            <span class="case-stat-val accent-green">+12%</span>
-            <span class="case-stat-lbl">Revenue Lift</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 06: E-Commerce CRM Reactivation -->
-      <div class="case-card card-cpg">
-        <div>
-          <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.3rem;">CRM Reactivation</h4>
-          <p style="font-family: 'Inter', sans-serif; font-size: 0.84rem; color: var(--muted); line-height: 1.45; margin: 0;">Use predictive targeting to reactivate dormant customers at scale.</p>
-        </div>
-        <div class="case-metrics-grid">
-          <div class="case-stat-col">
-            <span class="case-stat-val">11&times;</span>
-            <span class="case-stat-lbl">Purchase Lift</span>
-          </div>
-          <div class="case-stat-sep"></div>
-          <div class="case-stat-col">
-            <span class="case-stat-val">20K+</span>
-            <span class="case-stat-lbl">Users Activated</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- SLIDE 9: ENGAGEMENT MODELS -->
 <div class="slide slide-9" data-index="8">
   <div class="glow glow-purple" style="width:450px;height:450px;top:-100px;left:-100px;opacity:0.22;"></div>
@@ -4155,52 +4520,9 @@
   <div class="slide-content" style="max-width: 1220px;">
     <div class="badge">How We Work</div>
     <h2 class="slide-h2">Flexible <span class="gradient-text">Engagement Models</span></h2>
-    <p class="slide-sub" style="font-size:0.92rem; max-width:760px; margin-bottom:0.25rem;">
+    <p class="slide-sub" style="font-size:0.95rem; max-width:760px; margin-bottom:1.5rem;">
       From initial discovery to production and beyond &mdash; engage us where you need us most.
     </p>
-
-    <!-- 5-Step Journey Flow Bar -->
-    <div class="deck-journey-flow-bar">
-      <div class="journey-flow-step">
-        <div class="journey-flow-num">01</div>
-        <div class="journey-flow-info">
-          <span class="journey-flow-title">Discover</span>
-          <span class="journey-flow-sub">Client Priorities First</span>
-        </div>
-      </div>
-      <div class="journey-flow-arrow">&rarr;</div>
-      <div class="journey-flow-step">
-        <div class="journey-flow-num">02</div>
-        <div class="journey-flow-info">
-          <span class="journey-flow-title">Identify</span>
-          <span class="journey-flow-sub">AI &amp; Data Opportunities</span>
-        </div>
-      </div>
-      <div class="journey-flow-arrow">&rarr;</div>
-      <div class="journey-flow-step">
-        <div class="journey-flow-num">03</div>
-        <div class="journey-flow-info">
-          <span class="journey-flow-title">Design</span>
-          <span class="journey-flow-sub">Architecture &amp; Feasibility</span>
-        </div>
-      </div>
-      <div class="journey-flow-arrow">&rarr;</div>
-      <div class="journey-flow-step">
-        <div class="journey-flow-num">04</div>
-        <div class="journey-flow-info">
-          <span class="journey-flow-title">Build</span>
-          <span class="journey-flow-sub">Custom AI &amp; Systems</span>
-        </div>
-      </div>
-      <div class="journey-flow-arrow">&rarr;</div>
-      <div class="journey-flow-step">
-        <div class="journey-flow-num">05</div>
-        <div class="journey-flow-info">
-          <span class="journey-flow-title">Scale</span>
-          <span class="journey-flow-sub">Continuous Evolution</span>
-        </div>
-      </div>
-    </div>
 
     <div class="deck-engagement-grid">
 
@@ -4294,101 +4616,227 @@
     <div class="badge">Value Proposition</div>
     <h2 class="slide-h2">Three <span class="gradient-text">Strategic Pillars</span></h2>
     <p class="slide-sub" style="font-size:0.95rem; max-width:760px; margin-bottom:0.25rem;">
-      AI systems, data intelligence, and product engineering &mdash; from strategy to production.
+      Data intelligence, AI systems, and product engineering &mdash; from strategy to production.
     </p>
     
     <div class="deck-pillars-grid">
       
-      <!-- PILLAR 01: AI DEVELOPMENT & DEPLOYMENT -->
-      <div class="pillar-card">
-        <div class="pillar-head">
-          <div class="pillar-badge-row">
-            <span class="pillar-pill">Pillar 01</span>
-            <div class="pillar-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+      <!-- PILLAR 01: DATA PLATFORM & INTELLIGENCE -->
+      <div class="deck-flip-card" onclick="togglePillarCard(this)" tabindex="0" role="button" aria-label="Flip card for Data Platform examples">
+        <div class="deck-flip-inner">
+          
+          <!-- FRONT: CAPABILITIES -->
+          <div class="pillar-card deck-flip-front">
+            <div>
+              <div class="pillar-head">
+                <div class="pillar-badge-row">
+                  <span class="pillar-pill">Pillar 01</span>
+                  <div class="pillar-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                  </div>
+                </div>
+                <h3 class="pillar-title">Data Platform &amp; Intelligence</h3>
+              </div>
+              <div class="pillar-items-list" style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.95rem;">
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">AI-ready Data Foundations</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Analytics &amp; Smart Dashboarding</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Predictive ML &amp; Modeling</span>
+                </div>
+              </div>
+            </div>
+            <div class="pillar-flip-btn" onclick="event.stopPropagation(); togglePillarCard(this, true);">
+              <span>View Examples</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </div>
           </div>
-          <h3 class="pillar-title">AI Development &amp; Deployment</h3>
-        </div>
-        <div class="pillar-items-list" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">AI Agents &amp; Automation</span>
+
+          <!-- BACK: EXAMPLES -->
+          <div class="pillar-card deck-flip-back">
+            <div>
+              <div class="pillar-head">
+                <div class="pillar-badge-row">
+                  <span class="pillar-pill">Pillar 01 Examples</span>
+                  <div class="pillar-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                  </div>
+                </div>
+                <h3 class="pillar-title" style="font-size:1.05rem;">Data &amp; Intelligence in Action</h3>
+              </div>
+              <div class="pillar-items-list" style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.95rem;">
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Intelligent executive dashboards &amp; BI</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Churn prediction &amp; demand forecasting</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Structured data to unlock AI growth</span>
+                </div>
+              </div>
+            </div>
+            <div class="pillar-flip-btn" onclick="event.stopPropagation(); togglePillarCard(this, false);">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              <span>Back to Capabilities</span>
+            </div>
           </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">RAG &amp; Intelligent Applications</span>
-          </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">Enterprise Chatbots &amp; Voice AI</span>
-          </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">Custom Models &amp; SLMs</span>
-          </div>
+
         </div>
       </div>
 
-      <!-- PILLAR 02: DATA PLATFORM & INTELLIGENCE -->
-      <div class="pillar-card">
-        <div class="pillar-head">
-          <div class="pillar-badge-row">
-            <span class="pillar-pill">Pillar 02</span>
-            <div class="pillar-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      <!-- PILLAR 02: AI DEVELOPMENT & DEPLOYMENT -->
+      <div class="deck-flip-card" onclick="togglePillarCard(this)" tabindex="0" role="button" aria-label="Flip card for AI Development examples">
+        <div class="deck-flip-inner">
+          
+          <!-- FRONT: CAPABILITIES -->
+          <div class="pillar-card deck-flip-front">
+            <div>
+              <div class="pillar-head">
+                <div class="pillar-badge-row">
+                  <span class="pillar-pill">Pillar 02</span>
+                  <div class="pillar-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                  </div>
+                </div>
+                <h3 class="pillar-title">AI Development &amp; Deployment</h3>
+              </div>
+              <div class="pillar-items-list" style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.95rem;">
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">AI Agents, RAG &amp; Automation</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Custom Models &amp; SLMs</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Integration &amp; MLOps</span>
+                </div>
+              </div>
+            </div>
+            <div class="pillar-flip-btn" onclick="event.stopPropagation(); togglePillarCard(this, true);">
+              <span>View Examples</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </div>
           </div>
-          <h3 class="pillar-title">Data Platform &amp; Intelligence</h3>
-        </div>
-        <div class="pillar-items-list" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">Data Engineering &amp; Platforms</span>
+
+          <!-- BACK: EXAMPLES -->
+          <div class="pillar-card deck-flip-back">
+            <div>
+              <div class="pillar-head">
+                <div class="pillar-badge-row">
+                  <span class="pillar-pill">Pillar 02 Examples</span>
+                  <div class="pillar-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  </div>
+                </div>
+                <h3 class="pillar-title" style="font-size:1.05rem;">Real-World AI Applications</h3>
+              </div>
+              <div class="pillar-items-list" style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.95rem;">
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Internal knowledge &amp; support chatbots</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Automated workflows for approvals &amp; ops</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Measurable team productivity gains</span>
+                </div>
+              </div>
+            </div>
+            <div class="pillar-flip-btn" onclick="event.stopPropagation(); togglePillarCard(this, false);">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              <span>Back to Capabilities</span>
+            </div>
           </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">Analytics &amp; Growth Intelligence</span>
-          </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">BI &amp; Decision Intelligence</span>
-          </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">Predictive ML &amp; Forecasting</span>
-          </div>
+
         </div>
       </div>
 
       <!-- PILLAR 03: PRODUCT ENGINEERING -->
-      <div class="pillar-card">
-        <div class="pillar-head">
-          <div class="pillar-badge-row">
-            <span class="pillar-pill">Pillar 03</span>
-            <div class="pillar-icon-box">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      <div class="deck-flip-card" onclick="togglePillarCard(this)" tabindex="0" role="button" aria-label="Flip card for Product Engineering examples">
+        <div class="deck-flip-inner">
+          
+          <!-- FRONT: CAPABILITIES -->
+          <div class="pillar-card deck-flip-front">
+            <div>
+              <div class="pillar-head">
+                <div class="pillar-badge-row">
+                  <span class="pillar-pill">Pillar 03</span>
+                  <div class="pillar-icon-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                  </div>
+                </div>
+                <h3 class="pillar-title">Product Engineering</h3>
+              </div>
+              <div class="pillar-items-list" style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.95rem;">
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Cloud &amp; API Architecture</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Web &amp; Mobile Products</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.94rem; font-weight: 700; color: var(--text);">Legacy Modernization</span>
+                </div>
+              </div>
+            </div>
+            <div class="pillar-flip-btn" onclick="event.stopPropagation(); togglePillarCard(this, true);">
+              <span>View Examples</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </div>
           </div>
-          <h3 class="pillar-title">Product Engineering</h3>
-        </div>
-        <div class="pillar-items-list" style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">Cloud &amp; API Architecture</span>
+
+          <!-- BACK: EXAMPLES -->
+          <div class="pillar-card deck-flip-back">
+            <div>
+              <div class="pillar-head">
+                <div class="pillar-badge-row">
+                  <span class="pillar-pill">Pillar 03 Examples</span>
+                  <div class="pillar-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  </div>
+                </div>
+                <h3 class="pillar-title" style="font-size:1.05rem;">Engineering in Action</h3>
+              </div>
+              <div class="pillar-items-list" style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.95rem;">
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Revenue growth &amp; UX product upgrades</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Reduced ship-time &amp; faster iteration</span>
+                </div>
+                <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
+                  <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
+                  <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.92rem; font-weight: 600; color: var(--text);">Legacy modernization &amp; cloud architecture</span>
+                </div>
+              </div>
+            </div>
+            <div class="pillar-flip-btn" onclick="event.stopPropagation(); togglePillarCard(this, false);">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              <span>Back to Capabilities</span>
+            </div>
           </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">Web &amp; Mobile Products</span>
-          </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">Legacy Modernization</span>
-          </div>
-          <div class="pillar-item-head" style="display: flex; align-items: center; gap: 0.65rem;">
-            <div class="pillar-item-dot" style="width: 7px; height: 7px; border-radius: 50%; background: #a855f7; flex-shrink: 0;"></div>
-            <span class="pillar-item-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 0.96rem; font-weight: 700; color: var(--text);">DevOps &amp; Infrastructure</span>
-          </div>
+
         </div>
       </div>
 
@@ -4402,35 +4850,9 @@
   <div class="glow glow-cyan" style="width:300px;height:300px;bottom:-60px;right:-60px;opacity:0.15;"></div>
   <div class="slide-content">
     <div class="badge">Next Steps</div>
-    <div style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.2rem,2.2vw,1.65rem);font-weight:600;color:var(--muted);margin-bottom:0.35rem;margin-top:0.35rem;">Have a Technology, Data, or AI Challenge?</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.2rem,2.2vw,1.65rem);font-weight:600;color:var(--muted);margin-bottom:0.35rem;margin-top:0.35rem;">Have a Data, AI, or Technology Challenge?</div>
     <h2 class="slide-h2" style="font-size:clamp(1.85rem,3.7vw,3rem);margin-bottom:0.4rem;margin-top:0;"><span class="gradient-text">Let&rsquo;s turn it into a production-ready solution.</span></h2>
     
-    <!-- 3-Step Engagement Roadmap Diagram with Same Size & Color Progression -->
-    <div class="deck-roadmap-row">
-      <div class="roadmap-step step-1">
-        <div class="roadmap-num">01</div>
-        <div class="roadmap-content">
-          <h4>Discover</h4>
-          <p>Understand your goals, challenges, and opportunities.</p>
-        </div>
-      </div>
-      <div class="roadmap-arrow">➔</div>
-      <div class="roadmap-step step-2">
-        <div class="roadmap-num">02</div>
-        <div class="roadmap-content">
-          <h4>Plan</h4>
-          <p>Define the solution, architecture, scope, and path to production.</p>
-        </div>
-      </div>
-      <div class="roadmap-arrow">➔</div>
-      <div class="roadmap-step step-3">
-        <div class="roadmap-num">03</div>
-        <div class="roadmap-content">
-          <h4>Build &amp; Deploy</h4>
-          <p>Build, launch, and scale with measurable business impact.</p>
-        </div>
-      </div>
-    </div>
 
     <div class="cta-box" style="margin-top: 1.35rem; padding: 1.25rem 2.4rem; max-width: 980px;">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:0.6rem;color:var(--text);">Let&rsquo;s build what matters.</div>
@@ -4438,7 +4860,7 @@
         <div class="cta-contact-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:contact@infinyty.tech">contact@infinyty.tech</a></div>
         <div class="cta-contact-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.84a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.92z"/></svg><a href="tel:+919930420065">+91 99304 20065</a></div>
         <div class="cta-contact-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><a href="/" target="_blank">infinyty.tech</a></div>
-        <div class="cta-contact-item"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><a href="https://www.linkedin.com/company/infinyty-tech/" target="_blank">LinkedIn</a></div>
+        <div class="cta-contact-item"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank">LinkedIn</a></div>
       </div>
       <div style="margin-top: 1rem;">
         <a href="/contact#contact-form" class="btn-deck" target="_blank" style="margin-top:0;">
@@ -4455,15 +4877,15 @@
   <div class="glow glow-cyan" style="width:450px;height:450px;top:-80px;right:-80px;opacity:0.22;"></div>
   <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;left:-80px;opacity:0.2;"></div>
   <div class="slide-content" style="max-width: 1220px;">
-    <div class="badge" style="margin-bottom:0.25rem;">Live Working Prototypes</div>
+    <div class="badge" style="margin-bottom:0.25rem;">Live Working Demos</div>
     <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">See Our Work in <span class="gradient-text">Action</span></h2>
     <p class="slide-sub" style="font-size:0.92rem; max-width:760px; margin-bottom:0.25rem;">
-      Real-world AI, data, and software built for measurable impact.
+      Real-world data, AI, and software built for measurable impact.
     </p>
     
     <div class="deck-demos-showcase-grid">
       <!-- Demo 1: BI Bot -->
-      <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
+      <div class="deck-demo-card-large" style="background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
         <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
              data-demo-title="AI Analytics Bot &mdash; Full Demo"
              data-demo-badge="Analytics &amp; AI"
@@ -4486,7 +4908,7 @@
           <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
               <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">Analytics &amp; AI</span>
-              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Prototype</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Demo</span>
             </div>
             
             <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
@@ -4503,79 +4925,17 @@
               <span class="proto-cell">Natural Language SQL</span>
               <span class="proto-cell">Live Charts</span>
             </div>
-            <a href="demos/bi-assistant/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
-              Launch Prototype
+            <a href="demos/bi-assistant/index.html" target="_blank" class="demo-launch-action-btn">
+              Launch Demo
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
         </div>
       </div>
 
-      <!-- Demo 2: Fleet Operations Platform -->
-      <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
-        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
-             data-demo-title="Fleet Operations Platform &mdash; Full Demo"
-             data-demo-badge="Operations &amp; Automation"
-             data-demo-video-webm="assets/ops-portal-auto.webm"
-             data-demo-poster="assets/ops-portal-real.png"
-             data-demo-link="demos/operations-portal/index.html">
-          <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/ops-portal-real.png">
-            <source src="assets/ops-portal-auto.webm" type="video/webm">
-            <img src="assets/ops-portal-real.png" alt="Fleet Operations Platform" class="demo-screen-img">
-          </video>
-          <div class="demo-expand-hint">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
-            Click to Expand
-          </div>
-        </div>
-        
-        <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">Operations &amp; Automation</span>
-              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Prototype</span>
-            </div>
-            
-            <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
-              <span style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); font-weight: 800; color: #10b981; line-height: 1;">75%</span>
-              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Faster Check-ins</span>
-            </div>
-            
-            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0 0;">Fleet Operations Platform</h3>
-          </div>
-          
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.5rem;">
-            <div style="display: flex; flex-wrap: nowrap; gap: 0.35rem; align-items: center; overflow: hidden;">
-              <span class="proto-cell">20+ Workflows</span>
-              <span class="proto-cell">Photo Audits</span>
-              <span class="proto-cell">RBAC</span>
-            </div>
-            <a href="demos/operations-portal/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
-              Launch Prototype
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 13: DEMOS PART II (FLEET SETTLEMENT APP & ASSESSMENT GENERATOR) -->
-<div class="slide slide-13" data-index="12">
-  <div class="glow glow-purple" style="width:450px;height:450px;top:-80px;left:-80px;opacity:0.2;"></div>
-  <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;right:-80px;opacity:0.22;"></div>
-  <div class="slide-content" style="max-width: 1220px;">
-    <div class="badge" style="margin-bottom:0.25rem;">Live Working Prototypes</div>
-    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">See Our Work in <span class="gradient-text">Action</span></h2>
-    <p class="slide-sub" style="font-size:0.92rem; max-width:760px; margin-bottom:0.25rem;">
-      Real-world AI, data, and software built for measurable impact.
-    </p>
-    
-    <div class="deck-demos-showcase-grid">
-      <!-- Demo 3: Fleet Settlement App -->
-      <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
-        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
+      <!-- Demo 2: Fleet Settlement App -->
+      <div class="deck-demo-card-large" style="background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
+        <div class="demo-screen-container demo-card-app-fit" style="border-bottom: 1px solid var(--border);"
              data-demo-title="Fleet Settlement App &mdash; Full Demo"
              data-demo-badge="FinTech &amp; Mobility"
              data-demo-video-webm="assets/fleet-portal-auto.webm"
@@ -4595,7 +4955,7 @@
           <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
               <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">FinTech &amp; Mobility</span>
-              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Prototype</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Demo</span>
             </div>
             
             <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
@@ -4612,16 +4972,32 @@
               <span class="proto-cell">Weekly Hisaab</span>
               <span class="proto-cell">Live Ledger</span>
             </div>
-            <a href="demos/fleet-portal/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
-              Launch Prototype
+            <a href="demos/fleet-portal/index.html" target="_blank" class="demo-launch-action-btn">
+              Launch Demo
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
         </div>
       </div>
 
-      <!-- Demo 4: Assessment Generator -->
-      <div class="deck-demo-card-large" style="background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
+          </div>
+  </div>
+</div>
+
+<!-- SLIDE 13: DEMOS PART II (FLEET SETTLEMENT APP & ASSESSMENT GENERATOR) -->
+<div class="slide slide-13" data-index="12">
+  <div class="glow glow-purple" style="width:450px;height:450px;top:-80px;left:-80px;opacity:0.2;"></div>
+  <div class="glow glow-blue" style="width:400px;height:400px;bottom:-80px;right:-80px;opacity:0.22;"></div>
+  <div class="slide-content" style="max-width: 1220px;">
+    <div class="badge" style="margin-bottom:0.25rem;">Live Working Demos</div>
+    <h2 class="slide-h2" style="font-size:clamp(1.65rem, 2.6vw, 2.25rem); margin-bottom:0.15rem; line-height:1.2;">See Our Work in <span class="gradient-text">Action</span></h2>
+    <p class="slide-sub" style="font-size:0.92rem; max-width:760px; margin-bottom:0.25rem;">
+      Real-world data, AI, and software built for measurable impact.
+    </p>
+    
+    <div class="deck-demos-showcase-grid">
+      <!-- Demo 3: Assessment Generator -->
+      <div class="deck-demo-card-large" style="background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
         <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
              data-demo-title="Assessment Generator &mdash; Full Demo"
              data-demo-badge="HR Tech &amp; GenAI"
@@ -4644,7 +5020,7 @@
           <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
               <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">HR Tech &amp; GenAI</span>
-              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Prototype</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Demo</span>
             </div>
             
             <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
@@ -4661,13 +5037,63 @@
               <span class="proto-cell">Instant Scoring</span>
               <span class="proto-cell">Cloud Deployed</span>
             </div>
-            <a href="demos/assessment-generator/index.html" target="_blank" class="demo-launch-action-btn" style="padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; white-space: nowrap;">
-              Launch Prototype
+            <a href="demos/assessment-generator/index.html" target="_blank" class="demo-launch-action-btn">
+              Launch Demo
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
           </div>
         </div>
       </div>
+
+      <!-- Demo 4: Fleet Operations Platform -->
+      <div class="deck-demo-card-large" style="background: var(--card-bg-opacity); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;">
+        <div class="demo-screen-container" style="border-bottom: 1px solid var(--border);"
+             data-demo-title="Fleet Operations Platform &mdash; Full Demo"
+             data-demo-badge="Operations &amp; Automation"
+             data-demo-video-webm="assets/ops-portal-auto.webm"
+             data-demo-poster="assets/ops-portal-real.png"
+             data-demo-link="demos/operations-portal/index.html">
+          <video class="demo-screen-video" autoplay loop muted playsinline poster="assets/ops-portal-real.png">
+            <source src="assets/ops-portal-auto.webm" type="video/webm">
+            <img src="assets/ops-portal-real.png" alt="Fleet Operations Platform" class="demo-screen-img">
+          </video>
+          <div class="demo-expand-hint">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+            Click to Expand
+          </div>
+        </div>
+        
+        <div class="demo-card-body" style="padding: 1.25rem 1.4rem; display: flex; flex-direction: column; justify-content: space-between; flex: 1; gap: 0.75rem;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">Operations &amp; Automation</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(37,99,235,0.08); border: 1px solid rgba(37,99,235,0.25); padding: 0.15rem 0.65rem; border-radius: 99px;">Interactive Demo</span>
+            </div>
+            
+            <div style="display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.2rem;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); font-weight: 800; color: #10b981; line-height: 1;">75%</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text);">Faster Check-ins</span>
+            </div>
+            
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 800; color: var(--text); margin: 0.25rem 0 0 0;">Fleet Operations Platform</h3>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid var(--border); width: 100%; gap: 0.5rem;">
+            <div style="display: flex; flex-wrap: nowrap; gap: 0.35rem; align-items: center; overflow: hidden;">
+              <span class="proto-cell">20+ Workflows</span>
+              <span class="proto-cell">Photo Audits</span>
+              <span class="proto-cell">RBAC</span>
+            </div>
+            <a href="demos/operations-portal/index.html" target="_blank" class="demo-launch-action-btn">
+              Launch Demo
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 </div>
@@ -4694,7 +5120,7 @@
     <div class="deck-lightbox-footer">
       <span class="deck-lightbox-hint">Press <kbd>ESC</kbd> or click outside to close</span>
       <a id="lightbox-launch-btn" href="#" target="_blank" class="demo-launch-action-btn" style="margin:0;">
-        Launch Interactive Prototype
+        Launch Interactive Demo
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
     </div>
@@ -4827,6 +5253,9 @@
     if (pushHistory) {
       syncUrl(current);
     }
+    if (current === 0 && window.resumeCoverNeural) {
+      window.resumeCoverNeural();
+    }
   }
 
   // Lightbox Modal Logic
@@ -4842,7 +5271,7 @@
 
   function openLightbox(container) {
     if (!lightbox) return;
-    const title = container.getAttribute('data-demo-title') || 'Interactive Prototype';
+    const title = container.getAttribute('data-demo-title') || 'Interactive Demo';
     const badge = container.getAttribute('data-demo-badge') || 'Prototype';
     const webm = container.getAttribute('data-demo-video-webm') || '';
     const mp4 = container.getAttribute('data-demo-video-mp4') || '';
@@ -4853,6 +5282,11 @@
     lightboxBadge.textContent = badge;
     lightboxLaunchBtn.href = link;
     lightboxVideo.poster = poster;
+
+    // Pause any background slide videos while lightbox is active
+    document.querySelectorAll('.demo-screen-video').forEach(v => {
+      try { v.pause(); } catch(e) {}
+    });
 
     // Reset video sources
     lightboxSourceWebm.src = webm;
@@ -4872,6 +5306,8 @@
     lightboxSourceMp4.src = '';
     lightbox.classList.remove('open');
     lightbox.setAttribute('aria-hidden', 'true');
+    // Resume slide video
+    syncVideos();
   }
 
   document.querySelectorAll('.demo-screen-container').forEach(container => {
@@ -4961,7 +5397,7 @@
       }
       return;
     }
-    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+    if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(e.target.tagName)) return;
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
     if (e.key === 'Home') goTo(0);
@@ -4984,6 +5420,7 @@
   document.addEventListener('touchend', e => { 
     if (!isDeckUnlocked()) return;
     if (lightbox && lightbox.classList.contains('open')) return;
+    if (e.target.closest('.matrix-deck-scroll-container, .why-matrix-container, table')) return;
     const dx = e.changedTouches[0].clientX - touchStartX; 
     const dy = e.changedTouches[0].clientY - touchStartY;
     if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) {
@@ -5007,6 +5444,18 @@
     });
   }
 
+  // Strategic Pillars 3D Card Flip Handler
+  window.togglePillarCard = function(el, forceState) {
+    const card = el.closest('.deck-flip-card') || el;
+    if (!card) return;
+    if (typeof forceState === 'boolean') {
+      if (forceState) card.classList.add('is-flipped');
+      else card.classList.remove('is-flipped');
+    } else {
+      card.classList.toggle('is-flipped');
+    }
+  };
+
   // Initialize from hash
   const initialSlide = getSlideFromHash();
   if (initialSlide !== null && initialSlide > 0) {
@@ -5028,6 +5477,123 @@
   }
   const initNumEl = document.getElementById('slide-num');
   if (initNumEl) initNumEl.textContent = (current + 1) + ' / ' + total;
+
+  // ── DYNAMIC NEURAL CONSTELLATION ENGINE FOR COVER SLIDE (OPTION 1A) ──
+  (function initCoverNeural() {
+    const canvas = document.getElementById('cover-neural-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    const PARTICLE_COUNT = 48;
+    const MAX_DISTANCE = 150;
+    let mouse = { x: null, y: null, radius: 160 };
+
+    function resize() {
+      width = canvas.width = canvas.offsetWidth || window.innerWidth;
+      height = canvas.height = canvas.offsetHeight || window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 2 + 1.2;
+        this.pulseSpeed = 0.02 + Math.random() * 0.025;
+        this.pulseVal = Math.random() * Math.PI * 2;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        // Subtle mouse push
+        if (mouse.x !== null && mouse.y !== null) {
+          const dx = this.x - mouse.x;
+          const dy = this.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < mouse.radius && dist > 0) {
+            const force = (mouse.radius - dist) / mouse.radius;
+            this.x += (dx / dist) * force * 1.5;
+            this.y += (dy / dist) * force * 1.5;
+          }
+        }
+
+        this.pulseVal += this.pulseSpeed;
+      }
+      draw(isDark) {
+        const alpha = 0.35 + Math.sin(this.pulseVal) * 0.3;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? `rgba(79, 200, 255, ${alpha})` : `rgba(0, 114, 244, ${alpha * 0.7})`;
+        ctx.shadowColor = isDark ? '#4FC8FF' : '#0072F4';
+        ctx.shadowBlur = isDark ? 8 : 4;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new Particle());
+    }
+
+    let animId = null;
+    function animate() {
+      if (current === 0) { // only compute when cover slide is active
+        ctx.clearRect(0, 0, width, height);
+        const isDark = !document.documentElement.classList.contains('light-theme');
+
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw(isDark);
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < MAX_DISTANCE) {
+              const lineAlpha = (1 - dist / MAX_DISTANCE) * (isDark ? 0.32 : 0.16);
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = isDark ? `rgba(56, 189, 248, ${lineAlpha})` : `rgba(0, 114, 244, ${lineAlpha})`;
+              ctx.lineWidth = 0.85;
+              ctx.stroke();
+            }
+          }
+        }
+        animId = requestAnimationFrame(animate);
+      } else {
+        animId = null;
+      }
+    }
+    animate();
+
+    window.resumeCoverNeural = function() {
+      if (!animId && current === 0) {
+        animate();
+      }
+    };
+  })();
+
+  window.goTo = goTo;
 </script>
 </body>
 </html>
