@@ -4382,6 +4382,20 @@ footer { background: var(--footer-bg); border-top: 1px solid var(--border); padd
   background: #090e1a;
 }
 
+.demo-card-app-fit,
+.demo-card-app-fit.demo-screen-container,
+.dark-theme .demo-card-app-fit.demo-screen-container,
+.light-theme .demo-card-app-fit.demo-screen-container,
+[data-theme="dark"] .demo-card-app-fit,
+.demo-card-app-fit .demo-screen-video,
+.dark-theme .demo-card-app-fit .demo-screen-video,
+.light-theme .demo-card-app-fit .demo-screen-video,
+.demo-card-app-fit .demo-screen-img {
+  background: #f0f4f8 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
 .demo-showcase-card:hover .demo-screen-video,
 .demo-screen-container:hover .demo-screen-video {
   transform: scale(1.03);
