@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment Generator &mdash; Infinyty</title>
+  <link rel="icon" type="image/png" href="/assets/favicon-32.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- PDF Generation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-elevated: #f1f5f9;
+      --bg-input: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-brand: #0072f4;
+      --accent-cyan: #0284c7;
+      --accent-glow: rgba(0, 114, 244, 0.08);
+      --border-subtle: #e2e8f0;
+      --border-bright: rgba(0, 114, 244, 0.25);
+      --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.07);
+      --success-brand: #10b981;
+      --warning-brand: #f59e0b;
+    }
+
+    [data-theme="dark"] {
+      --bg-base: #090d16;
+      --bg-surface: rgba(15, 23, 42, 0.85);
+      --bg-elevated: #1e293b;
+      --bg-input: rgba(15, 23, 42, 0.6);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-brand: #0072f4;
+      --accent-cyan: #00c6ff;
+      --accent-glow: rgba(0, 114, 244, 0.15);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-bright: rgba(0, 114, 244, 0.3);
+      --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 114, 244, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(0, 198, 255, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── TOP NAV HEADER ── */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    [data-theme="dark"] .top-nav {
+      background: rgba(9, 13, 22, 0.85);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 22px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .nav-logo .logo-dark { display: none; }
+    .nav-logo .logo-light { display: block; }
+    [data-theme="dark"] .nav-logo .logo-dark { display: block; }
+    [data-theme="dark"] .nav-logo .logo-light { display: none; }
+
+    .nav-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border-subtle);
+    }
+
+    .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(0, 114, 244, 0.1);
+      border: 1px solid rgba(0, 114, 244, 0.25);
+      color: #38bdf8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      letter-spacing: 0.02em;
+    }
+    [data-theme="light"] .app-badge {
+      color: var(--accent-brand);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      background: var(--bg-elevated);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success-brand);
+      box-shadow: 0 0 8px var(--success-brand);
+    }
+
+    .nav-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      border-radius: 8px;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-bright);
+    }
+
+    /* ── MAIN CONTENT CONTAINER ── */
+    .app-container {
+      max-width: 960px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1.25rem;
+      flex: 1;
+    }
+
+    .app-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      padding: 2.25rem;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .hero-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .hero-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .hero-header p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* ── FORM ELEMENTS ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .full-width {
+      grid-column: span 2;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input[type="text"], select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      color: var(--text-primary);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    input[type="text"]:focus, select:focus {
+      border-color: var(--accent-brand);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .dropdown-with-btn {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .dropdown-with-btn select {
+      flex: 1;
+    }
+
+    .preview-doc-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      border-radius: 10px;
+      padding: 0 1rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .preview-doc-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-brand);
+    }
+
+    /* Inline Culture Card Box */
+    #inline-cc-preview {
+      display: none;
+      margin-top: 0.75rem;
+      padding: 1rem;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* ── ACTION BUTTONS ── */
+    .primary-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-brand) 0%, var(--accent-cyan) 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(0, 114, 244, 0.35);
+      transition: all 0.2s;
+      margin-top: 1rem;
+    }
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(0, 114, 244, 0.5);
+    }
+    .primary-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .secondary-btn {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.85rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .secondary-btn:hover {
+      border-color: var(--border-bright);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* ── TERMINAL LOG STATE ── */
+    #loading-state {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 0;
+    }
+    .terminal-box {
+      background: #060911;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      text-align: left;
+      height: 180px;
+      overflow-y: auto;
+      margin-top: 1.5rem;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .terminal-line {
+      margin: 0.35rem 0;
+      opacity: 0;
+      animation: fadeIn 0.2s forwards;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .terminal-line::before {
+      content: '>';
+      color: var(--accent-brand);
+      font-weight: bold;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* ── ASSESSMENT SUITE STATE ── */
+    #assessment-state {
+      display: none;
+    }
+
+    .assessment-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem;
+      background: rgba(0, 114, 244, 0.08);
+      border: 1px solid rgba(0, 114, 244, 0.25);
+      border-radius: 12px;
+      margin-bottom: 1.75rem;
+    }
+    .assessment-meta h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    .assessment-meta p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .section-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .section-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-brand);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    [data-theme="light"] .section-card-title {
+      color: #0284c7;
+    }
+
+    .question-block {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .question-header {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.6rem 0.85rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .option-item:hover {
+      border-color: var(--accent-brand);
+      color: var(--text-primary);
+      background: var(--accent-glow);
+    }
+    .option-item input[type="radio"] {
+      margin-top: 0.15rem;
+      accent-color: var(--accent-brand);
+    }
+
+    textarea.scenario-textarea {
+      width: 100%;
+      min-height: 90px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-primary);
+      padding: 0.75rem;
+      font-family: inherit;
+      font-size: 0.88rem;
+      resize: vertical;
+      outline: none;
+      margin-top: 0.5rem;
+    }
+    textarea.scenario-textarea:focus {
+      border-color: var(--accent-brand);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    /* ── SUCCESS STATE ── */
+    #export-success-state, #exporting-loader {
+      display: none;
+      text-align: center;
+      padding: 3rem 1.5rem;
+    }
+    .success-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--success-brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin: 0 auto 1.25rem;
+    }
+
+    /* ── TOAST NOTIFICATION ── */
+    .toast-banner {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 1000;
+    }
+    .toast-banner.show { opacity: 1; transform: translateY(0); }
+    .toast-icon { color: var(--success-brand); font-weight: bold; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7); display: none;
+      justify-content: center; align-items: center; z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+    .modal-content {
+      background: var(--bg-surface); color: var(--text-primary);
+      width: 90%; max-width: 650px; max-height: 80vh; overflow-y: auto;
+      padding: 2rem; border-radius: 16px; border: 1px solid var(--border-subtle);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+      color: var(--text-secondary); width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .modal-close:hover { color: var(--text-primary); border-color: var(--border-bright); }
+
+    .doc-preview table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .doc-preview th, .doc-preview td {
+      border: 1px solid var(--border-subtle); padding: 0.75rem; font-size: 0.85rem; text-align: left;
+    }
+    .doc-preview th { background: var(--bg-elevated); color: var(--text-primary); }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .full-width { grid-column: span 1; }
+      .app-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <!-- TOP NAV HEADER -->
+  <header class="top-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-logo" title="Infinyty Home">
+        <img src="/assets/infinyty-lockup-dark.png" alt="Infinyty" class="logo-dark">
+        <img src="/assets/infinyty-lockup-light.png" alt="Infinyty" class="logo-light">
+      </a>
+      <div class="nav-divider"></div>
+      <div class="app-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        AI Assessment Generator
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span>AI Engine Ready</span>
+      </div>
+      <button class="nav-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <a href="/demos" class="nav-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Demos
+      </a>
+    </div>
+  </header>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-banner" id="toast-banner">
+    <span class="toast-icon">✓</span>
+    <span id="toast-text">Action completed</span>
+  </div>
+
+  <!-- PREVIEW MODAL -->
+  <div class="modal-overlay" id="preview-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div id="modal-body" class="doc-preview"></div>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-container">
+    <div class="app-card">
+      
+      <!-- 1. FORM STATE -->
+      <div id="form-state">
+        <div class="hero-header">
+          <h1>AI Candidate Assessment Generator</h1>
+          <p>Instantly generate role-specific evaluation questionnaires, behavioral rubrics, and automated grading matrices from Job Descriptions.</p>
+        </div>
+        
+        <form id="demo-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Company Name</label>
+              <input type="text" value="Infinyty" required>
+            </div>
+            <div class="form-group">
+              <label>HR Contact Email</label>
+              <input type="text" value="contact@infinyty.tech" required>
+            </div>
+            <div class="form-group">
+              <label>Industry / Domain</label>
+              <input type="text" value="Data Science &amp; AI Engineering" required>
+            </div>
+            <div class="form-group">
+              <label>Position Level</label>
+              <select>
+                <option>Entry-Level</option>
+                <option>Mid-Level</option>
+                <option selected>Senior-Level</option>
+                <option>Principal / Lead</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
+              <label>Job Description Template</label>
+              <div class="dropdown-with-btn">
+                <select id="jd-select" required>
+                  <option value="" disabled>Select a Sample JD Template...</option>
+                  <option value="software" selected>Software &amp; AI Engineer Role</option>
+                  <option value="marketing">Growth &amp; Technical Marketing Manager</option>
+                </select>
+                <button type="button" class="preview-doc-btn" onclick="previewDocument('jd')">
+                  👁 View JD
+                </button>
+              </div>
+            </div>
+            <div class="form-group full-width">
+              <label>Culture Values Matrix</label>
+              <div class="dropdown-with-btn">
+                <select id="cc-select" required onchange="showInlineCultureCard()">
+                  <option value="" disabled>Select a Culture Matrix...</option>
+                  <option value="technical" selected>Technical &amp; Execution Values Matrix</option>
+                  <option value="leadership">Leadership &amp; Strategic Vision Matrix</option>
+                </select>
+                <button type="button" class="preview-doc-btn" onclick="previewDocument('cc')">
+                  👁 View Matrix
+                </button>
+              </div>
+              <div id="inline-cc-preview" class="doc-preview"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="primary-btn" id="generate-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Generate Candidate Assessment
+          </button>
+        </form>
+      </div>
+
+      <!-- 2. LOADING STATE (TERMINAL TRACE) -->
+      <div id="loading-state">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">⚙️</div>
+        <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">Synthesizing Assessment Matrix...</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Cross-referencing technical requirements with culture fit benchmarks</p>
+        <div class="terminal-box" id="terminal"></div>
+      </div>
+
+      <!-- 3. ASSESSMENT STATE -->
+      <div id="assessment-state">
+        <div class="assessment-banner">
+          <div class="assessment-meta">
+            <h3>Candidate Assessment Ready</h3>
+            <p>33 Evaluation Items Generated &middot; Structured for Automated Scoring</p>
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="nav-btn" onclick="copyShareLink()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              Share Link
+            </button>
+          </div>
+        </div>
+
+        <div id="pdf-wrapper">
+          <div id="assessment-content"></div>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; margin-top: 2rem;">
+          <button class="secondary-btn" onclick="resetDemo()" style="flex: 1;">
+            ← Back to Configuration
+          </button>
+          <button class="primary-btn" onclick="exportAssessment()" style="flex: 2; margin-top: 0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export to PDF / HR Portal
+          </button>
+        </div>
+      </div>
+      
+      <!-- EXPORTING LOADER -->
+      <div id="exporting-loader">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">📄</div>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">Compiling PDF Document...</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Packaging high-resolution assessment report</p>
+      </div>
+
+      <!-- 4. EXPORT SUCCESS STATE -->
+      <div id="export-success-state">
+        <div class="success-icon-wrap">✓</div>
+        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">Assessment Exported Successfully!</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; max-width: 500px; margin: 0 auto 1.75rem; line-height: 1.5;">
+          The structured candidate questionnaire has been downloaded as a PDF and dispatched to the designated HR review pipeline.
+        </p>
+        <button class="primary-btn" onclick="resetDemo()" style="width: auto; margin: 0 auto; padding: 0.75rem 2rem;">
+          Generate Another Assessment
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    let toastTimeout;
+
+    const docData = {
+      'jd_software': `<h3 style="color:var(--accent-brand); margin-top: 0;">Software Engineer – Job Description</h3><p style="margin: 0.5rem 0 1rem; color:var(--text-secondary); line-height:1.5;">Infinyty is looking for a Software Engineer who is passionate about building scalable, reliable, and high-quality software systems.</p><strong>Key Responsibilities</strong><ul style="color:var(--text-secondary); font-size:14px; margin: 0.5rem 0 1rem 1.25rem; line-height:1.6;"><li>Design, develop, and maintain backend and frontend components</li><li>Write clean, efficient, and well-documented code</li><li>Collaborate with cross-functional teams including product and analytics</li><li>Participate in code reviews and technical discussions</li></ul><strong>Required Skills</strong><ul style="color:var(--text-secondary); font-size:14px; margin: 0.5rem 0 0 1.25rem; line-height:1.6;"><li>Strong proficiency in Python, TypeScript, and REST APIs</li><li>Experience with databases and data processing pipelines</li><li>Understanding of modern distributed architecture</li></ul>`,
+      'jd_marketing': `<h3 style="color:var(--accent-brand); margin-top: 0;">Marketing Specialist – Job Description</h3><p style="margin: 0.5rem 0 1rem; color:var(--text-secondary); line-height:1.5;">Infinyty is looking for a data-driven Marketing Specialist to manage multi-channel campaigns and brand growth.</p><strong>Key Responsibilities</strong><ul style="color:var(--text-secondary); font-size:14px; margin: 0.5rem 0 1rem 1.25rem; line-height:1.6;"><li>Develop and execute B2B marketing strategies and digital campaigns</li><li>Analyze campaign performance metrics to optimize ROI</li><li>Manage social media presence and content creation pipelines</li></ul><strong>Required Skills</strong><ul style="color:var(--text-secondary); font-size:14px; margin: 0.5rem 0 0 1.25rem; line-height:1.6;"><li>Proficiency in SEO, SEM, and CRM analytics tools</li><li>Strong copywriting and stakeholder communication abilities</li><li>Experience with analytics platforms (Google Analytics, BigQuery)</li></ul>`,
+      'cc_technical': `<h3 style="color:var(--accent-brand); margin-top: 0; font-size: 15px;">Technical Values Matrix</h3><table><tr><th>Category</th><th>Core Evaluation Metrics</th></tr><tr><td>Technical Values</td><td>Problem Solving, Data-Driven Decision Making, Quality, Reliability</td></tr><tr><td>Execution</td><td>Agility, Continuous Delivery, Code Ownership, Test Coverage</td></tr></table>`,
+      'cc_leadership': `<h3 style="color:var(--accent-brand); margin-top: 0; font-size: 15px;">Leadership Values Matrix</h3><table><tr><th>Category</th><th>Core Evaluation Metrics</th></tr><tr><td>Leadership Values</td><td>Integrity, Transparency, Collaboration, Mentorship</td></tr><tr><td>Management</td><td>Strategic Vision, Stakeholder Alignment, Conflict Resolution</td></tr></table>`
+    };
+
+    // 60-Question Bank
+    const questionBank = {
+      software: {
+        sec1: [
+          { q: "If an algorithm scales at O(n^2), what happens to processing time if the data size doubles?", opts: ["Processing time remains constant", "Processing time doubles", "Processing time quadruples", "Processing time increases logarithmically"] },
+          { q: "Which software design pattern restricts object creation to a single instance?", opts: ["Factory Pattern", "Observer Pattern", "Decorator Pattern", "Singleton Pattern"] },
+          { q: "In binary logic, what is the result of 1 XOR 1?", opts: ["0", "1", "2", "-1"] },
+          { q: "If a system experiences 99.9% uptime, roughly how much downtime is permitted per year?", opts: ["~52 minutes", "~8.7 hours", "~43 minutes", "~8 days"] },
+          { q: "A queue data structure strictly follows which primary principle?", opts: ["LIFO (Last In, First Out)", "FIFO (First In, First Out)", "FILO (First In, Last Out)", "Random Access"] },
+          { q: "What is the worst-case time complexity of binary search on a sorted array?", opts: ["O(1)", "O(n)", "O(log n)", "O(n^2)"] },
+          { q: "Which of the following is a primary characteristic of a microservices architecture?", opts: ["A single monolithic database", "Independent deployability of services", "Tight coupling between modules", "Shared memory space"] },
+          { q: "In Git, what command saves your local changes temporarily without committing them?", opts: ["git save", "git commit --amend", "git stash", "git push"] },
+          { q: "If statement A implies B, and B implies C, which logical conclusion is strictly true?", opts: ["C implies A", "B implies A", "A implies C", "Not enough information"] },
+          { q: "What is the primary purpose of a hash map data structure?", opts: ["Sorting data sequentially", "Providing O(1) average lookup time", "Creating linked lists", "Graph traversal"] }
+        ],
+        sec2: [
+          { q: "Which HTTP status code explicitly indicates that a requested resource was not found?", opts: ["200 OK", "403 Forbidden", "404 Not Found", "500 Internal Server Error"] },
+          { q: "In Python, what is the core difference between a list and a tuple?", opts: ["Lists are immutable, tuples are mutable", "Tuples are immutable, lists are mutable", "Both are immutable", "Tuples can only store string values"] },
+          { q: "Which standard SQL command is used to retrieve data from a relational database?", opts: ["GET", "FETCH", "SELECT", "PULL"] },
+          { q: "What does REST stand for in web API architecture?", opts: ["Remote Execution Server Transport", "Representational State Transfer", "Real-time Event System Technology", "Relational Entity Storage Transmission"] },
+          { q: "What is the primary performance benefit of database indexing?", opts: ["It automatically encrypts data", "It reduces overall storage space", "It speeds up data retrieval operations", "It prevents SQL injection attacks"] },
+          { q: "Which of the following is NOT a standard HTTP method?", opts: ["GET", "POST", "FETCH", "DELETE"] },
+          { q: "In object-oriented programming, what concept allows objects of different classes to be treated as objects of a common superclass?", opts: ["Encapsulation", "Polymorphism", "Abstraction", "Instantiation"] },
+          { q: "Which AWS service is primarily used for scalable, object-level cloud storage?", opts: ["Amazon EC2", "Amazon RDS", "Amazon S3", "AWS Lambda"] },
+          { q: "What is the main purpose of a foreign key in a relational database?", opts: ["To encrypt a specific table", "To establish a link between data in two tables", "To automatically generate unique IDs", "To speed up write operations"] },
+          { q: "Which mechanism handles automatic memory management in Python?", opts: ["Manual allocation (malloc)", "Garbage Collection", "Pointer arithmetic", "Developer intervention"] }
+        ],
+        sec3: [
+          { q: "When you fundamentally disagree with a senior developer on a software architecture choice, what is the best approach?", opts: ["Implement it your way anyway", "Discuss the disagreement using data-backed points and trade-off analysis", "Ignore the disagreement and stay silent", "Escalate immediately to HR"] },
+          { q: "How should you handle discovering a major bug in your code exactly one hour before a production release?", opts: ["Deploy it and hope no one notices", "Delay the release and immediately alert stakeholders with a remediation plan", "Blame the QA team for missing it", "Try to rewrite the entire module in an hour"] },
+          { q: "Why is code documentation considered a critical core value in high-performing technical teams?", opts: ["It makes developers look busy", "It enables knowledge sharing, onboarding, and scaling", "It is legally required by all software licenses", "It replaces the need for writing clean code"] },
+          { q: "If a peer consistently misses sprint deadlines and it impacts your work, how should you address it?", opts: ["Do their work for them secretly", "Report them to the engineering manager immediately", "Check in privately to understand their blockers and offer collaborative help", "Publicly call them out in the daily standup"] },
+          { q: "What is the most effective way to respond to critical feedback during a peer code review?", opts: ["Take it as a personal attack", "Argue every single point to prove you are right", "Evaluate the feedback objectively, ask clarifying questions, and iterate", "Refuse to make any requested changes"] },
+          { q: "How do you balance writing 'perfect' code versus meeting tight product delivery deadlines?", opts: ["Always miss the deadline to ensure the code is flawless", "Ship broken code just to meet the deadline", "Ship a functional MVP while explicitly documenting technical debt for future refactoring", "Quit the project entirely"] },
+          { q: "What role does continuous learning play in a modern engineering culture?", opts: ["It is a waste of productive coding time", "It keeps skills sharp in an rapidly evolving technological landscape", "It is only necessary for junior developers", "It is strictly a requirement for management roles"] },
+          { q: "How should an engineering team handle dangerous 'knowledge silos' regarding legacy systems?", opts: ["Fire the person hoarding the knowledge", "Actively encourage cross-training, pair programming, and documentation", "Keep them isolated so they can focus", "Hire more people to figure it out blindly"] },
+          { q: "What is the primary goal of holding a blameless post-mortem after a critical system outage?", opts: ["To find out exactly who to fire", "To identify underlying system failures and create guardrails to prevent recurrence", "To make the on-call engineer feel bad", "To save cloud infrastructure costs"] },
+          { q: "If you are assigned a critical task in a framework you have never used, what is your best first step?", opts: ["Refuse the task completely", "Guess how the syntax works", "Read the documentation and build a small proof-of-concept before starting", "Ask a senior engineer to do it for you"] }
+        ],
+        sec4: [
+          "Describe a specific scenario where you had to debug a severe production issue under tight time constraints. What was your technical approach and how did you communicate with stakeholders?",
+          "Explain how you would design a scalable REST API from scratch, including your strategy for security, rate limiting, and database connections.",
+          "Draft a brief, professional code review response to a junior developer whose logic works perfectly, but ignores company style guidelines and lacks proper error handling."
+        ]
+      },
+      marketing: {
+        sec1: [
+          { q: "If a marketing campaign spends $1000 and generates $5000 in tracked sales, what is the Return on Investment (ROI)?", opts: ["100%", "400%", "500%", "50%"] },
+          { q: "Which metric best measures the percentage of website visitors who complete a desired action?", opts: ["Bounce Rate", "Conversion Rate", "Impression Rate", "Churn Rate"] },
+          { q: "If your email open rates drop significantly but click-through rates rise, what is the most logical conclusion?", opts: ["Fewer people opened the email, but those who did were highly engaged", "The email HTML was completely broken", "The spam filter blocked every single email", "The total list size increased"] },
+          { q: "In a standard marketing funnel, which stage immediately follows 'Awareness'?", opts: ["Purchase", "Retention", "Interest/Consideration", "Advocacy"] },
+          { q: "What is the statistical purpose of conducting an A/B split test on a landing page?", opts: ["To reduce ad spend to zero", "To compare two variations to determine which yields a higher conversion rate", "To automatically generate copywriting", "To manipulate search engine algorithms"] },
+          { q: "If Customer Acquisition Cost (CAC) drastically exceeds Customer Lifetime Value (LTV), what is the result?", opts: ["A highly profitable campaign", "An unsustainable business model", "A perfect marketing equilibrium", "Readiness for an IPO"] },
+          { q: "Which of the following scenarios indicates a high 'bounce rate' on a landing page?", opts: ["Highly engaged users clicking multiple links", "Users leaving the page without interacting with any elements", "A server crash preventing access", "A successful checkout completion"] },
+          { q: "If a social media post has incredibly high reach but very low engagement, what is the likely issue?", opts: ["Viral success", "The content was seen but did not resonate with the audience", "There were too many comments", "Perfect audience targeting"] },
+          { q: "What does 'SEO' stand for in digital marketing?", opts: ["Search Engine Optimization", "Social Engagement Outlet", "Sales Event Organization", "System Error Output"] },
+          { q: "In target audience segmentation, what does 'demographic' data primarily refer to?", opts: ["Age, gender, and income", "Hobbies and personal interests", "Website click behavior", "Past purchase history"] }
+        ],
+        sec2: [
+          { q: "Which Google tool is the industry standard for tracking website traffic and user behavior?", opts: ["Google Analytics", "Google Docs", "Google Drive", "Google Keep"] },
+          { q: "What is the primary purpose of a Call to Action (CTA) in a marketing email?", opts: ["To add visual color to the page", "To explicitly prompt the user to take a specific, measurable action", "To track user IP addresses", "To improve email server delivery speed"] },
+          { q: "In Search Engine Marketing (SEM), what does CPC stand for?", opts: ["Cost Per Click", "Clicks Per Campaign", "Cost Per Customer", "Content Per Channel"] },
+          { q: "Which strategy is most effective for long-term improvement of organic search rankings?", opts: ["Buying thousands of cheap backlinks", "Consistent keyword optimization and producing high-quality content", "Spamming hidden keywords on the homepage", "Ignoring mobile-friendly design"] },
+          { q: "What core role does a CRM platform play in a marketing department?", opts: ["Designing graphic logos", "Managing customer relationships, data, and sales pipelines", "Hosting website domains", "Writing backend software code"] },
+          { q: "Which of the following is considered an example of 'gated content'?", opts: ["A public blog post", "A premium whitepaper requiring an email address to download", "A public YouTube video", "A company homepage"] },
+          { q: "What is a standard benchmark for a 'good' average email open rate across most B2B industries?", opts: ["1-2%", "15-25%", "80-90%", "100%"] },
+          { q: "How do UTM parameters assist digital marketers in campaign tracking?", opts: ["By speeding up page load times", "By appending tags to URLs to track the specific source and medium of incoming traffic", "By encrypting user passwords", "By blocking spam bots"] },
+          { q: "What is the primary goal of running retargeting ads?", opts: ["To reach people who have never heard of the brand", "To re-engage users who previously visited the site but did not convert", "To drastically increase organic search volume", "To delete bad online reviews"] },
+          { q: "Which metric is most critical when measuring top-of-funnel brand awareness?", opts: ["Conversion rate", "Reach and Impressions", "Customer Support Tickets", "Churn Rate"] }
+        ],
+        sec3: [
+          { q: "How do you handle a scenario where the sales team claims all marketing leads are low quality?", opts: ["Ignore them completely", "Review the lead qualification criteria together and adjust targeting accordingly", "Blame sales for lacking the skills to close", "Stop generating leads altogether"] },
+          { q: "If a major, highly-funded product launch campaign fails to hit its KPIs, what is your immediate response?", opts: ["Hide the final report from management", "Analyze the data to find the root cause and apply learnings to the next campaign", "Blame the advertising platform's algorithm", "Run the exact same campaign again unchanged"] },
+          { q: "Why is maintaining strict brand consistency across all channels a core marketing value?", opts: ["It is not important at all", "It builds long-term customer trust and instant brand recognition", "It saves money on buying new colors", "It is required by social network terms of service"] },
+          { q: "How do you adapt when a sudden social media algorithm update drastically cuts your organic reach?", opts: ["Delete the brand account in protest", "Pivot the strategy (e.g., utilize new video formats, paid boosts, or community engagement)", "Post the exact same content but 10 times a day", "Threaten to sue the platform"] },
+          { q: "What is the most professional way to respond to negative brand feedback on a public forum?", opts: ["Argue with the customer publicly", "Delete the comment immediately", "Acknowledge the issue professionally and attempt to resolve it offline", "Ignore it completely"] },
+          { q: "How do you balance creative, out-of-the-box campaign ideas with strict, data-driven budget constraints?", opts: ["Only run boring, safe ads", "Overspend the budget anyway for the sake of art", "Test low-cost creative variations in small batches before scaling the budget", "Refuse to use anything except free stock photos"] },
+          { q: "Describe the importance of cross-functional collaboration between marketing and the product design team.", opts: ["It ensures marketing promises match the actual product reality", "It just makes meetings unnecessarily longer", "Marketing shouldn't talk to design at all", "Product design dictates all advertising copy"] },
+          { q: "When brainstorming new campaigns, how do you ensure diverse perspectives are included?", opts: ["Only the department head is allowed to speak", "Actively encourage open idea sharing from all team members regardless of seniority", "Copy competitors exactly", "Use a random word generator"] },
+          { q: "If a key stakeholder rejects your proposed campaign strategy, how do you proceed?", opts: ["Tell them they don't understand marketing", "Ask for specific, constructive feedback, address their concerns, and iterate", "Quit working on their account", "Run the campaign anyway behind their back"] },
+          { q: "Why is absolute transparency in campaign reporting essential for leadership trust?", opts: ["It shows you have nothing to hide, fostering trust even when campaigns underperform", "It is a guaranteed way to get fired", "It purposely confuses the client", "It is a strict legal requirement"] }
+        ],
+        sec4: [
+          "Describe a time you had to pivot a marketing campaign mid-way through because the data showed it wasn't working. What specific metrics did you analyze, and what changes did you make?",
+          "Outline a 3-step digital marketing strategy for launching a new B2B software tool targeting enterprise clients on a highly restricted budget.",
+          "Write a short, professional crisis-management response to a viral social media complaint regarding a massive delay in product shipping."
+        ]
+      }
+    };
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-banner');
+      const toastText = document.getElementById('toast-text');
+      toastText.innerText = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 2500);
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const themeIcon = document.getElementById('theme-icon');
+      
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.setAttribute('data-theme', 'light');
+        themeIcon.innerText = '🌙';
+        showToast('Light mode enabled');
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        themeIcon.innerText = '☀️';
+        showToast('Dark mode enabled');
+      }
+    }
+
+    function previewDocument(type) {
+      const selectId = type === 'jd' ? 'jd-select' : 'cc-select';
+      const val = document.getElementById(selectId).value;
+      if(!val) { showToast("Please select an option first."); return; }
+      document.getElementById('modal-body').innerHTML = docData[`${type}_${val}`];
+      document.getElementById('preview-modal').style.display = 'flex';
+    }
+
+    function showInlineCultureCard() {
+      const val = document.getElementById('cc-select').value;
+      const previewDiv = document.getElementById('inline-cc-preview');
+      if (val) {
+        previewDiv.innerHTML = docData['cc_' + val];
+        previewDiv.style.display = 'block';
+      } else {
+        previewDiv.style.display = 'none';
+      }
+    }
+
+    function closeModal() { document.getElementById('preview-modal').style.display = 'none'; }
+
+    function copyShareLink() {
+      navigator.clipboard.writeText(window.location.href);
+      showToast('Assessment link copied to clipboard!');
+    }
+
+    function generateAssessmentHTML(role) {
+      let html = '';
+      const bank = questionBank[role] || questionBank.software;
+      const sections = [
+        { title: "Section 1: General Logic & Problem Solving (10 MCQs)", data: bank.sec1, type: "mcq" },
+        { title: "Section 2: Role-Specific Technical Skills (10 MCQs)", data: bank.sec2, type: "mcq" },
+        { title: "Section 3: Cultural & Situational Behavioral Fit (10 MCQs)", data: bank.sec3, type: "mcq" },
+        { title: "Section 4: Deep-Dive Scenarios & Architecture (3 Paragraphs)", data: bank.sec4, type: "para" }
+      ];
+
+      sections.forEach((sec, s_idx) => {
+        html += `<div class="section-card"><h4 class="section-card-title">${sec.title}</h4>`;
+        sec.data.forEach((qItem, q_idx) => {
+          if (sec.type === 'mcq') {
+            html += `<div class="question-block"><div class="question-header"><strong>Q${q_idx + 1}.</strong> ${qItem.q}</div>`;
+            const groupName = `s${s_idx}_q${q_idx}`;
+            html += `<div class="options-grid">
+              <label class="option-item"><input type="radio" name="${groupName}" value="a"><span><strong>A)</strong> ${qItem.opts[0]}</span></label>
+              <label class="option-item"><input type="radio" name="${groupName}" value="b"><span><strong>B)</strong> ${qItem.opts[1]}</span></label>
+              <label class="option-item"><input type="radio" name="${groupName}" value="c"><span><strong>C)</strong> ${qItem.opts[2]}</span></label>
+              <label class="option-item"><input type="radio" name="${groupName}" value="d"><span><strong>D)</strong> ${qItem.opts[3]}</span></label>
+            </div>`;
+          } else {
+            html += `<div class="question-block"><div class="question-header"><strong>Q${q_idx + 1}.</strong> ${qItem}</div>`;
+            html += `<textarea class="scenario-textarea" placeholder="Type candidate answer notes or rubric parameters here..."></textarea>`;
+          }
+          html += `</div>`;
+        });
+        html += `</div>`;
+      });
+      return html;
+    }
+
+    document.getElementById('demo-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const role = document.getElementById('jd-select').value || 'software';
+      
+      document.getElementById('form-state').style.display = 'none';
+      document.getElementById('loading-state').style.display = 'block';
+
+      const terminal = document.getElementById('terminal');
+      terminal.innerHTML = '';
+      
+      const logs = [
+        "Initializing Infinyty Assessment Synthesis Engine v2.4...",
+        "Ingesting Job Description vector embeddings...",
+        "Mapping core technical competencies to question bank taxonomy...",
+        "Parsing Culture Card rubric parameters...",
+        "Generating Section 1: Logic & Problem Solving (10 items)...",
+        "Generating Section 2: Technical Skills (10 items)...",
+        "Generating Section 3: Behavioral Fit (10 items)...",
+        "Generating Section 4: Deep-Dive Scenarios (3 items)...",
+        "Validating rubric scoring weights...",
+        "Assessment synthesis complete!"
+      ];
+
+      let delay = 0;
+      logs.forEach((log, idx) => {
+        setTimeout(() => {
+          const div = document.createElement('div');
+          div.className = 'terminal-line';
+          div.innerText = log;
+          terminal.appendChild(div);
+          terminal.scrollTop = terminal.scrollHeight;
+
+          if (idx === logs.length - 1) {
+            setTimeout(() => {
+              document.getElementById('loading-state').style.display = 'none';
+              document.getElementById('assessment-content').innerHTML = generateAssessmentHTML(role);
+              document.getElementById('assessment-state').style.display = 'block';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 600);
+          }
+        }, delay);
+        delay += 240;
+      });
+    });
+
+    function exportAssessment() {
+      document.getElementById('assessment-state').style.display = 'none';
+      document.getElementById('exporting-loader').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const element = document.getElementById('pdf-wrapper');
+      const opt = {
+        margin:       0.5,
+        filename:     'Infinyty_Candidate_Assessment.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save().then(() => {
+        document.getElementById('exporting-loader').style.display = 'none';
+        document.getElementById('export-success-state').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    function resetDemo() {
+      document.getElementById('demo-form').reset();
+      document.getElementById('inline-cc-preview').style.display = 'none';
+      document.getElementById('export-success-state').style.display = 'none';
+      document.getElementById('assessment-state').style.display = 'none';
+      document.getElementById('form-state').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

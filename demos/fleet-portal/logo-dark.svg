@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 195 38" width="195" height="38" fill="none">
+  <defs>
+    <linearGradient id="coverLogoGrad" x1="10" y1="18" x2="34" y2="18" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4FC8FF"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(0, 3)">
+    <path d="M10 18C10 12 15 11 18 15.5C21 20 26 25 30 20C34 15 29 10 25 14.5C21 19 16 25 12 21C9.5 18.5 9.5 12.5 15 11" stroke="url(#coverLogoGrad)" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+  <text x="44" y="27" font-family="'Space Grotesk', sans-serif" font-size="22" font-weight="600" letter-spacing="0.01em" fill="#FFFFFF">infi<tspan font-weight="700" fill="#4FC8FF">nyty</tspan><tspan fill="#4FC8FF" opacity="0.85">.tech</tspan></text>
+</svg>
