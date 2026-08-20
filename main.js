@@ -234,6 +234,7 @@ function closeVideoModal(e) {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeVideoModal();
+    closeCommandPalette();
     const mm = document.getElementById('mobile-menu');
     const hb = document.getElementById('hamburger');
     if (mm && mm.classList.contains('open')) {
@@ -244,6 +245,214 @@ document.addEventListener('keydown', (e) => {
       }
     }
   }
+});
+
+// ── MAGNETIC BUTTON HOVER EFFECT (3.6) ──
+const magneticButtons = document.querySelectorAll('.btn-primary, .book-meeting-btn, .demo-launch-btn, .btn-secondary, .nav-deck-pill, .filter-pill');
+magneticButtons.forEach(btn => {
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
+  });
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = '';
+  });
+});
+
+// ── SUCCESS STORIES & SERVICES INTERACTIVE FILTERING (3.8) ──
+const filterPills = document.querySelectorAll('.filter-pill');
+const caseCards = document.querySelectorAll('.case-bento-card');
+if (filterPills.length > 0 && caseCards.length > 0) {
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const filterCat = (pill.getAttribute('data-filter') || 'all').toLowerCase();
+
+      caseCards.forEach((card, idx) => {
+        const text = (card.textContent || '').toLowerCase();
+        const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
+        const matches = filterCat === 'all' || cardCat.includes(filterCat) || text.includes(filterCat);
+
+        if (matches) {
+          card.style.display = 'flex';
+          card.style.transitionDelay = (idx % 3) * 60 + 'ms';
+          setTimeout(() => {
+            card.classList.remove('filtering-out');
+            card.classList.add('visible');
+          }, 15);
+        } else {
+          card.classList.add('filtering-out');
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 240);
+        }
+      });
+    });
+  });
+}
+
+// ── FLOATING BACK TO TOP BUTTON (4.9) ──
+let bttBtn = document.getElementById('back-to-top');
+if (!bttBtn) {
+  bttBtn = document.createElement('button');
+  bttBtn.id = 'back-to-top';
+  bttBtn.setAttribute('aria-label', 'Scroll Back to Top');
+  bttBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+  document.body.appendChild(bttBtn);
+}
+window.addEventListener('scroll', () => {
+  bttBtn.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+bttBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ── COMMAND PALETTE (4.10) ──
+const cmdItems = [
+  { title: 'BI Bot — AI Query Analyst', category: 'Live Demo', url: '/demos/bi-assistant/', icon: '📊' },
+  { title: 'Fleet Settlement App — Automated Ledger', category: 'Live Demo', url: '/demos/fleet-portal/', icon: '🚗' },
+  { title: 'Fleet Operations Portal — PDI & Hub', category: 'Live Demo', url: '/demos/operations-portal/', icon: '⚡' },
+  { title: 'Assessment Generator — HR Tech GenAI', category: 'Live Demo', url: '/demos/assessment-generator/', icon: '📝' },
+  { title: 'Candidate Evaluator — Assessment Grading', category: 'Live Demo', url: '/demos/candidate-evaluator/', icon: '🎯' },
+  { title: 'Data Platform & Intelligence Practice', category: 'Services', url: '/services#pillar-data', icon: '💾' },
+  { title: 'AI Development & Deployment Practice', category: 'Services', url: '/services#pillar-ai', icon: '🤖' },
+  { title: 'Product Engineering Practice', category: 'Services', url: '/services#pillar-eng', icon: '⚙️' },
+  { title: 'All Success Stories & Case Studies', category: 'Case Studies', url: '/success-stories', icon: '🏆' },
+  { title: 'Leadership & Cornell Pedigree', category: 'About Us', url: '/about', icon: '👥' },
+  { title: 'Careers & Open Roles', category: 'Careers', url: '/careers', icon: '💼' },
+  { title: 'Book a Discovery Meeting', category: 'Contact', url: '/contact#contact-form', icon: '📅' },
+  { title: 'Toggle Dark / Light Mode', category: 'System', action: 'toggle-theme', icon: '🌓' }
+];
+
+let cmdBackdrop = document.getElementById('command-palette');
+if (!cmdBackdrop) {
+  cmdBackdrop = document.createElement('div');
+  cmdBackdrop.id = 'command-palette';
+  cmdBackdrop.className = 'cmd-palette-backdrop';
+  cmdBackdrop.innerHTML = `
+    <div class="cmd-palette-modal" onclick="event.stopPropagation()">
+      <div class="cmd-palette-input-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="cmd-palette-input" placeholder="Type a command, search demos, or navigate..." autocomplete="off" spellcheck="false">
+      </div>
+      <ul class="cmd-palette-list"></ul>
+      <div class="cmd-palette-footer">
+        <span>Use <kbd style="background:var(--border);padding:2px 6px;border-radius:4px;">&uarr;</kbd> <kbd style="background:var(--border);padding:2px 6px;border-radius:4px;">&darr;</kbd> to navigate</span>
+        <span>Press <kbd style="background:var(--border);padding:2px 6px;border-radius:4px;">ESC</kbd> to close</span>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(cmdBackdrop);
+  cmdBackdrop.addEventListener('click', closeCommandPalette);
+}
+
+const cmdInput = cmdBackdrop.querySelector('.cmd-palette-input');
+const cmdList = cmdBackdrop.querySelector('.cmd-palette-list');
+let currentSelectedIndex = 0;
+
+function renderCmdResults(query = '') {
+  const q = query.trim().toLowerCase();
+  const filtered = cmdItems.filter(item => 
+    !q || item.title.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
+  );
+
+  cmdList.innerHTML = '';
+  if (filtered.length === 0) {
+    cmdList.innerHTML = '<li style="padding:1.5rem;text-align:center;color:var(--text-muted);font-size:0.9rem;">No results found</li>';
+    return;
+  }
+
+  filtered.forEach((item, idx) => {
+    const li = document.createElement('li');
+    li.className = `cmd-palette-item ${idx === currentSelectedIndex ? 'active' : ''}`;
+    li.innerHTML = `
+      <div class="cmd-item-left">
+        <span>${item.icon}</span>
+        <span>${item.title}</span>
+      </div>
+      <span class="cmd-item-badge">${item.category}</span>
+    `;
+    li.addEventListener('click', () => executeCmdItem(item));
+    cmdList.appendChild(li);
+  });
+}
+
+function executeCmdItem(item) {
+  closeCommandPalette();
+  if (item.action === 'toggle-theme') {
+    const isDark = document.documentElement.classList.contains('dark-mode');
+    syncTheme(isDark ? 'light' : 'dark');
+  } else if (item.url) {
+    window.location.href = item.url;
+  }
+}
+
+function openCommandPalette() {
+  currentSelectedIndex = 0;
+  cmdBackdrop.classList.add('open');
+  cmdInput.value = '';
+  renderCmdResults('');
+  setTimeout(() => cmdInput.focus(), 50);
+}
+
+function closeCommandPalette() {
+  if (cmdBackdrop) cmdBackdrop.classList.remove('open');
+}
+
+cmdInput.addEventListener('input', (e) => {
+  currentSelectedIndex = 0;
+  renderCmdResults(e.target.value);
+});
+
+cmdInput.addEventListener('keydown', (e) => {
+  const items = cmdList.querySelectorAll('.cmd-palette-item');
+  if (items.length === 0) return;
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    currentSelectedIndex = (currentSelectedIndex + 1) % items.length;
+    updateCmdActive(items);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    currentSelectedIndex = (currentSelectedIndex - 1 + items.length) % items.length;
+    updateCmdActive(items);
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    const q = cmdInput.value.trim().toLowerCase();
+    const filtered = cmdItems.filter(item => 
+      !q || item.title.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
+    );
+    if (filtered[currentSelectedIndex]) {
+      executeCmdItem(filtered[currentSelectedIndex]);
+    }
+  }
+});
+
+function updateCmdActive(items) {
+  items.forEach((it, idx) => {
+    it.classList.toggle('active', idx === currentSelectedIndex);
+    if (idx === currentSelectedIndex) it.scrollIntoView({ block: 'nearest' });
+  });
+}
+
+// Global keyboard shortcut: Ctrl+K / Cmd+K
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    if (cmdBackdrop.classList.contains('open')) {
+      closeCommandPalette();
+    } else {
+      openCommandPalette();
+    }
+  }
+});
+
+// Attach command palette trigger button listeners in navbar
+document.querySelectorAll('.nav-cmd-btn').forEach(btn => {
+  btn.addEventListener('click', openCommandPalette);
 });
 
 

@@ -41,6 +41,7 @@
       </ul>
     </nav>
     <div class="nav-actions">
+      <button class="nav-cmd-btn" aria-label="Search & Navigation"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><kbd>⌘K</kbd></button>
       <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode">
         <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
         <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
@@ -126,23 +127,35 @@
       </div>
     </div>
 
-    <!-- Merged Unified Pedigree Bar matching Deck Slide 5 -->
-    <div style="margin-top:2rem; background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:1.5rem 1.75rem; text-align:center;">
-      <div style="font-family:'Space Grotesk',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:0.12em; color:var(--text-muted); text-transform:uppercase; margin-bottom:1.15rem;">Proven Leadership &amp; Engineering Pedigree Across</div>
-      <div style="display:flex; flex-direction:column; gap:1.1rem; align-items:center;">
-        <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1.75rem 2.25rem;">
-          <img src="/assets/logo-coinbase.png" alt="Coinbase" class="pedigree-brand-logo logo-coinbase" style="height:18px; width:auto; object-fit:contain;">
-          <img src="/assets/logo-linkedin.png" alt="LinkedIn" class="pedigree-brand-logo logo-linkedin" style="height:21px; width:auto; object-fit:contain;">
-          <img src="/assets/logo-amazon.png" alt="Amazon" class="pedigree-brand-logo logo-amazon" style="height:21px; width:auto; object-fit:contain;">
-          <img src="/assets/logo-hotstar.png" alt="Disney+ Hotstar" class="pedigree-brand-logo logo-hotstar" style="height:33px; width:auto; object-fit:contain;">
-          <img src="/assets/logo-paypal.png" alt="PayPal" class="pedigree-brand-logo logo-paypal" style="height:21px; width:auto; object-fit:contain;">
-        </div>
-        <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1.75rem 2.25rem;">
-          <img src="/assets/logo-workday.png" alt="Workday" class="pedigree-brand-logo logo-workday" style="height:26px; width:auto; object-fit:contain;">
-          <img src="/assets/logo-jio.png" alt="Jio" class="pedigree-brand-logo logo-jio" style="height:32px; width:auto; object-fit:contain;">
-          <img src="/assets/logo-ebay.png" alt="eBay" class="pedigree-brand-logo logo-ebay" style="height:21px; width:auto; object-fit:contain;">
-          <img src="/assets/logo-fico.png" alt="FICO" class="pedigree-brand-logo logo-fico" style="height:21px; width:auto; object-fit:contain;">
-          <img src="/assets/logo-directi.png" alt="Directi" class="pedigree-brand-logo logo-directi" style="height:25px; width:auto; object-fit:contain;">
+    <!-- Merged Unified Pedigree Bar matching Deck Slide 5 (Infinite Smooth Marquee) -->
+    <div style="margin-top:2rem; background:var(--card-bg); border:1px solid var(--border); border-radius:16px; padding:1.25rem 1.5rem; text-align:center;">
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:0.12em; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.75rem;">Proven Leadership &amp; Engineering Pedigree Across</div>
+      <div class="marquee-container">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <img src="/assets/logo-coinbase.png" alt="Coinbase" class="pedigree-brand-logo logo-coinbase" style="height:18px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-linkedin.png" alt="LinkedIn" class="pedigree-brand-logo logo-linkedin" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-amazon.png" alt="Amazon" class="pedigree-brand-logo logo-amazon" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-hotstar.png" alt="Disney+ Hotstar" class="pedigree-brand-logo logo-hotstar" style="height:33px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-paypal.png" alt="PayPal" class="pedigree-brand-logo logo-paypal" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-workday.png" alt="Workday" class="pedigree-brand-logo logo-workday" style="height:26px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-jio.png" alt="Jio" class="pedigree-brand-logo logo-jio" style="height:32px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-ebay.png" alt="eBay" class="pedigree-brand-logo logo-ebay" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-fico.png" alt="FICO" class="pedigree-brand-logo logo-fico" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-directi.png" alt="Directi" class="pedigree-brand-logo logo-directi" style="height:25px; width:auto; object-fit:contain;">
+          </div>
+          <div class="marquee-group" aria-hidden="true">
+            <img src="/assets/logo-coinbase.png" alt="Coinbase" class="pedigree-brand-logo logo-coinbase" style="height:18px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-linkedin.png" alt="LinkedIn" class="pedigree-brand-logo logo-linkedin" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-amazon.png" alt="Amazon" class="pedigree-brand-logo logo-amazon" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-hotstar.png" alt="Disney+ Hotstar" class="pedigree-brand-logo logo-hotstar" style="height:33px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-paypal.png" alt="PayPal" class="pedigree-brand-logo logo-paypal" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-workday.png" alt="Workday" class="pedigree-brand-logo logo-workday" style="height:26px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-jio.png" alt="Jio" class="pedigree-brand-logo logo-jio" style="height:32px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-ebay.png" alt="eBay" class="pedigree-brand-logo logo-ebay" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-fico.png" alt="FICO" class="pedigree-brand-logo logo-fico" style="height:21px; width:auto; object-fit:contain;">
+            <img src="/assets/logo-directi.png" alt="Directi" class="pedigree-brand-logo logo-directi" style="height:25px; width:auto; object-fit:contain;">
+          </div>
         </div>
       </div>
     </div>  </div>
