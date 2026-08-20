@@ -3,26 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Success Stories &mdash; Infinyty</title>
-  <meta name="description" content="Real-world AI and data science case studies from Infinyty &mdash; measurable business impact across industries.">
+  <title>Success Stories — Infinyty</title>
+  <meta name="description" content="Explore production case studies across Data Platform &amp; Intelligence, AI Development &amp; Deployment, and Product Engineering — delivering verified enterprise ROI.">
   <meta property="og:title" content="Success Stories — Infinyty">
-  <meta property="og:description" content="Real business impact delivered through data science, ML, and AI — case studies across fintech, e-commerce, and more.">
+  <meta property="og:description" content="Real-world data, AI, and software case studies with quantified business ROI across fintech, healthcare, automotive, e-commerce, and HR tech.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://infinyty-tech.vercel.app/success-stories">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon.png">
   <link rel="shortcut icon" href="/assets/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css?v=40.0">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=44.0">
   <script>
     (function(){
-      var t = localStorage.getItem('theme');
+      var t = localStorage.getItem('theme') || localStorage.getItem('infinyty_theme') || localStorage.getItem('pitch_theme');
       if (t === 'dark') document.documentElement.classList.add('dark-mode');
     })();
   </script>
+  <style>
+    .case-demo-action {
+      margin-top: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .case-demo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 8px;
+      background: rgba(0, 114, 244, 0.08);
+      border: 1px solid rgba(0, 114, 244, 0.25);
+      color: var(--primary);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .case-demo-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 114, 244, 0.25);
+    }
+    .dark-mode .case-demo-btn {
+      background: rgba(79, 200, 255, 0.1);
+      border-color: rgba(79, 200, 255, 0.3);
+      color: var(--accent);
+    }
+    .dark-mode .case-demo-btn:hover {
+      background: var(--gradient-primary);
+      color: #ffffff;
+    }
+    .stats-pedigree-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .stats-pedigree-strip {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+    }
+    .stats-pedigree-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .stats-pedigree-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+    .dark-mode .stats-pedigree-card {
+      background: rgba(8, 19, 46, 0.6);
+      border-color: rgba(79, 200, 255, 0.15);
+    }
+    .stats-pedigree-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .stats-pedigree-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+  </style>
 </head>
 <body>
 <div id="scroll-progress"></div>
@@ -66,221 +150,796 @@
 </header>
 
 <main>
-  <div class="page-hero">
-    <p class="tagline">Case Studies</p>
-    <h1>Success Stories</h1>
-    <p>Real-world results across industries. Each project delivered measurable business outcomes at scale.</p>
-  </div>
+  <!-- PAGE HERO -->
+  <div class="section-full hero-full-wrap">
+    <div class="page-hero" style="max-width: 980px; margin: 0 auto; text-align: center; padding-top: 4.5rem; padding-bottom: 2.5rem;">
+      <p class="tagline">Proven Results &bull; Case Studies</p>
+      <h1 style="font-size: clamp(2.3rem, 4.2vw, 3.4rem); line-height: 1.15; margin-bottom: 0.85rem;">
+        Real Impact, <span class="gradient-text">Measurable Outcomes</span>
+      </h1>
+      <p style="font-size: 1.1rem; max-width: 780px; margin: 0 auto 2.5rem;">
+        Explore production deployments built with precision, validated in high-stakes operational environments, and scaled to enterprise standards.
+      </p>
 
-  <!-- HIGH-IMPACT OUTCOMES STATS SECTION -->
-  <div class="section-full section-bg" style="border-bottom: 1px solid var(--border); padding-top: 1rem; padding-bottom: 1.5rem;">
-    <div class="section" style="padding-top: 1rem; padding-bottom: 1.5rem;">
-      <div class="impact-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; width: 100%;">
-        
-        <div class="card" style="text-align: center; padding: 1.5rem 1rem;">
-          <div class="metric-counter" data-count="16w → 2w" style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; font-family: 'Space Grotesk', sans-serif; line-height: 1;">16w → 2w</div>
-          <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">FDA Dossier Prep</div>
-          <p style="font-size: 0.85rem; line-height: 1.45; color: var(--text-muted); margin: 0;">Slashed compilation time using secure, HIPAA-aligned GenAI frameworks.</p>
+      <!-- 3 Key Metric Cards -->
+      <div class="stats-pedigree-strip">
+        <div class="stats-pedigree-card">
+          <div class="stats-pedigree-num">18+</div>
+          <div class="stats-pedigree-label">Years Leadership Experience</div>
         </div>
-
-        <div class="card" style="text-align: center; padding: 1.5rem 1rem;">
-          <div class="metric-counter" data-count="+18%" style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; font-family: 'Space Grotesk', sans-serif; line-height: 1;">+18%</div>
-          <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Revenue Lift</div>
-          <p style="font-size: 0.85rem; line-height: 1.45; color: var(--text-muted); margin: 0;">Achieved across dealerships using propensity models and voice AI.</p>
+        <div class="stats-pedigree-card">
+          <div class="stats-pedigree-num">80+</div>
+          <div class="stats-pedigree-label">Projects Delivered</div>
         </div>
-
-        <div class="card" style="text-align: center; padding: 1.5rem 1rem;">
-          <div class="metric-counter" data-count="1.3x" style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; font-family: 'Space Grotesk', sans-serif; line-height: 1;">1.3x</div>
-          <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">CPG Blended ROAS</div>
-          <p style="font-size: 0.85rem; line-height: 1.45; color: var(--text-muted); margin: 0;">Attributed real-time clickstreams to checkouts, cutting 22% of ad waste.</p>
+        <div class="stats-pedigree-card">
+          <div class="stats-pedigree-num">8+</div>
+          <div class="stats-pedigree-label">Industries Served</div>
         </div>
-
-        <div class="card" style="text-align: center; padding: 1.5rem 1rem;">
-          <div class="metric-counter" data-count="11x" style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; font-family: 'Space Grotesk', sans-serif; line-height: 1;">11x</div>
-          <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">CRM Reactivation</div>
-          <p style="font-size: 0.85rem; line-height: 1.45; color: var(--text-muted); margin: 0;">Delivered recharge conversions in dormant cohorts via ML profiling.</p>
-        </div>
-
-        <div class="card" style="text-align: center; padding: 1.5rem 1rem;">
-          <div class="metric-counter" data-count="90%" style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; font-family: 'Space Grotesk', sans-serif; line-height: 1;">90%</div>
-          <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem;">Time-to-Hire Save</div>
-          <p style="font-size: 0.85rem; line-height: 1.45; color: var(--text-muted); margin: 0;">Eliminated candidate reporting delays with automated dashboards.</p>
-        </div>
-
       </div>
     </div>
   </div>
 
-  <div class="section" style="padding-top: 2rem;">
-    <!-- CASE 1 -->
-    <div class="case-study">
-      <div class="case-img">
-        <img src="/assets/case-hr.png" loading="lazy" alt="HR Evaluation">
+  <!-- OUTCOMES STATS GRID -->
+  <div class="section-full section-bg" style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.5rem 1.5rem;">
+    <div class="hero-stats-grid-6">
+      <div class="hero-stat-card-clean card">
+        <div class="metric-counter" data-count="16w ➔ 2w">16w ➔ 2w</div>
+        <div class="stat-label-title">Turnaround Speed</div>
+        <p class="stat-label-desc">FDA regulatory dossier compilation with automated AI.</p>
       </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 01</span>
-        <h2 class="case-title">AI-Powered HR Evaluation Engine</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>Manual candidate evaluation was bottlenecked. Creating custom role assessment sheets required 4 hours, and manual fit reporting consumed 2 hours per applicant.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Designed an AI Question Engine that programmatically structures custom evaluation forms based on seniority, role, and sector parameters, scoring applicants instantly via backend integrations.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Slashed role setup and assessment time from 4 hours to under 2 minutes. Enabled client to scale candidate evaluation without increasing HR headcount.</p>
-        </div>
+
+      <div class="hero-stat-card-clean card">
+        <div class="metric-counter" data-count="+18%">+18%</div>
+        <div class="stat-label-title">Revenue Lift</div>
+        <p class="stat-label-desc">Dealership sales boost via propensity &amp; voice AI telephony.</p>
+      </div>
+
+      <div class="hero-stat-card-clean card">
+        <div class="metric-counter" data-count="4h ➔ <2m">4h ➔ &lt;2m</div>
+        <div class="stat-label-title">Candidate Eval</div>
+        <p class="stat-label-desc">Assessment drafting to automated rubric scoring.</p>
+      </div>
+
+      <div class="hero-stat-card-clean card">
+        <div class="metric-counter" data-count="1.3x">1.3x</div>
+        <div class="stat-label-title">Blended ROAS</div>
+        <p class="stat-label-desc">Multi-touch attribution reducing 22% ad spend waste.</p>
+      </div>
+
+      <div class="hero-stat-card-clean card">
+        <div class="metric-counter" data-count="11x">11x</div>
+        <div class="stat-label-title">CRM Uplift</div>
+        <p class="stat-label-desc">Purchase conversions in dormant customer cohorts.</p>
+      </div>
+
+      <div class="hero-stat-card-clean card">
+        <div class="metric-counter" data-count="100%">100%</div>
+        <div class="stat-label-title">Automated Payouts</div>
+        <p class="stat-label-desc">Fleet ledger reconciliation &amp; settlement automation.</p>
       </div>
     </div>
+  </div>
 
-    <!-- CASE 2 -->
-    <div class="case-study reversed">
-      <div class="case-img">
-        <img src="/assets/case-pharma.png" loading="lazy" alt="Pharma Lab">
-      </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 02</span>
-        <h2 class="case-title">AI FDA Documentation for Pharma</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>Manually compiling 10,000+ pages of scientific research into 200-page FDA dossiers required 2 domain experts roughly 4 months and was highly prone to citation errors.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Developed an AI document synthesis pipeline to extract, index, and organize research databases, generating compliant dossier sections alongside a custom review interface for human verification.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Reduced compilation time from 16 weeks to just 2 weeks. Enabled 95% automated generation with only 5% requiring direct manual verification.</p>
+  <!-- ALL CASE STUDIES (3 IN A ROW, UNIFIED - NOT SEPARATED BY PILLAR) -->
+  <div class="section" style="max-width: 1280px; padding: 4.5rem 1.5rem 4rem;">
+    <div class="case-bento-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+
+<div class="case-bento-card card-saas card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span class="case-pill pill-saas">
+              <span class="dot-ind"></span>
+              SaaS &amp; Enterprise BI
+            </span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 01</span>
+          </div>
+
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+            AI Business Intelligence Assistant
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+            Unify business data across multiple databases and spreadsheets for instant natural language SQL insights and live visual charting.
+          </p>
+
+          <div class="case-bento-img-wrap">
+            <img src="/assets/bi-assistant-real.png" alt="AI Business Intelligence Assistant" >
+          </div>
+
+          <div style="margin-top: 0.85rem;">
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Siloed multi-sheet databases, disconnected ERP/CRM records, and slow manual SQL reporting created severe bottlenecks for leadership decisions.
+            </p>
+
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+              Conversational NL-to-SQL engine connected to unified semantic lakehouse layers, generating instant SQL queries, dynamic charts, and discount audits.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-stat-col">
+              <span class="case-stat-val" data-count="85%">85%</span>
+              <span class="case-stat-lbl">Less Manual Effort</span>
+            </div>
+            <div class="case-stat-sep"></div>
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-green" data-count="+12%">+12%</span>
+              <span class="case-stat-lbl">Revenue Lift</span>
+            </div>
+          </div>
+
+          <div class="case-bento-chips">
+            <span class="case-bento-chip">Natural Language SQL</span>
+            <span class="case-bento-chip">Semantic Lakehouse</span>
+            <span class="case-bento-chip">Live Visual Charts</span>
+            <span class="case-bento-chip">Automated Cohort BI</span>
+          </div>
+
+          <div class="case-demo-action">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">Interactive Demo</span>
+            <a href="/demos/bi-assistant/" target="_blank" class="case-demo-btn">
+              Launch Demo &rarr;
+            </a>
+          </div>
         </div>
       </div>
+
+<div class="case-bento-card card-ecommerce card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span class="case-pill pill-ecommerce">
+              <span class="dot-ind"></span>
+              E-Commerce &amp; CPG
+            </span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 02</span>
+          </div>
+
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+            ROAS Optimization &amp; Attribution
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+            Connect customer journeys, ad spend, and inventory logs for automated multi-touch attribution and real-time budget allocation.
+          </p>
+
+          <div class="case-bento-img-wrap">
+            <img src="/assets/case-roas.png" alt="ROAS Optimization" >
+          </div>
+
+          <div style="margin-top: 0.85rem;">
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Siloed ad networks (Meta, Google, TikTok) and Shopify stores prevented accurate attribution, leading to 22% ad budget waste.
+            </p>
+
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+              Unified attribution engine linking product catalog, first-party clickstreams, and live revenue tracking with automated pacing alerts.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-amber" data-count="1.3×">1.3×</span>
+              <span class="case-stat-lbl">Blended ROAS</span>
+            </div>
+            <div class="case-stat-sep"></div>
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-amber" data-count="-22%">-22%</span>
+              <span class="case-stat-lbl">Ad Waste</span>
+            </div>
+          </div>
+
+          <div class="case-bento-chips">
+            <span class="case-bento-chip">Multi-Touch Attrib</span>
+            <span class="case-bento-chip">Shopify API</span>
+            <span class="case-bento-chip">Real-time Pacing</span>
+            <span class="case-bento-chip">First-Party Data</span>
+          </div>
+        </div>
+      </div>
+
+<div class="case-bento-card card-hrtech card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span class="case-pill pill-hrtech">
+              <span class="dot-ind"></span>
+              Consumer Tech
+            </span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 03</span>
+          </div>
+
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+            Predictive CLTV &amp; VIP Identification
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+            Predict high-value customer status within 30 days of signup using early behavioural app event telemetry and machine learning.
+          </p>
+
+          <div class="case-bento-img-wrap">
+            <img src="/assets/case-cltv.png" alt="CLTV Prediction" >
+          </div>
+
+          <div style="margin-top: 0.85rem;">
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Lack of early visibility on acquired user value made it difficult to optimize acquisition bids and allocate retention spend effectively.
+            </p>
+
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+              CLTV machine learning models connecting app event telemetry to predict 12-month value with automated database tags.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-rose" data-count="30 Days">30 Days</span>
+              <span class="case-stat-lbl">Value Window</span>
+            </div>
+            <div class="case-stat-sep"></div>
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-rose" data-count="Real-Time">Real-Time</span>
+              <span class="case-stat-lbl">Personalization</span>
+            </div>
+          </div>
+
+          <div class="case-bento-chips">
+            <span class="case-bento-chip">Predictive LTV</span>
+            <span class="case-bento-chip">Event Telemetry</span>
+            <span class="case-bento-chip">Targeted VIPs</span>
+            <span class="case-bento-chip">Cohort Analytics</span>
+          </div>
+        </div>
+      </div>
+
+<div class="case-bento-card card-cpg card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span class="case-pill pill-cpg">
+              <span class="dot-ind"></span>
+              Retail &amp; D2C Operations
+            </span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 04</span>
+          </div>
+
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+            Operations &amp; BI Automation
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+            Automated ingestion of Shopify sales, marketing channels, and inventory into daily executive decision scorecards and alert bots.
+          </p>
+
+          <div class="case-bento-img-wrap">
+            <img src="/assets/case-operations.png" alt="Operations Automation" >
+          </div>
+
+          <div style="margin-top: 0.85rem;">
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Manual daily export of multi-channel data created recurring reporting bottlenecks and delayed operational interventions.
+            </p>
+
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+              Automated API ingestion engine auto-populating master BI dashboards with scheduled bot updates to Slack and executive emails.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-green" data-count="100+ hrs">100+ hrs</span>
+              <span class="case-stat-lbl">Saved / Year</span>
+            </div>
+            <div class="case-stat-sep"></div>
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-green" data-count="$2.5M">$2.5M</span>
+              <span class="case-stat-lbl">Pacing Target</span>
+            </div>
+          </div>
+
+          <div class="case-bento-chips">
+            <span class="case-bento-chip">Shopify + Ad APIs</span>
+            <span class="case-bento-chip">Daily Slack Bot</span>
+            <span class="case-bento-chip">Automated Pacing</span>
+            <span class="case-bento-chip">Scorecards</span>
+          </div>
+        </div>
+      </div>
+
+<div class="case-bento-card card-hrtech card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <span class="case-pill pill-hrtech">
+                <span class="dot-ind"></span>
+                HR Tech &amp; GenAI
+              </span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 05</span>
+            </div>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+              Automated Assessment Generator
+            </h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+              Automate role assessment generation, rubric evaluation, and stakeholder PDF reports with instant turnaround.
+            </p>
+
+            <div class="case-bento-img-wrap">
+              <img src="/assets/assessment-generator-real.png" alt="AI Candidate Assessment Generator" >
+            </div>
+
+            <div style="margin-top: 0.85rem;">
+              <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+                Drafting custom assessment forms required 4 hours per opening, followed by 2 hours of manual grading per applicant.
+              </p>
+
+              <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+                AI Question Engine connected to Google Forms API with backend DeepSeek grading and automated client-ready PDF generation.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div class="case-metrics-grid">
+              <div class="case-stat-col">
+                <span class="case-stat-val accent-rose" data-count="4h ➔ <2m">4h ➔ &lt;2m</span>
+                <span class="case-stat-lbl">Turnaround</span>
+              </div>
+              <div class="case-stat-sep"></div>
+              <div class="case-stat-col">
+                <span class="case-stat-val accent-rose" data-count="100%">100%</span>
+                <span class="case-stat-lbl">Automated Scoring</span>
+              </div>
+            </div>
+
+            <div class="case-bento-chips">
+              <span class="case-bento-chip">Instant Rubrics</span>
+              <span class="case-bento-chip">Google Forms API</span>
+              <span class="case-bento-chip">PDF Generation</span>
+              <span class="case-bento-chip">DeepSeek LLM</span>
+            </div>
+
+            <div class="case-demo-action">
+              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">Interactive Demo</span>
+              <a href="/demos/assessment-generator/" target="_blank" class="case-demo-btn">
+                Launch Demo &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+<div class="case-bento-card card-healthcare card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <span class="case-pill pill-healthcare">
+                <span class="dot-ind"></span>
+                Healthcare &amp; Pharma
+              </span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 06</span>
+            </div>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+              Regulatory Filing AI &amp; Dossier Prep
+            </h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+              Convert large volumes of clinical trial data into regulatory-ready submissions with HIPAA-compliant GenAI synthesis.
+            </p>
+
+            <div class="case-bento-img-wrap">
+              <img src="/assets/case-pharma.png" alt="Regulatory Filing AI" >
+            </div>
+
+            <div style="margin-top: 0.85rem;">
+              <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+                Compiling 10,000+ pages of trial research into 200-page FDA dossiers took 2 specialists 4 months with high citation error risks.
+              </p>
+
+              <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+                AI document synthesis pipeline indexing trial databases, generating compliant dossier sections with human-in-the-loop verification.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div class="case-metrics-grid">
+              <div class="case-stat-col">
+                <span class="case-stat-val" data-count="16w ➔ 2w">16w ➔ 2w</span>
+                <span class="case-stat-lbl">Turnaround</span>
+              </div>
+              <div class="case-stat-sep"></div>
+              <div class="case-stat-col">
+                <span class="case-stat-val accent-green" data-count="95%">95%</span>
+                <span class="case-stat-lbl">Automated</span>
+              </div>
+            </div>
+
+            <div class="case-bento-chips">
+              <span class="case-bento-chip">FDA Dossier Prep</span>
+              <span class="case-bento-chip">Clinical NLP</span>
+              <span class="case-bento-chip">HIPAA Aligned</span>
+              <span class="case-bento-chip">Audit Verification</span>
+            </div>
+          </div>
+        </div>
+
+<div class="case-bento-card card-automotive card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <span class="case-pill pill-automotive">
+                <span class="dot-ind"></span>
+                Automotive &amp; Mobility
+              </span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 07</span>
+            </div>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+              Lead Scoring &amp; Voice AI Caller
+            </h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+              Predict and qualify high-probability financing leads with real-time ML scoring and autonomous voice telephony agents.
+            </p>
+
+            <div class="case-bento-img-wrap">
+              <img src="/assets/case-leads.png" alt="Lead Scoring & Voice AI" >
+            </div>
+
+            <div style="margin-top: 0.85rem;">
+              <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+                Dealership sales reps were flooded with cold, unqualified inquiries, spending 40% of their working hours on manual dials.
+              </p>
+
+              <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+                Propensity scoring model feeding directly to a conversational LLM telephony bot that qualifies intent and books dealership test drives.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div class="case-metrics-grid">
+              <div class="case-stat-col">
+                <span class="case-stat-val accent-purple" data-count="+18%">+18%</span>
+                <span class="case-stat-lbl">Revenue Lift</span>
+              </div>
+              <div class="case-stat-sep"></div>
+              <div class="case-stat-col">
+                <span class="case-stat-val accent-purple" data-count="92%">92%</span>
+                <span class="case-stat-lbl">Qualification</span>
+              </div>
+            </div>
+
+            <div class="case-bento-chips">
+              <span class="case-bento-chip">Propensity Engine</span>
+              <span class="case-bento-chip">Voice AI Telephony</span>
+              <span class="case-bento-chip">CRM Automation</span>
+              <span class="case-bento-chip">Autonomous Calling</span>
+            </div>
+          </div>
+        </div>
+
+<div class="case-bento-card card-automotive card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <span class="case-pill pill-automotive">
+                <span class="dot-ind"></span>
+                Consumer &amp; Subscriptions
+              </span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 08</span>
+            </div>
+
+            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+              ML CRM Reactivation Pipeline
+            </h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+              Churn prediction model identifying dormant cohorts with dynamic incentives to reactivate lapsed subscribers.
+            </p>
+
+            <div class="case-bento-img-wrap">
+              <img src="/assets/case-crm.png" alt="ML CRM Reactivation Pipeline" >
+            </div>
+
+            <div style="margin-top: 0.85rem;">
+              <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+                A large dormant user base and inactive rechargers led to missed revenue, with generic push notifications failing to engage.
+              </p>
+
+              <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+                Predictive churn model scoring wallet recharge propensity with automated A/B-tested reactivation campaigns and dynamic incentives.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div class="case-metrics-grid">
+              <div class="case-stat-col">
+                <span class="case-stat-val accent-purple" data-count="11×">11×</span>
+                <span class="case-stat-lbl">Reactivation</span>
+              </div>
+              <div class="case-stat-sep"></div>
+              <div class="case-stat-col">
+                <span class="case-stat-val accent-purple" data-count="20K+">20K+</span>
+                <span class="case-stat-lbl">Users Activated</span>
+              </div>
+            </div>
+
+            <div class="case-bento-chips">
+              <span class="case-bento-chip">Churn Scoring</span>
+              <span class="case-bento-chip">Cohort Analytics</span>
+              <span class="case-bento-chip">A/B Testing</span>
+              <span class="case-bento-chip">Automated Pacing</span>
+            </div>
+          </div>
+        </div>
+
+<div class="case-bento-card card-saas card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span class="case-pill pill-saas">
+              <span class="dot-ind"></span>
+              FinTech &amp; Mobility
+            </span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 09</span>
+          </div>
+
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+            Automated Fleet Settlements Platform
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+            Automated multi-party ledger reconciliation, daily driver payouts, and bilingual weekly hisaab slips for large EV fleets.
+          </p>
+
+          <div class="case-bento-img-wrap">
+            <img src="/assets/case-fleet.jpg" alt="Automated Fleet Settlements Platform" >
+          </div>
+
+          <div style="margin-top: 0.85rem;">
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Daily driver payouts, fuel deductions, lease adjustments, and cash collections required hours of error-prone manual spreadsheets.
+            </p>
+
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+              Full-stack fintech portal automating multi-party ledger reconciliation, instant automated driver payouts, and bilingual weekly hisaab reports.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-green" data-count="100%">100%</span>
+              <span class="case-stat-lbl">Auto Settlements</span>
+            </div>
+            <div class="case-stat-sep"></div>
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-green" data-count="Zero">Zero</span>
+              <span class="case-stat-lbl">Disputes</span>
+            </div>
+          </div>
+
+          <div class="case-bento-chips">
+            <span class="case-bento-chip">Auto Payouts</span>
+            <span class="case-bento-chip">Weekly Hisaab</span>
+            <span class="case-bento-chip">Live Ledger</span>
+            <span class="case-bento-chip">Bilingual UI</span>
+          </div>
+
+          <div class="case-demo-action">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">Interactive Demo</span>
+            <a href="/demos/fleet-portal/" target="_blank" class="case-demo-btn">
+              Launch Demo &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+<div class="case-bento-card card-automotive card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span class="case-pill pill-automotive">
+              <span class="dot-ind"></span>
+              Operations &amp; Automation
+            </span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 10</span>
+          </div>
+
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+            Fleet Operations &amp; Inspection Hub
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+            Consolidated 20+ operations hub with browser PDI camera inspections, driver check-in workflows, and repair audit logs.
+          </p>
+
+          <div class="case-bento-img-wrap">
+            <img src="/assets/ops-portal-real.png" alt="Fleet Operations Platform" >
+          </div>
+
+          <div style="margin-top: 0.85rem;">
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Paper-based pre-delivery inspections (PDI), unrecorded damages, and untracked maintenance repair logs led to heavy operational losses.
+            </p>
+
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+              Consolidated operations hub featuring browser-based camera inspection workflows, live driver onboarding, and workshop job card tracking.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-purple" data-count="75%">75%</span>
+              <span class="case-stat-lbl">Faster Check-ins</span>
+            </div>
+            <div class="case-stat-sep"></div>
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-purple" data-count="20+">20+</span>
+              <span class="case-stat-lbl">Workflows</span>
+            </div>
+          </div>
+
+          <div class="case-bento-chips">
+            <span class="case-bento-chip">20+ Workflows</span>
+            <span class="case-bento-chip">Photo Audits</span>
+            <span class="case-bento-chip">Workshop Registry</span>
+            <span class="case-bento-chip">RBAC Security</span>
+          </div>
+
+          <div class="case-demo-action">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">Interactive Demo</span>
+            <a href="/demos/operations-portal/" target="_blank" class="case-demo-btn">
+              Launch Demo &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+<div class="case-bento-card card-saas card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span class="case-pill pill-saas">
+              <span class="dot-ind"></span>
+              Talent &amp; Assessment
+            </span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 11</span>
+          </div>
+
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+            Interview Reporting SaaS Platform
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+            End-to-end data pipeline aggregating candidate video metrics and evaluation rubrics into interactive client dashboards.
+          </p>
+
+          <div class="case-bento-img-wrap">
+            <img src="/assets/case-reporting.png" alt="Reporting Platform for Interview Provider" >
+          </div>
+
+          <div style="margin-top: 0.85rem;">
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Slow manual compiling of candidate performance data created severe hiring cycle delays and heavy operational overhead.
+            </p>
+
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+              Automated end-to-end data pipeline aggregating candidate evaluations into instant client-facing self-service dashboards.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-stat-col">
+              <span class="case-stat-val" data-count="90%">90%</span>
+              <span class="case-stat-lbl">Time-to-Hire</span>
+            </div>
+            <div class="case-stat-sep"></div>
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-blue" data-count="Instant">Instant</span>
+              <span class="case-stat-lbl">Reporting</span>
+            </div>
+          </div>
+
+          <div class="case-bento-chips">
+            <span class="case-bento-chip">Data Pipeline</span>
+            <span class="case-bento-chip">Interactive BI</span>
+            <span class="case-bento-chip">Self-Service</span>
+            <span class="case-bento-chip">PDF Exports</span>
+          </div>
+        </div>
+      </div>
+
+<div class="case-bento-card card-saas card">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+            <span class="case-pill pill-saas">
+              <span class="dot-ind"></span>
+              Fintech &amp; Banking
+            </span>
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 800; color: var(--text-muted);">CASE &mdash; 12</span>
+          </div>
+
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.32rem; font-weight: 800; color: var(--text); margin-bottom: 0.4rem; line-height: 1.25;">
+            Propensity Loan Cross-Selling Engine
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.75rem;">
+            ML-driven customer profiling engine predicting credit eligibility and cross-selling personal &amp; vehicle loan products.
+          </p>
+
+          <div class="case-bento-img-wrap">
+            <img src="/assets/case-loan.png" alt="Propensity Loan Cross-Selling" >
+          </div>
+
+          <div style="margin-top: 0.85rem;">
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Challenge</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0.65rem;">
+              Untargeted outreach resulted in low loan conversions and high acquisition costs across two-wheeler finance portfolios.
+            </p>
+
+            <div class="case-subtitle" style="margin-bottom: 0.25rem; font-size: 0.72rem;">Solution</div>
+            <p style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">
+              Unified customer profile engine evaluating cross-sell scores with automated CleverTap, WhatsApp, and email trigger journeys.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-blue" data-count="+18%">+18%</span>
+              <span class="case-stat-lbl">Cross-Sell Lift</span>
+            </div>
+            <div class="case-stat-sep"></div>
+            <div class="case-stat-col">
+              <span class="case-stat-val accent-blue" data-count="-15%">-15%</span>
+              <span class="case-stat-lbl">Lower CPA</span>
+            </div>
+          </div>
+
+          <div class="case-bento-chips">
+            <span class="case-bento-chip">Credit Propensity</span>
+            <span class="case-bento-chip">CleverTap API</span>
+            <span class="case-bento-chip">WhatsApp Trigger</span>
+            <span class="case-bento-chip">Dynamic Web App</span>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
 
-    <!-- CASE 3 -->
-    <div class="case-study">
-      <div class="case-img">
-        <img src="/assets/case-leads.png" loading="lazy" alt="Sales Team">
-      </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 03</span>
-        <h2 class="case-title">Lead Prioritization &amp; Voice AI Caller</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>An automobile finance company was overwhelmed with incoming leads, many of which were low quality. Sales representatives struggled to identify high-probability prospects.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Built a credit propensity and lead scoring model using customer profiles, location, and vehicle types. Integrated scoring into CRM and deployed a voice-based LLM telephony agent to qualify leads automatically.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Generated an 18% revenue lift across dealerships in 3 months by ensuring agents only call pre-qualified leads, reducing cold calling hours by 40%.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CASE 4 -->
-    <div class="case-study reversed">
-      <div class="case-img">
-        <img src="/assets/case-reporting.png" loading="lazy" alt="Analytics Dashboard">
-      </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 04</span>
-        <h2 class="case-title">Reporting Platform for Interview Provider</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>An online interview provider struggled with slow, manual candidate performance reports, leading to delays in client hiring cycles and high operational overhead.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Developed an automated end-to-end data pipeline and reporting system that aggregates candidate metrics, interview evaluations, and feedback into client-facing interactive dashboards.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Eliminated reporting delays entirely by automating metric compilation. Clients gain self-service access to candidate profiles instantly, accelerating time-to-hire by 90%.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CASE 5 -->
-    <div class="case-study">
-      <div class="case-img">
-        <img src="/assets/case-roas.png" loading="lazy" alt="E-Commerce Marketing">
-      </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 05</span>
-        <h2 class="case-title">ROAS Optimization for E-Commerce</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>Siloed marketing databases made it difficult to attribute revenue to ad spend, leading to inefficient budget allocation and wasted customer acquisition costs.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Created a unified attribution model linking product inventory and marketing acquisition data. Built interactive analytical dashboard panels for real-time ROAS and LTV monitoring.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Slashed wasted marketing expenditure by 22% in the first 30 days while boosting blended return on ad spend (ROAS) to 1.3x over 6 weeks.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CASE 6 -->
-    <div class="case-study reversed">
-      <div class="case-img">
-        <img src="/assets/case-loan.png" loading="lazy" alt="Financial Consulting">
-      </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 06</span>
-        <h2 class="case-title">Propensity Loan Cross-Selling</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>Untargeted marketing campaigns led to low cross-sell conversions and high acquisition costs for two-wheeler and personal loan products.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Built a unified customer profile model to evaluate cross-sell propensity scores. Integrated automated marketing tools (WhatsApp, Email, CleverTap) to deliver targeted user campaigns.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Boosted successful loan cross-sell conversions by 18% inside 2 months, lowering cost-per-acquisition (CPA) by 15% via channels optimization.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CASE 7 -->
-    <div class="case-study">
-      <div class="case-img">
-        <img src="/assets/case-crm.png" loading="lazy" alt="ML-Driven CRM Reactivation Pipeline">
-      </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 07</span>
-        <h2 class="case-title">ML-Driven CRM Reactivation Pipeline</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>A large dormant user base and inactive rechargers led to missed revenue, with generic notification campaigns failing to drive engagement.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Built a churn prediction model to score recharge probability. Deployed A/B-tested reactivation campaigns with personalized incentives.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Delivered up to an 11x revenue uplift in targeted dormant cohorts and automated scoring updates directly in the production database.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CASE 8 -->
-    <div class="case-study reversed">
-      <div class="case-img">
-        <img src="/assets/case-cltv.png" loading="lazy" alt="CLTV Prediction & High-Value User Identification">
-      </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 08</span>
-        <h2 class="case-title">CLTV Prediction &amp; High-Value User Identification</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>Lack of early predictive visibility on newly acquired user value made it difficult to optimize KPIs and allocate marketing spend.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Built CLTV models combining early behavioral app event data to predict high-value status within 30 days of signup.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Established predictive LTV as an active operational KPI, providing marketing teams with automated database tags for immediate personalization.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- CASE 9 -->
-    <div class="case-study">
-      <div class="case-img">
-        <img src="/assets/case-operations.png" loading="lazy" alt="E-Commerce Operations & Reporting Automation">
-      </div>
-      <div class="case-content">
-        <span class="case-meta">Case Study &mdash; 09</span>
-        <h2 class="case-title">E-Commerce Operations &amp; Reporting Automation</h2>
-        <div class="case-subtitle">Challenge</div>
-        <p>Manual daily extraction of Shopify sales and ad spend data (Meta, Google) created reporting bottlenecks and delayed executive insights.</p>
-        <div class="case-subtitle">Solution</div>
-        <p>Integrated Shopify and marketing APIs to auto-populate a master dashboard, combined with an automated bot for automated daily performance updates.</p>
-        <div class="case-impact">
-          <div class="impact-title">Business Impact</div>
-          <p class="impact-desc">Saved hundreds of operational hours yearly and enabled instant pacing visibility toward a $2.5M revenue target.</p>
-        </div>
-      </div>
+  <!-- BOTTOM CTA -->
+  <div class="section-full section-bg" style="border-top: 1px solid var(--border); padding: 5rem 1.5rem; text-align: center;">
+    <div style="max-width: 760px; margin: 0 auto;">
+      <p class="tagline">Live Working Prototypes</p>
+      <h2 style="font-size: clamp(2rem, 3.5vw, 2.75rem); font-weight: 800; color: var(--text); margin-bottom: 1rem;">
+        Experience Our Live Systems in Action
+      </h2>
+      <p style="font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2rem;">
+        Test drive functioning prototypes built by our senior engineering team &mdash; complete with natural language querying, automated fleet payouts, and instant rubric grading.
+      </p>
+      <a href="/demos" class="btn-primary" style="padding: 0.85rem 2.25rem; font-size: 1.05rem;">
+        Explore All Interactive Demos &rarr;
+      </a>
     </div>
   </div>
 </main>
@@ -289,41 +948,23 @@
   <div class="footer-inner">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="nav-logo" style="margin-bottom:0.75rem;">
-          <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height:28px;">
-          <img src="/assets/infinyty-logo-horizontal-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height:28px;">
+        <a href="/" class="nav-logo" aria-label="Infinyty" style="margin-bottom: 1rem; display: inline-block;">
+          <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="nav-logo-img logo-light" style="height: 32px; width: auto;">
+          <img src="/assets/infinyty-logo-horizontal-dark.png" alt="Infinyty" class="nav-logo-img logo-dark" style="height: 32px; width: auto;">
         </a>
-        <p>Driving Excellence with Data &amp; AI. </p>
+        <p>Enterprise AI Systems, Modern Data Lakehouses, and Full-Stack Engineering.</p>
       </div>
       <div class="footer-col">
         <h4>Solutions</h4>
         <ul>
-          <li><a href="/services#agentic-ai">Agentic AI &amp; Gen AI</a></li>
-          <li><a href="/services#agentic-ai">Predictive Analytics</a></li>
-          <li><a href="/services#data-engineering">Data Engineering</a></li>
-          <li><a href="/services#software-development">Software Development</a></li>
-          <li><a href="/services#cloud-devops">Cloud &amp; DevOps</a></li>
-          <li><a href="/services#ui-ux">UI/UX Design</a></li>
+          <li><a href="/services#pillar-data">Data Platform &amp; Intelligence</a></li>
+          <li><a href="/services#pillar-ai">AI Development &amp; Deployment</a></li>
+          <li><a href="/services#pillar-engineering">Product Engineering</a></li>
+          <li><a href="/services#engagement-models">Engagement Models</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="/about">About Us</a></li>
-          <li><a href="/success-stories">Success Stories</a></li>
-          <li><a href="/demos">Demos</a></li>
-          <li><a href="/careers">Careers</a></li>
-          <li><a href="/contact">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact Us</h4>
-        <ul>
-          <li><a href="mailto:contact@infinyty.tech">contact@infinyty.tech</a></li>
-          <li><a href="tel:+919930420065">+91 99304 20065</a></li>
-          <li><a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-        </ul>
-      </div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="/about">About Us</a></li><li><a href="/success-stories">Success Stories</a></li><li><a href="/demos">Demos</a></li><li><a href="/careers">Careers</a></li><li><a href="/contact">Contact Us</a></li></ul></div>
+      <div class="footer-col"><h4>Contact Us</h4><ul><li><a href="mailto:contact@infinyty.tech">contact@infinyty.tech</a></li><li><a href="tel:+919930420065">+91 99304 20065</a></li><li><a href="https://www.linkedin.com/company/infinyty-tech-global-services" target="_blank" rel="noopener noreferrer">LinkedIn</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 Infinyty &mdash; All Rights Reserved. Powered by Infinyty Tech Global Solutions Pvt. Ltd.</p>
@@ -335,8 +976,6 @@
     </div>
   </div>
 </footer>
-
 <script src="/main.js?v=7.0"></script>
 </body>
 </html>
-
