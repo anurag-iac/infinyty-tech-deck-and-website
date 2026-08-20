@@ -2059,13 +2059,13 @@ footer { background: var(--footer-bg); border-top: 1px solid var(--border); padd
 }
 
 /* ══════════════════════════════════════════════════════════════
-   HOME 4 ENGAGEMENT MODELS (FROM DECK SLIDE 9)
+   HOME 3 ENGAGEMENT MODELS
    ══════════════════════════════════════════════════════════════ */
 .home-engagement-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.35rem;
+  margin-top: 1.75rem;
   align-items: stretch;
   width: 100%;
 }
@@ -2073,12 +2073,11 @@ footer { background: var(--footer-bg); border-top: 1px solid var(--border); padd
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 1.65rem 1.35rem;
+  padding: 1.65rem 1.4rem;
   text-align: left;
   box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(14px);
@@ -2098,17 +2097,14 @@ footer { background: var(--footer-bg); border-top: 1px solid var(--border); padd
 .home-engagement-grid .engagement-card:nth-child(1) { border-top: 3.5px solid #0072F4; }
 .home-engagement-grid .engagement-card:nth-child(2) { border-top: 3.5px solid #10b981; }
 .home-engagement-grid .engagement-card:nth-child(3) { border-top: 3.5px solid #8b5cf6; }
-.home-engagement-grid .engagement-card:nth-child(4) { border-top: 3.5px solid #f59e0b; }
 
 .dark-mode .home-engagement-grid .engagement-card:nth-child(1) { border-top-color: #0072F4; }
 .dark-mode .home-engagement-grid .engagement-card:nth-child(2) { border-top-color: #10b981; }
 .dark-mode .home-engagement-grid .engagement-card:nth-child(3) { border-top-color: #8b5cf6; }
-.dark-mode .home-engagement-grid .engagement-card:nth-child(4) { border-top-color: #f59e0b; }
 
 .home-engagement-grid .engagement-card:nth-child(1):hover { border-color: rgba(0, 114, 244, 0.45); border-top-color: #0072F4; }
 .home-engagement-grid .engagement-card:nth-child(2):hover { border-color: rgba(16, 185, 129, 0.45); border-top-color: #10b981; }
 .home-engagement-grid .engagement-card:nth-child(3):hover { border-color: rgba(139, 92, 246, 0.45); border-top-color: #8b5cf6; }
-.home-engagement-grid .engagement-card:nth-child(4):hover { border-color: rgba(245, 158, 11, 0.45); border-top-color: #f59e0b; }
 
 .engagement-head {
   margin-bottom: 0.95rem;
