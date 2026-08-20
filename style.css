@@ -179,17 +179,21 @@ header.scrolled { box-shadow: 0 2px 24px var(--shadow-color); }
   object-fit: contain;
   display: block;
 }
+.logo-dark,
 .nav-logo .logo-dark {
   display: none;
 }
+.logo-light,
 .nav-logo .logo-light {
   display: block;
 }
+.dark-mode .logo-light,
 .dark-mode .nav-logo .logo-light {
-  display: none;
+  display: none !important;
 }
+.dark-mode .logo-dark,
 .dark-mode .nav-logo .logo-dark {
-  display: block;
+  display: block !important;
 }
 .nav-links { display: flex; gap: 0.35rem; list-style: none; flex-wrap: nowrap; align-items: center; }
 .nav-links a {
