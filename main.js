@@ -186,3 +186,53 @@ if ('IntersectionObserver' in window && counters.length > 0) {
   counters.forEach(c => counterObserver.observe(c));
 }
 
+// ── GLOBAL VIDEO MODAL CONTROLLERS & KEYBOARD LISTENERS ──
+function openVideoModal(videoSrc, title) {
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideoPlayer');
+  const source = document.getElementById('modalVideoSource');
+  const titleElem = document.getElementById('videoModalTitle');
+  if (!modal || !video) return;
+
+  if (source) {
+    source.src = videoSrc;
+    source.type = videoSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4';
+  }
+  video.src = videoSrc;
+  video.load();
+
+  if (title && titleElem) {
+    titleElem.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg> ' + title;
+  }
+  modal.classList.add('active');
+  video.play().catch(() => {});
+}
+
+function closeVideoModal(e) {
+  if (e && e.target !== e.currentTarget && !e.target.closest('.video-modal-close')) return;
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideoPlayer');
+  if (video) {
+    video.pause();
+    video.currentTime = 0;
+  }
+  if (modal) modal.classList.remove('active');
+}
+
+// Close modals or mobile menu on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeVideoModal();
+    const mm = document.getElementById('mobile-menu');
+    const hb = document.getElementById('hamburger');
+    if (mm && mm.classList.contains('open')) {
+      mm.classList.remove('open');
+      if (hb) {
+        hb.classList.remove('open');
+        hb.setAttribute('aria-expanded', 'false');
+      }
+    }
+  }
+});
+
+
