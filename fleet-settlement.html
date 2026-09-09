@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FleetPay: Operator Settlement — Automated Fleet Settlements Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f3f5f9;
+      --card-bg: #ffffff;
+      --sidebar-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-sub: #475569;
+      --border: #e2e8f0;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --primary-light: #e0f2fe;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-light: #fffbeb;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 230px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .brand-header {
+      height: 64px;
+      padding: 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
+    }
+    .brand-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .brand-sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-list {
+      padding: 1rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      flex: 1;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #475569;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .nav-item:hover {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    .nav-item.active {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* MAIN WRAPPER */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background: #f4f6fa;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .period-title-area {
+      display: flex;
+      flex-direction: column;
+    }
+    .period-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .period-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .btn-new-payout {
+      background: #0284c7;
+      color: #ffffff;
+      border: none;
+      padding: 0.45rem 0.95rem;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+      transition: background 0.15s;
+    }
+    .btn-new-payout:hover { background: #0369a1; }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.85rem;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s;
+    }
+    .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-left: 0.75rem;
+      border-left: 1px solid var(--border);
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #64748b;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .notification-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 7px;
+      height: 7px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 1.5px solid #ffffff;
+    }
+    .avatar-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--border);
+    }
+
+    /* SCROLLABLE DASHBOARD CONTENT */
+    .dashboard-content {
+      flex: 1;
+      padding: 1.0rem 1.4rem 1.25rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+      max-width: 1560px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* 4 KPIS ROW */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+    .kpi-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .kpi-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .kpi-value {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+    .kpi-meta-line {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.1rem;
+    }
+    .kpi-badge-green {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+    }
+    .kpi-badge-orange {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fde68a;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+    }
+    .kpi-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-blue { background: #e0f2fe; color: #0284c7; }
+    .icon-green { background: #ecfdf5; color: #10b981; }
+    .icon-orange { background: #fff7ed; color: #f97316; }
+    .icon-emerald { background: #ecfdf5; color: #059669; }
+
+    /* 2-COLUMN MAIN CONTENT GRID */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr;
+      gap: 0.95rem;
+      flex: 1;
+    }
+
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+    }
+
+    /* CARD CONTAINER */
+    .section-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.95rem 1.2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.65rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid #f8fafc;
+    }
+    .card-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .chart-legend {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #64748b;
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.3rem;
+    }
+    .dot-blue { background: #0284c7; }
+    .dot-orange { background: #f59e0b; }
+
+    .chart-box-trend {
+      height: 185px;
+      position: relative;
+      width: 100%;
+    }
+
+    /* TRANSACTION LEDGER TABLE */
+    .table-tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.65rem;
+    }
+    .table-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .table-tag {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .table-actions-mini {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .search-box-mini {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-box-mini input {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.28rem 0.65rem 0.28rem 1.6rem;
+      font-size: 0.72rem;
+      outline: none;
+      width: 160px;
+      color: #0f172a;
+    }
+    .search-box-mini svg {
+      position: absolute;
+      left: 0.5rem;
+      color: #94a3b8;
+    }
+
+    .table-wrapper {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.74rem;
+    }
+    thead {
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      padding: 0.55rem 0.75rem;
+      font-weight: 700;
+      color: #475569;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      vertical-align: middle;
+    }
+    tbody tr {
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    tbody tr:hover {
+      background: #f0f9ff;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .driver-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .driver-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+    .driver-name {
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .driver-id {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+    .status-settled { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+    .status-failed { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .status-processing { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+
+    /* RIGHT COLUMN COMPLIANCE & DONUTS */
+    .compliance-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .compliance-row {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.48rem 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .comp-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .comp-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .comp-sub {
+      font-size: 0.66rem;
+      color: #64748b;
+    }
+    .badge-comp-valid {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+    }
+    .badge-comp-expiring {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+    }
+
+    .donuts-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .donut-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .donut-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0f172a;
+      align-self: flex-start;
+      margin-bottom: 0.35rem;
+    }
+    .donut-chart-box {
+      width: 110px;
+      height: 110px;
+      position: relative;
+    }
+    .donut-legend-mini {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      font-size: 0.66rem;
+      color: #475569;
+      font-weight: 600;
+      width: 100%;
+      margin-top: 0.4rem;
+    }
+    .legend-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* SLIDE-OVER RECONCILIATION DRAWER */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .drawer-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: -480px;
+      width: 440px;
+      height: 100vh;
+      background: #0f172a;
+      color: #ffffff;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.35);
+      z-index: 101;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.0rem;
+      transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .drawer.open {
+      right: 0;
+    }
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.0rem;
+      border-bottom: 1px solid #1e293b;
+    }
+    .drawer-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .drawer-sub {
+      font-size: 0.74rem;
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .drawer-close-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+    .audit-box {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 0.75rem 1.0rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .audit-main { font-size: 0.78rem; font-weight: 700; color: #ffffff; }
+    .audit-sub { font-size: 0.68rem; color: #94a3b8; }
+    .audit-val-green { color: #4ade80; font-weight: 700; font-size: 0.78rem; }
+    .audit-val-red { color: #f87171; font-weight: 700; font-size: 0.78rem; }
+
+    .net-payout-box {
+      background: #0284c7;
+      border-radius: 10px;
+      padding: 1.1rem;
+      text-align: center;
+      margin-top: auto;
+    }
+    .net-payout-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #e0f2fe;
+      text-transform: uppercase;
+    }
+    .net-payout-val {
+      font-size: 1.95rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: 0.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .btn-approve-payout {
+      background: #10b981;
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: background 0.15s;
+    }
+    .btn-approve-payout:hover { background: #059669; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      border-left: 4px solid #10b981;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand-header">
+      <div class="brand-icon">F</div>
+      <div class="brand-title-area">
+        <div class="brand-title">FleetPay</div>
+        <div class="brand-sub">Operator Settlement</div>
+      </div>
+    </div>
+
+    <nav class="nav-list">
+      <a class="nav-item" id="nav-overview" onclick="switchNav('overview')">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        Overview
+      </a>
+      <a class="nav-item" id="nav-drivers" onclick="switchNav('drivers')">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        Drivers
+      </a>
+      <a class="nav-item" id="nav-fleet" onclick="switchNav('fleet')">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+        Fleet
+      </a>
+      <a class="nav-item" id="nav-payouts" onclick="switchNav('payouts')">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        Payouts
+      </a>
+      <a class="nav-item active" id="nav-ledger" onclick="switchNav('ledger')">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+        Ledger
+      </a>
+      <a class="nav-item" id="nav-compliance" onclick="switchNav('compliance')">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Compliance
+      </a>
+      <a class="nav-item" id="nav-reports" onclick="switchNav('reports')">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        Reports
+      </a>
+      <a class="nav-item" id="nav-settings" onclick="switchNav('settings')">
+        <svg class="nav-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Settings
+      </a>
+    </nav>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrapper">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="period-title-area">
+        <h1 class="period-title" id="page-title">October 2023 Settlement Period</h1>
+        <div class="period-sub">Date range: Oct 1 - Oct 31, 2023</div>
+      </div>
+
+      <div class="top-actions">
+        <button class="btn-new-payout" onclick="openNewPayoutModal()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+          New Payout
+        </button>
+        <button class="btn-secondary" onclick="toggleFilter()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+          Filter
+        </button>
+        <button class="btn-secondary" onclick="exportPDF()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Export PDF
+        </button>
+
+        <div class="user-profile">
+          <button class="icon-btn">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
+          </button>
+          <button class="icon-btn">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span class="notification-dot"></span>
+          </button>
+          <img class="avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80" alt="Admin Operator">
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="dashboard-content">
+
+      <!-- 4 KPIS -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <div class="kpi-label">Total Revenue</div>
+            <div class="kpi-value">$28,450.75</div>
+            <div class="kpi-meta-line">
+              <span class="kpi-badge-green">+5.2%</span> vs last cycle
+            </div>
+          </div>
+          <div class="kpi-icon-box icon-blue">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <div class="kpi-label">Driver Payouts</div>
+            <div class="kpi-value">$19,120.30</div>
+            <div class="kpi-meta-line">
+              <span class="kpi-badge-green">67.2%</span> 125 Active Drivers
+            </div>
+          </div>
+          <div class="kpi-icon-box icon-green">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <div class="kpi-label">Rental Deductions</div>
+            <div class="kpi-value">$6,180.45</div>
+            <div class="kpi-meta-line">
+              <span class="kpi-badge-orange">21.7%</span> 48 Vehicle Rentals
+            </div>
+          </div>
+          <div class="kpi-icon-box icon-orange">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-info">
+            <div class="kpi-label">Compliance Status</div>
+            <div class="kpi-value">98.4% Compliant</div>
+            <div class="kpi-meta-line">
+              <span class="kpi-badge-green">120 Drivers OK</span> 2 Flags
+            </div>
+          </div>
+          <div class="kpi-icon-box icon-emerald">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-COLUMN MAIN GRID -->
+      <div class="dashboard-grid">
+
+        <!-- LEFT COLUMN: TRENDS + TRANSACTION LEDGER TABLE -->
+        <div class="left-col">
+
+          <!-- PAYOUT TRENDS CHART -->
+          <div class="section-card">
+            <div class="card-head">
+              <div class="card-title">Payout Trends (Oct 2023)</div>
+              <div class="chart-legend">
+                <span><span class="legend-dot dot-blue"></span>Daily Payouts</span>
+                <span><span class="legend-dot dot-orange"></span>Revenue</span>
+              </div>
+            </div>
+            <div class="chart-box-trend">
+              <canvas id="payoutTrendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- TRANSACTION LEDGER TABLE -->
+          <div class="section-card" style="flex:1;">
+            <div class="table-tools">
+              <div class="table-title">
+                Transaction Ledger Table <span class="table-tag">(Real-time)</span>
+              </div>
+              <div class="table-actions-mini">
+                <div class="search-box-mini">
+                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <input type="text" id="driverSearch" placeholder="Search driver or ID..." oninput="filterLedger()">
+                </div>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Trans ID</th>
+                    <th>Date ↓</th>
+                    <th>Driver (Name/ID)</th>
+                    <th>Type</th>
+                    <th>Vehicle</th>
+                    <th>Amount ($)</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="ledgerRows">
+                  <tr onclick="openAuditDrawer('John Doe', '#0101', '$1,000.00', 'BX20533', 'Payout')">
+                    <td><strong>80001</strong></td>
+                    <td>01/1/2023</td>
+                    <td>
+                      <div class="driver-cell">
+                        <img class="driver-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80" alt="John Doe">
+                        <div>
+                          <div class="driver-name">John Doe</div>
+                          <div class="driver-id">#0101</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Payout</td>
+                    <td>BX20533</td>
+                    <td style="font-weight:700; color:#0f172a;">$1,000.00</td>
+                    <td><span class="status-badge status-settled">Settled</span></td>
+                    <td style="color:#94a3b8; font-weight:700;">···</td>
+                  </tr>
+
+                  <tr onclick="openAuditDrawer('Emily Chen', '#0205', '-$3,000.00', 'BX50225', 'Rental')">
+                    <td><strong>80002</strong></td>
+                    <td>01/1/2023</td>
+                    <td>
+                      <div class="driver-cell">
+                        <img class="driver-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80" alt="Emily Chen">
+                        <div>
+                          <div class="driver-name">Emily Chen</div>
+                          <div class="driver-id">#0205</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Rental</td>
+                    <td>BX50225</td>
+                    <td style="font-weight:700; color:#dc2626;">-$3,000.00</td>
+                    <td><span class="status-badge status-failed">Failed</span></td>
+                    <td style="color:#94a3b8; font-weight:700;">···</td>
+                  </tr>
+
+                  <tr onclick="openAuditDrawer('Rahul Singh', '#0312', '$500.00', 'BX00573', 'Gas')">
+                    <td><strong>30003</strong></td>
+                    <td>01/1/2023</td>
+                    <td>
+                      <div class="driver-cell">
+                        <img class="driver-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80" alt="Rahul Singh">
+                        <div>
+                          <div class="driver-name">Rahul Singh</div>
+                          <div class="driver-id">#0312</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Gas</td>
+                    <td>BX00573</td>
+                    <td style="font-weight:700; color:#0f172a;">$500.00</td>
+                    <td><span class="status-badge status-processing">Processing</span></td>
+                    <td style="color:#94a3b8; font-weight:700;">···</td>
+                  </tr>
+
+                  <tr onclick="openAuditDrawer('John Doe', '#0101', '$200.00', 'Bonus 101', 'Bonus')">
+                    <td><strong>80004</strong></td>
+                    <td>01/1/2023</td>
+                    <td>
+                      <div class="driver-cell">
+                        <img class="driver-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&auto=format&fit=crop&q=80" alt="John Doe">
+                        <div>
+                          <div class="driver-name">John Doe</div>
+                          <div class="driver-id">#0101</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Bonus</td>
+                    <td>Bonus 101</td>
+                    <td style="font-weight:700; color:#0f172a;">$200.00</td>
+                    <td><span class="status-badge status-settled">Settled</span></td>
+                    <td style="color:#94a3b8; font-weight:700;">···</td>
+                  </tr>
+
+                  <tr onclick="openAuditDrawer('Emily Chen', '#0205', '$1,200.00', 'BX20533', 'Payout')">
+                    <td><strong>80005</strong></td>
+                    <td>01/1/2023</td>
+                    <td>
+                      <div class="driver-cell">
+                        <img class="driver-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80" alt="Emily Chen">
+                        <div>
+                          <div class="driver-name">Emily Chen</div>
+                          <div class="driver-id">#0205</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Payout</td>
+                    <td>BX20533</td>
+                    <td style="font-weight:700; color:#0f172a;">$1,200.00</td>
+                    <td><span class="status-badge status-settled">Settled</span></td>
+                    <td style="color:#94a3b8; font-weight:700;">···</td>
+                  </tr>
+
+                  <tr onclick="openAuditDrawer('Emily Chen', '#0205', '$400.00', 'BX20528', 'Rental')">
+                    <td><strong>80006</strong></td>
+                    <td>01/1/2023</td>
+                    <td>
+                      <div class="driver-cell">
+                        <img class="driver-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&auto=format&fit=crop&q=80" alt="Emily Chen">
+                        <div>
+                          <div class="driver-name">Emily Chen</div>
+                          <div class="driver-id">#0205</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Rental</td>
+                    <td>BX20528</td>
+                    <td style="font-weight:700; color:#0f172a;">$400.00</td>
+                    <td><span class="status-badge status-settled">Settled</span></td>
+                    <td style="color:#94a3b8; font-weight:700;">···</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: COMPLIANCE + SETTLEMENT BREAKDOWN + FLEET UTILIZATION -->
+        <div class="right-col">
+
+          <!-- DRIVER COMPLIANCE & DEDUCTIONS -->
+          <div class="section-card">
+            <div class="card-head">
+              <div class="card-title">Driver Compliance & Deductions</div>
+            </div>
+            <div style="font-size:0.72rem; font-weight:700; color:#475569; margin-bottom:0.4rem;">Operator Compliance Check</div>
+            <div class="compliance-list">
+              <div class="compliance-row">
+                <div class="comp-info">
+                  <span class="comp-title">Driving License</span>
+                  <span class="comp-sub">DL valid | Valid</span>
+                </div>
+                <span class="badge-comp-valid">✓ DL VALID</span>
+              </div>
+
+              <div class="compliance-row">
+                <div class="comp-info">
+                  <span class="comp-title">Background Check</span>
+                  <span class="comp-sub">Bg Check | Clear</span>
+                </div>
+                <span class="badge-comp-valid">✓ CLEAR</span>
+              </div>
+
+              <div class="compliance-row">
+                <div class="comp-info">
+                  <span class="comp-title">Vehicle Insurance</span>
+                  <span class="comp-sub">Ins. Check | Active Policy</span>
+                </div>
+                <span class="badge-comp-valid">✓ ACTIVE</span>
+              </div>
+
+              <div class="compliance-row">
+                <div class="comp-info">
+                  <span class="comp-title">Vehicle Permits</span>
+                  <span class="comp-sub">Commercial Permit | Verified</span>
+                </div>
+                <span class="badge-comp-valid">✓ VALID</span>
+              </div>
+
+              <div class="compliance-row">
+                <div class="comp-info">
+                  <span class="comp-title">Medical Cert</span>
+                  <span class="comp-sub">Med Cert | Fitness Check</span>
+                </div>
+                <span class="badge-comp-expiring">⚠ EXPIRES 12/23</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- DUAL DONUTS -->
+          <div class="donuts-dual-grid">
+
+            <!-- SETTLEMENT BREAKDOWN DONUT -->
+            <div class="donut-card">
+              <div class="donut-title">Settlement Breakdown</div>
+              <div class="donut-chart-box">
+                <canvas id="settlementDonut"></canvas>
+              </div>
+              <div class="donut-legend-mini">
+                <div class="legend-item-row">
+                  <span><span class="legend-dot" style="background:#0284c7;"></span>Payouts</span>
+                  <strong>68%</strong>
+                </div>
+                <div class="legend-item-row">
+                  <span><span class="legend-dot" style="background:#f59e0b;"></span>Deductions</span>
+                  <strong>22%</strong>
+                </div>
+                <div class="legend-item-row">
+                  <span><span class="legend-dot" style="background:#06b6d4;"></span>Fuel</span>
+                  <strong>8%</strong>
+                </div>
+                <div class="legend-item-row">
+                  <span><span class="legend-dot" style="background:#8b5cf6;"></span>Fees</span>
+                  <strong>2%</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACTIVE FLEET UTILIZATION DONUT -->
+            <div class="donut-card">
+              <div class="donut-title">Active Fleet Utilization</div>
+              <div class="donut-chart-box">
+                <canvas id="utilizationDonut"></canvas>
+              </div>
+              <div class="donut-legend-mini">
+                <div class="legend-item-row">
+                  <span><span class="legend-dot" style="background:#10b981;"></span>On Trip (Active)</span>
+                  <strong>74%</strong>
+                </div>
+                <div class="legend-item-row">
+                  <span><span class="legend-dot" style="background:#3b82f6;"></span>En Route / Standby</span>
+                  <strong>18%</strong>
+                </div>
+                <div class="legend-item-row">
+                  <span><span class="legend-dot" style="background:#cbd5e1;"></span>Maintenance</span>
+                  <strong>8%</strong>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- SLIDE-OVER RECONCILIATION AUDIT DRAWER -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeAuditDrawer()"></div>
+  <div class="drawer" id="auditDrawer">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title" id="drawerDriverName">John Doe</div>
+        <div class="drawer-sub" id="drawerSubInfo">#0101 · BX20533</div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeAuditDrawer()">✕</button>
+    </div>
+
+    <div style="font-size:0.75rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.04em;">
+      Real-Time Telemetry & Ledger Audit
+    </div>
+
+    <div class="audit-box">
+      <div>
+        <div class="audit-main">Uber & Ola Telemetry API Sync</div>
+        <div class="audit-sub">148 Trips Verified via GPS Webhook</div>
+      </div>
+      <span class="audit-val-green">100% Match</span>
+    </div>
+
+    <div class="audit-box">
+      <div>
+        <div class="audit-main">Fastag & Toll Plaza Automatic Pass-through</div>
+        <div class="audit-sub">18 Highway Tolls Reconciled</div>
+      </div>
+      <span class="audit-val-green">+$42.50</span>
+    </div>
+
+    <div class="audit-box">
+      <div>
+        <div class="audit-main">Weekly Fleet Rental Deduction</div>
+        <div class="audit-sub">Daily Lease Plan ($120/day)</div>
+      </div>
+      <span class="audit-val-red">-$840.00</span>
+    </div>
+
+    <div class="audit-box">
+      <div>
+        <div class="audit-main">Fuel & Charging Card Reconciliation</div>
+        <div class="audit-sub">Shell Fleet Card (3 Fill-ups)</div>
+      </div>
+      <span class="audit-val-red">-$165.20</span>
+    </div>
+
+    <div class="net-payout-box">
+      <div class="net-payout-label">Calculated Final Settlement</div>
+      <div class="net-payout-val" id="drawerNetVal">$1,000.00</div>
+    </div>
+
+    <button class="btn-approve-payout" id="btnApproveDrawer" onclick="approveSettlement()">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      Approve & Send Payout via ACH API
+    </button>
+  </div>
+
+  <!-- TOAST CONFIRMATION -->
+  <div class="toast" id="toastBox">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#10b981"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+    <span id="toastMsg">Payout of $1,000.00 Processed via Stripe Fleet ACH!</span>
+  </div>
+
+  <script>
+    // 1. Dual Area Wave Chart: Payout Trends (Oct 2023)
+    const ctxTrend = document.getElementById('payoutTrendChart').getContext('2d');
+    
+    // Gradient fills
+    const gradBlue = ctxTrend.createLinearGradient(0, 0, 0, 180);
+    gradBlue.addColorStop(0, 'rgba(2, 132, 199, 0.35)');
+    gradBlue.addColorStop(1, 'rgba(2, 132, 199, 0.0)');
+
+    const gradOrange = ctxTrend.createLinearGradient(0, 0, 0, 180);
+    gradOrange.addColorStop(0, 'rgba(245, 158, 11, 0.3)');
+    gradOrange.addColorStop(1, 'rgba(245, 158, 11, 0.0)');
+
+    const trendLabels = ['Oct 1', 'Oct 5', 'Oct 9', 'Oct 10', 'Oct 13', 'Oct 15', 'Oct 18', 'Oct 19', 'Oct 23', 'Oct 24', 'Oct 27', 'Oct 29', 'Oct 31'];
+    const dataRevenue = [820, 890, 1050, 1200, 1100, 1250, 1180, 1320, 1280, 1420, 1380, 1490, 1450];
+    const dataPayouts = [540, 610, 720, 850, 780, 890, 820, 940, 910, 1020, 980, 1080, 1040];
+
+    const trendChart = new Chart(ctxTrend, {
+      type: 'line',
+      data: {
+        labels: trendLabels,
+        datasets: [
+          {
+            label: 'Revenue',
+            data: dataRevenue,
+            borderColor: '#f59e0b',
+            backgroundColor: gradOrange,
+            borderWidth: 2.5,
+            fill: true,
+            tension: 0.42,
+            pointRadius: 3,
+            pointBackgroundColor: '#f59e0b'
+          },
+          {
+            label: 'Daily Payouts',
+            data: dataPayouts,
+            borderColor: '#0284c7',
+            backgroundColor: gradBlue,
+            borderWidth: 2.5,
+            fill: true,
+            tension: 0.42,
+            pointRadius: 3,
+            pointBackgroundColor: '#0284c7'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            padding: 10,
+            titleFont: { family: 'Plus Jakarta Sans', size: 12 },
+            bodyFont: { family: 'Plus Jakarta Sans', size: 12 },
+            callbacks: {
+              label: (ctx) => ` ${ctx.dataset.label}: $${ctx.raw.toLocaleString()}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 10, family: 'Plus Jakarta Sans' }, color: '#64748b' }
+          },
+          y: {
+            min: 0,
+            max: 1600,
+            ticks: {
+              stepSize: 400,
+              callback: (v) => `$${v}`,
+              font: { size: 10, family: 'Plus Jakarta Sans' },
+              color: '#64748b'
+            },
+            grid: { color: '#f1f5f9' }
+          }
+        }
+      }
+    });
+
+    // 2. Settlement Breakdown Donut Chart
+    const ctxSet = document.getElementById('settlementDonut').getContext('2d');
+    new Chart(ctxSet, {
+      type: 'doughnut',
+      data: {
+        labels: ['Payouts', 'Deductions', 'Fuel', 'Fees'],
+        datasets: [{
+          data: [68, 22, 8, 2],
+          backgroundColor: ['#0284c7', '#f59e0b', '#06b6d4', '#8b5cf6'],
+          borderWidth: 2,
+          borderColor: '#ffffff',
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${ctx.label}: ${ctx.raw}%`
+            }
+          }
+        }
+      }
+    });
+
+    // 3. Active Fleet Utilization Donut Chart
+    const ctxUtil = document.getElementById('utilizationDonut').getContext('2d');
+    new Chart(ctxUtil, {
+      type: 'doughnut',
+      data: {
+        labels: ['On Trip (Active)', 'En Route / Standby', 'Maintenance'],
+        datasets: [{
+          data: [74, 18, 8],
+          backgroundColor: ['#10b981', '#3b82f6', '#cbd5e1'],
+          borderWidth: 2,
+          borderColor: '#ffffff',
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${ctx.label}: ${ctx.raw}%`
+            }
+          }
+        }
+      }
+    });
+
+    // Interactive functions
+    function openAuditDrawer(name, id, net, vehicle, type) {
+      document.getElementById('drawerDriverName').innerText = name;
+      document.getElementById('drawerSubInfo').innerText = `${id} · ${vehicle} · ${type}`;
+      document.getElementById('drawerNetVal').innerText = net;
+      document.getElementById('auditDrawer').classList.add('open');
+      document.getElementById('drawerOverlay').classList.add('active');
+    }
+
+    function closeAuditDrawer() {
+      document.getElementById('auditDrawer').classList.remove('open');
+      document.getElementById('drawerOverlay').classList.remove('active');
+    }
+
+    function approveSettlement() {
+      const net = document.getElementById('drawerNetVal').innerText;
+      closeAuditDrawer();
+      showToast(`Settlement of ${net} successfully disbursed via Fleet ACH!`);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastBox');
+      const m = document.getElementById('toastMsg');
+      m.innerText = msg;
+      t.style.display = 'flex';
+      setTimeout(() => { t.style.display = 'none'; }, 3200);
+    }
+
+    function openNewPayoutModal() {
+      showToast("Triggering instant operator payout batch for 125 active drivers...");
+    }
+
+    function toggleFilter() {
+      showToast("Filtered view: October 2023 Settlement Cycle.");
+    }
+
+    function exportPDF() {
+      showToast("Generating official FDA & Operator Settlement PDF Ledger...");
+    }
+
+    function switchNav(tab) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      const activeEl = document.getElementById('nav-' + tab);
+      if (activeEl) activeEl.classList.add('active');
+      const titleEl = document.getElementById('page-title');
+      if (tab === 'overview') titleEl.innerText = "Fleet Operations & Payout Overview";
+      else if (tab === 'drivers') titleEl.innerText = "Driver Roster & Compliance Status";
+      else if (tab === 'fleet') titleEl.innerText = "Fleet Telemetry & Vehicle Utilization";
+      else if (tab === 'payouts') titleEl.innerText = "Payout Execution & Banking Gateway";
+      else if (tab === 'ledger') titleEl.innerText = "October 2023 Settlement Period";
+      else if (tab === 'compliance') titleEl.innerText = "Operator & Vehicle Compliance Audits";
+      else if (tab === 'reports') titleEl.innerText = "Settlement & Tax Reporting Center";
+      else if (tab === 'settings') titleEl.innerText = "FleetPay Gateway Settings & API Keys";
+    }
+
+    function filterLedger() {
+      const q = document.getElementById('driverSearch').value.toLowerCase();
+      document.querySelectorAll('#ledgerRows tr').forEach(r => {
+        r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
