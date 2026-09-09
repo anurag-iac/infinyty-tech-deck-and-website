@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead Pipeline Automation &mdash; Infinyty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* TOP NAVBAR */
+    .navbar {
+      height: 60px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.75rem;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 1.15rem;
+    }
+
+    .logo-img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .divider-v {
+      width: 1px;
+      height: 20px;
+      background: #e2e8f0;
+    }
+
+    .app-title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+
+    .app-sub {
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.15rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    /* 4 KPIS */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+    }
+
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.9rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+
+    .kpi-lbl {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #64748b;
+    }
+
+    .kpi-num {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-sub {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #16a34a;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    /* ACTIVE TELEPHONY STATUS BAR */
+    .telephony-bar {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.65rem 1.15rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      font-size: 0.8rem;
+    }
+
+    .telephony-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .agent-active-badge {
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .caller-details {
+      color: #64748b;
+      font-size: 0.75rem;
+    }
+
+    .telephony-right {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .telephony-metric {
+      font-size: 0.75rem;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .wave-container {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 20px;
+    }
+
+    .wave-line {
+      width: 3px;
+      background: #0072f4;
+      border-radius: 2px;
+      animation: wave 1s ease-in-out infinite alternate;
+    }
+
+    .wave-line:nth-child(1) { height: 8px; animation-delay: 0.1s; }
+    .wave-line:nth-child(2) { height: 16px; animation-delay: 0.3s; }
+    .wave-line:nth-child(3) { height: 12px; animation-delay: 0.2s; }
+    .wave-line:nth-child(4) { height: 18px; animation-delay: 0.4s; }
+    .wave-line:nth-child(5) { height: 10px; animation-delay: 0.15s; }
+
+    @keyframes wave {
+      0% { transform: scaleY(0.4); }
+      100% { transform: scaleY(1.2); }
+    }
+
+    /* 2-COLUMN GRAPHS ROW */
+    .graphs-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 1rem;
+    }
+
+    .chart-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .chart-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .chart-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #16a34a;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .chart-box {
+      height: 205px;
+      position: relative;
+    }
+
+    /* VOICE AGENTS TABLE */
+    .table-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+
+    .table-head-bar {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title-area {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .table-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .filter-pills {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .pill-btn {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .pill-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .pill-btn.active {
+      background: #0072f4;
+      color: #ffffff;
+      border-color: #0072f4;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.8rem;
+    }
+
+    th {
+      background: #f8fafc;
+      padding: 0.65rem 1.15rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    td {
+      padding: 0.8rem 1.15rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      font-weight: 500;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr {
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    tr.highlight-row {
+      background: #eff6ff !important;
+    }
+
+    tr:hover td {
+      background: #f8fafc;
+    }
+
+    tr.highlight-row td {
+      background: #eff6ff !important;
+    }
+
+    .agent-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .tag-top {
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+
+    .tag-norm {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+    }
+
+    .rate-win {
+      font-weight: 800;
+      color: #16a34a;
+      font-size: 0.88rem;
+    }
+
+    .rate-mid {
+      font-weight: 700;
+      color: #0072f4;
+    }
+
+    .rate-base {
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .money-bold {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .graphs-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="brand-section">
+      <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="logo-img">
+      <div class="divider-v"></div>
+      <div class="app-title-group">
+        <span class="app-title">Lead Pipeline Automation</span>
+        <span class="app-sub">Auto Loan Qualification &amp; Calling System</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- 4 KPIS -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <span class="kpi-lbl">Leads Ingested</span>
+        <div class="kpi-num" id="kpi-leads">38,200</div>
+        <div class="kpi-sub" id="kpi-leads-sub">Web &amp; Dealer Portals</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-lbl">Calls Placed</span>
+        <div class="kpi-num" id="kpi-calls" style="color: #0072f4;">34,800</div>
+        <div class="kpi-sub" id="kpi-calls-sub">91.1% Outbound Reach</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-lbl">Leads Converted</span>
+        <div class="kpi-num" id="kpi-converted" style="color: #16a34a;">5,095</div>
+        <div class="kpi-sub" id="kpi-converted-sub">14.6% Overall Rate</div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-lbl">Funded Loan Volume</span>
+        <div class="kpi-num" id="kpi-volume">$36.4M</div>
+        <div class="kpi-sub" id="kpi-volume-sub">Avg Loan: $18,500</div>
+      </div>
+    </div>
+
+    <!-- ACTIVE CALL STATUS BAR -->
+    <div class="telephony-bar">
+      <div class="telephony-left">
+        <div class="agent-active-badge" id="live-agent-name">
+          <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#16a34a;"></span>
+          Sarah 2.2: Outbound Call in Progress
+        </div>
+        <div class="caller-details" id="live-lead-details">Auto Loan Pre-Qualification (2023 SUV)</div>
+      </div>
+      <div class="telephony-right">
+        <span class="telephony-metric">Latency: <strong id="live-latency">480ms</strong></span>
+        <span class="telephony-metric">Speed to Call: <strong id="live-speed">38s</strong></span>
+        <div class="wave-container">
+          <div class="wave-line"></div>
+          <div class="wave-line"></div>
+          <div class="wave-line"></div>
+          <div class="wave-line"></div>
+          <div class="wave-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2-COLUMN GRAPHS (Weekly Calls vs Converted & Outcomes Breakdown) -->
+    <div class="graphs-row">
+      
+      <!-- GRAPH 1: WEEKLY CALLS VS CONVERTED DEALS -->
+      <div class="chart-card">
+        <div class="chart-head">
+          <span class="chart-title" id="weekly-chart-title">Weekly Outbound Calls vs. Converted Loans</span>
+          <span class="chart-tag" id="weekly-chart-tag">+132% Conversion Growth</span>
+        </div>
+        <div class="chart-box">
+          <canvas id="weeklyCallsChart"></canvas>
+        </div>
+      </div>
+
+      <!-- GRAPH 2: CALL OUTCOMES -->
+      <div class="chart-card">
+        <div class="chart-head">
+          <span class="chart-title" id="outcomes-chart-title">Call Outcome Breakdown</span>
+          <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;" id="outcomes-chart-total">34,800 Calls</span>
+        </div>
+        <div class="chart-box">
+          <canvas id="outcomesChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM TABLE: CALLING AGENTS & CONVERSIONS -->
+    <div class="table-card">
+      <div class="table-head-bar">
+        <div class="table-title-area">
+          <span class="table-title">Calling Agents &amp; Conversions</span>
+          <div class="filter-pills">
+            <button class="pill-btn active" id="btn-all" onclick="selectAgent('all')">All Agents</button>
+            <button class="pill-btn" id="btn-sarah" onclick="selectAgent('sarah')">Sarah 2.2</button>
+            <button class="pill-btn" id="btn-alex" onclick="selectAgent('alex')">Alex 1.2</button>
+            <button class="pill-btn" id="btn-david" onclick="selectAgent('david')">David 1.0</button>
+          </div>
+        </div>
+        <span style="font-size: 0.72rem; color: #64748b; font-weight: 500;">Click row to inspect agent graphs</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>Voice &amp; Gender</th>
+            <th>Calls Made</th>
+            <th>Avg Call Time</th>
+            <th>Speed to Lead</th>
+            <th>Converted Leads</th>
+            <th>Conversion Rate</th>
+            <th>Funded Volume</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="row-sarah" onclick="selectAgent('sarah')">
+            <td>
+              <div class="agent-name-cell">
+                <span>Sarah 2.2</span>
+                <span class="tag-top">★ Top</span>
+              </div>
+            </td>
+            <td>Female &middot; Conversational</td>
+            <td>18,400</td>
+            <td>2m 14s</td>
+            <td><strong style="color: #0f172a;">38s</strong></td>
+            <td>3,165</td>
+            <td><span class="rate-win">17.2%</span></td>
+            <td><span class="money-bold">$22.4M</span></td>
+          </tr>
+
+          <tr id="row-alex" onclick="selectAgent('alex')">
+            <td>
+              <div class="agent-name-cell">
+                <span>Alex 1.2</span>
+                <span class="tag-norm">Active</span>
+              </div>
+            </td>
+            <td>Male &middot; Consultative</td>
+            <td>11,200</td>
+            <td>1m 58s</td>
+            <td>44s</td>
+            <td>1,545</td>
+            <td><span class="rate-mid">13.8%</span></td>
+            <td><span class="money-bold">$11.2M</span></td>
+          </tr>
+
+          <tr id="row-david" onclick="selectAgent('david')">
+            <td>
+              <div class="agent-name-cell">
+                <span>David 1.0</span>
+                <span class="tag-norm">2 Months Ago</span>
+              </div>
+            </td>
+            <td>Male &middot; Scripted Standard</td>
+            <td>5,200</td>
+            <td>1m 22s</td>
+            <td>82s</td>
+            <td>385</td>
+            <td><span class="rate-base">7.4%</span></td>
+            <td><span class="money-bold">$2.8M</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    Chart.defaults.font.family = "'Inter', -apple-system, BlinkMacSystemFont, sans-serif";
+
+    // EXACT CONSISTENT DATA
+    const AGENT_DATA = {
+      all: {
+        titleWeekly: 'Weekly Outbound Calls vs. Converted Loans (All Agents)',
+        tagWeekly: '+132% Conversion Growth',
+        titleOutcomes: 'Call Outcome Breakdown (All Agents)',
+        totalOutcomes: '34,800 Calls',
+        leads: '38,200',
+        leadsSub: 'Web & Dealer Portals',
+        calls: '34,800',
+        callsSub: '91.1% Outbound Reach',
+        converted: '5,095',
+        convertedSub: '14.6% Overall Rate',
+        volume: '$36.4M',
+        volumeSub: 'Avg Loan: $18,500',
+        liveAgent: 'Sarah 2.2: Outbound Call in Progress',
+        liveDetails: 'Auto Loan Pre-Qualification (2023 SUV)',
+        liveLatency: '480ms',
+        liveSpeed: '38s',
+        statusColor: '#16a34a',
+        weeklyCalls: [3200, 3600, 3900, 4200, 4500, 4700, 5100, 5600],
+        weeklyConverted: [260, 340, 420, 510, 630, 780, 975, 1180],
+        outcomes: [15312, 9744, 5568, 4176],
+        outcomeLabels: ['Voice Qualified (44%)', 'Applied Online (28%)', 'Callback (16%)', 'No Answer (12%)']
+      },
+      sarah: {
+        titleWeekly: 'Weekly Outbound Calls vs. Converted Loans &mdash; Sarah 2.2',
+        tagWeekly: '17.2% Conversion Rate',
+        titleOutcomes: 'Call Outcome Breakdown &mdash; Sarah 2.2',
+        totalOutcomes: '18,400 Calls',
+        leads: '20,200',
+        leadsSub: 'Sarah Allocation (52.9%)',
+        calls: '18,400',
+        callsSub: '91.1% Dialed',
+        converted: '3,165',
+        convertedSub: '17.2% Rate (★ Top)',
+        volume: '$22.4M',
+        volumeSub: 'Avg Loan: $18,600',
+        liveAgent: 'Sarah 2.2: Outbound Call in Progress',
+        liveDetails: 'Auto Loan Pre-Qualification (2023 SUV)',
+        liveLatency: '480ms',
+        liveSpeed: '38s',
+        statusColor: '#16a34a',
+        weeklyCalls: [1600, 1900, 2100, 2300, 2450, 2550, 2700, 2800],
+        weeklyConverted: [190, 245, 305, 365, 435, 490, 545, 590],
+        outcomes: [8832, 5704, 2392, 1472],
+        outcomeLabels: ['Voice Qualified (48%)', 'Applied Online (31%)', 'Callback (13%)', 'No Answer (8%)']
+      },
+      alex: {
+        titleWeekly: 'Weekly Outbound Calls vs. Converted Loans &mdash; Alex 1.2',
+        tagWeekly: '13.8% Conversion Rate',
+        titleOutcomes: 'Call Outcome Breakdown &mdash; Alex 1.2',
+        totalOutcomes: '11,200 Calls',
+        leads: '12,300',
+        leadsSub: 'Alex Allocation (32.2%)',
+        calls: '11,200',
+        callsSub: '91.1% Dialed',
+        converted: '1,545',
+        convertedSub: '13.8% Rate (Active)',
+        volume: '$11.2M',
+        volumeSub: 'Avg Loan: $18,400',
+        liveAgent: 'Alex 1.2: Outbound Call in Progress',
+        liveDetails: 'Credit Pre-Approval Follow-up',
+        liveLatency: '495ms',
+        liveSpeed: '44s',
+        statusColor: '#0072f4',
+        weeklyCalls: [1100, 1200, 1300, 1400, 1450, 1500, 1600, 1650],
+        weeklyConverted: [90, 115, 140, 175, 215, 245, 275, 290],
+        outcomes: [4704, 3024, 2128, 1344],
+        outcomeLabels: ['Voice Qualified (42%)', 'Applied Online (27%)', 'Callback (19%)', 'No Answer (12%)']
+      },
+      david: {
+        titleWeekly: 'Weekly Outbound Calls vs. Converted Loans &mdash; David 1.0',
+        tagWeekly: '7.4% Baseline Rate (2 Months Ago)',
+        titleOutcomes: 'Call Outcome Breakdown &mdash; David 1.0',
+        totalOutcomes: '5,200 Calls',
+        leads: '5,700',
+        leadsSub: 'David Allocation (14.9%)',
+        calls: '5,200',
+        callsSub: '91.2% Dialed',
+        converted: '385',
+        convertedSub: '7.4% Rate (Baseline)',
+        volume: '$2.8M',
+        volumeSub: 'Avg Loan: $18,200',
+        liveAgent: 'David 1.0: Baseline Archive Queue',
+        liveDetails: 'Standard Loan Inquiry Routing',
+        liveLatency: '820ms',
+        liveSpeed: '82s',
+        statusColor: '#94a3b8',
+        weeklyCalls: [500, 500, 500, 500, 600, 650, 800, 1150],
+        weeklyConverted: [35, 36, 38, 42, 45, 52, 65, 72],
+        outcomes: [1768, 1040, 1040, 1352],
+        outcomeLabels: ['Voice Qualified (34%)', 'Applied Online (20%)', 'Callback (20%)', 'No Answer (26%)']
+      }
+    };
+
+    let chartWeeklyInstance = null;
+    let chartOutcomesInstance = null;
+
+    function initCharts() {
+      // 1. WEEKLY BAR CHART
+      const ctxWeekly = document.getElementById('weeklyCallsChart').getContext('2d');
+      chartWeeklyInstance = new Chart(ctxWeekly, {
+        type: 'bar',
+        data: {
+          labels: ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4', 'Wk 5', 'Wk 6', 'Wk 7', 'Wk 8'],
+          datasets: [
+            {
+              label: 'Calls Placed',
+              data: AGENT_DATA.all.weeklyCalls,
+              backgroundColor: '#e2e8f0',
+              hoverBackgroundColor: '#cbd5e1',
+              borderRadius: 4,
+              barPercentage: 0.75,
+              categoryPercentage: 0.8
+            },
+            {
+              label: 'Converted Loans',
+              data: AGENT_DATA.all.weeklyConverted,
+              backgroundColor: '#16a34a',
+              hoverBackgroundColor: '#15803d',
+              borderRadius: 4,
+              barPercentage: 0.75,
+              categoryPercentage: 0.8
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 350 },
+          plugins: {
+            legend: {
+              position: 'top',
+              align: 'end',
+              labels: {
+                boxWidth: 10,
+                boxHeight: 10,
+                font: { size: 11, family: 'Inter', weight: 600 },
+                padding: 10
+              }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: { font: { size: 10, family: 'Inter' } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 10, family: 'Inter' } }
+            }
+          }
+        }
+      });
+
+      // 2. OUTCOMES DONUT CHART
+      const ctxOutcomes = document.getElementById('outcomesChart').getContext('2d');
+      chartOutcomesInstance = new Chart(ctxOutcomes, {
+        type: 'doughnut',
+        data: {
+          labels: AGENT_DATA.all.outcomeLabels,
+          datasets: [{
+            data: AGENT_DATA.all.outcomes,
+            backgroundColor: ['#16a34a', '#0072f4', '#f59e0b', '#cbd5e1'],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 350 },
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                boxWidth: 10,
+                boxHeight: 10,
+                font: { size: 11, family: 'Inter', weight: 500 },
+                padding: 12
+              }
+            }
+          },
+          cutout: '68%'
+        }
+      });
+    }
+
+    function selectAgent(key) {
+      // Toggle table row highlights
+      document.querySelectorAll('tbody tr').forEach(r => r.classList.remove('highlight-row'));
+      if (key !== 'all') {
+        const row = document.getElementById('row-' + key);
+        if (row) row.classList.add('highlight-row');
+      }
+
+      // Toggle pill active state
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      const btn = document.getElementById('btn-' + key);
+      if (btn) btn.classList.add('active');
+
+      const data = AGENT_DATA[key];
+      if (!data) return;
+
+      // Update Top KPIs
+      document.getElementById('kpi-leads').innerText = data.leads;
+      document.getElementById('kpi-leads-sub').innerText = data.leadsSub;
+      document.getElementById('kpi-calls').innerText = data.calls;
+      document.getElementById('kpi-calls-sub').innerText = data.callsSub;
+      document.getElementById('kpi-converted').innerText = data.converted;
+      document.getElementById('kpi-converted-sub').innerText = data.convertedSub;
+      document.getElementById('kpi-volume').innerText = data.volume;
+      document.getElementById('kpi-volume-sub').innerText = data.volumeSub;
+
+      // Update Live Telephony Bar
+      document.getElementById('live-agent-name').innerHTML = `
+        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${data.statusColor};"></span>
+        ${data.liveAgent}
+      `;
+      document.getElementById('live-lead-details').innerText = data.liveDetails;
+      document.getElementById('live-latency').innerText = data.liveLatency;
+      document.getElementById('live-speed').innerText = data.liveSpeed;
+
+      // Update Graph Headings
+      document.getElementById('weekly-chart-title').innerHTML = data.titleWeekly;
+      document.getElementById('weekly-chart-tag').innerText = data.tagWeekly;
+      document.getElementById('outcomes-chart-title').innerHTML = data.titleOutcomes;
+      document.getElementById('outcomes-chart-total').innerText = data.totalOutcomes;
+
+      // Update Weekly Chart
+      if (chartWeeklyInstance) {
+        chartWeeklyInstance.data.datasets[0].data = data.weeklyCalls;
+        chartWeeklyInstance.data.datasets[1].data = data.weeklyConverted;
+        chartWeeklyInstance.update();
+      }
+
+      // Update Outcomes Donut
+      if (chartOutcomesInstance) {
+        chartOutcomesInstance.data.labels = data.outcomeLabels;
+        chartOutcomesInstance.data.datasets[0].data = data.outcomes;
+        chartOutcomesInstance.update();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initCharts();
+    });
+  </script>
+</body>
+</html>

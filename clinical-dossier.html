@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FDA Document AI &mdash; Infinyty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* TOP NAVBAR */
+    .navbar {
+      height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .brand-section { display: flex; align-items: center; gap: 1rem; }
+    .logo-img { height: 26px; width: auto; object-fit: contain; }
+    .divider-v { width: 1px; height: 20px; background: #e2e8f0; }
+    .app-title-group { display: flex; flex-direction: column; }
+    .app-title { font-size: 0.95rem; font-weight: 700; color: #0f172a; line-height: 1.2; letter-spacing: -0.01em; }
+    .app-sub { font-size: 0.7rem; color: #64748b; font-weight: 500; }
+
+    .nav-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #0d9488;
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      padding: 0.22rem 0.65rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .dot-green { width: 6px; height: 6px; border-radius: 50%; background: #0d9488; }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex: 1;
+    }
+
+    /* POWER BI ACTION RIBBON: PDF CONVERTER */
+    .pbi-converter-tile {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.85rem 1.25rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      border-top: 3px solid #4f46e5;
+    }
+    .converter-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ribbon-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .ribbon-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #0d9488;
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      padding: 0.12rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .converter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr 1.05fr;
+      gap: 1.15rem;
+      align-items: center;
+    }
+
+    /* INPUT CARD */
+    .doc-card {
+      border: 1.5px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .doc-card:hover {
+      border-color: #4f46e5;
+      background: #f8faff;
+    }
+    .doc-card.active {
+      border-color: #4f46e5;
+      background: #eef2ff;
+      border-style: solid;
+    }
+    .file-chip {
+      width: 36px;
+      height: 42px;
+      background: #4f46e5;
+      color: #ffffff;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25);
+    }
+    .file-chip-placeholder {
+      width: 36px;
+      height: 42px;
+      border: 1.5px dashed #94a3b8;
+      background: #ffffff;
+      color: #64748b;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .doc-meta { display: flex; flex-direction: column; gap: 0.15rem; overflow: hidden; }
+    .doc-name {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .doc-desc { font-size: 0.66rem; color: #64748b; }
+
+    /* CONVERT ACTIONS */
+    .pipeline-action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .btn-pbi-convert {
+      background: #4f46e5;
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 1.15rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.15s;
+    }
+    .btn-pbi-convert:hover { background: #4338ca; }
+    .btn-pbi-convert:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    .stepper-bar-wrap {
+      width: 100%;
+      height: 5px;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .stepper-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #0d9488;
+      border-radius: 9999px;
+      transition: width 0.35s ease;
+    }
+    .step-labels {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 0.65rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .step-labels span.done { color: #0d9488; font-weight: 700; }
+
+    /* OUTPUT CARD */
+    .output-card {
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      opacity: 0.4;
+      transition: all 0.3s;
+    }
+    .output-card.ready {
+      opacity: 1;
+      border-color: #0d9488;
+      background: #f0fdfa;
+      box-shadow: 0 2px 8px rgba(13, 148, 136, 0.12);
+    }
+    .file-chip-fda {
+      width: 36px;
+      height: 42px;
+      background: #0d9488;
+      color: #ffffff;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: 0 2px 4px rgba(13, 148, 136, 0.25);
+    }
+    .output-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-left: auto;
+    }
+    .btn-view-doc {
+      background: #ffffff;
+      border: 1px solid #0d9488;
+      color: #0d9488;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.15s;
+    }
+    .btn-view-doc:hover { background: #0d9488; color: #ffffff; }
+    .btn-dl-doc {
+      background: #0d9488;
+      border: 1px solid #0d9488;
+      color: #ffffff;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-dl-doc:hover { background: #0f766e; }
+
+    /* 5 POWER BI KPI TILES */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.75rem;
+    }
+    .kpi-tile {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+    .tile-border-indigo { border-left: 3.5px solid #4f46e5; }
+    .tile-border-teal { border-left: 3.5px solid #0d9488; }
+    .tile-border-cyan { border-left: 3.5px solid #0284c7; }
+    .tile-border-amber { border-left: 3.5px solid #f59e0b; }
+    .tile-border-violet { border-left: 3.5px solid #7c3aed; }
+
+    .tile-label {
+      font-size: 0.66rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #64748b;
+    }
+    .tile-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .tile-sub {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #0d9488;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    /* 3 VISUALS ROW: CIRCLE ON LEFT, GRAPHS ON RIGHT */
+    .pbi-visuals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr 1.4fr;
+      gap: 0.85rem;
+    }
+
+    .visual-tile {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+    }
+    .visual-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .visual-title { font-size: 0.82rem; font-weight: 700; color: #0f172a; }
+    .visual-pill {
+      font-size: 0.66rem;
+      font-weight: 600;
+      color: #0d9488;
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+    }
+    .chart-container { height: 185px; position: relative; }
+
+    /* RECENT DOCUMENTS HISTORY TABLE (FILLS LOWER HALF) */
+    .history-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .history-head {
+      padding: 0.65rem 1.15rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+    .history-title { font-size: 0.82rem; font-weight: 700; color: #0f172a; }
+    .history-meta { font-size: 0.68rem; color: #64748b; font-weight: 500; }
+
+    table.history-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.76rem;
+    }
+    table.history-table th {
+      background: #ffffff;
+      color: #64748b;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+      padding: 0.5rem 1.15rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    table.history-table td {
+      padding: 0.55rem 1.15rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      font-weight: 500;
+    }
+    table.history-table tr:last-child td { border-bottom: none; }
+    table.history-table tr:hover td { background: #f8fafc; }
+
+    .tag-status-app {
+      background: #f0fdfa;
+      color: #0d9488;
+      border: 1px solid #99f6e4;
+      font-size: 0.64rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .tag-status-rev {
+      background: #fffbeb;
+      color: #d97706;
+      border: 1px solid #fde68a;
+      font-size: 0.64rem;
+      font-weight: 700;
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .btn-tbl-action {
+      background: transparent;
+      border: 1px solid #cbd5e1;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.66rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-tbl-action:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    /* PDF MODAL VIEWER */
+    .pdf-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+    }
+    .pdf-modal-backdrop.open { display: flex; }
+
+    .pdf-modal-dialog {
+      background: #e2e8f0;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 800px;
+      height: 88vh;
+      max-height: 820px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+    }
+    .modal-toolbar {
+      height: 48px;
+      background: #0f172a;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      flex-shrink: 0;
+    }
+    .toolbar-title-box { display: flex; align-items: center; gap: 0.5rem; }
+    .pdf-badge-sm { background: #ef4444; color: #fff; font-size: 0.6rem; font-weight: 800; padding: 0.15rem 0.35rem; border-radius: 3px; }
+    .modal-doc-title { font-size: 0.8rem; font-weight: 600; color: #f8fafc; }
+
+    .toolbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.74rem;
+      color: #cbd5e1;
+    }
+    .nav-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #ffffff;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.7rem;
+    }
+    .nav-btn:hover { background: #334155; }
+
+    .modal-actions { display: flex; align-items: center; gap: 0.5rem; }
+    .btn-toolbar-dl {
+      background: #0d9488;
+      border: none;
+      color: #ffffff;
+      padding: 0.28rem 0.7rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-toolbar-close {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+    .btn-toolbar-close:hover { color: #ffffff; }
+
+    /* SINGLE PAGE AT A TIME (NO WEIRD BREAKS) */
+    .modal-body-viewport {
+      flex: 1;
+      background: #64748b;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .pdf-sheet {
+      background: #ffffff;
+      width: 100%;
+      max-width: 680px;
+      min-height: 640px;
+      padding: 2.2rem 2.4rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+      display: none;
+      flex-direction: column;
+      gap: 0.85rem;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #334155;
+    }
+    .pdf-sheet.active { display: flex; }
+
+    .sheet-header-fda {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 0.5rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .sheet-title { font-size: 1.15rem; font-weight: 800; color: #0f172a; line-height: 1.25; margin-top: 0.2rem; }
+    .sheet-sub { font-size: 0.78rem; font-weight: 700; color: #4f46e5; }
+
+    .audit-badge {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      padding: 0.35rem 0.65rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      color: #166534;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .dossier-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.35rem 0;
+      font-size: 0.75rem;
+    }
+    .dossier-table th, .dossier-table td {
+      border: 1px solid #cbd5e1;
+      padding: 0.45rem 0.65rem;
+      text-align: left;
+    }
+    .dossier-table th { background: #f8fafc; font-weight: 700; color: #0f172a; }
+
+    /* TOAST */
+    .toast-notif {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 0.65rem 1.15rem;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      z-index: 200;
+      border-left: 4px solid #0d9488;
+    }
+    .toast-notif.show { display: flex; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    @media (max-width: 1000px) {
+      .converter-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .pbi-visuals-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="brand-section">
+      <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="logo-img">
+      <div class="divider-v"></div>
+      <div class="app-title-group">
+        <span class="app-title">FDA Document AI</span>
+        <span class="app-sub">Automated Clinical Submissions &amp; Analytics</span>
+      </div>
+    </div>
+    <div class="nav-tag">
+      <span class="dot-green"></span>
+      FDA Submission Ready
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- POWER BI STYLE ACTION RIBBON: PDF CONVERTER -->
+    <div class="pbi-converter-tile">
+      <div class="converter-top-row">
+        <div class="ribbon-title">
+          <span>Clinical Study Dataset &rarr; FDA Document Generator</span>
+        </div>
+        <div class="ribbon-badge" id="ribbon-status">Upload Clinical PDF to Begin</div>
+      </div>
+
+      <div class="converter-grid">
+        
+        <!-- INPUT RAW CLINICAL PDF (CLICK TO UPLOAD) -->
+        <div class="doc-card" id="input-doc-card" onclick="selectUploadPDF()">
+          <div id="file-icon-area" class="file-chip-placeholder">📁</div>
+          <div class="doc-meta">
+            <div class="doc-name" id="doc-title-text">Click to Select Clinical Protocol (.pdf)</div>
+            <div class="doc-desc" id="doc-sub-text">Drop raw Phase III trial datasets &amp; clinical protocol</div>
+          </div>
+        </div>
+
+        <!-- CONVERT PIPELINE -->
+        <div class="pipeline-action">
+          <button class="btn-pbi-convert" id="btn-convert" onclick="runConversion()" disabled>
+            <span>⚡</span> Generate FDA Document
+          </button>
+          <div class="stepper-bar-wrap">
+            <div class="stepper-bar-fill" id="stepper-fill"></div>
+          </div>
+          <div class="step-labels">
+            <span id="s1">1. Ingest Data</span>
+            <span id="s2">2. Medical Coding</span>
+            <span id="s3">3. AI Synthesis</span>
+            <span id="s4">4. FDA Verified</span>
+          </div>
+        </div>
+
+        <!-- GENERATED FDA PDF -->
+        <div class="output-card" id="output-doc-card">
+          <div class="file-chip-fda">FDA</div>
+          <div class="doc-meta">
+            <div class="doc-name">FDA_Module_2.7.3_Efficacy.pdf</div>
+            <div class="doc-desc" id="output-status-desc" style="color: #64748b;">Awaiting Generation...</div>
+          </div>
+          <div class="output-actions">
+            <button class="btn-view-doc" id="btn-view-doc" onclick="openPDFModal()" disabled>👁️ View</button>
+            <button class="btn-dl-doc" id="btn-dl-doc" onclick="triggerDownload()" disabled>⬇️ Download</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 5 POWER BI KPI TILES (100% CALCULATED & MATCHING) -->
+    <div class="kpi-grid">
+      <div class="kpi-tile tile-border-indigo">
+        <span class="tile-label">Total Documents Submitted</span>
+        <div class="tile-value">186</div>
+        <div class="tile-sub" style="color: #4f46e5;">Across 14 Drug Programs</div>
+      </div>
+
+      <div class="kpi-tile tile-border-teal">
+        <span class="tile-label">FDA First-Pass Rate</span>
+        <div class="tile-value" style="color: #0d9488;">98.4%</div>
+        <div class="tile-sub">183 Approved &middot; 0 Refusal-to-File</div>
+      </div>
+
+      <div class="kpi-tile tile-border-cyan">
+        <span class="tile-label">Turnaround Reduction</span>
+        <div class="tile-value" style="color: #0284c7;">88%</div>
+        <div class="tile-sub" style="color: #0284c7;">3.5 Days vs 32 Days standard</div>
+      </div>
+
+      <div class="kpi-tile tile-border-violet">
+        <span class="tile-label">Hours Saved</span>
+        <div class="tile-value" style="color: #7c3aed;">42,600+</div>
+        <div class="tile-sub" style="color: #7c3aed;">Medical Writing &amp; Review Time</div>
+      </div>
+
+      <div class="kpi-tile tile-border-amber">
+        <span class="tile-label">Accuracy &amp; Compliance</span>
+        <div class="tile-value" style="color: #d97706;">99.8%</div>
+        <div class="tile-sub" style="color: #d97706;">0 Format Non-Conformance</div>
+      </div>
+    </div>
+
+    <!-- 3 VISUALS ROW: CIRCLE ON LEFT, GRAPHS ON RIGHT -->
+    <div class="pbi-visuals-grid">
+      
+      <!-- 1. CIRCLE ON THE LEFT: FDA OUTCOMES DONUT -->
+      <div class="visual-tile">
+        <div class="visual-head">
+          <span class="visual-title">FDA Submission Outcomes</span>
+          <span class="visual-pill">186 Submissions</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="pbiOutcomesDonut"></canvas>
+        </div>
+      </div>
+
+      <!-- 2. CENTER GRAPH: TURNAROUND BY MODULE (DAYS) - BOTH BARS PROMINENTLY VISIBLE -->
+      <div class="visual-tile">
+        <div class="visual-head">
+          <span class="visual-title">Turnaround by Module (Days)</span>
+          <span class="visual-pill">88% Faster</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="pbiTurnaroundDaysChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 3. GRAPH ON THE RIGHT: MONTHLY VOLUME & APPROVALS (TOTALING EXACTLY 186) -->
+      <div class="visual-tile">
+        <div class="visual-head">
+          <span class="visual-title">Monthly Document Approvals</span>
+          <span class="visual-pill">183 Approved / 186</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="pbiMonthlyVolumeChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RECENT DOCUMENTS HISTORY TABLE (FILLS LOWER HALF OF PAGE) -->
+    <div class="history-card">
+      <div class="history-head">
+        <span class="history-title">Recent Generated Documents History</span>
+        <span class="history-meta">Showing last 4 submissions &middot; Total 186 in Registry</span>
+      </div>
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Generated Document</th>
+            <th>Source Clinical File</th>
+            <th>Generated At</th>
+            <th>AI Gen Time</th>
+            <th>Manual Review</th>
+            <th>FDA Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>FDA_Module_2.7.3_Efficacy.pdf</strong></td>
+            <td><code>Clinical_Protocol_INF702.pdf</code></td>
+            <td>Today, 11:42 AM</td>
+            <td><strong>3.8 hrs</strong></td>
+            <td>3 Days (vs 6 Wks)</td>
+            <td><span class="tag-status-app">✓ FDA Approved</span></td>
+            <td><button class="btn-tbl-action" onclick="openPDFModal()">View</button></td>
+          </tr>
+          <tr>
+            <td><strong>FDA_Module_2.7.4_Safety.pdf</strong></td>
+            <td><code>Study_504_AE_Datasets.zip</code></td>
+            <td>Yesterday, 4:15 PM</td>
+            <td><strong>4.1 hrs</strong></td>
+            <td>4 Days (vs 6 Wks)</td>
+            <td><span class="tag-status-app">✓ FDA Approved</span></td>
+            <td><button class="btn-tbl-action" onclick="openPDFModal()">View</button></td>
+          </tr>
+          <tr>
+            <td><strong>Clinical_Study_Report_CSR_812.pdf</strong></td>
+            <td><code>Phase2_Trial_Summary.pdf</code></td>
+            <td>Aug 29, 2:30 PM</td>
+            <td><strong>2.6 hrs</strong></td>
+            <td>2 Days (vs 4 Wks)</td>
+            <td><span class="tag-status-app">✓ FDA Approved</span></td>
+            <td><button class="btn-tbl-action" onclick="openPDFModal()">View</button></td>
+          </tr>
+          <tr>
+            <td><strong>FDA_Module_2.5_Clinical_Overview.pdf</strong></td>
+            <td><code>Bioequiv_Study_Package.pdf</code></td>
+            <td>Aug 26, 9:10 AM</td>
+            <td><strong>1.9 hrs</strong></td>
+            <td>1 Day (vs 3 Wks)</td>
+            <td><span class="tag-status-rev">● In FDA Review</span></td>
+            <td><button class="btn-tbl-action" onclick="openPDFModal()">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- PDF MULTI-PAGE VIEWER MODAL (PAGE BY PAGE - NO WEIRD BREAKS) -->
+  <div class="pdf-modal-backdrop" id="pdfModal">
+    <div class="pdf-modal-dialog">
+      
+      <!-- MODAL TOOLBAR -->
+      <div class="modal-toolbar">
+        <div class="toolbar-title-box">
+          <span class="pdf-badge-sm">PDF</span>
+          <span class="modal-doc-title">FDA_Module_2.7.3_Efficacy_Submission.pdf</span>
+        </div>
+        <div class="toolbar-nav">
+          <button class="nav-btn" onclick="prevPage()">&lt; Prev</button>
+          <span id="pageIndicator" style="font-weight: 600;">Page 1 of 2</span>
+          <button class="nav-btn" onclick="nextPage()">Next &gt;</button>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-toolbar-dl" onclick="triggerDownload()">⬇️ Download PDF</button>
+          <button class="btn-toolbar-close" onclick="closePDFModal()">✕</button>
+        </div>
+      </div>
+
+      <!-- MODAL BODY: EXACTLY 1 PAGE VISIBLE AT A TIME -->
+      <div class="modal-body-viewport">
+        
+        <!-- PAGE 1: EXECUTIVE EFFICACY & PRIMARY OVERALL SURVIVAL -->
+        <div class="pdf-sheet active" id="sheet-1">
+          <div class="sheet-header-fda">
+            <span>U.S. Food &amp; Drug Administration &middot; Module 2</span>
+            <span>Document ID: FDA-2024-8841</span>
+          </div>
+
+          <div>
+            <h2 class="sheet-title">Section 2.7.3: Summary of Clinical Efficacy</h2>
+            <div class="sheet-sub">Investigational Product: Lerocitinib Mesylate (INF-702) &middot; Study INF-702-03</div>
+          </div>
+
+          <div class="audit-badge">
+            <span>⚡ Automated AI Synthesis &middot; Verified with 100% CDISC Traceability</span>
+            <span>Generation Time: 3.8 hrs</span>
+          </div>
+
+          <p><strong>1. Executive Efficacy Overview:</strong> Clinical Study INF-702-03 is a multinational, randomized (1:1), double-blind, placebo-controlled Phase III trial evaluating Lerocitinib Mesylate (400 mg daily) in combination with standard chemotherapy in 1,420 adult patients with advanced non-small cell lung cancer.</p>
+
+          <p style="font-weight: 700; font-size: 0.78rem; color: #0f172a; margin-top: 0.3rem;">Table 2.7.3-1: Primary Efficacy Endpoint &mdash; Overall Survival (ITT Population)</p>
+          <table class="dossier-table">
+            <thead>
+              <tr>
+                <th>Efficacy Metric</th>
+                <th>INF-702 + Chemo (N=710)</th>
+                <th>Placebo + Chemo (N=710)</th>
+                <th>Statistical Comparison</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Median Overall Survival</strong></td>
+                <td><strong>22.4 months</strong> (95% CI: 20.1–24.8)</td>
+                <td>15.2 months (95% CI: 13.8–16.9)</td>
+                <td><strong>HR = 0.68</strong> (p &lt; 0.0008)</td>
+              </tr>
+              <tr>
+                <td><strong>18-Month Survival Rate</strong></td>
+                <td><strong>64.2%</strong></td>
+                <td>42.8%</td>
+                <td>+21.4% Absolute Gain</td>
+              </tr>
+              <tr>
+                <td><strong>Progression-Free Survival</strong></td>
+                <td><strong>11.8 months</strong></td>
+                <td>6.4 months</td>
+                <td><strong>HR = 0.54</strong> (p &lt; 0.0001)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p style="font-size: 0.74rem; color: #64748b; margin-top: 0.3rem;">Statistically significant survival extension of 7.2 months fulfills efficacy criteria for accelerated FDA approval under 21 CFR § 314.510.</p>
+
+          <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-size: 0.68rem; color: #94a3b8;">
+            <span>FDA eCTD Common Technical Document &middot; Module 2.7.3</span>
+            <span>Page 1 of 2</span>
+          </div>
+        </div>
+
+        <!-- PAGE 2: SECONDARY ENDPOINTS & AUDIT SIGN-OFF -->
+        <div class="pdf-sheet" id="sheet-2">
+          <div class="sheet-header-fda">
+            <span>U.S. Food &amp; Drug Administration &middot; Module 2</span>
+            <span>Document ID: FDA-2024-8841</span>
+          </div>
+
+          <div>
+            <h2 class="sheet-title">Section 2.7.3.3: Secondary Tumor Response &amp; Biomarkers</h2>
+            <div class="sheet-sub">Central Blinded Radiologist Review (RECIST 1.1)</div>
+          </div>
+
+          <p style="font-weight: 700; font-size: 0.78rem; color: #0f172a; margin-top: 0.2rem;">Table 2.7.3-2: Objective Response Rate &amp; Complete Response Rates</p>
+          <table class="dossier-table">
+            <thead>
+              <tr>
+                <th>Response Category</th>
+                <th>INF-702 Arm (N=710)</th>
+                <th>Control Arm (N=710)</th>
+                <th>Statistical Comparison</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Objective Response (ORR)</strong></td>
+                <td><strong>58.6%</strong> (416 / 710)</td>
+                <td>31.4% (223 / 710)</td>
+                <td>Odds Ratio = 3.12 (p &lt; 0.001)</td>
+              </tr>
+              <tr>
+                <td><strong>Complete Response (CR)</strong></td>
+                <td><strong>14.2%</strong> (101 / 710)</td>
+                <td>4.1% (29 / 710)</td>
+                <td>+10.1% Difference</td>
+              </tr>
+              <tr>
+                <td><strong>Median Response Duration</strong></td>
+                <td><strong>14.6 months</strong></td>
+                <td>7.2 months</td>
+                <td>p &lt; 0.0001</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top: 1.25rem; border: 1.5px solid #0d9488; border-radius: 6px; padding: 0.85rem 1.1rem; background: #f0fdfa;">
+            <div style="font-size: 0.78rem; font-weight: 700; color: #0d9488; display: flex; justify-content: space-between;">
+              <span>✓ VERIFIED ELECTRONIC AUDIT TRAIL</span>
+              <span>SHA-256 VALIDATED</span>
+            </div>
+            <div style="font-size: 0.72rem; color: #334155; margin-top: 0.35rem;">
+              Cryptographic Token: <code>#INF-FDA-2024-8841-3F7A9B</code> &middot; Sign-Off: Dr. M. Vance, MD (VP Regulatory Affairs) &amp; S. Chen, PhD (Head of Biostatistics).
+            </div>
+          </div>
+
+          <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-size: 0.68rem; color: #94a3b8;">
+            <span>FDA eCTD Common Technical Document &middot; Module 2.7.3</span>
+            <span>Page 2 of 2</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-notif" id="dlToast">
+    <span>⬇️</span>
+    <span>Downloading FDA_Module_2.7.3_Efficacy.pdf (14.2 MB)... Download Complete!</span>
+  </div>
+
+  <script>
+    Chart.defaults.font.family = "'Outfit', -apple-system, BlinkMacSystemFont, sans-serif";
+
+    // 1. SELECT / UPLOAD PDF ACTION
+    function selectUploadPDF() {
+      const card = document.getElementById('input-doc-card');
+      const icon = document.getElementById('file-icon-area');
+      const title = document.getElementById('doc-title-text');
+      const sub = document.getElementById('doc-sub-text');
+      const btn = document.getElementById('btn-convert');
+      const ribbon = document.getElementById('ribbon-status');
+
+      card.classList.add('active');
+      icon.className = 'file-chip';
+      icon.innerText = 'PDF';
+      title.innerText = 'Clinical_Protocol_INF702.pdf';
+      title.title = 'Clinical_Protocol_INF702.pdf';
+      sub.innerText = 'Phase III Study · 48 Pages · 8.4 MB (Uploaded)';
+      btn.disabled = false;
+      ribbon.innerText = 'File Ingested · Ready to Synthesize';
+    }
+
+    // 2. RUN 2-3s CONVERSION PIPELINE
+    function runConversion() {
+      const btn = document.getElementById('btn-convert');
+      const bar = document.getElementById('stepper-fill');
+      const ribbon = document.getElementById('ribbon-status');
+      const outCard = document.getElementById('output-doc-card');
+      const outDesc = document.getElementById('output-status-desc');
+      const btnView = document.getElementById('btn-view-doc');
+      const btnDl = document.getElementById('btn-dl-doc');
+
+      btn.innerText = 'Synthesizing...';
+      btn.disabled = true;
+
+      bar.style.width = '25%';
+      ribbon.innerText = 'Ingesting Raw Clinical Tables...';
+      document.getElementById('s1').classList.add('done');
+
+      setTimeout(() => {
+        bar.style.width = '55%';
+        ribbon.innerText = 'Mapping Medical Coding & Terminology...';
+        document.getElementById('s2').classList.add('done');
+      }, 700);
+
+      setTimeout(() => {
+        bar.style.width = '80%';
+        ribbon.innerText = 'Synthesizing FDA Module 2.7.3 Narrative...';
+        document.getElementById('s3').classList.add('done');
+      }, 1400);
+
+      setTimeout(() => {
+        bar.style.width = '100%';
+        ribbon.innerText = '✓ Audit Verified · Ready for FDA Submission';
+        document.getElementById('s4').classList.add('done');
+        outCard.classList.add('ready');
+        outDesc.innerText = '✓ Submission Ready (14.2 MB)';
+        outDesc.style.color = '#0d9488';
+        outDesc.style.fontWeight = '700';
+        btn.innerHTML = '<span>✓</span> Generated';
+        btnView.disabled = false;
+        btnDl.disabled = false;
+      }, 2100);
+    }
+
+    // 3. MODAL PDF VIEWER - CLEAN 1 PAGE AT A TIME
+    let currentPage = 1;
+    function openPDFModal() {
+      document.getElementById('pdfModal').classList.add('open');
+      setPage(1);
+    }
+
+    function closePDFModal() {
+      document.getElementById('pdfModal').classList.remove('open');
+    }
+
+    function nextPage() {
+      if (currentPage < 2) setPage(currentPage + 1);
+    }
+
+    function prevPage() {
+      if (currentPage > 1) setPage(currentPage - 1);
+    }
+
+    function setPage(p) {
+      currentPage = p;
+      document.getElementById('pageIndicator').innerText = `Page ${p} of 2`;
+      document.querySelectorAll('.pdf-sheet').forEach(s => s.classList.remove('active'));
+      const activeSheet = document.getElementById('sheet-' + p);
+      if (activeSheet) activeSheet.classList.add('active');
+    }
+
+    // 4. DOWNLOAD TRIGGER & TOAST
+    function triggerDownload() {
+      const toast = document.getElementById('dlToast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. CIRCLE ON THE LEFT (FDA OUTCOMES DONUT)
+      const ctxDonut = document.getElementById('pbiOutcomesDonut').getContext('2d');
+      new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+          labels: ['Approved (98.4%)', 'Active Review (1.6%)', 'Refusal-to-File (0%)'],
+          datasets: [{
+            data: [183, 3, 0],
+            backgroundColor: ['#0d9488', '#f59e0b', '#cbd5e1'],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { boxWidth: 10, font: { size: 10, family: 'Outfit', weight: 500 }, padding: 6 }
+            }
+          },
+          cutout: '68%'
+        }
+      });
+
+      // 2. CENTER GRAPH: TURNAROUND IN DAYS
+      const ctxTurn = document.getElementById('pbiTurnaroundDaysChart').getContext('2d');
+      new Chart(ctxTurn, {
+        type: 'bar',
+        data: {
+          labels: ['Module 2.5', 'Module 2.7', 'Study Report', 'Brochure'],
+          datasets: [
+            {
+              label: 'Manual (Days)',
+              data: [30.0, 28.0, 36.0, 22.0],
+              backgroundColor: '#cbd5e1',
+              borderRadius: 4,
+              barPercentage: 0.7
+            },
+            {
+              label: 'AI + Review (Days)',
+              data: [3.5, 3.0, 4.2, 2.0],
+              backgroundColor: '#4f46e5',
+              borderRadius: 4,
+              barPercentage: 0.7
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              align: 'end',
+              labels: { boxWidth: 10, font: { size: 10, family: 'Outfit', weight: 600 } }
+            }
+          },
+          scales: {
+            y: {
+              title: { display: true, text: 'Days to Ready', font: { size: 9, family: 'Outfit' } },
+              grid: { color: '#f1f5f9' },
+              ticks: { font: { size: 9, family: 'Outfit' } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 9.5, family: 'Outfit', weight: 600 } }
+            }
+          }
+        }
+      });
+
+      // 3. GRAPH ON THE RIGHT: MONTHLY VOLUME & APPROVALS
+      const ctxMonthly = document.getElementById('pbiMonthlyVolumeChart').getContext('2d');
+      new Chart(ctxMonthly, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+          datasets: [
+            {
+              label: 'Submitted (186)',
+              data: [14, 17, 20, 23, 25, 27, 29, 31],
+              backgroundColor: '#e2e8f0',
+              borderRadius: 4,
+              barPercentage: 0.7
+            },
+            {
+              label: 'Approved (183)',
+              data: [14, 17, 20, 23, 24, 27, 28, 30],
+              backgroundColor: '#0d9488',
+              borderRadius: 4,
+              barPercentage: 0.7
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              align: 'end',
+              labels: { boxWidth: 10, font: { size: 10, family: 'Outfit', weight: 600 } }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: { font: { size: 9, family: 'Outfit' } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 10, family: 'Outfit' } }
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

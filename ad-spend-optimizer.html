@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad Spend AI &mdash; Marketing Mix Modeling &amp; Budget Optimization</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .brand-section { display: flex; align-items: center; gap: 0.9rem; }
+    .logo-img { height: 26px; width: auto; object-fit: contain; }
+    .divider-v { width: 1px; height: 20px; background: #e2e8f0; }
+    .app-title-group { display: flex; flex-direction: column; }
+    .app-title { font-size: 0.95rem; font-weight: 800; color: #0f172a; line-height: 1.2; letter-spacing: -0.01em; }
+    .app-sub { font-size: 0.68rem; color: #64748b; font-weight: 500; }
+
+    .nav-controls { display: flex; align-items: center; gap: 0.65rem; }
+    .date-pill {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+    }
+    .status-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #059669;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 0.22rem 0.6rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .dot-live {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1540px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.0rem 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.95rem;
+      flex: 1;
+    }
+
+    /* NAVIGATION RIBBON: CHANNELS & CAMPAIGN MODES */
+    .filter-ribbon {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 0.55rem 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+    .channels-group { display: flex; align-items: center; gap: 0.35rem; }
+    .channel-btn {
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #475569;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.35rem 0.78rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .channel-btn:hover { background: #f1f5f9; color: #0f172a; }
+    .channel-btn.active {
+      background: #4f46e5;
+      color: #ffffff;
+      border-color: #4f46e5;
+      box-shadow: 0 1px 3px rgba(79, 70, 229, 0.25);
+    }
+
+    .campaign-type-group { display: flex; align-items: center; gap: 0.45rem; font-size: 0.7rem; color: #64748b; font-weight: 600; }
+    .type-pill {
+      background: #f1f5f9;
+      color: #334155;
+      padding: 0.28rem 0.72rem;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .type-pill:hover { background: #e2e8f0; }
+    .type-pill.active { background: #0f172a; color: #ffffff; }
+
+    /* VIEW TITLE HEADER STRIP */
+    .view-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.2rem 0.25rem;
+    }
+    .view-title { font-size: 0.95rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; }
+    .view-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #4f46e5;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      padding: 0.18rem 0.58rem;
+      border-radius: 5px;
+    }
+
+    /* 5 KPIS ROW */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.65rem;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 11px;
+      padding: 1.05rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      border-top: 4.5px solid #e2e8f0;
+    }
+    .kpi-card.c-spend { border-top-color: #6366f1; }
+    .kpi-card.c-rev { border-top-color: #10b981; }
+    .kpi-card.c-roas { border-top-color: #0284c7; }
+    .kpi-card.c-cac { border-top-color: #f59e0b; }
+    .kpi-card.c-conv { border-top-color: #8b5cf6; }
+
+    .kpi-lbl {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+    }
+    .kpi-val {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+    .kpi-meta {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.15rem;
+    }
+
+    /* AUDIT & ATTRIBUTION STRIP */
+    .traffic-strip {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.6rem 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #475569;
+      font-weight: 500;
+    }
+    .traffic-item { display: flex; align-items: center; gap: 0.35rem; }
+    .traffic-item strong { color: #0f172a; font-weight: 700; }
+    .traffic-divider { width: 1px; height: 14px; background: #e2e8f0; }
+
+    /* 3 VISUALS ROW */
+    .visuals-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 0.95fr;
+      gap: 0.75rem;
+    }
+    .visual-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 11px;
+      padding: 1.0rem 1.25rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+    }
+    .visual-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.55rem;
+      padding-bottom: 0.38rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .visual-title { font-size: 0.92rem; font-weight: 700; color: #0f172a; }
+    .visual-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #059669;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 0.15rem 0.55rem;
+      border-radius: 5px;
+    }
+    .chart-box { height: 265px; position: relative; }
+
+    /* AI RECOMMENDATIONS & BUDGET SIMULATOR PANEL (LOWER HALF - CLEAN MINIMAL TEXT) */
+    .optimizer-panel {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 11px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      border-left: 5px solid #4f46e5;
+    }
+    .optimizer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .opt-title-area { display: flex; flex-direction: column; }
+    .opt-title { font-size: 0.98rem; font-weight: 800; color: #0f172a; }
+    .opt-sub { font-size: 0.78rem; color: #64748b; font-weight: 500; }
+
+    .opt-cta-btn {
+      background: #4f46e5;
+      color: #ffffff;
+      border: none;
+      padding: 0.55rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .opt-cta-btn:hover { background: #4338ca; }
+
+    /* 3 CRISP AI CARDS */
+    .suggestions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+    }
+    .sug-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 0.95rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      transition: all 0.15s;
+    }
+    .sug-card:hover {
+      border-color: #cbd5e1;
+      background: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+    .sug-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sug-channel {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .sug-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.15rem 0.52rem;
+      border-radius: 5px;
+    }
+    .badge-increase { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+    .badge-decrease { background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; }
+    .badge-scale { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+
+    .sug-text { font-size: 0.8rem; color: #334155; line-height: 1.45; }
+    .sug-impact { font-size: 0.78rem; font-weight: 700; color: #4f46e5; }
+
+    /* SIMULATOR BAR */
+    .sim-bar {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 0.72rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+    }
+    .sim-val { font-weight: 800; color: #0f172a; }
+
+    /* TOAST */
+    .toast-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.3);
+      z-index: 200;
+      border-left: 4px solid #10b981;
+    }
+    .toast-box.show { display: flex; animation: slideUp 0.3s ease; }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    @media (max-width: 1000px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .visuals-grid { grid-template-columns: 1fr; }
+      .suggestions-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="brand-section">
+      <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="logo-img">
+      <div class="divider-v"></div>
+      <div class="app-title-group">
+        <span class="app-title">Ad Spend AI</span>
+        <span class="app-sub">Marketing Mix Modeling &amp; Budget Optimization</span>
+      </div>
+    </div>
+    <div class="nav-controls">
+      <div class="date-pill" onclick="toggleDate()">Last 30 Days</div>
+      <div class="status-badge">
+        <span class="dot-live"></span>
+        Attribution Engine Active
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- NAVIGATION RIBBON: CHANNELS & CAMPAIGN MODES -->
+    <div class="filter-ribbon">
+      <div class="channels-group">
+        <button class="channel-btn active" id="btn-all" onclick="loadView('all')">All Channels</button>
+        <button class="channel-btn" id="btn-google" onclick="loadView('google')">Google Ads</button>
+        <button class="channel-btn" id="btn-meta" onclick="loadView('meta')">Meta Ads</button>
+        <button class="channel-btn" id="btn-ios" onclick="loadView('ios')">Apple Search (iOS)</button>
+        <button class="channel-btn" id="btn-linkedin" onclick="loadView('linkedin')">LinkedIn Ads</button>
+        <button class="channel-btn" id="btn-organic" onclick="loadView('organic')">Organic Search</button>
+      </div>
+      <div class="campaign-type-group">
+        <span>Campaign:</span>
+        <span class="type-pill active" id="pill-blended" onclick="loadView('all')">Blended</span>
+        <span class="type-pill" id="pill-acq" onclick="loadView('acq')">Acquisition</span>
+        <span class="type-pill" id="pill-ret" onclick="loadView('ret')">Retention</span>
+      </div>
+    </div>
+
+    <!-- VIEW TITLE HEADER -->
+    <div class="view-header">
+      <div class="view-title" id="view-header-title">All Channels &middot; Unified Marketing Mix Portfolio</div>
+      <div class="view-tag" id="view-header-tag">Bayesian Multi-Touch Attribution</div>
+    </div>
+
+    <!-- 5 POWER KPIS ROW (100% MATHEMATICALLY ACCURATE) -->
+    <div class="kpi-grid">
+      <div class="kpi-card c-spend">
+        <span class="kpi-lbl" id="kpi-spend-lbl">Total Ad Spend</span>
+        <div class="kpi-val" id="kpi-spend">$480,000</div>
+        <div class="kpi-meta" id="kpi-spend-meta">5 Channels Unified</div>
+      </div>
+
+      <div class="kpi-card c-rev">
+        <span class="kpi-lbl" id="kpi-rev-lbl">Attributed Revenue</span>
+        <div class="kpi-val" id="kpi-rev" style="color:#059669;">$2,160,000</div>
+        <div class="kpi-meta" id="kpi-rev-meta">+$380K vs Prev Period</div>
+      </div>
+
+      <div class="kpi-card c-roas">
+        <span class="kpi-lbl" id="kpi-roas-lbl">Blended ROAS</span>
+        <div class="kpi-val" id="kpi-roas" style="color:#0284c7;">4.50x</div>
+        <div class="kpi-meta" id="kpi-roas-meta">$2.16M / $480K Exact</div>
+      </div>
+
+      <div class="kpi-card c-cac">
+        <span class="kpi-lbl" id="kpi-cac-lbl">Customer Acquisition Cost</span>
+        <div class="kpi-val" id="kpi-cac" style="color:#d97706;">$38.40</div>
+        <div class="kpi-meta" id="kpi-cac-meta">$480K / 12,500 Conv</div>
+      </div>
+
+      <div class="kpi-card c-conv">
+        <span class="kpi-lbl" id="kpi-conv-lbl">Total Conversions</span>
+        <div class="kpi-val" id="kpi-conv" style="color:#7c3aed;">12,500</div>
+        <div class="kpi-meta" id="kpi-conv-meta">CVR: 5.00% (250K Visitors)</div>
+      </div>
+    </div>
+
+    <!-- CENTRAL AUDIT & TRAFFIC STRIP -->
+    <div class="traffic-strip">
+      <div class="traffic-item">
+        <span>Total Impressions:</span>
+        <strong id="strip-imp">14.4M</strong>
+      </div>
+      <div class="traffic-divider"></div>
+      <div class="traffic-item">
+        <span>Unique Visitors:</span>
+        <strong id="strip-vis">250K</strong>
+      </div>
+      <div class="traffic-divider"></div>
+      <div class="traffic-item">
+        <span>CTR:</span>
+        <strong id="strip-ctr">1.74%</strong>
+      </div>
+      <div class="traffic-divider"></div>
+      <div class="traffic-item">
+        <span>Conversion Rate:</span>
+        <strong id="strip-cvr">5.00%</strong>
+      </div>
+      <div class="traffic-divider"></div>
+      <div class="traffic-item" style="color:#059669; font-weight:600;">
+        <span>Adjust &amp; AppsFlyer Synced &middot; Verified Attribution</span>
+      </div>
+    </div>
+
+    <!-- 3 DYNAMIC VISUALS ROW -->
+    <div class="visuals-grid">
+      
+      <!-- GRAPH 1 -->
+      <div class="visual-card">
+        <div class="visual-head">
+          <span class="visual-title" id="chart1-title">Weekly Spend vs. Attributed Revenue</span>
+          <span class="visual-pill" id="chart1-pill">4.50x ROAS</span>
+        </div>
+        <div class="chart-box">
+          <canvas id="chart1"></canvas>
+        </div>
+      </div>
+
+      <!-- GRAPH 2 -->
+      <div class="visual-card">
+        <div class="visual-head">
+          <span class="visual-title" id="chart2-title">Channel Performance &amp; ROAS</span>
+          <span style="font-size:0.68rem; color:#64748b; font-weight:600;" id="chart2-sub">30-Day vs 60-Day</span>
+        </div>
+        <div class="chart-box">
+          <canvas id="chart2"></canvas>
+        </div>
+      </div>
+
+      <!-- GRAPH 3 -->
+      <div class="visual-card">
+        <div class="visual-head">
+          <span class="visual-title" id="chart3-title">Device &amp; Platform Split</span>
+          <span style="font-size:0.68rem; color:#64748b; font-weight:600;" id="chart3-sub">250K Visitors</span>
+        </div>
+        <div class="chart-box">
+          <canvas id="chart3"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- AI BUDGET OPTIMIZATION & RECOMMENDATIONS PANEL (CLEAN MINIMAL TEXT) -->
+    <div class="optimizer-panel">
+      <div class="optimizer-header">
+        <div class="opt-title-area">
+          <div class="opt-title" id="opt-title">AI Predictive Budget Allocation &amp; Next Month Forecast</div>
+          <div class="opt-sub" id="opt-sub">Bayesian Marketing Mix Model recommends capital reallocation</div>
+        </div>
+        <button class="opt-cta-btn" id="btn-apply-alloc" onclick="applyAllocation()">
+          Apply Recommended Budget Split
+        </button>
+      </div>
+
+      <!-- 3 CRISP AI CARDS -->
+      <div class="suggestions-grid" id="suggestions-container">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- NEXT MONTH FORECAST SIMULATOR STRIP -->
+      <div class="sim-bar" id="sim-status-bar">
+        <span>Current: <span class="sim-val" id="sim-curr-spend">$480,000</span> &rarr; Revenue: <span class="sim-val" id="sim-curr-rev">$2,160,000</span> (<span id="sim-curr-roas">4.50x</span> ROAS)</span>
+        <span>Recommended Next Month: <span class="sim-val" style="color:#4f46e5;" id="sim-next-spend">$525,000</span> &rarr; Projected Revenue: <span class="sim-val" style="color:#059669;" id="sim-next-rev">$2,560,000</span> (<span id="sim-next-roas">4.88x</span> ROAS)</span>
+        <span style="color:#059669; font-weight:700;" id="sim-lift-badge">+ $400,000 Incremental Lift</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-box" id="toastAlloc">
+    <span>Optimal Budget Split Applied: +$35K Apple Search &middot; -$15K Meta &middot; +$25K Google Search. Target ROAS: 4.88x</span>
+  </div>
+
+  <script>
+    Chart.defaults.font.family = "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif";
+
+    // 100% MATHEMATICALLY CONSISTENT DATABASE
+    const viewsData = {
+      all: {
+        title: "All Channels · Unified Marketing Mix Portfolio",
+        tag: "Bayesian Multi-Touch Attribution",
+        spendLbl: "Total Ad Spend", spend: "$480,000", spendMeta: "5 Channels Unified",
+        revLbl: "Attributed Revenue", rev: "$2,160,000", revMeta: "+$380K vs Prev Period",
+        roasLbl: "Blended ROAS", roas: "4.50x", roasMeta: "$2.16M / $480K Exact",
+        cacLbl: "Customer Acquisition Cost", cac: "$38.40", cacMeta: "$480K / 12,500 Conv",
+        convLbl: "Total Conversions", conv: "12,500", convMeta: "CVR: 5.00% (250K Visitors)",
+        imp: "14.4M", vis: "250K", ctr: "1.74%", cvr: "5.00%",
+        chart1Title: "Weekly Spend vs. Attributed Revenue", chart1Pill: "4.50x ROAS",
+        chart1Labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        chart1Spend: [105, 115, 125, 135],
+        chart1Rev: [472, 518, 562, 608],
+        chart2Title: "Channel Performance & ROAS", chart2Sub: "30-Day vs 60-Day",
+        chart2Labels: ['Apple iOS', 'Google Ads', 'Organic', 'Meta Ads', 'LinkedIn'],
+        chart2Data1: [5.40, 4.80, 4.73, 4.00, 3.40],
+        chart2Data2: [6.80, 6.10, 5.50, 4.90, 4.20],
+        chart3Title: "Device & Channel Share", chart3Sub: "250K Visitors",
+        chart3Labels: ['iOS Mobile (44%)', 'Android (36%)', 'Desktop Web (20%)'],
+        chart3Data: [44, 36, 20],
+        chart3Colors: ['#4f46e5', '#10b981', '#f59e0b'],
+        cards: [
+          {
+            ch: "Apple Search Ads (iOS)",
+            badge: "+$35,000", badgeClass: "badge-increase",
+            text: "High elasticity in commercial search terms. Scale budget to unlock uncapped conversion volume.",
+            impact: "Projected: +$189,000 Revenue (5.40x ROAS)"
+          },
+          {
+            ch: "Meta Ads (Facebook & IG)",
+            badge: "-$15,000", badgeClass: "badge-decrease",
+            text: "Retargeting frequency reached 4.6 impressions/user. Trim budget to eliminate audience fatigue.",
+            impact: "Saves $15,000 with 0 conversion loss"
+          },
+          {
+            ch: "Google Search Ads",
+            badge: "+$25,000", badgeClass: "badge-scale",
+            text: "Expand non-brand commercial keyword groups to capture high-intent desktop queries.",
+            impact: "Projected: +$125,000 Revenue (5.00x ROAS)"
+          }
+        ],
+        simCurrSpend: "$480,000", simCurrRev: "$2,160,000", simCurrRoas: "4.50x",
+        simNextSpend: "$525,000", simNextRev: "$2,560,000", simNextRoas: "4.88x",
+        simLift: "+ $400,000 Incremental Lift"
+      },
+      google: {
+        title: "Google Ads · Search, PMax & YouTube Channel Intelligence",
+        tag: "First-Page Commercial Intent",
+        spendLbl: "Google Ad Spend", spend: "$160,000", spendMeta: "33.3% of Total Spend",
+        revLbl: "Google Attributed Rev", rev: "$768,000", revMeta: "ROAS: 4.80x Exact",
+        roasLbl: "Channel ROAS", roas: "4.80x", roasMeta: "$768K / $160K",
+        cacLbl: "Google CAC", cac: "$40.00", cacMeta: "$160K / 4,000 Conv",
+        convLbl: "Conversions", conv: "4,000", convMeta: "CVR: 5.00% (80K Visitors)",
+        imp: "5.0M", vis: "80K", ctr: "1.60%", cvr: "5.00%",
+        chart1Title: "Google Weekly Spend vs. Revenue", chart1Pill: "4.80x ROAS",
+        chart1Labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        chart1Spend: [35, 37, 43, 45],
+        chart1Rev: [168, 179, 205, 216],
+        chart2Title: "Google Sub-Campaign ROAS", chart2Sub: "By Campaign Type",
+        chart2Labels: ['Brand Search', 'Performance Max', 'Non-Brand', 'YouTube Video'],
+        chart2Data1: [6.40, 4.90, 4.50, 3.40],
+        chart2Data2: [7.80, 5.90, 5.60, 4.20],
+        chart3Title: "Search Device Breakdown", chart3Sub: "80K Visitors",
+        chart3Labels: ['Mobile (64%)', 'Desktop (36%)'],
+        chart3Data: [64, 36],
+        chart3Colors: ['#4f46e5', '#0284c7'],
+        cards: [
+          {
+            ch: "Non-Brand Search Expansion",
+            badge: "+$20,000", badgeClass: "badge-increase",
+            text: "High impression share headroom on competitor terms with strong purchase intent.",
+            impact: "Projected: +$96,000 Revenue (4.80x ROAS)"
+          },
+          {
+            ch: "YouTube Retargeting",
+            badge: "Cap CPA $38", badgeClass: "badge-scale",
+            text: "Implement strict target CPA bid limits to prevent rising mid-funnel impression costs.",
+            impact: "Protects $12,000 in monthly ad efficiency"
+          },
+          {
+            ch: "Performance Max Asset Groups",
+            badge: "+$10,000", badgeClass: "badge-increase",
+            text: "Feed-based dynamic product ads show 18% higher checkout completion rate.",
+            impact: "Projected: +$52,000 Revenue"
+          }
+        ],
+        simCurrSpend: "$160,000", simCurrRev: "$768,000", simCurrRoas: "4.80x",
+        simNextSpend: "$190,000", simNextRev: "$925,000", simNextRoas: "4.87x",
+        simLift: "+ $157,000 Incremental Lift"
+      },
+      meta: {
+        title: "Meta Ads · Instagram & Facebook Prospecting & Retargeting",
+        tag: "Audience Lookalikes & Video Feeds",
+        spendLbl: "Meta Ad Spend", spend: "$140,000", spendMeta: "29.2% of Total Spend",
+        revLbl: "Meta Attributed Rev", rev: "$560,000", revMeta: "ROAS: 4.00x Exact",
+        roasLbl: "Channel ROAS", roas: "4.00x", roasMeta: "$560K / $140K",
+        cacLbl: "Meta CAC", cac: "$40.00", cacMeta: "$140K / 3,500 Conv",
+        convLbl: "Conversions", conv: "3,500", convMeta: "CVR: 5.00% (70K Visitors)",
+        imp: "6.0M", vis: "70K", ctr: "1.17%", cvr: "5.00%",
+        chart1Title: "Meta Weekly Spend vs. Revenue", chart1Pill: "4.00x ROAS",
+        chart1Labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        chart1Spend: [31, 34, 36, 39],
+        chart1Rev: [124, 136, 144, 156],
+        chart2Title: "Meta Campaign Objective ROAS", chart2Sub: "Funnel Stages",
+        chart2Labels: ['Retargeting', 'Advantage+ Catalog', 'Video Feed Prospecting', 'Stories'],
+        chart2Data1: [4.80, 4.40, 3.60, 3.20],
+        chart2Data2: [5.60, 5.20, 4.40, 3.90],
+        chart3Title: "Platform Placement Split", chart3Sub: "70K Visitors",
+        chart3Labels: ['Instagram (68%)', 'Facebook (32%)'],
+        chart3Data: [68, 32],
+        chart3Colors: ['#ec4899', '#3b82f6'],
+        cards: [
+          {
+            ch: "Lower-Funnel Frequency Trim",
+            badge: "-$15,000", badgeClass: "badge-decrease",
+            text: "Frequency at 4.6x; audience fatigue causes rising CPCs. Shift budget to prospecting.",
+            impact: "Prevents ad fatigue & lowers CAC"
+          },
+          {
+            ch: "Reels Short-Form Creatives",
+            badge: "+$12,000", badgeClass: "badge-increase",
+            text: "Top-performing video testimonials deliver 24% higher click-to-install rate.",
+            impact: "Projected: +$54,000 Revenue"
+          },
+          {
+            ch: "Lookalike Audience 1%",
+            badge: "Hold Budget", badgeClass: "badge-scale",
+            text: "Maintains strong baseline ROAS of 4.2x across high-LTV purchasers.",
+            impact: "Stabilizes customer acquisition pipeline"
+          }
+        ],
+        simCurrSpend: "$140,000", simCurrRev: "$560,000", simCurrRoas: "4.00x",
+        simNextSpend: "$137,000", simNextRev: "$575,000", simNextRoas: "4.20x",
+        simLift: "+ $15,000 Net Margin Improvement"
+      },
+      ios: {
+        title: "Apple Search Ads · High-Intent iOS App Store Conversions",
+        tag: "Highest Channel ROAS",
+        spendLbl: "Apple Search Spend", spend: "$90,000", spendMeta: "18.8% of Total Spend",
+        revLbl: "Apple Search Rev", rev: "$486,000", revMeta: "ROAS: 5.40x Exact",
+        roasLbl: "Channel ROAS", roas: "5.40x", roasMeta: "$486K / $90K",
+        cacLbl: "Apple Search CAC", cac: "$30.00", cacMeta: "$90K / 3,000 Conv",
+        convLbl: "Conversions", conv: "3,000", convMeta: "CVR: 6.00% (50K Visitors)",
+        imp: "2.0M", vis: "50K", ctr: "2.50%", cvr: "6.00%",
+        chart1Title: "Apple iOS Weekly Spend vs. Revenue", chart1Pill: "5.40x ROAS",
+        chart1Labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        chart1Spend: [19, 22, 23, 26],
+        chart1Rev: [103, 119, 124, 140],
+        chart2Title: "Search Keyword Match Types", chart2Sub: "ROAS by Match",
+        chart2Labels: ['Brand Keywords', 'Exact Match Category', 'Competitor Search', 'Search Match'],
+        chart2Data1: [7.20, 5.60, 4.80, 4.00],
+        chart2Data2: [8.80, 7.10, 5.90, 4.80],
+        chart3Title: "Device Model Distribution", chart3Sub: "50K Visitors",
+        chart3Labels: ['iPhone 15 / 16 (58%)', 'iPhone 13 / 14 (34%)', 'iPad (8%)'],
+        chart3Data: [58, 34, 8],
+        chart3Colors: ['#4f46e5', '#06b6d4', '#cbd5e1'],
+        cards: [
+          {
+            ch: "Category Exact Match Scale",
+            badge: "+$35,000", badgeClass: "badge-increase",
+            text: "Unexhausted keyword inventory with 5.6x ROAS. High commercial buyer intent.",
+            impact: "Projected: +$189,000 Revenue"
+          },
+          {
+            ch: "Competitor Conquesting",
+            badge: "+$10,000", badgeClass: "badge-increase",
+            text: "Outbid competitor brand keywords to win top placement in App Store search.",
+            impact: "Captures 650+ high-value switchers"
+          },
+          {
+            ch: "Negative Keyword Pruning",
+            badge: "Filter Waste", badgeClass: "badge-scale",
+            text: "Prune low-intent discovery search queries to preserve conversion efficiency.",
+            impact: "Improves ROAS from 5.4x to 5.7x"
+          }
+        ],
+        simCurrSpend: "$90,000", simCurrRev: "$486,000", simCurrRoas: "5.40x",
+        simNextSpend: "$135,000", simNextRev: "$742,000", simNextRoas: "5.50x",
+        simLift: "+ $256,000 Incremental Lift"
+      },
+      linkedin: {
+        title: "LinkedIn Ads · Enterprise B2B Decision-Maker Targeting",
+        tag: "High-Ticket Enterprise Contracts",
+        spendLbl: "LinkedIn Ad Spend", spend: "$60,000", spendMeta: "12.5% of Total Spend",
+        revLbl: "LinkedIn Attributed Rev", rev: "$204,000", revMeta: "ROAS: 3.40x Exact",
+        roasLbl: "Channel ROAS", roas: "3.40x", roasMeta: "$204K / $60K",
+        cacLbl: "LinkedIn CAC", cac: "$80.00", cacMeta: "$60K / 750 Conv",
+        convLbl: "Conversions", conv: "750", convMeta: "CVR: 3.00% (25K Visitors)",
+        imp: "0.8M", vis: "25K", ctr: "3.13%", cvr: "3.00%",
+        chart1Title: "LinkedIn Weekly Spend vs. Revenue", chart1Pill: "3.40x ROAS",
+        chart1Labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        chart1Spend: [13, 15, 15, 17],
+        chart1Rev: [44, 51, 51, 58],
+        chart2Title: "Seniority Level ROAS", chart2Sub: "Targeting Tiers",
+        chart2Labels: ['VP & C-Level', 'Director Level', 'Manager Tier', 'Senior IC'],
+        chart2Data1: [4.40, 3.60, 2.90, 2.70],
+        chart2Data2: [5.80, 4.60, 3.80, 3.40],
+        chart3Title: "Company Size Distribution", chart3Sub: "25K Visitors",
+        chart3Labels: ['Enterprise 1000+ (52%)', 'Mid-Market 200-1000 (32%)', 'SMB (16%)'],
+        chart3Data: [52, 32, 16],
+        chart3Colors: ['#0284c7', '#38bdf8', '#cbd5e1'],
+        cards: [
+          {
+            ch: "C-Level Executive InMail",
+            badge: "+$15,000", badgeClass: "badge-increase",
+            text: "Highest deal size ($4,800 ACV). Focus sponsored content exclusively on executive titles.",
+            impact: "Projected: +$66,000 Revenue"
+          },
+          {
+            ch: "Exclusion Lists Update",
+            badge: "Exclude SMB", badgeClass: "badge-scale",
+            text: "Exclude company size under 50 to avoid high CPC leakage on non-buying organizations.",
+            impact: "Reduces enterprise CAC by 18%"
+          },
+          {
+            ch: "Lead Gen Form Testing",
+            badge: "Native Forms", badgeClass: "badge-scale",
+            text: "Native LinkedIn lead forms yield 2.2x completion rate compared to external landing pages.",
+            impact: "Increases MQL volume by +34%"
+          }
+        ],
+        simCurrSpend: "$60,000", simCurrRev: "$204,000", simCurrRoas: "3.40x",
+        simNextSpend: "$75,000", simNextRev: "$278,000", simNextRoas: "3.71x",
+        simLift: "+ $74,000 Incremental Lift"
+      },
+      organic: {
+        title: "Organic Search · SEO & Unpaid Inbound Channel Intelligence",
+        tag: "Compounding Zero-Ad-Fee Acquisition",
+        spendLbl: "Content & SEO Spend", spend: "$30,000", spendMeta: "6.2% of Total Spend",
+        revLbl: "Organic Attributed Rev", rev: "$142,000", revMeta: "ROAS: 4.73x Exact",
+        roasLbl: "Channel ROAS", roas: "4.73x", roasMeta: "$142K / $30K",
+        cacLbl: "Organic CAC", cac: "$24.00", cacMeta: "$30K / 1,250 Conv",
+        convLbl: "Conversions", conv: "1,250", convMeta: "CVR: 5.00% (25K Visitors)",
+        imp: "0.6M", vis: "25K", ctr: "4.17%", cvr: "5.00%",
+        chart1Title: "Organic Weekly Traffic & Revenue", chart1Pill: "4.73x ROAS",
+        chart1Labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        chart1Spend: [7, 7, 8, 8],
+        chart1Rev: [33, 33, 38, 38],
+        chart2Title: "Search Intent Category Split", chart2Sub: "ROAS by Query Intent",
+        chart2Labels: ['Commercial Comparison', 'Direct Navigation', 'Product Reviews', 'Informational'],
+        chart2Data1: [6.20, 5.40, 4.60, 2.70],
+        chart2Data2: [7.80, 6.60, 5.70, 3.40],
+        chart3Title: "Organic Device Distribution", chart3Sub: "25K Visitors",
+        chart3Labels: ['Desktop Web (52%)', 'Mobile Web (48%)'],
+        chart3Data: [52, 48],
+        chart3Colors: ['#0d9488', '#14b8a6'],
+        cards: [
+          {
+            ch: "Commercial Comparison Guides",
+            badge: "+$8,000", badgeClass: "badge-increase",
+            text: "High-intent queries comparing solutions rank top 3 and convert at 7.4%.",
+            impact: "Projected: +$42,000 Revenue"
+          },
+          {
+            ch: "Core Web Vitals Speed Boost",
+            badge: "Tech SEO", badgeClass: "badge-scale",
+            text: "Page speed optimization lifts mobile search index ranking by 3.2 positions.",
+            impact: "Adds +6,000 monthly organic visits"
+          },
+          {
+            ch: "Featured Snippet Optimization",
+            badge: "SERP Win", badgeClass: "badge-scale",
+            text: "Structure question headings to capture Google Position Zero across top target keywords.",
+            impact: "Drives zero-cost qualified leads"
+          }
+        ],
+        simCurrSpend: "$30,000", simCurrRev: "$142,000", simCurrRoas: "4.73x",
+        simNextSpend: "$38,000", simNextRev: "$192,000", simNextRoas: "5.05x",
+        simLift: "+ $50,000 Incremental Lift"
+      },
+      acq: {
+        title: "Acquisition Marketing · New Customer Generation Intelligence",
+        tag: "Top-of-Funnel Conversion Engine",
+        spendLbl: "Acquisition Ad Spend", spend: "$360,000", spendMeta: "75% of Total Budget",
+        revLbl: "New Customer Revenue", rev: "$1,512,000", revMeta: "ROAS: 4.20x Exact",
+        roasLbl: "Acquisition ROAS", roas: "4.20x", roasMeta: "$1.512M / $360K",
+        cacLbl: "New Customer CAC", cac: "$40.00", cacMeta: "$360K / 9,000 Cust",
+        convLbl: "New Customers", conv: "9,000", convMeta: "First-Order Purchases",
+        imp: "11.2M", vis: "190K", ctr: "1.70%", cvr: "4.74%",
+        chart1Title: "Weekly Acquisition Spend vs. Revenue", chart1Pill: "4.20x ROAS",
+        chart1Labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        chart1Spend: [80, 88, 94, 98],
+        chart1Rev: [336, 370, 395, 411],
+        chart2Title: "Acquisition ROAS by Channel", chart2Sub: "New Customer Tiers",
+        chart2Labels: ['Apple iOS', 'Google Search', 'Meta Prospecting', 'LinkedIn Ads'],
+        chart2Data1: [5.10, 4.50, 3.80, 3.20],
+        chart2Data2: [6.40, 5.70, 4.60, 4.10],
+        chart3Title: "First-Touch Source Split", chart3Sub: "9,000 New Customers",
+        chart3Labels: ['Paid Search (42%)', 'Paid Social (33%)', 'App Store (25%)'],
+        chart3Data: [42, 33, 25],
+        chart3Colors: ['#4f46e5', '#06b6d4', '#10b981'],
+        cards: [
+          {
+            ch: "Channel Rebalancing",
+            badge: "+$35,000", badgeClass: "badge-increase",
+            text: "Reallocate capital to Apple Search Ads and Google Search for lowest acquisition cost.",
+            impact: "Lifts new customer volume by +14%"
+          },
+          {
+            ch: "Landing Page CVR Test",
+            badge: "+1.2% CVR", badgeClass: "badge-scale",
+            text: "Simplified single-step onboarding flow improves visitor-to-customer conversion.",
+            impact: "Lowers blended CAC to $35.00"
+          },
+          {
+            ch: "Geo-Targeting Refinement",
+            badge: "Top 20 Metros", badgeClass: "badge-scale",
+            text: "Focus prospecting spend on high-converting metropolitan zones with highest disposable income.",
+            impact: "Increases first-order basket value"
+          }
+        ],
+        simCurrSpend: "$360,000", simCurrRev: "$1,512,000", simCurrRoas: "4.20x",
+        simNextSpend: "$395,000", simNextRev: "$1,780,000", simNextRoas: "4.51x",
+        simLift: "+ $268,000 Incremental Lift"
+      },
+      ret: {
+        title: "Retention Marketing · Repeat Purchases & Customer LTV Expansion",
+        tag: "High-Margin Repeat Orders",
+        spendLbl: "Retention Ad Spend", spend: "$120,000", spendMeta: "25% of Total Budget",
+        revLbl: "Repeat Order Revenue", rev: "$648,000", revMeta: "ROAS: 5.40x Exact",
+        roasLbl: "Retention ROAS", roas: "5.40x", roasMeta: "$648K / $120K",
+        cacLbl: "Cost per Repeat Order", cac: "$34.29", cacMeta: "$120K / 3,500 Orders",
+        convLbl: "Repeat Orders", conv: "3,500", convMeta: "Repeat Conversion Rate",
+        imp: "3.2M", vis: "60K", ctr: "1.88%", cvr: "5.83%",
+        chart1Title: "Weekly Retention Spend vs. Revenue", chart1Pill: "5.40x ROAS",
+        chart1Labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        chart1Spend: [25, 27, 31, 37],
+        chart1Rev: [136, 148, 167, 197],
+        chart2Title: "Retention ROAS by Channel", chart2Sub: "Repeat Channel Tiers",
+        chart2Labels: ['Email & SMS Flow', 'Google Brand', 'Meta Retargeting', 'App Push'],
+        chart2Data1: [7.60, 5.80, 4.40, 6.20],
+        chart2Data2: [9.20, 7.20, 5.40, 7.80],
+        chart3Title: "Repurchase Timing Cohorts", chart3Sub: "3,500 Repeat Orders",
+        chart3Labels: ['30-Day Reorder (42%)', '60-Day Reorder (36%)', '90-Day Reorder (22%)'],
+        chart3Data: [42, 36, 22],
+        chart3Colors: ['#8b5cf6', '#a78bfa', '#c4b5fd'],
+        cards: [
+          {
+            ch: "Automated SMS Replenishment",
+            badge: "+$12,000", badgeClass: "badge-increase",
+            text: "Trigger personalized SMS reminders 45 days after initial purchase date.",
+            impact: "Projected: +$78,000 Repeat Revenue"
+          },
+          {
+            ch: "Loyalty Tier Incentive",
+            badge: "VIP Club", badgeClass: "badge-scale",
+            text: "Activate tier progression discounts for 2nd and 3rd repeat customer cohorts.",
+            impact: "Increases 90-day repeat order rate"
+          },
+          {
+            ch: "Email Sequence Optimization",
+            badge: "Flow A/B Test", badgeClass: "badge-scale",
+            text: "Curated product recommendation blocks generate 22% higher click-through.",
+            impact: "Lifts email-driven ROAS to 8.2x"
+          }
+        ],
+        simCurrSpend: "$120,000", simCurrRev: "$648,000", simCurrRoas: "5.40x",
+        simNextSpend: "$130,000", simNextRev: "$780,000", simNextRoas: "6.00x",
+        simLift: "+ $132,000 Incremental Lift"
+      }
+    };
+
+    let c1 = null, c2 = null, c3 = null;
+
+    function loadView(key) {
+      // Update Buttons
+      document.querySelectorAll('.channel-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('active'));
+
+      if (['all', 'google', 'meta', 'ios', 'linkedin', 'organic'].includes(key)) {
+        const btn = document.getElementById('btn-' + key);
+        if (btn) btn.classList.add('active');
+        document.getElementById('pill-blended').classList.add('active');
+      } else if (key === 'acq') {
+        document.getElementById('pill-acq').classList.add('active');
+      } else if (key === 'ret') {
+        document.getElementById('pill-ret').classList.add('active');
+      }
+
+      const d = viewsData[key] || viewsData.all;
+
+      // Titles & Headers
+      document.getElementById('view-header-title').innerText = d.title;
+      document.getElementById('view-header-tag').innerText = d.tag;
+
+      // KPIs
+      document.getElementById('kpi-spend-lbl').innerText = d.spendLbl;
+      document.getElementById('kpi-spend').innerText = d.spend;
+      document.getElementById('kpi-spend-meta').innerText = d.spendMeta;
+
+      document.getElementById('kpi-rev-lbl').innerText = d.revLbl;
+      document.getElementById('kpi-rev').innerText = d.rev;
+      document.getElementById('kpi-rev-meta').innerText = d.revMeta;
+
+      document.getElementById('kpi-roas-lbl').innerText = d.roasLbl;
+      document.getElementById('kpi-roas').innerText = d.roas;
+      document.getElementById('kpi-roas-meta').innerText = d.roasMeta;
+
+      document.getElementById('kpi-cac-lbl').innerText = d.cacLbl;
+      document.getElementById('kpi-cac').innerText = d.cac;
+      document.getElementById('kpi-cac-meta').innerText = d.cacMeta;
+
+      document.getElementById('kpi-conv-lbl').innerText = d.convLbl;
+      document.getElementById('kpi-conv').innerText = d.conv;
+      document.getElementById('kpi-conv-meta').innerText = d.convMeta;
+
+      // Traffic Strip
+      document.getElementById('strip-imp').innerText = d.imp;
+      document.getElementById('strip-vis').innerText = d.vis;
+      document.getElementById('strip-ctr').innerText = d.ctr;
+      document.getElementById('strip-cvr').innerText = d.cvr;
+
+      // Charts titles
+      document.getElementById('chart1-title').innerText = d.chart1Title;
+      document.getElementById('chart1-pill').innerText = d.chart1Pill;
+      document.getElementById('chart2-title').innerText = d.chart2Title;
+      document.getElementById('chart2-sub').innerText = d.chart2Sub;
+      document.getElementById('chart3-title').innerText = d.chart3Title;
+      document.getElementById('chart3-sub').innerText = d.chart3Sub;
+
+      // Chart 1
+      if (c1) {
+        c1.data.labels = d.chart1Labels;
+        c1.data.datasets[0].data = d.chart1Spend;
+        c1.data.datasets[1].data = d.chart1Rev;
+        c1.update();
+      }
+
+      // Chart 2
+      if (c2) {
+        c2.data.labels = d.chart2Labels;
+        c2.data.datasets[0].data = d.chart2Data1;
+        c2.data.datasets[1].data = d.chart2Data2;
+        c2.update();
+      }
+
+      // Chart 3
+      if (c3) {
+        c3.data.labels = d.chart3Labels;
+        c3.data.datasets[0].data = d.chart3Data;
+        c3.data.datasets[0].backgroundColor = d.chart3Colors;
+        c3.update();
+      }
+
+      // Suggestions Cards (Minimal Clean Text)
+      const container = document.getElementById('suggestions-container');
+      container.innerHTML = '';
+      d.cards.forEach(card => {
+        const div = document.createElement('div');
+        div.className = 'sug-card';
+        div.innerHTML = `
+          <div class="sug-top">
+            <span class="sug-channel">${card.ch}</span>
+            <span class="sug-badge ${card.badgeClass}">${card.badge}</span>
+          </div>
+          <div class="sug-text">${card.text}</div>
+          <div class="sug-impact">${card.impact}</div>
+        `;
+        container.appendChild(div);
+      });
+
+      // Simulator Bar
+      document.getElementById('sim-curr-spend').innerText = d.simCurrSpend;
+      document.getElementById('sim-curr-rev').innerText = d.simCurrRev;
+      document.getElementById('sim-curr-roas').innerText = d.simCurrRoas;
+      document.getElementById('sim-next-spend').innerText = d.simNextSpend;
+      document.getElementById('sim-next-rev').innerText = d.simNextRev;
+      document.getElementById('sim-next-roas').innerText = d.simNextRoas;
+      document.getElementById('sim-lift-badge').innerText = d.simLift;
+
+      // Reset CTA button & bar style
+      const btn = document.getElementById('btn-apply-alloc');
+      btn.innerText = 'Apply Recommended Budget Split';
+      btn.disabled = false;
+      const bar = document.getElementById('sim-status-bar');
+      bar.style.background = '#f1f5f9';
+      bar.style.border = 'none';
+    }
+
+    function toggleDate() {
+      // Toggle date state
+    }
+
+    function applyAllocation() {
+      const btn = document.getElementById('btn-apply-alloc');
+      const bar = document.getElementById('sim-status-bar');
+      const toast = document.getElementById('toastAlloc');
+      btn.innerText = 'Optimizing...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerText = '✓ Budget Allocation Applied';
+        bar.style.background = '#ecfdf5';
+        bar.style.border = '1px solid #a7f3d0';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      }, 600);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // INIT CHART 1 (Weekly Spend vs Rev)
+      const ctx1 = document.getElementById('chart1').getContext('2d');
+      c1 = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: viewsData.all.chart1Labels,
+          datasets: [
+            {
+              label: 'Ad Spend ($K)',
+              data: viewsData.all.chart1Spend,
+              backgroundColor: '#cbd5e1',
+              borderRadius: 4,
+              barPercentage: 0.65
+            },
+            {
+              label: 'Attributed Rev ($K)',
+              data: viewsData.all.chart1Rev,
+              backgroundColor: '#10b981',
+              borderRadius: 4,
+              barPercentage: 0.65
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              align: 'end',
+              labels: { boxWidth: 10, font: { size: 10, weight: 600 } }
+            }
+          },
+          scales: {
+            y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 9.5 } } },
+            x: { grid: { display: false }, ticks: { font: { size: 10, weight: 600 } } }
+          }
+        }
+      });
+
+      // INIT CHART 2 (Channel ROAS comparison)
+      const ctx2 = document.getElementById('chart2').getContext('2d');
+      c2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: viewsData.all.chart2Labels,
+          datasets: [
+            {
+              label: '30D ROAS',
+              data: viewsData.all.chart2Data1,
+              backgroundColor: '#4f46e5',
+              borderRadius: 4,
+              barPercentage: 0.7
+            },
+            {
+              label: '60D ROAS',
+              data: viewsData.all.chart2Data2,
+              backgroundColor: '#a5b4fc',
+              borderRadius: 4,
+              barPercentage: 0.7
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              align: 'end',
+              labels: { boxWidth: 10, font: { size: 10, weight: 600 } }
+            }
+          },
+          scales: {
+            y: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 9.5 } } },
+            x: { grid: { display: false }, ticks: { font: { size: 9.5, weight: 600 } } }
+          }
+        }
+      });
+
+      // INIT CHART 3 (Device Donut)
+      const ctx3 = document.getElementById('chart3').getContext('2d');
+      c3 = new Chart(ctx3, {
+        type: 'doughnut',
+        data: {
+          labels: viewsData.all.chart3Labels,
+          datasets: [{
+            data: viewsData.all.chart3Data,
+            backgroundColor: viewsData.all.chart3Colors,
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { boxWidth: 10, font: { size: 10, weight: 500 }, padding: 6 }
+            }
+          },
+          cutout: '68%'
+        }
+      });
+
+      // Load initial view
+      loadView('all');
+    });
+  </script>
+</body>
+</html>

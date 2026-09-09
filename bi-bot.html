@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BI Bot — Enterprise AI Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #0f172a; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  header { height: 64px; background: #ffffff; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; }
+  .logo { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: #0072f4; display: flex; align-items: center; gap: 8px; }
+  .nav-tabs { display: flex; gap: 8px; background: #f1f5f9; padding: 4px; border-radius: 10px; }
+  .tab-btn { padding: 8px 16px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; color: #64748b; background: transparent; transition: all 0.2s; }
+  .tab-btn.active { background: #0072f4; color: #ffffff; box-shadow: 0 2px 8px rgba(0,114,244,0.3); }
+  .status-badge { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #15803d; background: #f0fdf4; padding: 6px 12px; border-radius: 20px; border: 1px solid #bbf7d0; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+  
+  .app-container { display: flex; flex: 1; overflow: hidden; }
+  .sidebar { width: 380px; background: #ffffff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-header { padding: 20px; border-bottom: 1px solid #f1f5f9; }
+  .sidebar-header h3 { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+  .sidebar-header p { font-size: 13px; color: #64748b; }
+  .query-list { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .query-item { padding: 14px; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 4px; }
+  .query-item:hover, .query-item.active { background: #eff6ff; border-color: #3b82f6; transform: translateX(2px); }
+  .query-item .q-title { font-size: 14px; font-weight: 600; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }
+  .query-item .q-desc { font-size: 12px; color: #64748b; }
+  .badge-tag { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: #dbeafe; color: #1d4ed8; text-transform: uppercase; }
+  
+  .main-content { flex: 1; display: flex; flex-direction: column; background: #f8fafc; overflow-y: auto; padding: 24px; }
+  .view-panel { display: none; flex-direction: column; gap: 20px; height: 100%; }
+  .view-panel.active { display: flex; }
+  
+  /* Copilot View */
+  .chat-box { flex: 1; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; overflow: hidden; }
+  .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+  .chat-bubble { max-width: 80%; padding: 16px 20px; border-radius: 14px; font-size: 14px; line-height: 1.5; }
+  .chat-bubble.user { align-self: flex-end; background: #0072f4; color: #ffffff; border-bottom-right-radius: 4px; }
+  .chat-bubble.ai { align-self: flex-start; background: #f1f5f9; color: #0f172a; border-bottom-left-radius: 4px; border: 1px solid #e2e8f0; width: 100%; max-width: 90%; }
+  .chat-input-bar { height: 68px; border-top: 1px solid #e2e8f0; padding: 12px 20px; display: flex; gap: 12px; align-items: center; background: #ffffff; }
+  .chat-input { flex: 1; height: 44px; border-radius: 10px; border: 1px solid #cbd5e1; padding: 0 16px; font-size: 14px; outline: none; font-family: 'Inter', sans-serif; }
+  .chat-send-btn { height: 44px; padding: 0 20px; border-radius: 10px; background: #0072f4; color: #ffffff; border: none; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  
+  /* Dashboard View */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .kpi-card { background: #ffffff; padding: 20px; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .kpi-label { font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px; }
+  .kpi-val { font-size: 28px; font-weight: 700; color: #0f172a; font-family: 'Space Grotesk', sans-serif; }
+  .kpi-change { font-size: 12px; font-weight: 600; color: #16a34a; margin-top: 4px; }
+  .chart-card { background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0; padding: 20px; flex: 1; display: flex; flex-direction: column; }
+  .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .chart-header h3 { font-size: 16px; font-weight: 700; color: #0f172a; }
+  
+  /* Dataset / SQL View */
+  .sql-editor { background: #0f172a; border-radius: 12px; padding: 16px; color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; margin-bottom: 16px; border: 1px solid #1e293b; }
+  .data-table-card { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; flex: 1; }
+  table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+  th { background: #f8fafc; padding: 12px 16px; font-weight: 600; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+  td { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; color: #1e293b; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    BI Bot
+  </div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" id="tab-copilot" onclick="switchTab('copilot')">🤖 AI Copilot</button>
+    <button class="tab-btn" id="tab-dashboard" onclick="switchTab('dashboard')">📊 Dashboard</button>
+    <button class="tab-btn" id="tab-dataset" onclick="switchTab('dataset')">田 SQL & Dataset</button>
+  </div>
+  <div class="status-badge">
+    <div class="status-dot"></div>
+    10,000 Orders Indexed (Live)
+  </div>
+</header>
+
+<div class="app-container">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h3>Question Library</h3>
+      <p>Click any prompt for instant AI query execution:</p>
+    </div>
+    <div class="query-list">
+      <div class="query-item active" id="q1" onclick="runQuery('What were the total sales revenue & net profit?', 'q1')">
+        <div class="q-title">What were total sales & profit? <span class="badge-tag">POPULAR</span></div>
+        <div class="q-desc">Calculates overall revenue, profit margins, and YoY growth</div>
+      </div>
+      <div class="query-item" id="q2" onclick="runQuery('Show 24-month revenue and profit trajectory trends', 'q2')">
+        <div class="q-title">Show monthly sales trends <span class="badge-tag">TREND</span></div>
+        <div class="q-desc">Visualizes 24-month continuous revenue and seasonal spikes</div>
+      </div>
+      <div class="query-item" id="q3" onclick="runQuery('Which product category generated highest gross profit?', 'q3')">
+        <div class="q-title">Which category has top profit? <span class="badge-tag">RANK</span></div>
+        <div class="q-desc">Ranks Technology, Furniture, and Office Supplies margins</div>
+      </div>
+      <div class="query-item" id="q4" onclick="runQuery('Generate SQL query for Snowflake data warehouse export', 'q4')">
+        <div class="q-title">Export Snowflake SQL query <span class="badge-tag">SQL</span></div>
+        <div class="q-desc">Live schema translation and automated query generation</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Copilot View -->
+    <div class="view-panel active" id="panel-copilot">
+      <div class="chat-box">
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-bubble ai">
+            <strong>BI Bot AI Assistant:</strong><br>
+            Welcome to Infinyty BI Bot! I have indexed 10,000 orders across 500 SKUs and $121.93M in enterprise transactions. Click any question from the sidebar or type below to run real-time analytics.
+          </div>
+        </div>
+        <div class="chat-input-bar">
+          <input type="text" class="chat-input" id="chat-input-field" placeholder="Ask any question about your data...">
+          <button class="chat-send-btn" id="btn-send" onclick="sendInput()">Send ⚡</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard View -->
+    <div class="view-panel" id="panel-dashboard">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">TOTAL SALES REVENUE</div>
+          <div class="kpi-val">$121.93M</div>
+          <div class="kpi-change">↑ +38.7% YoY</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">TOTAL NET PROFIT</div>
+          <div class="kpi-val">$34.46M</div>
+          <div class="kpi-change">↑ +21.4% YoY</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">GROSS MARGIN</div>
+          <div class="kpi-val">28.3%</div>
+          <div class="kpi-change">↑ +0.9% Expansion</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">FULFILLED ORDERS</div>
+          <div class="kpi-val">10,000</div>
+          <div class="kpi-change">↑ +14.2% Volume</div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3>24-Month Sales Revenue & Profit Trajectory (2024 - 2025)</h3>
+          <span style="font-size: 13px; color: #64748b; font-weight: 600;">● Revenue ($)   ● Net Profit ($)</span>
+        </div>
+        <div style="flex: 1; position: relative;">
+          <canvas id="mainChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dataset / SQL View -->
+    <div class="view-panel" id="panel-dataset">
+      <div class="sql-editor">
+        <span style="color: #94a3b8;">-- Automated Snowflake SQL Query Generated in 18ms</span><br>
+        <span style="color: #f43f5e;">SELECT</span> category, <span style="color: #38bdf8;">COUNT</span>(order_id) <span style="color: #f43f5e;">AS</span> orders, <span style="color: #38bdf8;">SUM</span>(sales) <span style="color: #f43f5e;">AS</span> revenue, <span style="color: #38bdf8;">SUM</span>(profit) <span style="color: #f43f5e;">AS</span> net_profit<br>
+        <span style="color: #f43f5e;">FROM</span> snowflake_prod.enterprise_orders<br>
+        <span style="color: #f43f5e;">GROUP BY</span> 1 <span style="color: #f43f5e;">ORDER BY</span> revenue <span style="color: #f43f5e;">DESC</span>;
+      </div>
+      <div class="data-table-card">
+        <table>
+          <thead>
+            <tr><th>CATEGORY</th><th>ORDERS</th><th>GROSS REVENUE</th><th>NET PROFIT</th><th>MARGIN %</th><th>STATUS</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Technology</strong></td><td>4,820</td><td>$58.21M</td><td>$27.84M</td><td>47.83%</td><td><span style="color:#16a34a;font-weight:700;">● High Growth</span></td></tr>
+            <tr><td><strong>Furniture</strong></td><td>3,140</td><td>$36.42M</td><td>$10.85M</td><td>29.79%</td><td><span style="color:#2563eb;font-weight:700;">● Steady</span></td></tr>
+            <tr><td><strong>Office Supplies</strong></td><td>2,040</td><td>$27.30M</td><td>$6.11M</td><td>22.38%</td><td><span style="color:#d97706;font-weight:700;">● Stable</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let chartInstance = null;
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  document.getElementById('panel-' + tabId).classList.add('active');
+  
+  if (tabId === 'dashboard' && !chartInstance) {
+    initChart();
+  }
+}
+
+function initChart() {
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      datasets: [
+        { label: 'Revenue ($)', data: [4200, 4800, 5600, 5100, 6200, 6800, 7400, 7100, 8500, 9200, 11400, 12800, 7800, 8400, 9100, 8900, 10200, 11500, 12800, 12400, 14200, 15800, 18500, 21400], borderColor: '#0072f4', backgroundColor: 'rgba(0,114,244,0.1)', fill: true, tension: 0.35, borderWidth: 3 },
+        { label: 'Net Profit ($)', data: [1200, 1400, 1650, 1500, 1800, 2100, 2300, 2200, 2700, 3100, 3800, 4300, 2400, 2600, 2900, 2800, 3300, 3800, 4200, 4000, 4800, 5400, 6400, 7400], borderColor: '#16a34a', backgroundColor: 'transparent', tension: 0.35, borderWidth: 3 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+}
+
+function runQuery(qText, qId) {
+  document.querySelectorAll('.query-item').forEach(i => i.classList.remove('active'));
+  document.getElementById(qId).classList.add('active');
+  
+  const box = document.getElementById('chat-messages');
+  box.innerHTML += `<div class="chat-bubble user">${qText}</div>`;
+  box.scrollTop = box.scrollHeight;
+  
+  setTimeout(() => {
+    box.innerHTML += `
+      <div class="chat-bubble ai">
+        <strong>⚡ Live AI Analysis Result:</strong><br>
+        • <strong>Gross Revenue:</strong> $121.93M across 10,000 orders (+38.7% YoY).<br>
+        • <strong>Net Profit:</strong> $34.46M with 28.3% gross profit margin.<br>
+        • <strong>Top Driver:</strong> Technology division contributed 47.8% of total margin volume.
+      </div>
+    `;
+    box.scrollTop = box.scrollHeight;
+  }, 400);
+}
+
+function sendInput() {
+  const inp = document.getElementById('chat-input-field');
+  if (inp.value.trim()) {
+    runQuery(inp.value.trim(), 'q1');
+    inp.value = '';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,3233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI e-KYC & Compliance Automation Engine — Ashika Group</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #f1f5f9;
+      --bg-hover: #e2e8f0;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --ashika-blue: #1d4ed8;
+      --ashika-blue-dark: #1e40af;
+      --ashika-blue-glow: rgba(29, 78, 216, 0.12);
+      --growth-green: #059669;
+      --growth-green-bg: #ecfdf5;
+      --growth-green-border: #a7f3d0;
+      --alert-amber: #d97706;
+      --alert-amber-bg: #fffbeb;
+      --alert-amber-border: #fde68a;
+      --danger-red: #dc2626;
+      --danger-red-bg: #fef2f2;
+      --danger-red-border: #fecaca;
+      --font-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 10px 25px -4px rgba(0, 0, 0, 0.08);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── 1. OPERATIONAL TELEMETRY RIBBON ── */
+    .telemetry-ribbon {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.45rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      overflow-x: auto;
+      white-space: nowrap;
+      color: var(--text-secondary);
+      z-index: 50;
+      gap: 1.5rem;
+    }
+    .telemetry-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .telemetry-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .telemetry-item .label {
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.66rem;
+      letter-spacing: 0.04em;
+    }
+    .telemetry-item .val {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .telemetry-item .highlight-green {
+      color: var(--growth-green);
+      font-weight: 700;
+    }
+    .telemetry-item .highlight-blue {
+      color: var(--ashika-blue);
+      font-weight: 700;
+    }
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--growth-green);
+      box-shadow: 0 0 6px var(--growth-green);
+      display: inline-block;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.9); } }
+
+    /* ── 2. HEADER BAR ── */
+    .header-bar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: var(--shadow-sm);
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .ashika-emblem {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 800;
+      box-shadow: 0 3px 10px rgba(29, 78, 216, 0.28);
+      letter-spacing: -0.02em;
+    }
+    .brand-text-block {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+    .brand-sub {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--ashika-blue);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .header-divider {
+      width: 1px;
+      height: 32px;
+      background: var(--border-strong);
+      margin: 0 0.5rem;
+    }
+    .engine-title-badge {
+      display: flex;
+      flex-direction: column;
+    }
+    .engine-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+    }
+    .engine-subtitle {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .sebi-pill {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      background: var(--bg-surface-elevated);
+      padding: 0.12rem 0.45rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .partner-logo-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-right: 0.75rem;
+      border-right: 1px solid var(--border-subtle);
+    }
+    .partner-logo-box img {
+      height: 22px;
+      width: auto;
+      object-fit: contain;
+    }
+    .header-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.48rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .header-btn:hover {
+      background: var(--bg-surface-elevated);
+      border-color: var(--border-strong);
+    }
+    .header-btn.primary {
+      background: var(--ashika-blue);
+      border-color: var(--ashika-blue);
+      color: #ffffff;
+      box-shadow: 0 2px 8px var(--ashika-blue-glow);
+    }
+    .header-btn.primary:hover {
+      background: var(--ashika-blue-dark);
+    }
+
+    /* ── 3. APPLICANT HERO / DOSSIER SUMMARY STRIP ── */
+    .dossier-hero {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 1rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .applicant-meta-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .applicant-avatar-wrap {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(29, 78, 216, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .applicant-avatar-wrap svg {
+      width: 32px;
+      height: 32px;
+      color: var(--ashika-blue);
+    }
+    .applicant-avatar-verified {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      background: var(--growth-green);
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .applicant-avatar-verified svg {
+      width: 9px;
+      height: 9px;
+      color: #ffffff;
+      stroke-width: 3;
+    }
+    .applicant-identity {
+      display: flex;
+      flex-direction: column;
+    }
+    .applicant-name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .applicant-name {
+      font-family: var(--font-display);
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .badge-status {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.18rem 0.55rem;
+      border-radius: 50px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .badge-status.success {
+      background: var(--growth-green-bg);
+      color: var(--growth-green);
+      border: 1px solid var(--growth-green-border);
+    }
+    .badge-status.amber {
+      background: var(--alert-amber-bg);
+      color: var(--alert-amber);
+      border: 1px solid var(--alert-amber-border);
+    }
+    .applicant-subinfo {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.2rem;
+    }
+    .applicant-subinfo span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .applicant-subinfo strong {
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    /* Applicant Switcher Bar */
+    .applicant-queue-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-surface-elevated);
+      padding: 0.3rem 0.4rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+    }
+    .queue-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .queue-chip:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+    .queue-chip.active {
+      background: #ffffff;
+      color: var(--ashika-blue);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      font-weight: 700;
+    }
+    .queue-chip .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--growth-green);
+    }
+    .queue-chip.active .chip-dot {
+      background: var(--ashika-blue);
+    }
+
+    /* ── 4. TABS NAVIGATION ── */
+    .nav-tabs-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tabs-group {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .tab-nav-btn {
+      padding: 0.85rem 0.2rem;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+    }
+    .tab-nav-btn:hover {
+      color: var(--text-primary);
+    }
+    .tab-nav-btn.active {
+      color: var(--ashika-blue);
+      border-bottom-color: var(--ashika-blue);
+      font-weight: 700;
+    }
+    .tab-badge {
+      font-size: 0.65rem;
+      background: var(--bg-surface-elevated);
+      color: var(--text-muted);
+      padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+    }
+    .tab-nav-btn.active .tab-badge {
+      background: var(--ashika-blue-glow);
+      color: var(--ashika-blue);
+    }
+
+    /* ── 5. MAIN CONTENT AREA ── */
+    .main-viewport {
+      flex: 1;
+      padding: 1.5rem 1.75rem;
+      max-width: 1800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* GRID LAYOUTS */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .cards-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 1100px) {
+      .cards-grid-4 { grid-template-columns: 1fr; }
+      .grid-2col { grid-template-columns: 1fr; }
+    }
+
+    /* ── 6. DOCUMENT OCR & EXTRACTION VERIFICATION CARDS ── */
+    .verification-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .verification-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-hover);
+    }
+    .vcard-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+    }
+    .vcard-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .vcard-icon-wrap {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--bg-surface-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ashika-blue);
+      border: 1px solid var(--border-subtle);
+    }
+    .vcard-title-group h3 {
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .vcard-title-group .sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+    .vcard-match-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+    .vcard-match-pill.match-100 {
+      background: var(--growth-green-bg);
+      color: var(--growth-green);
+      border: 1px solid var(--growth-green-border);
+    }
+    .vcard-match-pill.match-high {
+      background: #eff6ff;
+      color: var(--ashika-blue);
+      border: 1px solid #bfdbfe;
+    }
+
+    .vcard-body {
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    /* Mini Document Mockup Preview */
+    .doc-preview-strip {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .doc-preview-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .doc-mini-thumb {
+      width: 60px;
+      height: 38px;
+      border-radius: 5px;
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3px 5px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    .mini-line { height: 2px; background: #cbd5e1; border-radius: 1px; width: 80%; }
+    .mini-line.short { width: 50%; }
+    .mini-line.green { background: var(--growth-green); }
+    .mini-badge-corner {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 6px;
+      height: 6px;
+      background: var(--ashika-blue);
+      border-radius: 50%;
+    }
+    .doc-preview-meta {
+      display: flex;
+      flex-direction: column;
+    }
+    .doc-preview-meta .name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .doc-preview-meta .info {
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+    .doc-inspect-btn {
+      padding: 0.25rem 0.6rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--ashika-blue);
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .doc-inspect-btn:hover {
+      background: #eff6ff;
+      border-color: var(--ashika-blue);
+    }
+
+    /* Extracted Fields Table */
+    .extracted-fields-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+    }
+    .extracted-fields-table tr {
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .extracted-fields-table tr:last-child {
+      border-bottom: none;
+    }
+    .extracted-fields-table td {
+      padding: 0.42rem 0.2rem;
+      vertical-align: top;
+    }
+    .extracted-fields-table td.field-key {
+      color: var(--text-muted);
+      font-weight: 500;
+      width: 38%;
+      font-size: 0.72rem;
+    }
+    .extracted-fields-table td.field-val {
+      color: var(--text-primary);
+      font-weight: 600;
+      font-family: var(--font-mono);
+      word-break: break-word;
+    }
+    .extracted-fields-table td.field-status {
+      text-align: right;
+      width: 15%;
+    }
+    .check-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+      color: var(--growth-green);
+      font-weight: 700;
+      font-size: 0.68rem;
+    }
+
+    .vcard-footer {
+      padding: 0.65rem 1.25rem;
+      background: var(--bg-surface-elevated);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.7rem;
+    }
+    .vcard-audit-source {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+    .vcard-badge-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-weight: 700;
+      color: var(--growth-green);
+      text-transform: uppercase;
+      font-size: 0.66rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── 7. AML, PEP & RISK AUDIT PANEL (RIGHT COLUMN) ── */
+    .aml-risk-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .aml-panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .aml-panel-title h3 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .risk-score-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: var(--growth-green-bg);
+      color: var(--growth-green);
+      border: 1px solid var(--growth-green-border);
+    }
+
+    /* Big Score Gauge Display */
+    .risk-gauge-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .risk-score-big {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--growth-green);
+      line-height: 1;
+    }
+    .risk-score-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #166534;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .risk-tier-tag {
+      display: inline-block;
+      margin-top: 0.25rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: #166534;
+      color: #ffffff;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+    }
+    .risk-gauge-meter {
+      text-align: right;
+    }
+    .meter-label {
+      font-size: 0.7rem;
+      color: #166534;
+      font-weight: 600;
+    }
+    .meter-bar-track {
+      width: 110px;
+      height: 8px;
+      background: rgba(5, 150, 105, 0.2);
+      border-radius: 4px;
+      margin-top: 0.3rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .meter-bar-fill {
+      width: 12%;
+      height: 100%;
+      background: var(--growth-green);
+      border-radius: 4px;
+    }
+
+    /* AML Checklist Items */
+    .aml-check-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .aml-check-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 0.65rem 0.75rem;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.76rem;
+    }
+    .aml-check-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .aml-check-info .name {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .aml-check-info .sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+    .aml-status-pill {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .aml-status-pill.clean {
+      background: var(--growth-green-bg);
+      color: var(--growth-green);
+      border: 1px solid var(--growth-green-border);
+    }
+    .aml-status-pill.flag {
+      background: var(--danger-red-bg);
+      color: var(--danger-red);
+      border: 1px solid var(--danger-red-border);
+    }
+
+    /* Segment Eligibility Box */
+    .eligibility-box {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      background: #ffffff;
+    }
+    .eligibility-header {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .segment-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .segment-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      background: #eff6ff;
+      color: var(--ashika-blue);
+      border: 1px solid #bfdbfe;
+    }
+    .segment-tag.active-green {
+      background: #ecfdf5;
+      color: var(--growth-green);
+      border-color: #a7f3d0;
+    }
+
+    /* ── 8. INTERACTIVE DECISION BAR ── */
+    .decision-action-bar {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 1.15rem 1.5rem;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .decision-left {
+      display: flex;
+      flex-direction: column;
+    }
+    .decision-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .decision-meta {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: 0.2rem;
+    }
+    .decision-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.6rem 1.15rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: var(--font-display);
+    }
+    .btn-approve {
+      background: var(--growth-green);
+      color: #ffffff;
+      border: 1px solid var(--growth-green);
+      box-shadow: 0 2px 10px rgba(5, 150, 105, 0.25);
+    }
+    .btn-approve:hover {
+      background: #047857;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+    }
+    .btn-vkyc {
+      background: #ffffff;
+      color: var(--alert-amber);
+      border: 1px solid var(--alert-amber);
+    }
+    .btn-vkyc:hover {
+      background: var(--alert-amber-bg);
+    }
+    .btn-dossier {
+      background: #ffffff;
+      color: var(--ashika-blue);
+      border: 1px solid var(--ashika-blue);
+    }
+    .btn-dossier:hover {
+      background: #eff6ff;
+    }
+
+    /* ── 9. DEEP-DIVE DOCUMENT OCR INSPECTOR TAB ── */
+    .ocr-inspector-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr 340px;
+      gap: 1.25rem;
+    }
+    @media (max-width: 1200px) {
+      .ocr-inspector-layout { grid-template-columns: 1fr; }
+    }
+    .ocr-menu-card, .ocr-preview-panel, .ocr-extracted-tokens {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 1.25rem;
+    }
+    .ocr-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .ocr-doc-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0.9rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface-elevated);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: left;
+    }
+    .ocr-doc-item:hover {
+      background: #ffffff;
+      border-color: var(--border-strong);
+    }
+    .ocr-doc-item.active {
+      background: #ffffff;
+      border-color: var(--ashika-blue);
+      box-shadow: 0 2px 8px var(--ashika-blue-glow);
+    }
+    .ocr-doc-item .item-title {
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--text-primary);
+    }
+    .ocr-doc-item .item-sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* High Fidelity Document Visualizer Stage */
+    .doc-stage {
+      background: #f8fafc;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      min-height: 420px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .doc-canvas-box {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      position: relative;
+      padding: 1.25rem;
+    }
+    /* Aadhaar Card Style */
+    .aadhaar-canvas {
+      border-top: 4px solid #f97316;
+      border-bottom: 4px solid #16a34a;
+    }
+    .aadhaar-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .aadhaar-title-hindi {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .aadhaar-title-eng {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #64748b;
+    }
+    .aadhaar-body-grid {
+      display: grid;
+      grid-template-columns: 90px 1fr 80px;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .doc-photo-box {
+      width: 86px;
+      height: 106px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .doc-photo-box svg {
+      width: 48px;
+      height: 48px;
+      color: #94a3b8;
+    }
+    .ocr-box-overlay {
+      position: absolute;
+      border: 1.5px solid var(--growth-green);
+      background: rgba(5, 150, 105, 0.12);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .ocr-box-overlay:hover {
+      background: rgba(5, 150, 105, 0.3);
+      border-width: 2px;
+    }
+    .ocr-tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      font-family: var(--font-mono);
+      z-index: 10;
+    }
+    .ocr-box-overlay:hover .ocr-tooltip {
+      opacity: 1;
+    }
+    .doc-qr-placeholder {
+      width: 74px;
+      height: 74px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+    }
+    .aadhaar-uid-large {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: #0f172a;
+      margin-top: 0.85rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    /* ── 10. AML & REGULATORY AUDIT MATRIX TAB ── */
+    .audit-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 1000px) {
+      .audit-matrix-grid { grid-template-columns: 1fr; }
+    }
+    .matrix-card {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 1.25rem;
+    }
+    .matrix-card-title {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .audit-chain-log {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.6;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .audit-chain-log .log-time { color: #94a3b8; }
+    .audit-chain-log .log-green { color: #34d399; font-weight: 600; }
+    .audit-chain-log .log-blue { color: #60a5fa; }
+    .audit-chain-log .log-hash { color: #fbbf24; }
+
+    /* ── 11. OPERATIONS & TAT ANALYTICS TAB ── */
+    .analytics-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 900px) {
+      .analytics-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .kpi-metric-card {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 1.15rem 1.25rem;
+    }
+    .kpi-title {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .kpi-val {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0.25rem 0;
+    }
+    .kpi-trend {
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .kpi-trend.green { color: var(--growth-green); }
+    .kpi-trend.blue { color: var(--ashika-blue); }
+
+    .charts-duo {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 1000px) {
+      .charts-duo { grid-template-columns: 1fr; }
+    }
+    .chart-panel-card {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 1.25rem;
+    }
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .chart-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .chart-subtitle {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* ── 12. MODALS ── */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-box {
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-strong);
+      width: 100%;
+      max-width: 620px;
+      overflow: hidden;
+      animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface-elevated);
+    }
+    .modal-header h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem;
+      border-radius: 4px;
+    }
+    .modal-close-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+    }
+    .modal-body {
+      padding: 1.5rem;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      background: var(--bg-surface-elevated);
+    }
+
+    /* Workflow Pipeline Progress Indicator inside Modal */
+    .workflow-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1.25rem 0;
+    }
+    .workflow-step {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      font-size: 0.8rem;
+    }
+    .workflow-step.completed {
+      border-color: var(--growth-green-border);
+      background: var(--growth-green-bg);
+    }
+    .workflow-step-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e2e8f0;
+      color: #64748b;
+      flex-shrink: 0;
+    }
+    .workflow-step.completed .workflow-step-icon {
+      background: var(--growth-green);
+      color: #ffffff;
+    }
+    .workflow-step-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .workflow-step-text .title {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .workflow-step-text .sub {
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    /* Activated Account Credential Certificate */
+    .activation-card-success {
+      border: 2px solid var(--growth-green);
+      background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-top: 1rem;
+      display: none;
+    }
+    .activation-card-success.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    .activation-cert-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #bbf7d0;
+      padding-bottom: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+    .activation-ucc-code {
+      font-family: var(--font-mono);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--growth-green);
+      letter-spacing: 0.05em;
+    }
+    .cert-meta-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.65rem;
+      font-size: 0.74rem;
+    }
+    .cert-meta-item strong {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.66rem;
+      text-transform: uppercase;
+    }
+    .cert-meta-item span {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Toast Notification */
+    .toast-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 50px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+      pointer-events: none;
+    }
+    .toast-pill.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .toast-pill .toast-icon {
+      color: var(--growth-green);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. OPERATIONAL TELEMETRY RIBBON -->
+  <div class="telemetry-ribbon">
+    <div class="telemetry-left">
+      <div class="telemetry-item">
+        <span class="live-dot"></span>
+        <span class="label">ONBOARDING TAT:</span>
+        <span class="val highlight-green">42s</span>
+        <span class="label">(FROM 48 HRS, -98.5%)</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="label">OCR MATCH ACCURACY:</span>
+        <span class="val highlight-blue">99.85%</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="label">CKYC / KRA SYNC:</span>
+        <span class="val highlight-green">ACTIVE</span>
+        <span class="label">(CVL &middot; NDML &middot; CERSAI)</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="label">AML FALSE POSITIVES:</span>
+        <span class="val highlight-green">-78%</span>
+        <span class="label">(GNN NEURAL FILTER)</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="label">SEBI BROKER REG:</span>
+        <span class="val">INZ000169130</span>
+      </div>
+    </div>
+    <div class="telemetry-right">
+      <div class="telemetry-item">
+        <span class="label">STP THROUGHPUT:</span>
+        <span class="val highlight-green">94.2%</span>
+      </div>
+      <div class="telemetry-item">
+        <span class="label">AUDIT CHAIN:</span>
+        <span class="val">SHA-256 VERIFIED</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MAIN HEADER BAR -->
+  <header class="header-bar">
+    <div class="header-brand">
+      <div class="ashika-emblem">A</div>
+      <div class="brand-text-block">
+        <span class="brand-name">ASHIKA GROUP</span>
+        <span class="brand-sub">Ashika Stock Services Ltd &middot; Estd. 1994</span>
+      </div>
+      <div class="header-divider"></div>
+      <div class="engine-title-badge">
+        <span class="engine-title">AI e-KYC & COMPLIANCE AUTOMATION ENGINE</span>
+        <span class="engine-subtitle">
+          SEBI Regulated Stock Broker & Depository Participant
+          <span class="sebi-pill">NSE &middot; BSE &middot; MCX &middot; CDSL &middot; NSDL</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="partner-logo-box" title="Technology Automation Partner">
+        <img src="logo.png" alt="Infinyty Tech" onerror="this.style.display='none'">
+      </div>
+      <button class="header-btn" id="btnOpenQueue" onclick="openModal('modalQueue')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        <span>Live Queue (24)</span>
+      </button>
+      <button class="header-btn primary" onclick="showToast('Cryptographic audit trail synced with SEBI regulatory ledger.')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Compliance Vault</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3. APPLICANT DOSSIER HERO STRIP -->
+  <section class="dossier-hero">
+    <div class="applicant-meta-card">
+      <div class="applicant-avatar-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <div class="applicant-avatar-verified">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+      <div class="applicant-identity">
+        <div class="applicant-name-row">
+          <h2 class="applicant-name" id="currentApplicantName">Ananya Sharma</h2>
+          <span class="badge-status success" id="currentApplicantStatus">AI Verified - Ready for SEBI Approval</span>
+        </div>
+        <div class="applicant-subinfo">
+          <span>App ID: <strong id="currentAppId">ASH-2026-88421</strong></span>
+          <span>&bull;</span>
+          <span>Segment: <strong id="currentSegment">Individual Demat + F&O + MTF</strong></span>
+          <span>&bull;</span>
+          <span>PAN: <strong id="currentPan">BNAPS8421K</strong></span>
+          <span>&bull;</span>
+          <span>Time in Pipeline: <strong>38 seconds</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Queue Switcher Chips -->
+    <div class="applicant-queue-selector">
+      <button class="queue-chip active" id="chip-ananya" onclick="switchApplicant('ananya')">
+        <span class="chip-dot"></span>
+        <span>Ananya Sharma (Ready)</span>
+      </button>
+      <button class="queue-chip" id="chip-vikram" onclick="switchApplicant('vikram')">
+        <span class="chip-dot" style="background: var(--ashika-blue);"></span>
+        <span>Vikramaditya (Corporate)</span>
+      </button>
+      <button class="queue-chip" id="chip-pooja" onclick="switchApplicant('pooja')">
+        <span class="chip-dot" style="background: var(--alert-amber);"></span>
+        <span>Pooja Mehta (V-KYC Flag)</span>
+      </button>
+      <button class="queue-chip" id="chip-rohan" onclick="switchApplicant('rohan')">
+        <span class="chip-dot"></span>
+        <span>Rohan Varma (Activated)</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 4. NAVIGATION TABS -->
+  <nav class="nav-tabs-bar">
+    <div class="tabs-group">
+      <button class="tab-nav-btn active" id="tabBtn-pipeline" onclick="switchTab('pipeline')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Verification Pipeline & Dossier</span>
+        <span class="tab-badge">4 Docs Verified</span>
+      </button>
+      <button class="tab-nav-btn" id="tabBtn-ocr" onclick="switchTab('ocr')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h.01M17 7h.01M7 17h.01M17 17h.01"/><path d="M12 7v10M7 12h10"/></svg>
+        <span>Document OCR & Extraction</span>
+        <span class="tab-badge">99.85% Acc.</span>
+      </button>
+      <button class="tab-nav-btn" id="tabBtn-aml" onclick="switchTab('aml')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>AML & Regulatory Risk Matrix</span>
+        <span class="tab-badge">Score 12/100</span>
+      </button>
+      <button class="tab-nav-btn" id="tabBtn-analytics" onclick="switchTab('analytics')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Throughput & TAT Analytics</span>
+        <span class="tab-badge">42s TAT</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 5. MAIN VIEWPORT -->
+  <main class="main-viewport">
+
+    <!-- ══ TAB 1: VERIFICATION PIPELINE & DOSSIER (DEFAULT) ══ -->
+    <div class="tab-content active" id="view-pipeline">
+      <div class="grid-2col">
+        
+        <!-- Left: 4 Document Verification Cards -->
+        <div class="dossier-left-column">
+          
+          <div class="cards-grid-4">
+            
+            <!-- CARD 1: AADHAAR CARD XML VERIFICATION -->
+            <div class="verification-card" id="cardAadhaar">
+              <div class="vcard-header">
+                <div class="vcard-title-group">
+                  <div class="vcard-icon-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="8" x2="17" y2="8"/><line x1="15" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg>
+                  </div>
+                  <div>
+                    <h3>Aadhaar XML e-KYC</h3>
+                    <div class="sub">UIDAI Masked Repository Vault</div>
+                  </div>
+                </div>
+                <div class="vcard-match-pill match-100">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>100% MATCH</span>
+                </div>
+              </div>
+
+              <div class="vcard-body">
+                <div class="doc-preview-strip">
+                  <div class="doc-preview-left">
+                    <div class="doc-mini-thumb">
+                      <div class="mini-line"></div>
+                      <div class="mini-line short green"></div>
+                      <div class="mini-line"></div>
+                      <div class="mini-badge-corner"></div>
+                    </div>
+                    <div class="doc-preview-meta">
+                      <span class="name">UIDAI e-Aadhaar Signed XML</span>
+                      <span class="info">SHA-256 Validated &middot; OTP Auth</span>
+                    </div>
+                  </div>
+                  <button class="doc-inspect-btn" onclick="inspectDoc('aadhaar')">Inspect OCR</button>
+                </div>
+
+                <table class="extracted-fields-table">
+                  <tr>
+                    <td class="field-key">Applicant Name</td>
+                    <td class="field-val">Ananya Sharma</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 100%</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">Masked Aadhaar</td>
+                    <td class="field-val">XXXX-XXXX-4819</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> MASKED</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">DOB / Age</td>
+                    <td class="field-val">14-08-1993 (33 yrs)</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> VALID</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">Address Match</td>
+                    <td class="field-val">Worli Sea Face, Mumbai 400030</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 98.6%</span></td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="vcard-footer">
+                <span class="vcard-audit-source">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  DigiLocker / UIDAI Root CA
+                </span>
+                <span class="vcard-badge-verified">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  VERIFIED
+                </span>
+              </div>
+            </div>
+
+            <!-- CARD 2: PAN CARD OCR & NSDL ITD VERIFICATION -->
+            <div class="verification-card" id="cardPan">
+              <div class="vcard-header">
+                <div class="vcard-title-group">
+                  <div class="vcard-icon-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="13" y2="12"/><circle cx="15" cy="14" r="2"/></svg>
+                  </div>
+                  <div>
+                    <h3>PAN Card & NSDL Match</h3>
+                    <div class="sub">Income Tax Dept Linkage & Seed</div>
+                  </div>
+                </div>
+                <div class="vcard-match-pill match-100">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>100% MATCH</span>
+                </div>
+              </div>
+
+              <div class="vcard-body">
+                <div class="doc-preview-strip">
+                  <div class="doc-preview-left">
+                    <div class="doc-mini-thumb">
+                      <div class="mini-line"></div>
+                      <div class="mini-line"></div>
+                      <div class="mini-line short green"></div>
+                      <div class="mini-badge-corner" style="background: var(--growth-green);"></div>
+                    </div>
+                    <div class="doc-preview-meta">
+                      <span class="name">Protean / NSDL Direct API</span>
+                      <span class="info">Hologram OK &middot; Sec 139AA Seeded</span>
+                    </div>
+                  </div>
+                  <button class="doc-inspect-btn" onclick="inspectDoc('pan')">Inspect OCR</button>
+                </div>
+
+                <table class="extracted-fields-table">
+                  <tr>
+                    <td class="field-key">PAN Number</td>
+                    <td class="field-val">BNAPS8421K</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> VALID</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">Name on Card</td>
+                    <td class="field-val">ANANYA SHARMA</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 100%</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">Father's Name</td>
+                    <td class="field-val">SURESH SHARMA</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> MATCH</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">Aadhaar Linkage</td>
+                    <td class="field-val">Seeded & Operative</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> ACTIVE</span></td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="vcard-footer">
+                <span class="vcard-audit-source">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Protean NSDL / ITD Database
+                </span>
+                <span class="vcard-badge-verified">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  VERIFIED
+                </span>
+              </div>
+            </div>
+
+            <!-- CARD 3: 6-MONTH BANK STATEMENT & PENNY-DROP -->
+            <div class="verification-card" id="cardBank">
+              <div class="vcard-header">
+                <div class="vcard-title-group">
+                  <div class="vcard-icon-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4"/></svg>
+                  </div>
+                  <div>
+                    <h3>Bank Penny-Drop & Income</h3>
+                    <div class="sub">Account Aggregator & IMPS ₹1.00</div>
+                  </div>
+                </div>
+                <div class="vcard-match-pill match-100">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>CONFIRMED</span>
+                </div>
+              </div>
+
+              <div class="vcard-body">
+                <div class="doc-preview-strip">
+                  <div class="doc-preview-left">
+                    <div class="doc-mini-thumb">
+                      <div class="mini-line"></div>
+                      <div class="mini-line short"></div>
+                      <div class="mini-line green"></div>
+                      <div class="mini-badge-corner" style="background: var(--ashika-blue);"></div>
+                    </div>
+                    <div class="doc-preview-meta">
+                      <span class="name">HDFC Bank e-Statement</span>
+                      <span class="info">A/C: ...1033 &middot; IFSC: HDFC0000060</span>
+                    </div>
+                  </div>
+                  <button class="doc-inspect-btn" onclick="inspectDoc('bank')">Inspect OCR</button>
+                </div>
+
+                <table class="extracted-fields-table">
+                  <tr>
+                    <td class="field-key">Penny Drop Name</td>
+                    <td class="field-val">ANANYA SHARMA</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> 100%</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">IMPS RRN Ref</td>
+                    <td class="field-val">421908234812</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> CREDIT</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">6-Mo Avg Balance</td>
+                    <td class="field-val">₹3,42,800.00</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> HEALTHY</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">Derivatives Proof</td>
+                    <td class="field-val">F&O & MTF Eligible</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> PASSED</span></td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="vcard-footer">
+                <span class="vcard-audit-source">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  NPCI IMPS / RBI AA Network
+                </span>
+                <span class="vcard-badge-verified">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  VERIFIED
+                </span>
+              </div>
+            </div>
+
+            <!-- CARD 4: LIVE LIVENESS FACE MATCH -->
+            <div class="verification-card" id="cardLiveness">
+              <div class="vcard-header">
+                <div class="vcard-title-group">
+                  <div class="vcard-icon-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                  </div>
+                  <div>
+                    <h3>Live Liveness & Face Match</h3>
+                    <div class="sub">ISO/IEC 30107-3 Level 2 Certified</div>
+                  </div>
+                </div>
+                <div class="vcard-match-pill match-high">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>99.4% MATCH</span>
+                </div>
+              </div>
+
+              <div class="vcard-body">
+                <div class="doc-preview-strip">
+                  <div class="doc-preview-left">
+                    <div class="doc-mini-thumb" style="display: flex; align-items: center; justify-content: center; background: #e0e7ff;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="10" r="3"/><path d="M7 18a5 5 0 0 1 10 0"/></svg>
+                    </div>
+                    <div class="doc-preview-meta">
+                      <span class="name">Selfie vs Aadhaar / PAN</span>
+                      <span class="info">Micro-expression Mesh Validated</span>
+                    </div>
+                  </div>
+                  <button class="doc-inspect-btn" onclick="inspectDoc('face')">Inspect Mesh</button>
+                </div>
+
+                <table class="extracted-fields-table">
+                  <tr>
+                    <td class="field-key">Facial Confidence</td>
+                    <td class="field-val">99.4% (Cosine: 0.994)</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> PASS</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">Passive Liveness</td>
+                    <td class="field-val">Genuine Human (0.00% Spoof)</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> CERTIFIED</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">Geo-Coordinates</td>
+                    <td class="field-val">18.9982° N, 72.8143° E</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> IN-BOUNDS</span></td>
+                  </tr>
+                  <tr>
+                    <td class="field-key">IP & Device Mesh</td>
+                    <td class="field-val">Mumbai ISP &middot; Mobile WebKit</td>
+                    <td class="field-status"><span class="check-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> CLEAN</span></td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="vcard-footer">
+                <span class="vcard-audit-source">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Neural Biometric Engine
+                </span>
+                <span class="vcard-badge-verified">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  PASSED
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Interactive Decision Action Bar -->
+          <div class="decision-action-bar">
+            <div class="decision-left">
+              <span class="decision-title">Compliance Decision & Account Provisioning</span>
+              <span class="decision-meta">All 4 Regulatory Checks Satisfied &bull; SEBI STP Compliant &bull; Ready for Instant CDSL Activation</span>
+            </div>
+            <div class="decision-btn-group">
+              <button class="btn-action btn-dossier" onclick="openModal('modalDossier')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Auditable Dossier</span>
+              </button>
+              <button class="btn-action btn-vkyc" onclick="openModal('modalVkyc')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                <span>Request Video KYC</span>
+              </button>
+              <button class="btn-action btn-approve" id="btnApproveSebi" onclick="triggerApprovalFlow()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Approve SEBI Onboarding & Activate Trading</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: AML, PEP & Discrepancy Risk Scoring Panel -->
+        <aside class="aml-risk-panel">
+          <div class="aml-panel-title">
+            <h3>AML & Risk Scoring</h3>
+            <span class="risk-score-badge">LOW RISK</span>
+          </div>
+
+          <!-- Gauge Display -->
+          <div class="risk-gauge-card">
+            <div>
+              <div class="risk-score-big" id="riskScoreVal">12</div>
+              <div class="risk-score-label">Composite Risk Index</div>
+              <span class="risk-tier-tag">TIER-1 FAST TRACK STP</span>
+            </div>
+            <div class="risk-gauge-meter">
+              <span class="meter-label">Threshold &lt; 30 STP</span>
+              <div class="meter-bar-track">
+                <div class="meter-bar-fill"></div>
+              </div>
+              <div style="font-size: 0.65rem; color: #166534; margin-top: 0.35rem; font-family: var(--font-mono);">
+                0 (Min) - 100 (Max)
+              </div>
+            </div>
+          </div>
+
+          <!-- AML Check List -->
+          <div class="aml-check-list">
+            <div class="aml-check-item">
+              <div class="aml-check-info">
+                <span class="name">PEP Database Check</span>
+                <span class="sub">1.4M Global Politically Exposed List</span>
+              </div>
+              <span class="aml-status-pill clean">CLEAN (0 HITS)</span>
+            </div>
+
+            <div class="aml-check-item">
+              <div class="aml-check-info">
+                <span class="name">Adverse Media Scan</span>
+                <span class="sub">40,000+ Financial & Legal News Feeds</span>
+              </div>
+              <span class="aml-status-pill clean">CLEAN</span>
+            </div>
+
+            <div class="aml-check-item">
+              <div class="aml-check-info">
+                <span class="name">UN / OFAC / FATF Sanctions</span>
+                <span class="sub">Global Sanctions Watchlist Screening</span>
+              </div>
+              <span class="aml-status-pill clean">CLEAN</span>
+            </div>
+
+            <div class="aml-check-item">
+              <div class="aml-check-info">
+                <span class="name">SEBI Debarred Entities</span>
+                <span class="sub">SEBI Defaulter & Debarred Registry</span>
+              </div>
+              <span class="aml-status-pill clean">CLEAR</span>
+            </div>
+
+            <div class="aml-check-item">
+              <div class="aml-check-info">
+                <span class="name">Address Fuzzy Overlap</span>
+                <span class="sub">Aadhaar XML vs Bank Statement</span>
+              </div>
+              <span class="aml-status-pill clean">98.6% MATCH</span>
+            </div>
+
+            <div class="aml-check-item">
+              <div class="aml-check-info">
+                <span class="name">Deduplication Integrity</span>
+                <span class="sub">PAN & Mobile Ashika Internal Vault</span>
+              </div>
+              <span class="aml-status-pill clean">UNIQUE (0 DUP)</span>
+            </div>
+          </div>
+
+          <!-- Segment Eligibility Checklist -->
+          <div class="eligibility-box">
+            <div class="eligibility-header">
+              <span>TRADING SEGMENTS ELIGIBILITY</span>
+              <span style="color: var(--growth-green); font-family: var(--font-mono);">PASSED</span>
+            </div>
+            <div class="segment-tags-row">
+              <span class="segment-tag active-green">Equity Cash</span>
+              <span class="segment-tag active-green">F&O Derivatives</span>
+              <span class="segment-tag active-green">MTF (Margin Trading)</span>
+              <span class="segment-tag active-green">Currency (CDS)</span>
+              <span class="segment-tag">Commodity (MCX)</span>
+            </div>
+            <div style="font-size: 0.68rem; color: var(--text-muted); margin-top: 0.5rem; line-height: 1.4;">
+              6-Month Net Inflow verified via HDFC statement satisfies SEBI derivatives onboarding guidelines.
+            </div>
+          </div>
+
+          <!-- Compliance Certification Block -->
+          <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.75rem; font-size: 0.68rem; color: var(--text-secondary); font-family: var(--font-mono); line-height: 1.5;">
+            <strong>SEBI AUDIT TRAIL CERTIFICATE</strong><br>
+            Compliance Engine: v4.8-STP<br>
+            Audit Officer ID: ASH-SYS-042<br>
+            CKYC Batch Mode: Synchronous Direct Push<br>
+            Status: Ready for Instant Execution
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+
+    <!-- ══ TAB 2: DOCUMENT OCR & EXTRACTION DEEP-DIVE ══ -->
+    <div class="tab-content" id="view-ocr">
+      <div class="ocr-inspector-layout">
+        
+        <!-- Left Sub-menu of Documents -->
+        <div class="ocr-menu-card">
+          <h3 style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700;">Document Vault</h3>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem;">Select source document for neural OCR token inspection</p>
+          
+          <div class="ocr-nav-list">
+            <div class="ocr-doc-item active" id="ocrDocItem-aadhaar" onclick="switchOcrDoc('aadhaar')">
+              <div>
+                <div class="item-title">Aadhaar e-KYC Card</div>
+                <div class="item-sub">UIDAI XML &middot; Masked Proof</div>
+              </div>
+              <span class="badge-status success">100% Match</span>
+            </div>
+
+            <div class="ocr-doc-item" id="ocrDocItem-pan" onclick="switchOcrDoc('pan')">
+              <div>
+                <div class="item-title">PAN Card (Protean)</div>
+                <div class="item-sub">Form 49A &middot; ITD Linked</div>
+              </div>
+              <span class="badge-status success">100% Match</span>
+            </div>
+
+            <div class="ocr-doc-item" id="ocrDocItem-bank" onclick="switchOcrDoc('bank')">
+              <div>
+                <div class="item-title">Bank Statement (6-Mo)</div>
+                <div class="item-sub">HDFC Bank &middot; Penny Drop</div>
+              </div>
+              <span class="badge-status success">Verified</span>
+            </div>
+
+            <div class="ocr-doc-item" id="ocrDocItem-face" onclick="switchOcrDoc('face')">
+              <div>
+                <div class="item-title">Liveness Face Mesh</div>
+                <div class="item-sub">3D Anti-Spoofing &middot; GPS</div>
+              </div>
+              <span class="badge-status success">99.4% Match</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.5rem; padding: 0.85rem; background: var(--bg-surface-elevated); border-radius: var(--radius-sm); font-size: 0.72rem; border: 1px solid var(--border-subtle);">
+            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">Sub-Pixel AI Engine</strong>
+            <span style="color: var(--text-secondary);">Extracts 38 key-value pairs with automated bounding-box spatial geometry and zero hallucination guarantee.</span>
+          </div>
+        </div>
+
+        <!-- Center: Interactive High Fidelity Visualizer Stage with Bounding Boxes -->
+        <div class="ocr-preview-panel">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+            <div>
+              <h3 id="ocrDocHeading" style="font-family: var(--font-display); font-size: 1rem; font-weight: 700;">Aadhaar Card Visual Token Inspector</h3>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">Hover over green neural bounding boxes to view extracted text tokens</span>
+            </div>
+            <span class="badge-status success" id="ocrConfidenceBadge">OCR Confidence: 99.85%</span>
+          </div>
+
+          <div class="doc-stage">
+            
+            <!-- Dynamic Document Canvas Container -->
+            <div class="doc-canvas-box aadhaar-canvas" id="interactiveCanvasBox">
+              <!-- Content rendered dynamically via JS -->
+            </div>
+
+          </div>
+
+          <div style="margin-top: 1rem; display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); font-family: var(--font-mono);">
+            <span>Bounding Box Count: <strong>6 Detected</strong></span>
+            <span>Tamper Forensic Anomaly: <strong style="color: var(--growth-green);">0.00% (Clean)</strong></span>
+            <span>Cryptographic Merkle Root: <strong>0x9f8c...33b1</strong></span>
+          </div>
+        </div>
+
+        <!-- Right: Raw Extracted JSON / Key-Value Tree -->
+        <div class="ocr-extracted-tokens">
+          <h3 style="font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;">Normalized Attributes</h3>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.85rem;">Standardized BFSI ISO-20022 Schema</p>
+          
+          <div style="background: #0f172a; color: #f8fafc; border-radius: var(--radius-md); padding: 1rem; font-family: var(--font-mono); font-size: 0.7rem; max-height: 400px; overflow-y: auto;" id="rawJsonViewer">
+            <!-- JSON tree rendered dynamically -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ TAB 3: AML & REGULATORY RISK MATRIX ══ -->
+    <div class="tab-content" id="view-aml">
+      
+      <div class="audit-matrix-grid">
+        
+        <!-- Card 1: PEP & Sanctions Database Screening -->
+        <div class="matrix-card">
+          <div class="matrix-card-title">
+            <span>Global Watchlist & PEP Audit</span>
+            <span class="badge-status success">Passed (0 Hits)</span>
+          </div>
+          <p style="font-size: 0.74rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.4;">
+            Screened against 1,420,000 global Politically Exposed Persons, FATF high-risk jurisdictions, and UN/OFAC international embargo lists.
+          </p>
+          <div class="aml-check-list">
+            <div class="aml-check-item">
+              <span class="name">World-Check PEP Global</span>
+              <span class="aml-status-pill clean">0 MATCHES</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">OFAC SDN & Consolidated List</span>
+              <span class="aml-status-pill clean">0 MATCHES</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">FATF Blacklist / Greylist</span>
+              <span class="aml-status-pill clean">JURISDICTION CLEAR</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">RBI Willful Defaulters</span>
+              <span class="aml-status-pill clean">CLEAR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Adverse Media & Sentiment Screening -->
+        <div class="matrix-card">
+          <div class="matrix-card-title">
+            <span>Adverse Media & Legal Scans</span>
+            <span class="badge-status success">Clean</span>
+          </div>
+          <p style="font-size: 0.74rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.4;">
+            NLP analysis across 40,000+ national and regional publications, e-Courts filings, and investigative disclosures.
+          </p>
+          <div class="aml-check-list">
+            <div class="aml-check-item">
+              <span class="name">e-Courts Case Scrutiny</span>
+              <span class="aml-status-pill clean">0 LITIGATIONS</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">Financial Crime News Scan</span>
+              <span class="aml-status-pill clean">0 NEGATIVE FEEDS</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">Corporate Ministry (MCA) ROC</span>
+              <span class="aml-status-pill clean">DIRECTORSHIP OK</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">SEBI CIS & Debarment Circulars</span>
+              <span class="aml-status-pill clean">NO RESTRICTION</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Geofencing & Biometric Forensics -->
+        <div class="matrix-card">
+          <div class="matrix-card-title">
+            <span>Geofence & Device Forensics</span>
+            <span class="badge-status success">Verified</span>
+          </div>
+          <p style="font-size: 0.74rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.4;">
+            SEBI mandated domestic territorial IP compliance, GPS triangulation, and anti-tampering verification.
+          </p>
+          <div class="aml-check-list">
+            <div class="aml-check-item">
+              <span class="name">Territorial Geofencing</span>
+              <span class="aml-status-pill clean">INDIA (MUMBAI)</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">VPN / Tor / Proxy Node</span>
+              <span class="aml-status-pill clean">RESIDENTIAL IP</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">Device Fingerprint Hash</span>
+              <span class="aml-status-pill clean">UNIQUE & SECURE</span>
+            </div>
+            <div class="aml-check-item">
+              <span class="name">Address Geo-Distance</span>
+              <span class="aml-status-pill clean">0.4 KM FROM AADHAAR</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Real-Time Cryptographic Audit Chain Log -->
+      <div class="chart-panel-card">
+        <div class="chart-header">
+          <div>
+            <h3 class="chart-title">Cryptographic Regulatory Audit Chain (Immutable Ledger)</h3>
+            <span class="chart-subtitle">SHA-256 Merkle proofs linking every verification stage to Ashika Group's SEBI compliance record</span>
+          </div>
+          <button class="header-btn" onclick="showToast('Cryptographic proofs exported to PDF audit dossier.')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Export Merkle Log</span>
+          </button>
+        </div>
+
+        <div class="audit-chain-log">
+          <div><span class="log-time">[12:54:12 IST]</span> <span class="log-blue">INGESTION:</span> Onboarding started for applicant Ananya Sharma (PAN: BNAPS8421K). Merkle seed initiated.</div>
+          <div><span class="log-time">[12:54:14 IST]</span> <span class="log-green">AADHAAR-XML:</span> UIDAI OTP signed XML received. Root certificate validated. Hash: <span class="log-hash">0x8f2a...18e4</span></div>
+          <div><span class="log-time">[12:54:18 IST]</span> <span class="log-green">PAN-PROTEAN:</span> NSDL API returned exact 100% name match. Section 139AA Aadhaar seeding confirmed. Hash: <span class="log-hash">0x4b7c...99a1</span></div>
+          <div><span class="log-time">[12:54:23 IST]</span> <span class="log-green">PENNY-DROP:</span> IMPS ₹1.00 credit to HDFC A/C ...1033. Beneficiary string "ANANYA SHARMA" fuzzy score 1.00.</div>
+          <div><span class="log-time">[12:54:31 IST]</span> <span class="log-green">BIOMETRIC:</span> Passive 3D liveness verified (0.00% presentation attack score). Facial cosine similarity: 0.994.</div>
+          <div><span class="log-time">[12:54:39 IST]</span> <span class="log-green">AML-GNN:</span> PEP 0 hits, adverse media 0 hits, OFAC clean. Composite Risk Score calculated: 12/100 (Tier-1 STP).</div>
+          <div><span class="log-time">[12:54:42 IST]</span> <span class="log-blue">READY:</span> Application ASH-2026-88421 cleared for 1-Click SEBI Onboarding Activation. Total TAT: 30s.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ TAB 4: OPERATIONS & TAT ANALYTICS ══ -->
+    <div class="tab-content" id="view-analytics">
+      
+      <!-- Operational Metric Cards -->
+      <div class="analytics-kpi-grid">
+        <div class="kpi-metric-card">
+          <div class="kpi-title">Average Onboarding TAT</div>
+          <div class="kpi-val">42s</div>
+          <div class="kpi-trend green">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span>-98.5% (from 48 hours)</span>
+          </div>
+        </div>
+
+        <div class="kpi-metric-card">
+          <div class="kpi-title">Daily Application Throughput</div>
+          <div class="kpi-val">1,420 / day</div>
+          <div class="kpi-trend green">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span>+215% volume surge</span>
+          </div>
+        </div>
+
+        <div class="kpi-metric-card">
+          <div class="kpi-title">STP (Straight Through) Rate</div>
+          <div class="kpi-val">94.2%</div>
+          <div class="kpi-trend blue">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span>Zero manual intervention</span>
+          </div>
+        </div>
+
+        <div class="kpi-metric-card">
+          <div class="kpi-title">Cost Per Onboarding</div>
+          <div class="kpi-val">₹8.50</div>
+          <div class="kpi-trend green">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+            <span>Down from ₹240 manual</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Duo -->
+      <div class="charts-duo">
+        
+        <!-- Chart 1: TAT Trajectory & Throughput Curve -->
+        <div class="chart-panel-card">
+          <div class="chart-header">
+            <div>
+              <h3 class="chart-title">Daily Onboarding Throughput & TAT Reduction Trajectory</h3>
+              <span class="chart-subtitle">Dual-axis correlation: Applications processed vs Turnaround Time in minutes</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--ashika-blue); font-weight: 700;">
+              Aug 2026 Production Cohort
+            </div>
+          </div>
+          <div style="height: 320px; position: relative;">
+            <canvas id="throughputTatChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Pipeline Funnel Breakdown -->
+        <div class="chart-panel-card">
+          <div class="chart-header">
+            <div>
+              <h3 class="chart-title">Onboarding Pipeline Distribution</h3>
+              <span class="chart-subtitle">STP vs Video KYC vs Manual</span>
+            </div>
+          </div>
+          <div style="height: 240px; position: relative; display: flex; align-items: center; justify-content: center;">
+            <canvas id="pipelineDonutChart"></canvas>
+          </div>
+          <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.75rem;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-secondary);">Direct STP Auto-Approved:</span>
+              <strong style="color: var(--growth-green); font-family: var(--font-mono);">94.2% (1,338)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-secondary);">Manual Video KYC Required:</span>
+              <strong style="color: var(--alert-amber); font-family: var(--font-mono);">4.6% (65)</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-secondary);">Compliance Exception Desk:</span>
+              <strong style="color: var(--text-muted); font-family: var(--font-mono);">1.2% (17)</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ── MODAL 1: SEBI ACCOUNT ACTIVATION WORKFLOW ── -->
+  <div class="modal-backdrop" id="modalActivation">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: var(--growth-green-bg); color: var(--growth-green); display: flex; align-items: center; justify-content: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>SEBI Onboarding & Trading Activation</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalActivation')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4;">
+          Executing automated institutional provisioning for <strong>Ananya Sharma</strong> (App ID: ASH-2026-88421). Pushing to CDSL depository and CERSAI CKYC registry.
+        </p>
+
+        <div class="workflow-steps-list">
+          <div class="workflow-step completed" id="wfStep1">
+            <div class="workflow-step-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="workflow-step-text">
+              <span class="title">Generate SEBI Unique Client Code (UCC)</span>
+              <span class="sub">Allocated: ASH-99214 &middot; Segment: Cash, F&O, MTF</span>
+            </div>
+          </div>
+
+          <div class="workflow-step completed" id="wfStep2">
+            <div class="workflow-step-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="workflow-step-text">
+              <span class="title">Sync CKYC Identifier with CERSAI</span>
+              <span class="sub">Registry Ref: CKYC-IN-2026-90481239 &middot; Status: Synchronized</span>
+            </div>
+          </div>
+
+          <div class="workflow-step completed" id="wfStep3">
+            <div class="workflow-step-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="workflow-step-text">
+              <span class="title">Provision Demat Account with CDSL</span>
+              <span class="sub">CDSL BOID: 12081600-04918231 &middot; Active</span>
+            </div>
+          </div>
+
+          <div class="workflow-step completed" id="wfStep4">
+            <div class="workflow-step-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="workflow-step-text">
+              <span class="title">Immutable Merkle Proof Sealed</span>
+              <span class="sub">Hash: 0x7e3f8921a4bc... &middot; Stamped by ASH-SYS-042</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Credential Card -->
+        <div class="activation-card-success show">
+          <div class="activation-cert-header">
+            <div>
+              <span style="font-size: 0.68rem; color: var(--growth-green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;">ACCOUNT ACTIVATED</span>
+              <div class="activation-ucc-code">UCC: ASH-99214</div>
+            </div>
+            <span class="badge-status success">LIVE & ACTIVE</span>
+          </div>
+
+          <div class="cert-meta-row">
+            <div class="cert-meta-item">
+              <strong>Account Holder</strong>
+              <span>Ananya Sharma</span>
+            </div>
+            <div class="cert-meta-item">
+              <strong>CDSL Demat BOID</strong>
+              <span>12081600-04918231</span>
+            </div>
+            <div class="cert-meta-item">
+              <strong>Approved Segments</strong>
+              <span>Equity &middot; F&O &middot; MTF Margin</span>
+            </div>
+            <div class="cert-meta-item">
+              <strong>Broker Membership</strong>
+              <span>Ashika (SEBI: INZ000169130)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="header-btn" onclick="closeModal('modalActivation')">Close</button>
+        <button class="header-btn primary" onclick="showToast('Electronic Welcome Kit & CDSL DIS slip dispatched via email/SMS.'); closeModal('modalActivation');">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span>Dispatch Welcome Kit</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL 2: MANUAL VIDEO KYC SCHEDULER ── -->
+  <div class="modal-backdrop" id="modalVkyc">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: var(--alert-amber-bg); color: var(--alert-amber); display: flex; align-items: center; justify-content: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          </div>
+          <h3>Manual Video KYC (V-KYC) Scheduler</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalVkyc')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 1.25rem;">
+          Assign a certified compliance officer for real-time audiovisual recording under SEBI Master Circular guidelines.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.78rem;">
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: var(--text-primary);">Designated Compliance Officer</label>
+            <select style="width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.8rem;">
+              <option>Officer Rajesh Kulkarni (SEBI Cert #4912) - Available Now</option>
+              <option>Officer Neha Trivedi (SEBI Cert #8821)</option>
+              <option>Officer Vikram Sen (SEBI Cert #3014)</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; font-weight: 600; margin-bottom: 0.35rem; color: var(--text-primary);">V-KYC Verification Trigger Reason</label>
+            <select style="width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.8rem;">
+              <option>Spot Audit / Institutional Random Sampling (Quality Control)</option>
+              <option>Minor Name Spelling Discrepancy (>2.5%)</option>
+              <option>High Net Worth Margin Line Request (> ₹25 Lakhs)</option>
+            </select>
+          </div>
+
+          <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.85rem; font-size: 0.72rem; line-height: 1.5; color: var(--text-secondary);">
+            <strong>Regulatory Audit Requirements:</strong><br>
+            &bull; GPS Geo-tagging enabled with concurrent time-stamp.<br>
+            &bull; Live questions with dynamic randomized OTP verification.<br>
+            &bull; High-definition audio & visual archiving stored in CDSL encrypted cloud for 8 years.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="header-btn" onclick="closeModal('modalVkyc')">Cancel</button>
+        <button class="header-btn primary" onclick="showToast('V-KYC link dispatched to applicant via SMS and WhatsApp.'); closeModal('modalVkyc');">
+          <span>Generate Geofenced V-KYC Room</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL 3: AUDITABLE CRYPTOGRAPHIC DOSSIER ── -->
+  <div class="modal-backdrop" id="modalDossier">
+    <div class="modal-box" style="max-width: 720px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: #eff6ff; color: var(--ashika-blue); display: flex; align-items: center; justify-content: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h3>Auditable Cryptographic Dossier</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalDossier')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+          <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">
+            MERKLE ROOT: 0x9f8c2b4e7819ad...448f
+          </span>
+          <span class="badge-status success">PMLA 2002 Compliant</span>
+        </div>
+
+        <div style="background: #0f172a; color: #f8fafc; border-radius: var(--radius-md); padding: 1.15rem; font-family: var(--font-mono); font-size: 0.72rem; max-height: 380px; overflow-y: auto; line-height: 1.6;" id="cryptographicJsonText">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="header-btn" onclick="closeModal('modalDossier')">Close</button>
+        <button class="header-btn primary" onclick="downloadDossierJson()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download JSON Dossier</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL 4: LIVE ONBOARDING QUEUE ── -->
+  <div class="modal-backdrop" id="modalQueue">
+    <div class="modal-box" style="max-width: 800px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <div style="width: 28px; height: 28px; border-radius: 6px; background: #eff6ff; color: var(--ashika-blue); display: flex; align-items: center; justify-content: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          </div>
+          <h3>Real-Time Onboarding Pipeline Queue (24 In-Flight)</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modalQueue')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.76rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-subtle); text-align: left; color: var(--text-muted); font-size: 0.68rem; text-transform: uppercase;">
+              <th style="padding: 0.5rem 0.4rem;">Applicant</th>
+              <th style="padding: 0.5rem 0.4rem;">App ID</th>
+              <th style="padding: 0.5rem 0.4rem;">Segments</th>
+              <th style="padding: 0.5rem 0.4rem;">TAT</th>
+              <th style="padding: 0.5rem 0.4rem;">Risk</th>
+              <th style="padding: 0.5rem 0.4rem;">Status</th>
+              <th style="padding: 0.5rem 0.4rem; text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="queueTableBody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button class="header-btn" onclick="closeModal('modalQueue')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Pill -->
+  <div class="toast-pill" id="toastPill">
+    <div class="toast-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <span id="toastMsg">Action executed successfully.</span>
+  </div>
+
+  <!-- ── APPLICATION LOGIC & CHARTS SCRIPT ── -->
+  <script>
+    // Data Store for Applicants
+    const applicantsData = {
+      ananya: {
+        name: "Ananya Sharma",
+        appId: "ASH-2026-88421",
+        pan: "BNAPS8421K",
+        segment: "Individual Demat + F&O + MTF",
+        status: "AI Verified - Ready for SEBI Approval",
+        statusClass: "success",
+        riskScore: 12,
+        riskTier: "TIER-1 FAST TRACK STP",
+        biometricMatch: "99.4%",
+        timeInPipeline: "38 seconds",
+        aadhaar: {
+          name: "Ananya Sharma",
+          uid: "XXXX-XXXX-4819",
+          dob: "14-08-1993 (33 yrs)",
+          address: "Flat 402, Sea Breeze Apts, Worli Sea Face, Mumbai 400030",
+          matchScore: "100%",
+          source: "DigiLocker / UIDAI Root CA"
+        },
+        panData: {
+          pan: "BNAPS8421K",
+          name: "ANANYA SHARMA",
+          fatherName: "SURESH SHARMA",
+          linkage: "Seeded & Operative",
+          matchScore: "100%",
+          source: "Protean NSDL / ITD Database"
+        },
+        bank: {
+          pennyDropName: "ANANYA SHARMA",
+          rrn: "421908234812",
+          avgBalance: "₹3,42,800.00",
+          eligibility: "F&O & MTF Eligible",
+          bankName: "HDFC Bank (A/C ...1033)"
+        },
+        liveness: {
+          confidence: "99.4% (Cosine: 0.994)",
+          status: "Genuine Human (0.00% Spoof)",
+          geo: "18.9982° N, 72.8143° E",
+          ipDevice: "Mumbai ISP &middot; Mobile WebKit"
+        }
+      },
+      vikram: {
+        name: "Vikramaditya Singhania",
+        appId: "ASH-2026-88422",
+        pan: "AALCS1928M",
+        segment: "Corporate Demat & Derivatives",
+        status: "Processing CKYC XML",
+        statusClass: "amber",
+        riskScore: 18,
+        riskTier: "TIER-1 CORPORATE HNI",
+        biometricMatch: "98.9%",
+        timeInPipeline: "1m 12s",
+        aadhaar: {
+          name: "Vikramaditya Singhania",
+          uid: "XXXX-XXXX-9921",
+          dob: "22-11-1981 (44 yrs)",
+          address: "12A Maker Towers, Cuffe Parade, Mumbai 400005",
+          matchScore: "100%",
+          source: "UIDAI XML Vault"
+        },
+        panData: {
+          pan: "AALCS1928M",
+          name: "VIKRAMADITYA SINGHANIA",
+          fatherName: "MADHAVRAO SINGHANIA",
+          linkage: "Seeded & Operative",
+          matchScore: "100%",
+          source: "Protean NSDL"
+        },
+        bank: {
+          pennyDropName: "VIKRAMADITYA SINGHANIA",
+          rrn: "421908235541",
+          avgBalance: "₹24,80,000.00",
+          eligibility: "High-Margin F&O Eligible",
+          bankName: "ICICI Bank (A/C ...4821)"
+        },
+        liveness: {
+          confidence: "98.9%",
+          status: "Genuine Human",
+          geo: "18.9152° N, 72.8258° E",
+          ipDevice: "Mumbai Fiber &middot; Mac Safari"
+        }
+      },
+      pooja: {
+        name: "Pooja Rajesh Mehta",
+        appId: "ASH-2026-88423",
+        pan: "BQMPM7123L",
+        segment: "Individual Demat + Cash",
+        status: "Manual V-KYC Flagged (Name 4.2% Variance)",
+        statusClass: "amber",
+        riskScore: 28,
+        riskTier: "TIER-2 MANUAL REVIEW",
+        biometricMatch: "94.1%",
+        timeInPipeline: "2m 45s",
+        aadhaar: {
+          name: "Pooja R. Mehta",
+          uid: "XXXX-XXXX-1284",
+          dob: "05-03-1996 (30 yrs)",
+          address: "804 Silver Arch, Malabar Hill, Mumbai 400006",
+          matchScore: "95.8%",
+          source: "UIDAI e-KYC"
+        },
+        panData: {
+          pan: "BQMPM7123L",
+          name: "POOJA RAJESH MEHTA",
+          fatherName: "RAJESH MEHTA",
+          linkage: "Seeded & Operative",
+          matchScore: "95.8%",
+          source: "Protean NSDL"
+        },
+        bank: {
+          pennyDropName: "POOJA R MEHTA",
+          rrn: "421908236102",
+          avgBalance: "₹1,15,400.00",
+          eligibility: "Cash Segment Active",
+          bankName: "Kotak Mahindra Bank"
+        },
+        liveness: {
+          confidence: "94.1%",
+          status: "Passed with Review",
+          geo: "18.9553° N, 72.8021° E",
+          ipDevice: "Mumbai Cellular"
+        }
+      },
+      rohan: {
+        name: "Rohan K. Varma",
+        appId: "ASH-2026-88424",
+        pan: "AFRPV3319P",
+        segment: "Demat + Commodity Derivatives",
+        status: "CDSL Activated (UCC: ASH-99210)",
+        statusClass: "success",
+        riskScore: 8,
+        riskTier: "TIER-1 INSTANT STP",
+        biometricMatch: "99.7%",
+        timeInPipeline: "42 seconds",
+        aadhaar: {
+          name: "Rohan Kumar Varma",
+          uid: "XXXX-XXXX-5523",
+          dob: "19-09-1991 (35 yrs)",
+          address: "1402 Tower B, Lodha Park, Lower Parel, Mumbai 400013",
+          matchScore: "100%",
+          source: "UIDAI e-KYC XML"
+        },
+        panData: {
+          pan: "AFRPV3319P",
+          name: "ROHAN KUMAR VARMA",
+          fatherName: "KUMAR VARMA",
+          linkage: "Seeded & Operative",
+          matchScore: "100%",
+          source: "Protean NSDL"
+        },
+        bank: {
+          pennyDropName: "ROHAN KUMAR VARMA",
+          rrn: "421908237991",
+          avgBalance: "₹8,92,000.00",
+          eligibility: "Derivatives & MCX Eligible",
+          bankName: "Axis Bank (A/C ...8812)"
+        },
+        liveness: {
+          confidence: "99.7%",
+          status: "Certified Genuine",
+          geo: "18.9950° N, 72.8310° E",
+          ipDevice: "Mumbai &middot; Android Chrome"
+        }
+      }
+    };
+
+    let activeApplicantKey = 'ananya';
+    let currentOcrDoc = 'aadhaar';
+
+    // Switch Applicant Function
+    function switchApplicant(key) {
+      activeApplicantKey = key;
+      const data = applicantsData[key];
+
+      // Update Chip UI
+      document.querySelectorAll('.queue-chip').forEach(c => c.classList.remove('active'));
+      const chip = document.getElementById('chip-' + key);
+      if (chip) chip.classList.add('active');
+
+      // Update Header Strip
+      document.getElementById('currentApplicantName').textContent = data.name;
+      const statusBadge = document.getElementById('currentApplicantStatus');
+      statusBadge.textContent = data.status;
+      statusBadge.className = 'badge-status ' + (data.statusClass === 'success' ? 'success' : 'amber');
+      document.getElementById('currentAppId').textContent = data.appId;
+      document.getElementById('currentSegment').textContent = data.segment;
+      document.getElementById('currentPan').textContent = data.pan;
+
+      // Update Risk Score Panel
+      document.getElementById('riskScoreVal').textContent = data.riskScore;
+
+      // Render Active OCR Doc
+      renderOcrStage(currentOcrDoc);
+
+      // Toast notification
+      showToast('Loaded applicant dossier for ' + data.name);
+    }
+
+    // Switch Tabs Function
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-nav-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(view => view.classList.remove('active'));
+
+      const targetBtn = document.getElementById('tabBtn-' + tabId);
+      const targetView = document.getElementById('view-' + tabId);
+
+      if (targetBtn && targetView) {
+        targetBtn.classList.add('active');
+        targetView.classList.add('active');
+      }
+
+      if (tabId === 'analytics') {
+        initCharts();
+      }
+    }
+
+    // Modal Control Functions
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.add('active');
+      if (id === 'modalDossier') {
+        populateDossierJson();
+      }
+      if (id === 'modalQueue') {
+        populateQueueTable();
+      }
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Toast Function
+    function showToast(msg) {
+      const pill = document.getElementById('toastPill');
+      const text = document.getElementById('toastMsg');
+      text.textContent = msg;
+      pill.classList.add('show');
+      setTimeout(() => {
+        pill.classList.remove('show');
+      }, 3500);
+    }
+
+    // SEBI Approval Flow
+    function triggerApprovalFlow() {
+      openModal('modalActivation');
+      showToast('Initiated SEBI Demat provisioning and CKYC synchronization.');
+      
+      const statusBadge = document.getElementById('currentApplicantStatus');
+      statusBadge.textContent = 'SEBI ACTIVATED - UCC: ASH-99214';
+      statusBadge.className = 'badge-status success';
+      
+      const approveBtn = document.getElementById('btnApproveSebi');
+      approveBtn.style.background = '#047857';
+      approveBtn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> <span>SEBI Trading Account Active</span>';
+    }
+
+    // OCR Document Switcher & Interactive Bounding Box Render
+    function switchOcrDoc(docType) {
+      currentOcrDoc = docType;
+      document.querySelectorAll('.ocr-doc-item').forEach(el => el.classList.remove('active'));
+      const activeEl = document.getElementById('ocrDocItem-' + docType);
+      if (activeEl) activeEl.classList.add('active');
+
+      renderOcrStage(docType);
+    }
+
+    function inspectDoc(docType) {
+      switchTab('ocr');
+      switchOcrDoc(docType);
+    }
+
+    function renderOcrStage(docType) {
+      const canvas = document.getElementById('interactiveCanvasBox');
+      const heading = document.getElementById('ocrDocHeading');
+      const jsonViewer = document.getElementById('rawJsonViewer');
+      const app = applicantsData[activeApplicantKey];
+
+      if (docType === 'aadhaar') {
+        heading.textContent = 'Aadhaar Card Visual Token Inspector (' + app.name + ')';
+        canvas.className = 'doc-canvas-box aadhaar-canvas';
+        canvas.innerHTML = `
+          <div class="aadhaar-top-bar">
+            <div>
+              <div class="aadhaar-title-hindi">भारत सरकार &middot; Government of India</div>
+              <div class="aadhaar-title-eng">Unique Identification Authority of India</div>
+            </div>
+            <div style="font-size: 0.65rem; font-weight: 700; color: #1e3a8a; font-family: var(--font-mono);">UIDAI e-KYC</div>
+          </div>
+          <div class="aadhaar-body-grid">
+            <div class="doc-photo-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <div class="ocr-box-overlay" style="top: 0; left: 0; right: 0; bottom: 0;">
+                <span class="ocr-tooltip">Face Token: Cosine 0.994</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.45rem; position: relative;">
+              <div style="position: relative; display: inline-block;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: #0f172a;">${app.aadhaar.name}</span>
+                <div class="ocr-box-overlay" style="top: -2px; left: -4px; right: -4px; bottom: -2px;">
+                  <span class="ocr-tooltip">Name: ${app.aadhaar.name} (Conf: 100%)</span>
+                </div>
+              </div>
+              <div style="position: relative; display: inline-block;">
+                <span style="font-size: 0.72rem; color: #475569;">DOB: ${app.aadhaar.dob}</span>
+                <div class="ocr-box-overlay" style="top: -2px; left: -4px; right: -4px; bottom: -2px;">
+                  <span class="ocr-tooltip">DOB Conf: 99.9%</span>
+                </div>
+              </div>
+              <div style="position: relative; display: inline-block;">
+                <span style="font-size: 0.7rem; color: #475569; line-height: 1.3;">Address: ${app.aadhaar.address}</span>
+                <div class="ocr-box-overlay" style="top: -2px; left: -4px; right: -4px; bottom: -2px;">
+                  <span class="ocr-tooltip">Address Overlap: 98.6%</span>
+                </div>
+              </div>
+            </div>
+            <div class="doc-qr-placeholder" style="position: relative;">
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              <div class="ocr-box-overlay" style="top: 0; left: 0; right: 0; bottom: 0;">
+                <span class="ocr-tooltip">SHA-256 Validated QR</span>
+              </div>
+            </div>
+          </div>
+          <div class="aadhaar-uid-large" style="position: relative;">
+            <span>${app.aadhaar.uid}</span>
+            <div class="ocr-box-overlay" style="top: 0; left: 10%; right: 10%; bottom: 0;">
+              <span class="ocr-tooltip">UIDAI Masked Format OK</span>
+            </div>
+          </div>
+        `;
+
+        jsonViewer.innerHTML = `<pre>{
+  "document_type": "AADHAAR_XML",
+  "vault_reference": "UIDAI-XML-2026-90481",
+  "name": "${app.aadhaar.name}",
+  "masked_uid": "${app.aadhaar.uid}",
+  "dob": "${app.aadhaar.dob}",
+  "address": "${app.aadhaar.address}",
+  "digital_signature": "SHA256withRSA",
+  "issuer": "UIDAI-ROOT-CA",
+  "ocr_match_confidence": 1.0,
+  "tamper_detected": false
+}</pre>`;
+
+      } else if (docType === 'pan') {
+        heading.textContent = 'PAN Card NSDL Token Inspector (' + app.name + ')';
+        canvas.className = 'doc-canvas-box';
+        canvas.style.borderTop = '4px solid #1d4ed8';
+        canvas.innerHTML = `
+          <div class="aadhaar-top-bar">
+            <div>
+              <div class="aadhaar-title-hindi">आयकर विभाग &middot; INCOME TAX DEPARTMENT</div>
+              <div class="aadhaar-title-eng">GOVT. OF INDIA &middot; PERMANENT ACCOUNT NUMBER</div>
+            </div>
+            <div style="font-size: 0.68rem; font-weight: 700; color: #1d4ed8; font-family: var(--font-mono);">FORM 49A</div>
+          </div>
+          <div class="aadhaar-body-grid">
+            <div class="doc-photo-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <div class="ocr-box-overlay" style="top:0;left:0;right:0;bottom:0;">
+                <span class="ocr-tooltip">Photo Cross-Match: 99.4%</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="position: relative; display: inline-block;">
+                <span style="font-size: 0.72rem; color: #64748b;">Name:</span>
+                <div style="font-size: 0.85rem; font-weight: 800; color: #0f172a;">${app.panData.name}</div>
+                <div class="ocr-box-overlay" style="top:-2px;left:-4px;right:-4px;bottom:-2px;">
+                  <span class="ocr-tooltip">NSDL Protean Match: 100%</span>
+                </div>
+              </div>
+              <div style="position: relative; display: inline-block;">
+                <span style="font-size: 0.72rem; color: #64748b;">Father's Name:</span>
+                <div style="font-size: 0.8rem; font-weight: 700; color: #0f172a;">${app.panData.fatherName}</div>
+              </div>
+              <div style="position: relative; display: inline-block;">
+                <span style="font-size: 0.72rem; color: #64748b;">Permanent Account Number:</span>
+                <div style="font-family: var(--font-mono); font-size: 1.1rem; font-weight: 800; color: #1d4ed8;">${app.panData.pan}</div>
+                <div class="ocr-box-overlay" style="top:-2px;left:-4px;right:-4px;bottom:-2px;">
+                  <span class="ocr-tooltip">Valid Form 49A PAN</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.4rem;">
+              <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #fef08a, #ca8a04); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; color: #713f12; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
+                ITD SEAL
+              </div>
+              <span style="font-size: 0.6rem; color: #059669; font-weight: 700;">HOLOGRAM OK</span>
+            </div>
+          </div>
+        `;
+
+        jsonViewer.innerHTML = `<pre>{
+  "document_type": "PAN_CARD_OCR",
+  "pan_number": "${app.panData.pan}",
+  "holder_name": "${app.panData.name}",
+  "father_name": "${app.panData.fatherName}",
+  "itd_seeding_status": "SEEDED_OPERATIVE",
+  "nsdl_api_latency_ms": 142,
+  "tamper_score": 0.0,
+  "hologram_verified": true
+}</pre>`;
+
+      } else if (docType === 'bank') {
+        heading.textContent = 'Bank Statement & Penny Drop Inspector (' + app.name + ')';
+        canvas.className = 'doc-canvas-box';
+        canvas.style.borderTop = '4px solid #059669';
+        canvas.innerHTML = `
+          <div class="aadhaar-top-bar">
+            <div>
+              <div class="aadhaar-title-hindi">${app.bank.bankName}</div>
+              <div class="aadhaar-title-eng">6-Month Electronic Financial Audit Slip</div>
+            </div>
+            <span class="badge-status success">Penny Drop: ₹1.00 OK</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.78rem;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; background: #f8fafc; padding: 0.75rem; border-radius: 6px; border: 1px solid #e2e8f0;">
+              <div>
+                <span style="color: #64748b; font-size: 0.7rem;">Beneficiary (Penny Drop):</span>
+                <div style="font-weight: 800; color: #0f172a;">${app.bank.pennyDropName}</div>
+              </div>
+              <div>
+                <span style="color: #64748b; font-size: 0.7rem;">IMPS Reference No:</span>
+                <div style="font-family: var(--font-mono); font-weight: 700; color: #1d4ed8;">${app.bank.rrn}</div>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; background: #f0fdf4; padding: 0.75rem; border-radius: 6px; border: 1px solid #bbf7d0;">
+              <div>
+                <span style="color: #166534; font-size: 0.7rem;">Average 6-Mo Balance:</span>
+                <div style="font-weight: 800; color: #059669; font-size: 1.1rem;">${app.bank.avgBalance}</div>
+              </div>
+              <div>
+                <span style="color: #166534; font-size: 0.7rem;">Derivatives Margin Eligibility:</span>
+                <div style="font-weight: 800; color: #059669;">${app.bank.eligibility}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        jsonViewer.innerHTML = `<pre>{
+  "verification_mode": "IMPS_PENNY_DROP_PLUS_AA",
+  "bank_institution": "${app.bank.bankName}",
+  "beneficiary_registered": "${app.bank.pennyDropName}",
+  "imps_rrn": "${app.bank.rrn}",
+  "avg_monthly_balance": "${app.bank.avgBalance}",
+  "fo_segment_eligible": true,
+  "mtf_margin_approved": true,
+  "audit_trail": "NPCI_RESOLVED_OK"
+}</pre>`;
+
+      } else if (docType === 'face') {
+        heading.textContent = 'Live Liveness 3D Mesh Inspector (' + app.name + ')';
+        canvas.className = 'doc-canvas-box';
+        canvas.style.borderTop = '4px solid #7c3aed';
+        canvas.innerHTML = `
+          <div class="aadhaar-top-bar">
+            <div>
+              <div class="aadhaar-title-hindi">ISO/IEC 30107-3 Level 2 Biometrics</div>
+              <div class="aadhaar-title-eng">Passive Neural Anti-Spoofing & Micro-mesh</div>
+            </div>
+            <span class="badge-status success">${app.liveness.confidence}</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 140px 1fr; gap: 1rem; align-items: center;">
+            <div style="width: 130px; height: 160px; background: #e0e7ff; border: 2px solid #818cf8; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="10" r="3"/><path d="M7 18a5 5 0 0 1 10 0"/></svg>
+              <div style="font-size: 0.62rem; color: #4338ca; font-weight: 700; margin-top: 0.5rem; text-align: center;">3D FACIAL MESH<br>468 LANDMARKS</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.78rem;">
+              <div>
+                <span style="color: #64748b; font-size: 0.7rem;">Presentation Attack Detection (PAD):</span>
+                <div style="font-weight: 800; color: #059669;">${app.liveness.status}</div>
+              </div>
+              <div>
+                <span style="color: #64748b; font-size: 0.7rem;">Territorial Geolocation:</span>
+                <div style="font-family: var(--font-mono); font-weight: 700; color: #0f172a;">${app.liveness.geo}</div>
+              </div>
+              <div>
+                <span style="color: #64748b; font-size: 0.7rem;">Device Network Route:</span>
+                <div style="color: #0f172a; font-weight: 600;">${app.liveness.ipDevice}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        jsonViewer.innerHTML = `<pre>{
+  "biometric_engine": "NEURAL_FACIAL_MATCHER_V4",
+  "match_confidence": "${app.liveness.confidence}",
+  "liveness_certification": "ISO_30107_LEVEL_2",
+  "presentation_attack_score": 0.0001,
+  "geofence_compliant": true,
+  "gps_coordinates": "${app.liveness.geo}",
+  "risk_score_contribution": 0
+}</pre>`;
+      }
+    }
+
+    // Populate Cryptographic Dossier JSON inside Modal
+    function populateDossierJson() {
+      const app = applicantsData[activeApplicantKey];
+      const jsonBlock = {
+        compliance_regulator: "Securities and Exchange Board of India (SEBI)",
+        broker_entity: "Ashika Stock Services Ltd",
+        sebi_broker_reg: "INZ000169130",
+        application_id: app.appId,
+        applicant_name: app.name,
+        pan_number: app.pan,
+        timestamp_utc: new Date().toISOString(),
+        audit_trail_merkle_root: "0x9f8c2b4e7819ad549301827419aaecbb889421f1489028148bca1",
+        verified_components: {
+          uidai_aadhaar_xml: { status: "VERIFIED", match: 1.0, masked_uid: app.aadhaar.uid },
+          protean_nsdl_pan: { status: "VERIFIED", match: 1.0, pan: app.panData.pan },
+          bank_penny_drop: { status: "VERIFIED", rrn: app.bank.rrn, balance_avg: app.bank.avgBalance },
+          biometric_liveness: { status: "PASSED", confidence: app.liveness.confidence }
+        },
+        risk_scoring: {
+          composite_score: app.riskScore,
+          pep_matches: 0,
+          adverse_media: "CLEAN",
+          sanctions: "CLEAR"
+        },
+        digital_signature: {
+          signatory: "Ashika Automated Compliance Officer ID: ASH-SYS-042",
+          algorithm: "SHA256withECDSA"
+        }
+      };
+      document.getElementById('cryptographicJsonText').textContent = JSON.stringify(jsonBlock, null, 2);
+    }
+
+    function downloadDossierJson() {
+      const text = document.getElementById('cryptographicJsonText').textContent;
+      const blob = new Blob([text], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Ashika_Compliance_Dossier_' + activeApplicantKey + '.json';
+      a.click();
+      showToast('Downloaded cryptographic JSON compliance dossier.');
+    }
+
+    // Populate Queue Table in Modal
+    function populateQueueTable() {
+      const tbody = document.getElementById('queueTableBody');
+      const keys = Object.keys(applicantsData);
+      tbody.innerHTML = keys.map(k => {
+        const a = applicantsData[k];
+        return `
+          <tr style="border-bottom: 1px solid var(--border-subtle);">
+            <td style="padding: 0.6rem 0.4rem; font-weight: 700; color: var(--text-primary);">${a.name}</td>
+            <td style="padding: 0.6rem 0.4rem; font-family: var(--font-mono); color: var(--text-muted);">${a.appId}</td>
+            <td style="padding: 0.6rem 0.4rem; font-size: 0.72rem; color: var(--text-secondary);">${a.segment}</td>
+            <td style="padding: 0.6rem 0.4rem; font-family: var(--font-mono); font-weight: 600;">${a.timeInPipeline}</td>
+            <td style="padding: 0.6rem 0.4rem;"><span class="badge-status ${a.riskScore <= 15 ? 'success' : 'amber'}">${a.riskScore}/100</span></td>
+            <td style="padding: 0.6rem 0.4rem;"><span class="badge-status ${a.statusClass === 'success' ? 'success' : 'amber'}">${a.status}</span></td>
+            <td style="padding: 0.6rem 0.4rem; text-align: right;">
+              <button class="doc-inspect-btn" onclick="switchApplicant('${k}'); closeModal('modalQueue');">Switch</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Initialize Chart.js
+    let chartsInitialized = false;
+    function initCharts() {
+      if (chartsInitialized) return;
+      chartsInitialized = true;
+
+      // 1. Throughput & TAT Dual-Axis Chart
+      const ctx1 = document.getElementById('throughputTatChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: ['Aug 01', 'Aug 05', 'Aug 10', 'Aug 15', 'Aug 20', 'Aug 25', 'Aug 30', 'Sep 05', 'Today'],
+          datasets: [
+            {
+              label: 'Daily Applications Onboarded (Volume)',
+              data: [450, 580, 720, 890, 1050, 1180, 1310, 1390, 1420],
+              borderColor: '#1d4ed8',
+              backgroundColor: 'rgba(29, 78, 216, 0.08)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 3,
+              yAxisID: 'y'
+            },
+            {
+              label: 'Average Onboarding TAT (Seconds)',
+              data: [2880, 1440, 480, 180, 95, 62, 48, 44, 42],
+              borderColor: '#059669',
+              backgroundColor: 'transparent',
+              borderDash: [5, 5],
+              tension: 0.35,
+              borderWidth: 2.5,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { position: 'top', labels: { boxWidth: 12, font: { family: 'Inter', size: 11, weight: '600' } } }
+          },
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              title: { display: true, text: 'Daily Onboarded Volume', font: { size: 10, weight: '600' } },
+              grid: { color: '#f1f5f9' }
+            },
+            y1: {
+              type: 'linear',
+              position: 'right',
+              title: { display: true, text: 'TAT in Seconds (Drop from 48 hrs)', font: { size: 10, weight: '600' } },
+              grid: { drawOnChartArea: false }
+            },
+            x: {
+              grid: { color: '#f1f5f9' }
+            }
+          }
+        }
+      });
+
+      // 2. Pipeline Donut Chart
+      const ctx2 = document.getElementById('pipelineDonutChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+          labels: ['Direct STP Auto-Approved', 'Video KYC Review', 'Manual Desk'],
+          datasets: [{
+            data: [94.2, 4.6, 1.2],
+            backgroundColor: ['#059669', '#d97706', '#94a3b8'],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          cutout: '72%'
+        }
+      });
+    }
+
+    // Initialize default stage
+    window.addEventListener('DOMContentLoaded', () => {
+      renderOcrStage('aadhaar');
+    });
+  </script>
+</body>
+</html>

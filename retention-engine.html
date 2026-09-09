@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Retention Engine &mdash; Infinyty</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* TOP NAVBAR */
+    .navbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.75rem;
+      flex-shrink: 0;
+    }
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+    }
+    .brand-logo-img {
+      height: 30px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .divider {
+      width: 1px;
+      height: 24px;
+      background: #e2e8f0;
+    }
+    .title-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .app-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .app-sub {
+      font-size: 0.76rem;
+      color: #64748b;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .status-pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #15803d;
+      background: #dcfce7;
+      padding: 0.25rem 0.75rem;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #16a34a;
+    }
+
+    /* MAIN WORKSPACE SPLIT */
+    .workspace {
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* LEFT SIDEBAR: MODEL ARCHITECTURE */
+    .sidebar {
+      background: #ffffff;
+      border-right: 1px solid #e2e8f0;
+      padding: 1.35rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      overflow-y: auto;
+    }
+    .sidebar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0.2rem;
+    }
+    .sidebar-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .sidebar-hint {
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .model-card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .model-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .model-card:hover {
+      border-color: #94a3b8;
+      background: #f8fafc;
+    }
+    .model-card.active {
+      border-color: #0072f4;
+      background: #f0f7ff;
+      box-shadow: 0 2px 10px rgba(0, 114, 244, 0.12);
+    }
+    .model-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .model-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .model-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+    }
+    .badge-active { background: #dcfce7; color: #15803d; }
+    .badge-ready { background: #f1f5f9; color: #64748b; }
+    .model-desc {
+      font-size: 0.74rem;
+      color: #64748b;
+      line-height: 1.35;
+    }
+    .model-foot {
+      font-size: 0.74rem;
+      color: #475569;
+      font-weight: 600;
+      padding-top: 0.35rem;
+      border-top: 1px solid rgba(226, 232, 240, 0.7);
+    }
+    .foot-val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    /* RIGHT CONTENT CANVAS */
+    .canvas {
+      padding: 1.35rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      overflow-y: auto;
+    }
+
+    /* MODEL HEADER BAR ON CANVAS */
+    .canvas-model-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .active-model-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .active-model-sub {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-top: 0.1rem;
+    }
+
+    /* 4 CLEAN KPIS */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .kpi-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .kpi-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.1;
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    /* SPLIT MAIN SECTION: UPWARD CHART & SIMPLE VARIABLES */
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 1.1rem;
+      flex: 1;
+    }
+    .panel-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.65rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .panel-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .chart-wrapper {
+      flex: 1;
+      min-height: 225px;
+      position: relative;
+    }
+
+    /* SIMPLE VARIABLES LIST */
+    .var-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .var-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .var-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .var-name { color: #0f172a; }
+    .var-pct { font-family: 'Space Grotesk', sans-serif; color: #0072f4; font-weight: 800; }
+    .var-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: #f1f5f9;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .var-bar-fill {
+      height: 100%;
+      background: #0072f4;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    /* BOTTOM CHANNEL INDICATOR */
+    .channel-strip {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.7rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+    }
+    .chan-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #475569;
+    }
+    .chan-tags {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .chan-chip {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+    }
+    .chip-wa { background: #dcfce7; color: #15803d; }
+    .chip-rcs { background: #eff6ff; color: #1d4ed8; }
+    .chip-sms { background: #f1f5f9; color: #475569; }
+
+    /* RESPONSIVE LAYOUTS FOR SQUARE & MOBILE */
+    @media (max-width: 1100px) and (min-height: 950px) {
+      /* Square layout 1080x1080 optimization */
+      .workspace {
+        grid-template-columns: 290px 1fr;
+      }
+      .canvas {
+        padding: 1.5rem;
+        gap: 1.25rem;
+      }
+      .chart-wrapper {
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Mobile layout */
+      html, body {
+        overflow-y: auto;
+        height: auto;
+      }
+      .navbar {
+        padding: 0 1rem;
+      }
+      .app-sub, .status-pill {
+        display: none;
+      }
+      .app-title {
+        font-size: 0.95rem;
+      }
+      .workspace {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
+      }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .model-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .canvas {
+        overflow: visible;
+        padding: 1rem;
+      }
+      .kpi-row {
+        grid-template-columns: 1fr 1fr;
+      }
+      .analytics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVBAR WITH OFFICIAL INFINYTY LOGO -->
+  <div class="navbar">
+    <div class="brand-section">
+      <img src="/assets/infinyty-logo-horizontal-light.png" alt="Infinyty" class="brand-logo-img">
+      <div class="divider"></div>
+      <div class="title-group">
+        <div class="app-title">Retention Engine</div>
+        <span class="app-sub">Customer Lifecycle &amp; Retention Models</span>
+      </div>
+    </div>
+
+    <div class="nav-right">
+    </div>
+  </div>
+
+  <!-- MAIN WORKSPACE -->
+  <div class="workspace">
+    
+    <!-- LEFT SIDEBAR: MODEL ARCHITECTURE -->
+    <div class="sidebar">
+      <div class="sidebar-head">
+        <span class="sidebar-title">Model Architecture</span>
+        <span class="sidebar-hint">Select a model</span>
+      </div>
+
+      <div class="model-card-list">
+        
+        <!-- MODEL 1: 0-TO-1 -->
+        <div class="model-card" id="card-0to1" onclick="selectModel('0to1')">
+          <div class="model-top">
+            <span class="model-name">0-to-1 Activation</span>
+            <span class="model-badge badge-ready" id="badge-0to1">Ready</span>
+          </div>
+          <div class="model-desc">Converts registered users with zero purchases into first-time buyers.</div>
+          <div class="model-foot">
+            Audience: <strong class="foot-val">48,000 Users</strong>
+          </div>
+        </div>
+
+        <!-- MODEL 2: 1-TO-N (ACTIVE DEFAULT) -->
+        <div class="model-card active" id="card-1ton" onclick="selectModel('1ton')">
+          <div class="model-top">
+            <span class="model-name">1-to-N Frequency</span>
+            <span class="model-badge badge-active" id="badge-1ton">● Active</span>
+          </div>
+          <div class="model-desc">Drives repeat purchases for customers dormant 30–45 days after their first order.</div>
+          <div class="model-foot">
+            Audience: <strong class="foot-val">144,000 Customers</strong>
+          </div>
+        </div>
+
+        <!-- MODEL 3: HIGH VALUE -->
+        <div class="model-card" id="card-highval" onclick="selectModel('highval')">
+          <div class="model-top">
+            <span class="model-name">High-Value Customer</span>
+            <span class="model-badge badge-ready" id="badge-highval">Ready</span>
+          </div>
+          <div class="model-desc">Maximizes retention and replenishment for high-AOV customer cohorts.</div>
+          <div class="model-foot">
+            Audience: <strong class="foot-val">12,000 Accounts</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT CANVAS: DASHBOARD & IMPACT -->
+    <div class="canvas">
+      
+      <!-- MODEL HEADER ON CANVAS -->
+      <div class="canvas-model-bar">
+        <div>
+          <div class="active-model-title" id="canvas-title">1-to-N Frequency Model</div>
+          <div class="active-model-sub" id="canvas-sub">Predictive re-engagement for customers with one prior purchase.</div>
+        </div>
+        <div style="font-size: 0.8rem; font-weight: 700; color: #16a34a; background: #dcfce7; padding: 0.3rem 0.85rem; border-radius: 8px;" id="canvas-pill">
+          11× Purchaser Lift
+        </div>
+      </div>
+
+      <!-- 4 CLEAN KPIS -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label" id="kpi-lbl-1">Customers Reactivated</div>
+          <div class="kpi-number" id="kpi-val-1">20,480</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label" id="kpi-lbl-2">Purchaser Lift</div>
+          <div class="kpi-number" id="kpi-val-2" style="color: #16a34a;">11×</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label" id="kpi-lbl-3">Conversion Rate</div>
+          <div class="kpi-number" id="kpi-val-3">14.2%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label" id="kpi-lbl-4">Revenue</div>
+          <div class="kpi-number" id="kpi-val-4">$240K</div>
+        </div>
+      </div>
+
+      <!-- BOTTOM SPLIT: UPWARD CHART & MODEL VARIABLES -->
+      <div class="analytics-grid">
+        
+        <!-- UPWARD CUMULATIVE PURCHASES CHART -->
+        <div class="panel-box">
+          <div class="panel-head">
+            <div class="panel-heading" id="chart-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Cumulative Repeat Purchases (Day 0 to Day 90)
+            </div>
+            <span style="font-size: 0.74rem; font-weight: 700; color: #16a34a;" id="chart-badge">11× Uplift</span>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="retentionChart"></canvas>
+          </div>
+        </div>
+
+        <!-- MODEL VARIABLES & WEIGHTS -->
+        <div class="panel-box">
+          <div class="panel-head">
+            <div class="panel-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0072f4" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Model Variables &amp; Weights
+            </div>
+            <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Relative Impact</span>
+          </div>
+
+          <div class="var-list" id="var-list">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM CHANNEL INDICATOR -->
+      <div class="channel-strip">
+        <span class="chan-title">Active Delivery Channels:</span>
+        <div class="chan-tags" id="channel-tags">
+          <span class="chan-chip chip-wa">WhatsApp Business (Primary)</span>
+          <span class="chan-chip chip-rcs">RCS Messages</span>
+          <span class="chan-chip chip-sms">SMS</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const modelsData = {
+      '0to1': {
+        title: '0-to-1 Activation Model',
+        sub: 'Converting registered users with zero purchases into first-time buyers.',
+        pill: '7× Purchaser Lift',
+        kpi1Lbl: 'Non-Buyers Activated',
+        kpi1Val: '4,120',
+        kpi2Lbl: 'Purchaser Lift',
+        kpi2Val: '7×',
+        kpi3Lbl: 'Conversion Rate',
+        kpi3Val: '8.6%',
+        kpi4Lbl: 'Revenue',
+        kpi4Val: '$160K',
+        chartTitle: 'Cumulative First-Time Purchases (Day 0 to Day 30)',
+        chartBadge: '7× Lift',
+        chartLabels: ['Day 0', 'Day 5', 'Day 10', 'Day 15', 'Day 20', 'Day 25', 'Day 30'],
+        mlData: [240, 1150, 2280, 3120, 3650, 3940, 4120],
+        baseData: [40, 120, 260, 380, 470, 540, 590],
+        mlLabel: 'ML Targeted (WhatsApp + RCS)',
+        baseLabel: 'Standard Broadcast',
+        variables: [
+          { name: 'Time Spent on App', pct: '24%', fill: 96, color: '#0072f4' },
+          { name: 'Number of App Launches', pct: '20%', fill: 80, color: '#16a34a' },
+          { name: 'Days Since Last Active', pct: '16%', fill: 64, color: '#7c3aed' },
+          { name: 'Number of Notifications Viewed', pct: '14%', fill: 56, color: '#0284c7' },
+          { name: 'Number of Notifications Clicked', pct: '10%', fill: 40, color: '#f59e0b' },
+          { name: 'Age', pct: '8%', fill: 32, color: '#ec4899' },
+          { name: 'Gender', pct: '8%', fill: 32, color: '#8b5cf6' }
+        ],
+        channels: [
+          '<span class="chan-chip chip-wa">WhatsApp Business</span>',
+          '<span class="chan-chip chip-rcs">RCS Messages</span>',
+          '<span class="chan-chip chip-sms">SMS</span>'
+        ]
+      },
+      '1ton': {
+        title: '1-to-N Frequency Model',
+        sub: 'Driving repeat purchases for customers dormant 30–45 days after their first order.',
+        pill: '11× Purchaser Lift',
+        kpi1Lbl: 'Customers Reactivated',
+        kpi1Val: '20,480',
+        kpi2Lbl: 'Purchaser Lift',
+        kpi2Val: '11×',
+        kpi3Lbl: 'Conversion Rate',
+        kpi3Val: '14.2%',
+        kpi4Lbl: 'Revenue',
+        kpi4Val: '$240K',
+        chartTitle: 'Cumulative Repeat Purchases (Day 0 to Day 90)',
+        chartBadge: '11× Lift Verified',
+        chartLabels: ['Day 0', 'Day 15', 'Day 30', 'Day 45', 'Day 60', 'Day 75', 'Day 90'],
+        mlData: [1200, 4800, 9400, 13800, 17200, 19400, 20480],
+        baseData: [200, 520, 890, 1210, 1480, 1690, 1860],
+        mlLabel: 'ML Targeted (WhatsApp + RCS)',
+        baseLabel: 'Standard Broadcast',
+        variables: [
+          { name: 'Days Since Last Active', pct: '26%', fill: 96, color: '#0072f4' },
+          { name: 'Number of App Launches', pct: '20%', fill: 78, color: '#16a34a' },
+          { name: 'Time Spent on App', pct: '16%', fill: 62, color: '#7c3aed' },
+          { name: 'Number of Notifications Viewed', pct: '14%', fill: 54, color: '#0284c7' },
+          { name: 'Number of Notifications Clicked', pct: '10%', fill: 38, color: '#f59e0b' },
+          { name: 'Age', pct: '8%', fill: 30, color: '#ec4899' },
+          { name: 'Gender', pct: '6%', fill: 24, color: '#8b5cf6' }
+        ],
+        channels: [
+          '<span class="chan-chip chip-wa">WhatsApp Business (Primary)</span>',
+          '<span class="chan-chip chip-rcs">RCS Messages</span>',
+          '<span class="chan-chip chip-sms">SMS</span>'
+        ]
+      },
+      'highval': {
+        title: 'High-Value Customer Model',
+        sub: 'Maximizing retention and replenishment for high-AOV customer cohorts.',
+        pill: '4× Purchaser Lift',
+        kpi1Lbl: 'Customers Reactivated',
+        kpi1Val: '3,410',
+        kpi2Lbl: 'Purchaser Lift',
+        kpi2Val: '4×',
+        kpi3Lbl: 'Conversion Rate',
+        kpi3Val: '28.4%',
+        kpi4Lbl: 'Revenue',
+        kpi4Val: '$380K',
+        chartTitle: 'Cumulative High-AOV Purchases (Month 1 to Month 6)',
+        chartBadge: '4× Lift',
+        chartLabels: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'],
+        mlData: [620, 1340, 1980, 2560, 3050, 3410],
+        baseData: [180, 360, 520, 680, 780, 850],
+        mlLabel: 'ML Targeted (WhatsApp + Email)',
+        baseLabel: 'Standard Broadcast',
+        variables: [
+          { name: 'Time Spent on App', pct: '24%', fill: 96, color: '#0072f4' },
+          { name: 'Days Since Last Active', pct: '20%', fill: 80, color: '#16a34a' },
+          { name: 'Number of App Launches', pct: '18%', fill: 72, color: '#7c3aed' },
+          { name: 'Number of Notifications Viewed', pct: '14%', fill: 56, color: '#0284c7' },
+          { name: 'Number of Notifications Clicked', pct: '10%', fill: 40, color: '#f59e0b' },
+          { name: 'Age', pct: '8%', fill: 32, color: '#ec4899' },
+          { name: 'Gender', pct: '6%', fill: 24, color: '#8b5cf6' }
+        ],
+        channels: [
+          '<span class="chan-chip chip-wa">WhatsApp Business (Primary)</span>',
+          '<span class="chan-chip chip-mail" style="background: #fdf2f8; color: #be185d;">Email</span>',
+          '<span class="chan-chip chip-rcs">RCS Messages</span>'
+        ]
+      }
+    };
+
+    let chartInstance = null;
+
+    function renderModel(modelKey) {
+      const data = modelsData[modelKey];
+      
+      // Update Canvas Header
+      document.getElementById('canvas-title').innerText = data.title;
+      document.getElementById('canvas-sub').innerText = data.sub;
+      document.getElementById('canvas-pill').innerText = data.pill;
+
+      // Update 4 Clean KPIs
+      document.getElementById('kpi-lbl-1').innerText = data.kpi1Lbl;
+      document.getElementById('kpi-val-1').innerHTML = data.kpi1Val;
+      document.getElementById('kpi-lbl-2').innerText = data.kpi2Lbl;
+      document.getElementById('kpi-val-2').innerHTML = data.kpi2Val;
+      document.getElementById('kpi-lbl-3').innerText = data.kpi3Lbl;
+      document.getElementById('kpi-val-3').innerHTML = data.kpi3Val;
+      document.getElementById('kpi-lbl-4').innerText = data.kpi4Lbl;
+      document.getElementById('kpi-val-4').innerHTML = data.kpi4Val;
+
+      // Update Chart Heading & Badge
+      document.getElementById('chart-heading').innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        ${data.chartTitle}
+      `;
+      document.getElementById('chart-badge').innerText = data.chartBadge;
+
+      // Update Clean Variables List
+      let vHtml = '';
+      data.variables.forEach(v => {
+        vHtml += `
+          <div class="var-item">
+            <div class="var-top">
+              <span class="var-name">${v.name}</span>
+              <span class="var-pct" style="color: ${v.color};">${v.pct}</span>
+            </div>
+            <div class="var-bar-bg"><div class="var-bar-fill" style="width: ${v.fill}%; background: ${v.color};"></div></div>
+          </div>
+        `;
+      });
+      document.getElementById('var-list').innerHTML = vHtml;
+
+      // Update Channel Tags
+      document.getElementById('channel-tags').innerHTML = data.channels.join(' ');
+
+      // Update Upward Chart
+      const ctx = document.getElementById('retentionChart').getContext('2d');
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.chartLabels,
+          datasets: [
+            {
+              label: data.mlLabel,
+              data: data.mlData,
+              borderColor: '#16a34a',
+              backgroundColor: 'rgba(22, 163, 74, 0.08)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 3,
+              pointRadius: 4,
+              pointBackgroundColor: '#16a34a'
+            },
+            {
+              label: data.baseLabel,
+              data: data.baseData,
+              borderColor: '#94a3b8',
+              borderDash: [5, 5],
+              borderWidth: 2,
+              pointRadius: 3,
+              pointBackgroundColor: '#94a3b8'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { boxWidth: 12, font: { family: 'Inter', size: 11, weight: 600 } }
+            }
+          },
+          scales: {
+            x: { grid: { color: '#f1f5f9' }, ticks: { color: '#64748b', font: { size: 10 } } },
+            y: { 
+              grid: { color: '#f1f5f9' }, 
+              ticks: { 
+                color: '#64748b', 
+                font: { size: 10 },
+                callback: val => val >= 1000 ? (val/1000).toFixed(1) + 'k' : val
+              } 
+            }
+          }
+        }
+      });
+    }
+
+    function selectModel(modelKey) {
+      document.querySelectorAll('.model-card').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.model-badge').forEach(b => {
+        b.className = 'model-badge badge-ready';
+        b.innerText = 'Ready';
+      });
+
+      const card = document.getElementById('card-' + modelKey);
+      if (card) {
+        card.classList.add('active');
+        const b = document.getElementById('badge-' + modelKey);
+        if (b) {
+          b.className = 'model-badge badge-active';
+          b.innerText = '● Active';
+        }
+      }
+
+      renderModel(modelKey);
+    }
+
+    // Default to 1-to-N Frequency
+    window.addEventListener('DOMContentLoaded', () => {
+      selectModel('1ton');
+    });
+  </script>
+</body>
+</html>
